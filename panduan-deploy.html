@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panduan Deploy MUA Poster</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:#fdf8f5;color:#2d1f14;line-height:1.6;}
+.hero{background:linear-gradient(135deg,#c2185b 0%,#e91e8c 60%,#f48fb1 100%);padding:48px 24px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'💄';position:absolute;font-size:200px;opacity:.06;top:-20px;right:-20px;}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);border-radius:20px;padding:5px 16px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:white;margin-bottom:16px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:white;margin-bottom:10px;line-height:1.2;}
+.hero p{color:rgba(255,255,255,.85);font-size:15px;max-width:480px;margin:0 auto 24px;}
+.hero-chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.chip{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:white;}
+
+.container{max-width:720px;margin:0 auto;padding:0 16px;}
+.section{padding:40px 0 0;}
+.section-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:#c2185b;margin-bottom:6px;}
+.section-sub{font-size:13px;color:#b89882;margin-bottom:24px;font-weight:500;}
+
+/* ARCHITECTURE */
+.arch{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:0;}
+@media(min-width:600px){.arch{grid-template-columns:repeat(4,1fr);}}
+.arch-card{background:white;border:1.5px solid #f0e6dc;border-radius:14px;padding:16px;text-align:center;box-shadow:0 2px 10px rgba(200,120,80,.08);}
+.arch-icon{font-size:28px;margin-bottom:8px;}
+.arch-name{font-weight:800;font-size:13px;color:#2d1f14;margin-bottom:4px;}
+.arch-desc{font-size:11px;color:#b89882;}
+.arch-price{display:inline-block;background:#e8f5e9;color:#2e7d32;font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px;margin-top:6px;}
+
+/* STEPS */
+.steps-list{display:flex;flex-direction:column;gap:0;}
+.step-item{display:flex;gap:16px;position:relative;}
+.step-item:not(:last-child)::before{content:'';position:absolute;left:19px;top:44px;bottom:0;width:2px;background:linear-gradient(#e91e8c,#fce4ec);z-index:0;}
+.step-num{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#c2185b,#e91e8c);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:16px;font-weight:900;color:white;flex-shrink:0;position:relative;z-index:1;box-shadow:0 4px 12px rgba(233,30,140,.3);}
+.step-body{flex:1;padding-bottom:32px;}
+.step-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:900;color:#2d1f14;margin-bottom:4px;margin-top:8px;}
+.step-desc{font-size:13px;color:#7a5c47;margin-bottom:12px;}
+
+/* CARDS */
+.info-card{border-radius:14px;padding:14px 16px;margin-bottom:10px;}
+.info-card.blue{background:#e3f2fd;border:1px solid #90caf9;}
+.info-card.pink{background:#fce4ec;border:1px solid #f48fb1;}
+.info-card.green{background:#e8f5e9;border:1px solid #a5d6a7;}
+.info-card.yellow{background:#fff8e1;border:1px solid #ffe082;}
+.info-card.title{font-weight:800;font-size:13px;margin-bottom:6px;}
+.info-card.blue .title{color:#1565c0;}
+.info-card.pink .title{color:#c2185b;}
+.info-card.green .title{color:#2e7d32;}
+.info-card.yellow .title{color:#e65100;}
+
+/* CODE */
+.code-block{background:#1e1e2e;border-radius:12px;padding:16px;overflow-x:auto;margin:10px 0;}
+.code-block code{font-family:monospace;font-size:12px;color:#cdd6f4;line-height:1.7;display:block;white-space:pre;}
+.code-block .comment{color:#6c7086;}
+.code-block .key{color:#89b4fa;}
+.code-block .val{color:#a6e3a1;}
+.code-block .str{color:#f9e2af;}
+.copy-btn{display:inline-flex;align-items:center;gap:6px;background:#f0e6dc;border:none;border-radius:8px;padding:6px 12px;font-size:11px;font-weight:700;color:#7a5c47;cursor:pointer;margin-top:6px;transition:all .2s;}
+.copy-btn:hover{background:#e8d5c4;}
+
+/* FILE TREE */
+.file-tree{background:#1e1e2e;border-radius:12px;padding:16px;font-family:monospace;font-size:12px;color:#cdd6f4;line-height:2;}
+.file-tree .folder{color:#89b4fa;}
+.file-tree .file{color:#a6e3a1;}
+.file-tree .key-file{color:#f9e2af;}
+.file-tree .comment{color:#6c7086;font-size:11px;}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0;}
+.tbl th{background:#fce4ec;color:#c2185b;padding:10px 12px;text-align:left;font-weight:800;}
+.tbl td{padding:10px 12px;border-bottom:1px solid #f0e6dc;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl .free{color:#2e7d32;font-weight:800;}
+.tbl .paid{color:#e65100;font-weight:700;}
+
+/* BADGE */
+.badge{display:inline-block;font-size:10px;font-weight:800;padding:2px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.5px;}
+.badge-pink{background:#fce4ec;color:#c2185b;}
+.badge-green{background:#e8f5e9;color:#2e7d32;}
+.badge-blue{background:#e3f2fd;color:#1565c0;}
+
+/* TIMELINE */
+.timeline{display:flex;gap:0;overflow-x:auto;padding-bottom:8px;margin:16px 0;}
+.tl-item{flex-shrink:0;text-align:center;position:relative;padding:0 8px;}
+.tl-item:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:10px;color:#e91e8c;font-size:16px;}
+.tl-dot{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#c2185b,#e91e8c);display:flex;align-items:center;justify-content:center;font-size:16px;margin:0 auto 6px;box-shadow:0 3px 10px rgba(233,30,140,.25);}
+.tl-label{font-size:10px;font-weight:700;color:#7a5c47;max-width:70px;}
+
+/* FOOTER */
+.footer{background:linear-gradient(135deg,#c2185b,#e91e8c);padding:32px 24px;text-align:center;margin-top:40px;}
+.footer-title{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:white;margin-bottom:8px;}
+.footer-sub{color:rgba(255,255,255,.8);font-size:13px;}
+
+hr.divider{border:none;border-top:2px solid #f0e6dc;margin:32px 0;}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🚀 Panduan Deploy</div>
+  <h1>MUA Poster<br>Auto Instagram Scheduler</h1>
+  <p>Deploy sekali, jalan selamanya. Server cloud gratis, posting otomatis 24 jam meski HP dimatikan.</p>
+  <div class="hero-chips">
+    <span class="chip">☁️ Vercel Free</span>
+    <span class="chip">🗄️ Supabase Free</span>
+    <span class="chip">⏱️ ~20 Menit Setup</span>
+    <span class="chip">💰 ~Rp 15rb/bln</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ARSITEKTUR -->
+  <div class="section">
+    <div class="section-title">🏗️ Cara Kerjanya</div>
+    <div class="section-sub">4 komponen gratis yang bekerja bersama 24 jam</div>
+    <div class="arch">
+      <div class="arch-card"><div class="arch-icon">📱</div><div class="arch-name">HP Tim MUA</div><div class="arch-desc">Buka web app, upload, jadwalkan</div><span class="arch-price">GRATIS</span></div>
+      <div class="arch-card"><div class="arch-icon">☁️</div><div class="arch-name">Vercel</div><div class="arch-desc">Hosting app + cron job setiap menit</div><span class="arch-price">GRATIS</span></div>
+      <div class="arch-card"><div class="arch-icon">🗄️</div><div class="arch-name">Supabase</div><div class="arch-desc">Database akun & jadwal post</div><span class="arch-price">GRATIS</span></div>
+      <div class="arch-card"><div class="arch-icon">🤖</div><div class="arch-name">Claude AI</div><div class="arch-desc">Generate caption viral otomatis</div><span class="arch-price">~Rp 15rb/bln</span></div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <div class="section-sub" style="margin-bottom:10px;">Alur kerja otomatis:</div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot">📸</div><div class="tl-label">Upload foto</div></div>
+        <div class="tl-item"><div class="tl-dot">✨</div><div class="tl-label">AI generate caption</div></div>
+        <div class="tl-item"><div class="tl-dot">📅</div><div class="tl-label">Pilih jadwal</div></div>
+        <div class="tl-item"><div class="tl-dot">💾</div><div class="tl-label">Tersimpan di Supabase</div></div>
+        <div class="tl-item"><div class="tl-dot">⏰</div><div class="tl-label">Vercel cek tiap menit</div></div>
+        <div class="tl-item"><div class="tl-dot">🚀</div><div class="tl-label">Post ke Instagram</div></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- STRUKTUR FILE -->
+  <div class="section">
+    <div class="section-title">📁 Struktur File Project</div>
+    <div class="section-sub">Semua file yang perlu diupload ke GitHub</div>
+    <div class="file-tree">
+      <span class="folder">mua-poster/</span>
+├── <span class="key-file">package.json</span>          <span class="comment">← dependencies</span>
+├── <span class="key-file">vercel.json</span>           <span class="comment">← config cron job (PENTING!)</span>
+├── <span class="key-file">next.config.mjs</span>       <span class="comment">← config Next.js</span>
+├── <span class="key-file">.env.example</span>          <span class="comment">← template environment variables</span>
+├── <span class="key-file">schema.sql</span>            <span class="comment">← jalankan di Supabase</span>
+├── <span class="folder">lib/</span>
+│   └── <span class="file">supabase.js</span>       <span class="comment">← koneksi database</span>
+└── <span class="folder">app/</span>
+    ├── <span class="file">layout.jsx</span>        <span class="comment">← layout utama</span>
+    ├── <span class="file">page.jsx</span>          <span class="comment">← UI aplikasi</span>
+    └── <span class="folder">api/</span>
+        ├── <span class="folder">caption/</span>
+        │   └── <span class="key-file">route.js</span>  <span class="comment">← generate caption AI</span>
+        └── <span class="folder">cron/</span>
+            └── <span class="key-file">route.js</span>  <span class="comment">← AUTO POSTER (jalan tiap menit!)</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- LANGKAH DEPLOY -->
+  <div class="section">
+    <div class="section-title">📋 Langkah Deploy (±20 Menit)</div>
+    <div class="section-sub">Ikuti urutan ini dari atas ke bawah</div>
+
+    <div class="steps-list">
+
+      <!-- STEP 1 -->
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">Buat Akun GitHub</div>
+          <div class="step-desc">GitHub adalah tempat menyimpan kode sebelum di-deploy ke Vercel. Gratis selamanya.</div>
+          <div class="info-card blue">
+            <div class="title">🔗 Langkah:</div>
+            1. Buka <strong>github.com</strong><br>
+            2. Klik <strong>Sign Up</strong> → isi email & password<br>
+            3. Verifikasi email<br>
+            4. Selesai! ✅
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Upload File ke GitHub</div>
+          <div class="step-desc">Buat repository baru dan upload semua file yang sudah didownload.</div>
+          <div class="info-card pink">
+            <div class="title">📤 Langkah:</div>
+            1. Klik tombol <strong>+</strong> di GitHub → <strong>New repository</strong><br>
+            2. Nama repo: <code>mua-poster</code><br>
+            3. Pilih <strong>Public</strong> → klik <strong>Create repository</strong><br>
+            4. Klik <strong>uploading an existing file</strong><br>
+            5. Drag semua file yang didownload → klik <strong>Commit changes</strong>
+          </div>
+          <div class="info-card yellow">
+            ⚠️ <strong>Perhatian:</strong> Jangan upload file <code>.env</code> yang berisi API key! Hanya upload <code>.env.example</code> saja.
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Setup Supabase (Database)</div>
+          <div class="step-desc">Supabase adalah database gratis untuk menyimpan data akun MUA dan jadwal post.</div>
+          <div class="info-card green">
+            <div class="title">🗄️ Langkah:</div>
+            1. Buka <strong>supabase.com</strong> → Sign Up (bisa pakai GitHub)<br>
+            2. Klik <strong>New Project</strong> → isi nama: <code>mua-poster</code><br>
+            3. Pilih region: <strong>Southeast Asia (Singapore)</strong><br>
+            4. Buat password database (catat!)<br>
+            5. Tunggu ~2 menit sampai project siap<br>
+            6. Buka <strong>SQL Editor</strong> → klik <strong>New Query</strong><br>
+            7. Copy isi file <code>schema.sql</code> → paste → klik <strong>Run</strong><br>
+            8. Buka <strong>Project Settings → API</strong><br>
+            9. Catat: <strong>Project URL</strong> & <strong>anon public key</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Deploy ke Vercel</div>
+          <div class="step-desc">Vercel akan hosting app dan menjalankan scheduler otomatis setiap menit.</div>
+          <div class="info-card blue">
+            <div class="title">🚀 Langkah:</div>
+            1. Buka <strong>vercel.com</strong> → Sign Up with GitHub<br>
+            2. Klik <strong>Add New → Project</strong><br>
+            3. Pilih repo <code>mua-poster</code> → klik <strong>Import</strong><br>
+            4. Di bagian <strong>Environment Variables</strong>, tambahkan:<br>
+            <br>
+            &nbsp;&nbsp;• <code>NEXT_PUBLIC_SUPABASE_URL</code> = URL dari Supabase<br>
+            &nbsp;&nbsp;• <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code> = anon key Supabase<br>
+            &nbsp;&nbsp;• <code>CRON_SECRET</code> = buat password bebas (contoh: <code>MUAPoster2024!</code>)<br>
+            &nbsp;&nbsp;• <code>ANTHROPIC_API_KEY</code> = API key dari console.anthropic.com<br>
+            <br>
+            5. Klik <strong>Deploy</strong> → tunggu ~3 menit<br>
+            6. App online! Dapat URL seperti: <code>mua-poster.vercel.app</code>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="step-item">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <div class="step-title">Aktifkan Cron Job di Vercel</div>
+          <div class="step-desc">Ini yang bikin posting jalan otomatis tanpa HP harus nyala!</div>
+          <div class="info-card pink">
+            <div class="title">⏰ Langkah:</div>
+            1. Di Vercel dashboard → buka project <code>mua-poster</code><br>
+            2. Klik tab <strong>Settings → Cron Jobs</strong><br>
+            3. Seharusnya sudah muncul cron dari <code>vercel.json</code><br>
+            4. Tambahkan environment variable: <br>
+            &nbsp;&nbsp;&nbsp;<code>CRON_SECRET</code> = sama dengan yang diisi sebelumnya<br>
+            5. ✅ Cron aktif! Akan cek jadwal setiap 1 menit
+          </div>
+          <div class="info-card green">
+            ✅ <strong>Cek berhasil:</strong> Buka URL <code>https://mua-poster.vercel.app/api/cron</code> — kalau muncul response JSON, berarti berjalan!
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 6 -->
+      <div class="step-item">
+        <div class="step-num">6</div>
+        <div class="step-body">
+          <div class="step-title">Bagikan ke Tim MUA</div>
+          <div class="step-desc">Setelah deploy, semua anggota tim bisa langsung pakai dari HP masing-masing!</div>
+          <div class="info-card green">
+            <div class="title">📱 Cara Akses:</div>
+            1. Bagikan URL app ke semua anggota tim: <br>
+            &nbsp;&nbsp;&nbsp;<code>https://mua-poster.vercel.app</code><br>
+            2. Setiap anggota bisa buka dari HP masing-masing<br>
+            3. Akun MUA hanya perlu diinput sekali (tersimpan di database)<br>
+            4. Bisa langsung mulai upload & jadwalkan post! 🎉
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- INSTAGRAM API SETUP -->
+  <div class="section">
+    <div class="section-title">📸 Setup Instagram API</div>
+    <div class="section-sub">Untuk setiap akun MUA, perlu Access Token dari Facebook Developer</div>
+
+    <div class="info-card yellow" style="margin-bottom:16px;">
+      ⚠️ <strong>Syarat:</strong> Akun Instagram harus <strong>Business</strong> atau <strong>Creator</strong>, terhubung ke Facebook Page.
+    </div>
+
+    <table class="tbl">
+      <tr><th>Langkah</th><th>Yang Dilakukan</th></tr>
+      <tr><td><span class="badge badge-pink">1</span> Buka</td><td><strong>developers.facebook.com</strong> → Login dengan Facebook</td></tr>
+      <tr><td><span class="badge badge-pink">2</span> Buat App</td><td>My Apps → Create App → pilih <strong>Other → Business</strong></td></tr>
+      <tr><td><span class="badge badge-pink">3</span> Tambah Produk</td><td>Dashboard → Add Product → <strong>Instagram Graph API</strong></td></tr>
+      <tr><td><span class="badge badge-pink">4</span> Generate Token</td><td>Tools → <strong>Graph API Explorer</strong> → pilih App → Generate Token</td></tr>
+      <tr><td><span class="badge badge-pink">5</span> Set Permission</td><td>Centang: <code>instagram_basic</code>, <code>instagram_content_publish</code>, <code>pages_read_engagement</code></td></tr>
+      <tr><td><span class="badge badge-pink">6</span> Dapat User ID</td><td>Di Graph Explorer, jalankan query <code>/me</code> → catat field <code>id</code></td></tr>
+      <tr><td><span class="badge badge-green">7</span> Selesai</td><td>Input User ID + Token di tab <strong>Akun MUA</strong> di app</td></tr>
+    </table>
+
+    <div class="info-card blue">
+      💡 <strong>Tips:</strong> Token default hanya berlaku 1 jam. Untuk token jangka panjang (60 hari), gunakan <strong>Long-Lived Token</strong>. Cari tutorial "extend Instagram access token 60 days" di YouTube.
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- HOSTING GAMBAR -->
+  <div class="section">
+    <div class="section-title">🖼️ Cara Upload Gambar</div>
+    <div class="section-sub">Instagram API butuh URL publik — gambar perlu di-host dulu</div>
+
+    <table class="tbl">
+      <tr><th>Platform</th><th>Cara</th><th>Biaya</th></tr>
+      <tr>
+        <td><strong>imgbb.com</strong> ⭐</td>
+        <td>Buka imgbb.com → Upload → Copy "Direct link"</td>
+        <td class="free">GRATIS</td>
+      </tr>
+      <tr>
+        <td><strong>Cloudinary</strong></td>
+        <td>Daftar free → Upload via dashboard → Copy URL</td>
+        <td class="free">GRATIS (25GB)</td>
+      </tr>
+      <tr>
+        <td><strong>Google Drive</strong></td>
+        <td>Upload → Share "Anyone with link" → Convert ke direct URL</td>
+        <td class="free">GRATIS</td>
+      </tr>
+    </table>
+
+    <div class="info-card pink">
+      💡 <strong>Rekomendasi:</strong> Pakai <strong>imgbb.com</strong> — paling simpel! Upload foto → langsung dapat direct link → paste ke app. Selesai dalam 30 detik.
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- BIAYA TOTAL -->
+  <div class="section">
+    <div class="section-title">💰 Ringkasan Biaya</div>
+    <div class="section-sub">Estimasi untuk 10 akun MUA, 3-5 post per minggu</div>
+
+    <table class="tbl">
+      <tr><th>Komponen</th><th>Free Tier</th><th>Biaya/Bulan</th></tr>
+      <tr><td>🚀 Vercel Hosting</td><td>100GB bandwidth, unlimited deploys</td><td class="free">Rp 0</td></tr>
+      <tr><td>⏰ Vercel Cron Jobs</td><td>2 cron jobs gratis</td><td class="free">Rp 0</td></tr>
+      <tr><td>🗄️ Supabase Database</td><td>500MB, 2 projects</td><td class="free">Rp 0</td></tr>
+      <tr><td>🤖 Claude AI Caption</td><td>~200 caption/bulan</td><td class="paid">~Rp 15.000</td></tr>
+      <tr><td>🖼️ Image Hosting</td><td>imgbb unlimited</td><td class="free">Rp 0</td></tr>
+      <tr style="background:#e8f5e9;"><td><strong>TOTAL</strong></td><td></td><td class="free"><strong>~Rp 15.000/bulan</strong></td></tr>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- FAQ -->
+  <div class="section" style="padding-bottom:40px;">
+    <div class="section-title">❓ Pertanyaan Umum</div>
+    <div class="section-sub">Yang sering ditanyakan</div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="info-card blue">
+        <div class="title">❓ Kalau HP dimatikan, jadwal tetap jalan?</div>
+        ✅ Ya! Setelah deploy ke Vercel, jadwal jalan otomatis di cloud. HP boleh dimatikan, app boleh ditutup.
+      </div>
+      <div class="info-card pink">
+        <div class="title">❓ Apakah 10 anggota tim bisa akses bersamaan?</div>
+        ✅ Ya! Semua anggota cukup buka URL app dari browser HP masing-masing. Bisa online bersamaan.
+      </div>
+      <div class="info-card green">
+        <div class="title">❓ Data akun aman tidak?</div>
+        ✅ Data tersimpan di Supabase dengan enkripsi. Access Token bersifat sensitif — jangan bagikan ke orang lain.
+      </div>
+      <div class="info-card yellow">
+        <div class="title">❓ Kalau token expired, gimana?</div>
+        ⚠️ Token Instagram berlaku 60 hari (long-lived). Perlu diperbarui manual tiap 60 hari di tab Akun MUA.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-title">💄 MUA Poster siap digunakan!</div>
+  <div class="footer-sub">Selamat! Setelah deploy, tim Diamond Makeup Artist ibu Chandra<br>bisa auto-post Instagram dengan konsisten tanpa repot.</div>
+</div>
+
+</body>
+</html>
