@@ -1,0 +1,135 @@
+/* Panggung presentasi: 1000 x 1250 px. Di mode AR, 1000 px = lebar kartu. */
+.ru-stage{--navy:#071A33;--navy2:#0C3363;--ice:#19C6F0;--ice2:#8FE6FF;--gold:#F5B800;--red:#FF5A5F;--green:#2BD99A;
+  position:relative;width:1000px;height:1250px;font-family:Poppins,system-ui,sans-serif;color:#fff;overflow:hidden;border-radius:56px;
+  background:radial-gradient(120% 80% at 80% 0%,#124a86 0%,var(--navy2) 35%,var(--navy) 80%);
+  box-shadow:0 0 0 6px rgba(143,230,255,.55),0 40px 120px rgba(25,198,240,.35)}
+.ru-stage *{box-sizing:border-box}
+.ru-stage h2{font:900 64px/1.05 Montserrat;letter-spacing:-.5px;margin:0}
+.ru-stage h3{font:800 34px/1.2 Montserrat;margin:0}
+.ru-stage p{margin:0}
+.ru-gold{color:var(--gold)}.ru-ice{color:var(--ice2)}
+.ru-kicker{font:700 26px Montserrat;letter-spacing:6px;color:var(--ice);text-transform:uppercase;margin-bottom:18px}
+
+.ru-slide{position:absolute;inset:0;padding:96px 80px 150px;opacity:0;visibility:hidden;transition:opacity .5s,visibility 0s .5s}
+.ru-slide.on{opacity:1;visibility:visible;transition:opacity .5s}
+
+/* animasi masuk generik */
+.ru-slide .in{opacity:0}
+.ru-slide.on .in{animation:ruIn .7s cubic-bezier(.2,.9,.25,1.15) both;animation-delay:calc(var(--d,0) * 1ms)}
+@keyframes ruIn{from{opacity:0;transform:translateY(60px) scale(.92)}to{opacity:1;transform:none}}
+.ru-slide.on .pop{animation:ruPop .6s cubic-bezier(.3,1.6,.5,1) both;animation-delay:calc(var(--d,0) * 1ms)}
+@keyframes ruPop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
+
+/* progress + navigasi */
+.ru-bar{position:absolute;left:80px;right:80px;bottom:62px;display:flex;gap:12px;z-index:5}
+.ru-bar i{flex:1;height:10px;border-radius:9px;background:rgba(255,255,255,.18);overflow:hidden;cursor:pointer}
+.ru-bar i b{display:block;height:100%;width:0;background:var(--gold);border-radius:9px}
+.ru-bar i.done b{width:100%}
+.ru-bar i.cur b{animation:ruProg linear forwards;animation-duration:var(--dur,7s)}
+.ru-stage.paused .ru-bar i.cur b{animation-play-state:paused}
+@keyframes ruProg{to{width:100%}}
+.ru-tapL,.ru-tapR{position:absolute;top:0;bottom:120px;width:30%;z-index:4;cursor:pointer}
+.ru-tapL{left:0}.ru-tapR{right:0}
+
+/* 1. intro */
+.s-intro{display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center}
+.s-intro .logo{width:300px;height:300px;margin-bottom:40px}
+.s-intro.on .logo{animation:ruSpin 1.4s cubic-bezier(.2,.9,.2,1) both}
+@keyframes ruSpin{from{transform:rotate(-200deg) scale(0);opacity:0}to{transform:none;opacity:1}}
+.s-intro h2{font-size:84px}
+.s-intro .ac{display:inline-block;background:var(--gold);color:var(--navy);padding:0 18px;border-radius:14px;margin-left:10px}
+.s-intro .tag{font:600 36px Poppins;color:var(--ice2);margin-top:26px}
+.s-intro .since{margin-top:70px;display:flex;align-items:center;gap:26px;background:rgba(255,255,255,.08);border:3px solid rgba(143,230,255,.35);border-radius:30px;padding:26px 40px}
+.s-intro .since b{font:900 96px Montserrat;color:var(--gold);line-height:1}
+.s-intro .since span{font:500 30px/1.3 Poppins;text-align:left}
+
+/* 2. timeline */
+.tl{position:relative;margin-top:60px;padding-left:90px}
+.tl:before{content:"";position:absolute;left:30px;top:10px;width:8px;height:0;background:linear-gradient(var(--ice),var(--gold));border-radius:8px}
+.s-tl.on .tl:before{animation:ruLine 2.4s ease-out forwards}
+@keyframes ruLine{to{height:calc(100% - 20px)}}
+.tl .it{position:relative;margin-bottom:58px}
+.tl .it:before{content:"";position:absolute;left:-76px;top:12px;width:40px;height:40px;border-radius:50%;background:var(--navy);border:8px solid var(--ice)}
+.tl .it:last-child:before{border-color:var(--gold);box-shadow:0 0 0 12px rgba(245,184,0,.25)}
+.tl .yr{font:900 56px Montserrat;color:var(--gold);line-height:1}
+.tl .tx{font:500 32px/1.35 Poppins;margin-top:8px;opacity:.95}
+
+/* 3. statistik */
+.st{display:flex;flex-direction:column;gap:34px;margin-top:70px}
+.st .c{background:rgba(255,255,255,.07);border:3px solid rgba(143,230,255,.25);border-radius:34px;padding:34px 44px;display:flex;align-items:center;gap:36px}
+.st .n{font:900 108px Montserrat;color:var(--gold);min-width:420px;line-height:1}
+.st .l{font:600 34px/1.3 Poppins}
+
+/* 4. layanan */
+.lg{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:54px}
+.lg .c{background:#fff;color:var(--navy);border-radius:30px;padding:30px 28px;min-height:250px}
+.lg .ic{width:86px;height:86px;border-radius:24px;background:linear-gradient(135deg,var(--ice2),var(--ice));display:grid;place-items:center;margin-bottom:18px}
+.lg .ic svg{width:54px;height:54px}
+.lg h3{font-size:30px}
+.lg p{font:500 23px/1.35 Poppins;color:#3D5878;margin-top:6px}
+
+/* 5. klien */
+.kl{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:60px}
+.kl .c{height:150px;border-radius:28px;background:#fff;color:var(--navy);display:flex;align-items:center;gap:20px;padding:0 28px;font:800 31px/1.15 Montserrat}
+.kl .c i{flex:none;width:78px;height:78px;border-radius:22px;display:grid;place-items:center;font:900 34px Montserrat;color:#fff;font-style:normal}
+.kl-note{font:500 28px Poppins;margin-top:44px;text-align:center;opacity:.9}
+
+/* 6. kenapa rajin service (ilustrasi) */
+.s-why .ill{position:relative;height:430px;margin:40px 0 30px;border-radius:36px;background:rgba(0,0,0,.25);overflow:hidden}
+.s-why .ill svg{position:absolute;inset:0;width:100%;height:100%}
+.s-why .dirty,.s-why .clean{transition:none}
+.s-why.on .dirty{animation:ruDirty 8s ease-in-out infinite}
+.s-why.on .clean{animation:ruClean 8s ease-in-out infinite}
+@keyframes ruDirty{0%,45%{opacity:1}55%,95%{opacity:0}100%{opacity:1}}
+@keyframes ruClean{0%,45%{opacity:0}55%,95%{opacity:1}100%{opacity:0}}
+.s-why .dust{animation:ruFall 2.2s linear infinite}
+@keyframes ruFall{from{transform:translateY(-40px);opacity:0}20%{opacity:1}to{transform:translateY(240px);opacity:0}}
+.s-why .bug{animation:ruWob 1.2s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+@keyframes ruWob{to{transform:scale(1.25) rotate(20deg)}}
+.s-why .wind{stroke-dasharray:30 26;animation:ruWind 1s linear infinite}
+@keyframes ruWind{to{stroke-dashoffset:-56}}
+.s-why .lbl{position:absolute;top:22px;left:50%;transform:translateX(-50%);font:800 28px Montserrat;padding:10px 26px;border-radius:99px;white-space:nowrap}
+.s-why .lbl.d{background:var(--red)}.s-why .lbl.k{background:var(--green);color:var(--navy)}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.dg .c{background:rgba(255,90,95,.14);border:3px solid rgba(255,90,95,.55);border-radius:26px;padding:22px 24px}
+.dg b{display:block;font:800 30px Montserrat;color:#FFB3B5}
+.dg span{font:500 23px/1.3 Poppins;opacity:.92}
+
+/* 7. hitung-hitungan */
+.cmp{margin-top:60px;display:flex;flex-direction:column;gap:46px}
+.cmp .row .t{font:600 30px Poppins;margin-bottom:14px;display:flex;justify-content:space-between}
+.cmp .row .t b{font:900 38px Montserrat}
+.cmp .track{height:84px;background:rgba(255,255,255,.08);border-radius:22px;overflow:hidden}
+.cmp .fill{height:100%;width:0;border-radius:22px}
+.s-cost.on .fill{transition:width 1.8s cubic-bezier(.2,.8,.2,1) .5s;width:var(--w)}
+.cmp .g .fill{background:linear-gradient(90deg,var(--green),#8EF5CF)}
+.cmp .r .fill{background:linear-gradient(90deg,#ff8a00,var(--red))}
+.cmp .g .t b{color:var(--green)}.cmp .r .t b{color:#FF8E91}
+.cost-big{margin-top:60px;background:var(--gold);color:var(--navy);border-radius:34px;padding:36px 40px;font:800 40px/1.25 Montserrat;text-align:center}
+.cost-note{font:400 21px Poppins;opacity:.6;margin-top:22px;text-align:center}
+
+/* 8. vs */
+.vs{margin-top:46px;display:flex;flex-direction:column;gap:20px}
+.vs .hd{display:grid;grid-template-columns:1fr 1fr;gap:18px;font:800 27px Montserrat;text-align:center}
+.vs .hd div{padding:12px;border-radius:18px}
+.vs .hd .a{background:rgba(255,255,255,.1);color:#c9d6e6}.vs .hd .b{background:var(--gold);color:var(--navy)}
+.vs .r{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.vs .r div{border-radius:22px;padding:20px 22px;font:500 24px/1.3 Poppins;display:flex;gap:14px;align-items:flex-start}
+.vs .r .a{background:rgba(255,255,255,.05);color:#a9b9cc;text-decoration:line-through;text-decoration-color:rgba(255,90,95,.7)}
+.vs .r .b{background:#fff;color:var(--navy);font-weight:600}
+.vs .r em{font-style:normal;flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font:900 24px Montserrat;text-decoration:none}
+.vs .r .a em{background:var(--red);color:#fff}.vs .r .b em{background:var(--green);color:var(--navy)}
+
+/* 9. CTA */
+.s-cta{display:flex;flex-direction:column;align-items:center;text-align:center}
+.s-cta h2{font-size:76px}
+.coupon{margin-top:50px;width:100%;border:5px dashed var(--gold);border-radius:40px;padding:40px;background:rgba(245,184,0,.1);position:relative}
+.coupon .big{font:900 66px/1.1 Montserrat;color:var(--gold)}
+.coupon .code{display:inline-block;margin-top:22px;background:#fff;color:var(--navy);font:900 52px Montserrat;letter-spacing:8px;padding:12px 34px;border-radius:20px}
+.coupon p{font:500 27px Poppins;margin-top:20px;opacity:.9}
+.s-cta.on .coupon{animation:ruPop .8s cubic-bezier(.3,1.6,.5,1) .3s both,ruGlow 2s ease-in-out 1.2s infinite}
+@keyframes ruGlow{50%{box-shadow:0 0 70px rgba(245,184,0,.55)}}
+.cta-btns{display:grid;grid-template-columns:1fr 1fr;gap:22px;width:100%;margin-top:46px}
+.cta-btns a{display:flex;align-items:center;justify-content:center;gap:14px;height:120px;border-radius:30px;font:800 32px Montserrat;text-decoration:none;color:var(--navy);background:#fff;position:relative;z-index:6}
+.cta-btns a.wa{grid-column:1/-1;background:#25D366;color:#fff;font-size:40px}
+.cta-btns svg{width:46px;height:46px}

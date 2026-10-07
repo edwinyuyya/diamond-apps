@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#071A33">
+<title>Rejeki Utama AC — Kartu AR</title>
+<meta name="description" content="Arahkan kamera ke kartu nama Rejeki Utama AC dan lihat company profile kami muncul di atas kartu.">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="presentasi.css">
+<style>
+  :root{--navy:#071A33;--ice:#19C6F0;--ice2:#8FE6FF;--gold:#F5B800}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;background:var(--navy);color:#fff;font-family:Poppins,system-ui,sans-serif;overflow:hidden}
+  button{font-family:inherit;cursor:pointer;border:0}
+
+  /* layar awal */
+  #intro{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 20px calc(24px + env(safe-area-inset-bottom));
+    background:radial-gradient(120% 70% at 70% 0%,#124a86,#0C3363 40%,var(--navy) 85%)}
+  #intro .lg{width:92px;height:92px;animation:spin 1.2s cubic-bezier(.2,.9,.2,1) both}
+  @keyframes spin{from{transform:rotate(-180deg) scale(0)}}
+  #intro h1{font:900 28px/1.1 Montserrat;margin-top:16px}
+  #intro h1 span{background:var(--gold);color:var(--navy);padding:0 8px;border-radius:7px;margin-left:4px}
+  #intro p.s{color:var(--ice2);margin-top:8px;font-size:14px}
+  .demo{position:relative;width:min(300px,78vw);aspect-ratio:90/55;margin:64px 0 26px;perspective:700px}
+  .demo .card{position:absolute;inset:0;border-radius:10px;overflow:hidden;transform:rotateX(38deg);box-shadow:0 18px 30px rgba(0,0,0,.45)}
+  .demo .card svg{width:100%;height:100%;display:block}
+  .demo .phone{position:absolute;left:50%;top:-24%;width:42%;aspect-ratio:9/17;border:4px solid #fff;border-radius:16px;transform:translateX(-50%);animation:hover 2.4s ease-in-out infinite;background:rgba(25,198,240,.12);backdrop-filter:blur(1px)}
+  .demo .phone:after{content:"";position:absolute;inset:18% 10%;border:3px dashed var(--gold);border-radius:6px}
+  @keyframes hover{50%{transform:translate(-50%,-10px)}}
+  .steps{font-size:14px;line-height:1.6;max-width:340px;opacity:.9}
+  .steps b{color:var(--gold)}
+  .go{margin-top:22px;width:min(340px,100%);display:flex;flex-direction:column;gap:12px}
+  .go button{height:56px;border-radius:16px;font:800 17px Montserrat}
+  #btnAR{background:var(--gold);color:var(--navy);box-shadow:0 10px 30px rgba(245,184,0,.35)}
+  #btnScreen{background:rgba(255,255,255,.1);color:#fff;box-shadow:inset 0 0 0 2px rgba(143,230,255,.4)}
+  .err{margin-top:14px;color:#FFB3B5;font-size:13px;max-width:340px;min-height:1em}
+
+  /* AR */
+  #ar{position:fixed;inset:0;z-index:1;overflow:hidden}
+  #ar video{object-fit:cover}
+  .wrap{transform-origin:50% 50%}
+  .wrap.pop .ru-stage{animation:arPop .7s cubic-bezier(.3,1.5,.5,1) both}
+  @keyframes arPop{from{transform:scale(.2) translateY(300px);opacity:0}}
+  #scan{position:fixed;inset:0;z-index:10;display:none;align-items:center;justify-content:center;flex-direction:column;pointer-events:none}
+  #scan .frame{width:min(78vw,420px);aspect-ratio:90/55;border-radius:16px;position:relative;box-shadow:0 0 0 200vmax rgba(7,26,51,.35)}
+  #scan .frame i{position:absolute;width:34px;height:34px;border:5px solid var(--gold)}
+  #scan .frame i:nth-child(1){left:-4px;top:-4px;border-right:0;border-bottom:0;border-radius:14px 0 0 0}
+  #scan .frame i:nth-child(2){right:-4px;top:-4px;border-left:0;border-bottom:0;border-radius:0 14px 0 0}
+  #scan .frame i:nth-child(3){left:-4px;bottom:-4px;border-right:0;border-top:0;border-radius:0 0 0 14px}
+  #scan .frame i:nth-child(4){right:-4px;bottom:-4px;border-left:0;border-top:0;border-radius:0 0 14px 0}
+  #scan .frame:after{content:"";position:absolute;left:6%;right:6%;height:3px;background:var(--ice);box-shadow:0 0 16px var(--ice);animation:line 2s ease-in-out infinite alternate;top:8%}
+  @keyframes line{to{top:90%}}
+  #scan p{margin-top:22px;background:rgba(7,26,51,.8);padding:10px 18px;border-radius:99px;font-weight:600;font-size:15px}
+  #scan p b{color:var(--gold)}
+
+  /* bar bawah */
+  #dock{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;gap:10px;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(7,26,51,.92) 35%)}
+  #dock a,#dock button{flex:1;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font:800 14px Montserrat;text-decoration:none}
+  #dock .wa{background:#25D366;color:#fff;flex:1.4}
+  #dock .sw{background:rgba(255,255,255,.14);color:#fff;box-shadow:inset 0 0 0 2px rgba(255,255,255,.25)}
+  #dock svg{width:22px;height:22px}
+
+  /* mode layar */
+  #screen{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:radial-gradient(100% 60% at 50% 0%,#0f3e72,var(--navy));padding-bottom:80px}
+  #screen .holder{transform-origin:center center;flex:none}
+  #toast{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top));transform:translateX(-50%);z-index:50;background:rgba(7,26,51,.92);border:1px solid rgba(143,230,255,.4);padding:10px 16px;border-radius:99px;font-size:13px;display:none;white-space:nowrap}
+  .mindar-ui-overlay{display:none!important}
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "./vendor/three/three.module.min.js",
+  "three/addons/": "./vendor/three/addons/"
+} }
+</script>
+</head>
+<body>
+
+<div id="intro">
+  <svg class="lg" id="introLogo" viewBox="0 0 100 100"></svg>
+  <h1>REJEKI UTAMA<span>AC</span></h1>
+  <p class="s">Kartu nama yang bisa "hidup" ✨</p>
+  <div class="demo"><div class="card" id="demoCard"></div><div class="phone"></div></div>
+  <div class="steps">Siapkan kartu nama kami, tekan <b>Mulai AR</b>, izinkan kamera,<br>lalu arahkan ke <b>sisi DEPAN</b> kartu (yang biru).</div>
+  <div class="go">
+    <button id="btnAR">📷 Mulai AR</button>
+    <button id="btnScreen">Lihat tanpa kamera</button>
+  </div>
+  <p class="err" id="err"></p>
+</div>
+
+<div id="ar"></div>
+<div id="scan"><div class="frame"><i></i><i></i><i></i><i></i></div><p>Arahkan ke <b>sisi depan</b> kartu • pegang HP tepat di atasnya</p></div>
+<div id="screen"><div class="holder" id="holder"></div></div>
+<div id="toast"></div>
+
+<div id="dock">
+  <a class="wa" id="dockWa" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm5.8 15.7c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>Booking WA</a>
+  <button class="sw" id="dockSwitch">Mode layar</button>
+</div>
+
+<script src="config.js"></script>
+<script src="card.js"></script>
+<script src="presentasi.js"></script>
+<script type="module">
+  import { MindARThree } from "./vendor/mindar/mindar-image-three.prod.js";
+  import { CSS3DObject } from "three/addons/renderers/CSS3DRenderer.js";
+
+  const cfg = window.RU;
+  const $ = (id) => document.getElementById(id);
+  $("introLogo").innerHTML = RUCard.logo(0, 0, 100, false);
+  $("demoCard").innerHTML = RUCard.front(cfg);
+  $("dockWa").href = "https://wa.me/" + cfg.whatsapp + "?text=" +
+    encodeURIComponent("Halo " + cfg.perusahaan + ", saya dapat kartu nama Anda. Mau booking service AC (kode promo " + cfg.promo.kode + ").");
+
+  let mode = null, mindar = null, arShow = null, screenShow = null, lostTimer = null;
+
+  function toast(msg, ms = 3500) {
+    const t = $("toast"); t.textContent = msg; t.style.display = "block";
+    clearTimeout(toast.t); toast.t = setTimeout(() => (t.style.display = "none"), ms);
+  }
+
+  // ---------- Mode layar penuh (tanpa kamera) ----------
+  function fitScreen() {
+    const h = $("holder"), vw = innerWidth - 24, vh = innerHeight - 100;
+    h.style.transform = "scale(" + Math.min(vw / 1000, vh / 1250) + ")";
+    h.style.width = "1000px"; h.style.height = "1250px";
+    h.style.margin = (-(1250 - 1250 * Math.min(vw / 1000, vh / 1250)) / 2) + "px " + (-(1000 - 1000 * Math.min(vw / 1000, vh / 1250)) / 2) + "px";
+  }
+  addEventListener("resize", () => mode === "screen" && fitScreen());
+
+  async function openScreen(fromIndex) {
+    if (mindar) { try { await mindar.stop(); } catch (e) {} mindar.renderer.setAnimationLoop(null); }
+    if (arShow) arShow.pause();
+    mode = "screen";
+    $("intro").style.display = "none"; $("scan").style.display = "none";
+    $("ar").style.display = "none";
+    $("screen").style.display = "flex"; $("dock").style.display = "flex";
+    $("dockSwitch").textContent = "📷 Mode AR";
+    if (!screenShow) screenShow = RUShow.mount($("holder"));
+    fitScreen();
+    if (fromIndex > 0) { screenShow.go(fromIndex); screenShow.resume(); } else screenShow.start();
+  }
+
+  // ---------- Mode AR ----------
+  async function openAR() {
+    $("err").textContent = "";
+    $("btnAR").textContent = "Menyalakan kamera…";
+    if (screenShow) screenShow.pause();
+    try {
+      if (!mindar) {
+        mindar = new MindARThree({
+          container: $("ar"),
+          imageTargetSrc: "targets/kartu-depan.mind",
+          uiLoading: "no", uiScanning: "no", uiError: "no",
+          filterMinCF: 0.0001, filterBeta: 0.001, // gerakan lebih halus
+        });
+        const anchor = mindar.addCSSAnchor(0);
+        const wrap = document.createElement("div");
+        wrap.className = "wrap";
+        wrap.style.visibility = "hidden"; // MindAR menampilkannya saat kartu terdeteksi
+        arShow = RUShow.mount(wrap);
+        const obj = new CSS3DObject(wrap);
+        // panel 1000 x 1250 px (1000 px = lebar kartu); digeser ke atas supaya
+        // "keluar" dari kartu dan sedikit ditegakkan
+        obj.scale.setScalar(0.85);
+        obj.position.set(0, 400, 40);
+        obj.rotation.x = 0.2;
+        anchor.group.add(obj);
+        let started = false;
+        anchor.onTargetFound = () => {
+          clearTimeout(lostTimer);
+          $("scan").style.display = "none";
+          $("toast").style.display = "none";
+          wrap.classList.remove("pop"); void wrap.offsetWidth; wrap.classList.add("pop");
+          if (navigator.vibrate) navigator.vibrate(40);
+          if (!started) { started = true; arShow.start(); } else arShow.resume();
+        };
+        anchor.onTargetLost = () => {
+          arShow.pause();
+          lostTimer = setTimeout(() => {
+            if (mode !== "ar") return;
+            $("scan").style.display = "flex";
+            toast("Kartu tidak terlihat — atau tekan \"Mode layar\" untuk lanjut tanpa kamera", 5000);
+          }, 900);
+        };
+      }
+      mode = "ar";
+      $("screen").style.display = "none";
+      $("ar").style.display = "block";
+      await mindar.start();
+      const { renderer, cssRenderer, scene, cssScene, camera } = mindar;
+      renderer.setAnimationLoop(() => {
+        renderer.render(scene, camera);
+        cssRenderer.render(cssScene, camera);
+      });
+      $("intro").style.display = "none";
+      $("scan").style.display = "flex";
+      $("dock").style.display = "flex";
+      $("dockSwitch").textContent = "Mode layar";
+    } catch (e) {
+      console.error(e);
+      mode = null;
+      $("btnAR").textContent = "📷 Mulai AR";
+      $("ar").style.display = "none";
+      const msg = location.protocol !== "https:" && location.hostname !== "localhost"
+        ? "AR butuh alamat https://."
+        : "Kamera tidak bisa dibuka (izin ditolak atau tidak tersedia).";
+      $("err").textContent = msg + " Silakan pakai \"Lihat tanpa kamera\".";
+      if ($("intro").style.display === "none") openScreen(0);
+    }
+  }
+
+  $("btnAR").onclick = openAR;
+  $("btnScreen").onclick = () => openScreen(0);
+  $("dockSwitch").onclick = () => {
+    if (mode === "ar") openScreen(arShow ? Math.max(0, arShow.index) : 0);
+    else openAR();
+  };
+  if (location.hash === "#layar") openScreen(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rejeki Utama AC — Kartu Nama AR</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+  :root{--navy:#071A33;--ice:#19C6F0;--gold:#F5B800;--ink:#0C2340;--muted:#4D6684}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Poppins,system-ui,sans-serif;background:#EAF2FA;color:var(--ink);line-height:1.6}
+  header{background:radial-gradient(120% 90% at 80% 0%,#124a86,#0C3363 45%,var(--navy));color:#fff;padding:40px 16px;text-align:center}
+  header h1{font:900 clamp(24px,5vw,34px)/1.15 Montserrat}
+  header p{opacity:.8;margin-top:8px}
+  main{max-width:760px;margin:0 auto;padding:24px 16px 60px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+  a.c{display:block;background:#fff;border-radius:18px;padding:20px;text-decoration:none;color:inherit;box-shadow:0 4px 14px rgba(7,26,51,.08);transition:transform .2s}
+  a.c:hover{transform:translateY(-3px)}
+  a.c b{display:block;font:800 18px Montserrat;margin:6px 0 4px}
+  a.c span{font-size:14px;color:var(--muted)}
+  a.c i{font-style:normal;font-size:28px}
+  section{background:#fff;border-radius:18px;padding:22px;margin-top:18px}
+  h2{font:800 19px Montserrat;margin-bottom:8px}
+  ol,ul{margin-left:20px;font-size:15px}
+  li{margin:4px 0}
+  code{background:#EEF4FA;padding:1px 6px;border-radius:5px;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Rejeki Utama AC<br>Kartu Nama + AR</h1>
+  <p>Kartu yang "hidup" saat di-scan — biar orang mikir dua kali sebelum membuangnya.</p>
+</header>
+<main>
+  <div class="grid">
+    <a class="c" href="kartu.html"><i>🪪</i><b>Desain Kartu</b><span>Lihat, balik, dan cetak / simpan PDF untuk percetakan.</span></a>
+    <a class="c" href="ar.html"><i>📷</i><b>Pengalaman AR</b><span>Halaman yang dibuka dari QR di belakang kartu.</span></a>
+    <a class="c" href="ar.html#layar"><i>🎬</i><b>Presentasi saja</b><span>Company profile tanpa kamera (bisa dikirim lewat WA).</span></a>
+  </div>
+
+  <section>
+    <h2>Cara kerjanya</h2>
+    <ol>
+      <li>Orang menemukan kartu Anda di meja kafe → scan <b>QR di belakang</b> kartu.</li>
+      <li>Halaman AR terbuka → tekan <b>Mulai AR</b> → arahkan kamera ke <b>sisi depan</b> kartu.</li>
+      <li>Company profile muncul "keluar" dari kartu: sejak kapan berdiri, layanan, klien, kenapa AC harus rutin di-service, hitung-hitungan biaya, dan kenapa harus Rejeki Utama AC.</li>
+      <li>Slide terakhir: kupon diskon + tombol <b>Booking via WhatsApp</b>, telepon, dan simpan kontak.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Sebelum dicetak — wajib</h2>
+    <ul>
+      <li>Ganti semua data bertanda <code>✏️ GANTI</code> di file <code>config.js</code> (nama, nomor WA, tahun berdiri, klien, harga, promo).</li>
+      <li>Upload/deploy dulu, lalu buka <code>kartu.html</code> dari alamat website yang asli — QR otomatis mengarah ke alamat itu.</li>
+      <li>Cetak 1 kartu dulu, tes scan QR & AR, baru cetak banyak. Pilih <b>laminasi doff</b> agar tidak silau di kamera.</li>
+      <li>Kalau desain <b>sisi depan</b> diubah, buat ulang target AR lewat <a href="compile.html">compile.html</a>.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

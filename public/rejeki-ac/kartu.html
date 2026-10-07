@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kartu Nama Rejeki Utama AC</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+  :root{--navy:#071A33;--ice:#19C6F0;--gold:#F5B800;--bg:#EAF2FA;--ink:#0C2340;--muted:#4D6684}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Poppins,system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+  header{background:var(--navy);color:#fff;padding:22px 16px;text-align:center}
+  header h1{font-family:Montserrat;font-weight:900;font-size:clamp(20px,4vw,28px);letter-spacing:.5px}
+  header p{opacity:.75;font-size:14px;margin-top:4px}
+  main{max-width:1000px;margin:0 auto;padding:28px 16px 60px}
+  .stage{perspective:1600px;display:flex;justify-content:center;margin:10px 0 22px}
+  .flip{width:min(640px,100%);aspect-ratio:90/55;position:relative;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.2,.8,.2,1);cursor:pointer}
+  .flip.back{transform:rotateY(180deg)}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(7,26,51,.55),0 8px 18px rgba(7,26,51,.18)}
+  .face svg{display:block;width:100%;height:100%}
+  .face.b{transform:rotateY(180deg)}
+  .hint{text-align:center;color:var(--muted);font-size:13px;margin-bottom:18px}
+  .btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+  button,a.btn{font:600 14px Poppins;border:0;border-radius:999px;padding:12px 20px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+  .pri{background:var(--navy);color:#fff}.sec{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px #C9D8E8}.gold{background:var(--gold);color:var(--navy)}
+  .both{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
+  .both figure{background:#fff;border-radius:16px;padding:14px}
+  .both figure div{border-radius:8px;overflow:hidden;box-shadow:0 4px 14px rgba(7,26,51,.15)}
+  .both svg{display:block;width:100%;height:auto}
+  figcaption{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
+  .tips{background:#fff;border-radius:16px;padding:20px 22px;margin-top:22px;font-size:14px;line-height:1.7}
+  .tips h2{font:800 17px Montserrat;margin-bottom:8px}
+  .tips li{margin-left:18px}
+  .tips code{background:#EEF4FA;padding:1px 6px;border-radius:5px;font-size:13px}
+  @media (max-width:640px){.both{grid-template-columns:1fr}}
+  #print{display:none}
+  @media print{
+    @page{size:96mm 61mm;margin:0}
+    body{background:#fff}
+    header,main{display:none}
+    #print{display:block}
+    #print .pg{width:96mm;height:61mm;page-break-after:always;break-after:page;overflow:hidden}
+    #print svg{width:96mm;height:61mm;display:block}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Kartu Nama — Rejeki Utama AC</h1>
+  <p>Ukuran 90 × 55 mm • siap cetak • sisi depan bisa di-scan AR</p>
+</header>
+<main>
+  <div class="stage"><div class="flip" id="flip"><div class="face f" id="pvFront"></div><div class="face b" id="pvBack"></div></div></div>
+  <p class="hint">Ketuk kartu untuk membalik</p>
+  <div class="btns">
+    <button class="pri" onclick="window.print()">🖨️ Cetak / Simpan PDF (siap percetakan)</button>
+    <button class="sec" onclick="dl('front')">⬇️ SVG Depan</button>
+    <button class="sec" onclick="dl('back')">⬇️ SVG Belakang</button>
+    <a class="btn gold" href="ar.html">✨ Coba AR-nya</a>
+  </div>
+
+  <div class="both">
+    <figure><div id="sFront"></div><figcaption>DEPAN — ini yang di-scan kamera (target AR)</figcaption></figure>
+    <figure><div id="sBack"></div><figcaption>BELAKANG — kontak, QR, promo & jadwal service</figcaption></figure>
+  </div>
+
+  <div class="tips">
+    <h2>Cara cetak</h2>
+    <ol>
+      <li>Klik <b>Cetak / Simpan PDF</b> → pilih <b>Save as PDF</b>. Hasilnya 2 halaman (depan & belakang) ukuran 96 × 61 mm (sudah termasuk bleed 3 mm).</li>
+      <li>Kirim PDF ke percetakan. Minta: <b>art carton 310 gsm, laminasi doff</b> (doff = tidak silau, kamera lebih gampang membaca kartu untuk AR).</li>
+      <li>Sebelum cetak banyak, cetak 1 dulu dan tes scan QR + AR-nya.</li>
+    </ol>
+    <p style="margin-top:10px">QR mengarah ke: <code id="qrUrl"></code></p>
+  </div>
+</main>
+<div id="print"></div>
+
+<script src="config.js"></script>
+<script src="vendor/qrcode.js"></script>
+<script src="card.js"></script>
+<script>
+  var cfg = window.RU, url = RUCard.arUrl(cfg), qr = RUCard.qrInner(url);
+  var svgs = { front: RUCard.front(cfg), back: RUCard.back(cfg, qr) };
+  pvFront.innerHTML = sFront.innerHTML = svgs.front;
+  pvBack.innerHTML = sBack.innerHTML = svgs.back;
+  document.getElementById("print").innerHTML =
+    '<div class="pg">' + RUCard.front(cfg, { bleed: true }) + '</div><div class="pg">' + RUCard.back(cfg, qr, { bleed: true }) + "</div>";
+  qrUrl.textContent = url;
+  flip.onclick = function () { flip.classList.toggle("back"); };
+  function dl(side) {
+    var s = side === "front" ? RUCard.front(cfg, { bleed: true }) : RUCard.back(cfg, qr, { bleed: true });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([s], { type: "image/svg+xml" }));
+    a.download = "kartu-rejeki-utama-ac-" + (side === "front" ? "depan" : "belakang") + ".svg";
+    a.click();
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buat Ulang Target AR</title>
+<style>
+  body{font-family:system-ui,sans-serif;background:#EAF2FA;color:#0C2340;max-width:720px;margin:0 auto;padding:24px 16px;line-height:1.6}
+  h1{font-size:22px}
+  img{width:100%;border-radius:10px;box-shadow:0 6px 20px rgba(7,26,51,.2);margin:14px 0}
+  button,a.b{background:#071A33;color:#fff;border:0;border-radius:99px;padding:12px 22px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;margin:4px 6px 4px 0}
+  #log{font-family:ui-monospace,monospace;font-size:13px;background:#fff;padding:12px;border-radius:10px;min-height:2em;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<h1>Buat ulang target AR (kartu-depan.mind)</h1>
+<p>Hanya perlu dipakai kalau <b>desain sisi DEPAN kartu diubah</b>. Halaman ini menggambar sisi depan dari <code>card.js</code>,
+lalu membuat file <code>kartu-depan.mind</code> yang dipakai kamera untuk mengenali kartu. Simpan kedua file hasilnya ke folder <code>targets/</code>.</p>
+<img id="preview" alt="Sisi depan kartu">
+<p><button id="go" disabled>Buat target AR</button><a class="b" id="dlPng" download="kartu-depan.png">⬇️ kartu-depan.png</a><a class="b" id="dlMind" download="kartu-depan.mind" style="display:none">⬇️ kartu-depan.mind</a></p>
+<div id="log">Menyiapkan…</div>
+
+<script src="config.js"></script>
+<script src="card.js"></script>
+<script type="module">
+  import "./vendor/mindar/mindar-image.prod.js";
+  const log = (m) => (document.getElementById("log").textContent = m);
+  const W = 1200, H = Math.round(W * 550 / 900);
+
+  async function fontCss() {
+    const list = [["Montserrat", 500], ["Montserrat", 700], ["Montserrat", 800], ["Montserrat", 900], ["Poppins", 400], ["Poppins", 500], ["Poppins", 600]];
+    let css = "";
+    for (const [fam, w] of list) {
+      const buf = await (await fetch("fonts/" + fam.toLowerCase() + "-latin-" + w + "-normal.woff2")).arrayBuffer();
+      let bin = ""; new Uint8Array(buf).forEach((b) => (bin += String.fromCharCode(b)));
+      css += "@font-face{font-family:'" + fam + "';font-weight:" + w + ";src:url(data:font/woff2;base64," + btoa(bin) + ") format('woff2')}";
+    }
+    return css;
+  }
+
+  async function renderFront() {
+    let svg = RUCard.front(window.RU);
+    svg = svg.replace(/(<svg[^>]*>)/, '$1<style>' + await fontCss() + "</style>").replace("<svg ", '<svg width="' + W + '" height="' + H + '" ');
+    const img = new Image();
+    img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    await img.decode();
+    await new Promise((r) => setTimeout(r, 300));
+    const c = document.createElement("canvas"); c.width = W; c.height = H;
+    c.getContext("2d").drawImage(img, 0, 0, W, H);
+    return c.toDataURL("image/png");
+  }
+
+  const png = await renderFront();
+  document.getElementById("preview").src = png;
+  document.getElementById("dlPng").href = png;
+  window.__targetPng = png;
+  const btn = document.getElementById("go");
+  btn.disabled = false; log("Siap. Klik \"Buat target AR\".");
+
+  window.compileTarget = async function () {
+    btn.disabled = true;
+    const img = document.getElementById("preview");
+    await img.decode();
+    const compiler = new window.MINDAR.IMAGE.Compiler();
+    await compiler.compileImageTargets([img], (p) => log("Memproses… " + p.toFixed(0) + "%"));
+    const data = await compiler.exportData();
+    const blob = new Blob([data]);
+    const a = document.getElementById("dlMind");
+    a.href = URL.createObjectURL(blob); a.style.display = "inline-block";
+    log("Selesai! Unduh kartu-depan.mind dan kartu-depan.png, lalu ganti file lama di folder targets/.");
+    btn.disabled = false;
+    return Array.from(new Uint8Array(data));
+  };
+  btn.onclick = () => window.compileTarget();
+</script>
+</body>
+</html>
