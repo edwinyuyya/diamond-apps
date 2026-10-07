@@ -290,7 +290,7 @@
 
     s.push({ cls: "s-end", ov: "calm", dur: 0, interactive: true, html:
       '<h2 class="in" style="--d:150">Jangan tunggu AC rusak untuk <span class="ru-gold">mulai peduli.</span></h2>' +
-      '<div class="lg-wrap in" style="--d:600"><svg viewBox="0 0 100 100">' + RUCard.logo(0, 0, 100) + '</svg><div class="brand">REJEKI UTAMA <span class="ru-gold">AC</span><small>PROFESSIONAL AIR CONDITIONING SERVICE</small></div></div>' +
+      '<div class="lg-wrap in" style="--d:600"><svg viewBox="0 0 100 100">' + RUCard.logo(0, 0, 100) + '</svg><div class="brand">REJEKI UTAMA AC<small>' + esc(cfg.subjudul) + '</small><em>SERVICE EXCELLENT <span>★★★★★</span></em></div></div>' +
       (cfg.promo && cfg.promo.judul ? '<div class="promo">' + esc(cfg.promo.judul) + "<b>" + esc(cfg.promo.kode) + "</b></div>" : "") +
       '<a class="btn-wa in" style="--d:900" target="_blank" rel="noopener" href="' + waLink(cfg, "Halo " + cfg.perusahaan + ", saya dapat kartu nama Anda dan mau konsultasi/booking service AC." + (cfg.promo && cfg.promo.kode ? " (kode " + cfg.promo.kode + ")" : "")) + '">' + WA_ICON + "WhatsApp Service</a>" +
       '<div class="row2"><a class="btn-w in" style="--d:1050" href="tel:' + esc(cfg.telepon.replace(/[^0-9+]/g, "")) + '">' + PHONE_ICON + 'Telepon</a><a class="btn-w in vcard" style="--d:1200" href="#">' + USER_ICON + "Simpan Kontak</a></div>" +

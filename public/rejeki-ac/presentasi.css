@@ -167,9 +167,11 @@
 .s-end{display:flex;flex-direction:column;align-items:center;text-align:center}
 .s-end h2{font-size:72px}
 .s-end .lg-wrap{margin-top:48px;display:flex;align-items:center;gap:24px}
-.s-end .lg-wrap svg{width:120px;height:120px}
 .s-end .brand{font:900 50px/1 Montserrat;text-align:left}
-.s-end .brand small{display:block;font:700 19px Montserrat;letter-spacing:3px;color:var(--ice2);margin-top:10px}
+.s-end .lg-wrap svg{width:150px;height:150px}
+.s-end .brand small{display:block;font:600 24px Poppins;color:#5CC8F0;margin-top:10px}
+.s-end .brand em{display:block;font:italic 900 30px Montserrat;margin-top:8px}
+.s-end .brand em span{color:#FDE100;letter-spacing:4px;font-style:normal;margin-left:8px}
 .s-end .promo{margin-top:34px;border:4px dashed var(--gold);border-radius:24px;padding:14px 28px;font:800 28px Montserrat;color:var(--gold)}
 .s-end .promo b{background:#fff;color:var(--navy);padding:2px 14px;border-radius:10px;margin-left:10px;letter-spacing:3px}
 .s-end.on .promo{animation:ruPop .7s cubic-bezier(.3,1.6,.5,1) 1.2s both,ruGlow 2s ease-in-out 2s infinite}

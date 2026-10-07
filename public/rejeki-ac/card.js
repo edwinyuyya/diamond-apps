@@ -41,25 +41,65 @@
     return '<path transform="translate(' + x + "," + y + ')" d="M0 ' + -r + " Q" + r * 0.18 + " " + -r * 0.18 + " " + r + " 0 Q" + r * 0.18 + " " + r * 0.18 + " 0 " + r + " Q" + -r * 0.18 + " " + r * 0.18 + " " + -r + " 0 Q" + -r * 0.18 + " " + -r * 0.18 + " 0 " + -r + 'Z" fill="' + fill + '"/>';
   }
 
-  // Logo: huruf "R" emas + kepingan salju (kotak 100 x 100)
+  // Logo resmi Rejeki Utama AC (digambar ulang sebagai vektor, kotak 100 x 100):
+  // lingkaran biru, kepingan salju 8 cabang, dua tangan menjaga mur heksagon.
+  var BRAND = "#0AA0D2";
   var logoSeq = 0;
   function logo(x, y, s) {
-    var gid = "rulg" + (logoSeq++);
+    var arms = "", i;
+    for (i = 0; i < 8; i++) {
+      var a = (Math.PI / 4) * i, ca = Math.cos(a), sa = Math.sin(a);
+      arms += '<line x1="50" y1="50" x2="' + (50 + ca * 38).toFixed(1) + '" y2="' + (50 + sa * 38).toFixed(1) + '"/>';
+      [[19, 9.5], [29.5, 7.5]].forEach(function (c) {
+        var bx = 50 + ca * c[0], by = 50 + sa * c[0];
+        [-1, 1].forEach(function (k) {
+          var ba = a + k * 0.72;
+          arms += '<line x1="' + bx.toFixed(1) + '" y1="' + by.toFixed(1) + '" x2="' + (bx + Math.cos(ba) * c[1]).toFixed(1) + '" y2="' + (by + Math.sin(ba) * c[1]).toFixed(1) + '"/>';
+        });
+      });
+    }
+    function hex(r) {
+      var p = [];
+      for (var k = 0; k < 6; k++) { var t = (Math.PI / 3) * k; p.push((50 + Math.cos(t) * r).toFixed(1) + "," + (50 + Math.sin(t) * r).toFixed(1)); }
+      return p.join(" ");
+    }
+    // tangan atas: pergelangan di kiri, jari melengkung turun menjaga mur dari atas.
+    // Tangan bawah = tangan atas diputar 180°.
+    var hand = "M17 38.5C29 30.5 44 26.2 56.5 29.6C62 31.2 66 34.8 67.6 39.2C67.9 40.9 66.6 41.7 65.4 40.9C63.2 38.9 60.7 37.4 57.8 36.7" +
+      "C59.6 38.3 60.9 40.2 61.3 42.1C61.5 43.6 60.1 44.2 58.9 43.4C55.8 40.3 51 37.9 45 37.6C36 37.4 27 40.4 18.5 44Z";
+    function handG(rot) {
+      return '<g transform="rotate(' + rot + ' 50 50)">' +
+        '<path d="' + hand + '" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>' +
+        '<path d="' + hand + '" fill="#fff" stroke="' + BRAND + '" stroke-width="1.8" stroke-linejoin="round"/>' +
+        '<path d="M50 31.6C54 31.6 57.6 32.6 60.6 34.6M47 33.9C51 33.8 54.6 34.6 57.6 36" stroke="' + BRAND + '" stroke-width="1.1" fill="none" stroke-linecap="round"/></g>';
+    }
     return '<g transform="translate(' + x + "," + y + ") scale(" + s / 100 + ')">' +
-      '<defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="' + GOLD2 + '"/><stop offset=".55" stop-color="' + GOLD + '"/><stop offset="1" stop-color="#B07F22"/></linearGradient></defs>' +
-      '<path fill="url(#' + gid + ')" fill-rule="evenodd" d="M30 10H64Q92 10 92 37Q92 58 70 63L96 94H70L48 66H50V45H63Q70 45 70 37.5Q70 30 63 30H50V94H30Z"/>' +
-      '<path d="M30 10H64Q80 10 87 20Q72 14 54 16Z" fill="#fff" opacity=".25"/>' +
-      snowflake(12, 68, 12, "url(#" + gid + ")", 2.6) +
+      '<circle cx="50" cy="50" r="48" fill="#fff"/>' +
+      '<circle cx="50" cy="50" r="45.5" fill="none" stroke="' + BRAND + '" stroke-width="3.6"/>' +
+      '<g stroke="' + BRAND + '" stroke-width="5.4" stroke-linecap="round">' + arms + "</g>" +
+      handG(0) + handG(180) +
+      '<polygon points="' + hex(12) + '" fill="' + BRAND + '" stroke="#fff" stroke-width="2.4"/>' +
+      '<polygon points="' + hex(6) + '" fill="#fff"/>' +
       "</g>";
   }
 
-  // Tulisan REJEKI / UTAMA AC dengan bintang emas di atas "I"
-  function wordmark(x, y, size, color) {
-    return '<g transform="translate(' + x + "," + y + ") scale(" + size / 100 + ')">' +
-      '<text x="0" y="0" font-family="Montserrat" font-weight="800" font-size="100" letter-spacing="7" fill="' + (color || WHITE) + '">REJEKI</text>' +
-      sparkle(392, -104, 15, GOLD) +
-      '<text x="4" y="82" font-family="Montserrat" font-weight="700" font-size="62" letter-spacing="15" fill="' + (color || WHITE) + '">UTAMA AC</text>' +
-      "</g>";
+  function star(cx, cy, r, fill) {
+    var p = [];
+    for (var k = 0; k < 10; k++) {
+      var t = -Math.PI / 2 + (Math.PI / 5) * k, rr = k % 2 ? r * 0.45 : r;
+      p.push((cx + Math.cos(t) * rr).toFixed(1) + "," + (cy + Math.sin(t) * rr).toFixed(1));
+    }
+    return '<polygon points="' + p.join(" ") + '" fill="' + fill + '"/>';
+  }
+
+  // Tulisan merek sesuai logo resmi: nama, bidang usaha, SERVICE EXCELLENT + 5 bintang
+  function wordmark(x, y, cfg, light) {
+    var main = light ? NAVY : WHITE, sub = light ? BRAND : "#5CC8F0", stars = "";
+    for (var k = 0; k < 5; k++) stars += star(x + 382 + k * 38, y + 72, 14, "#FDE100");
+    return '<text x="' + x + '" y="' + y + '" font-family="Montserrat" font-weight="900" font-size="50" fill="' + main + '">REJEKI UTAMA AC</text>' +
+      '<text x="' + (x + 2) + '" y="' + (y + 36) + '" font-family="Poppins" font-weight="600" font-size="21.5" fill="' + sub + '">' + esc(cfg.subjudul) + "</text>" +
+      '<text transform="translate(' + (x + 2) + "," + (y + 82) + ') skewX(-12)" font-family="Montserrat" font-weight="900" font-size="29" fill="' + main + '">SERVICE EXCELLENT</text>' +
+      stars;
   }
 
   // Unit AC split indoor, koordinat asli 560 x 150 (titik 0,0)
@@ -132,8 +172,8 @@
       '<rect x="' + -b + '" y="' + -b + '" width="' + (900 + 2 * b) + '" height="' + (550 + 2 * b) + '" fill="url(#fbg' + u + ')"/>' +
       '<g stroke="#fff" stroke-opacity=".025" stroke-width="26">' + tex + "</g>" +
       '<path d="M690 22H878V150" fill="none" stroke="' + GOLD + '" stroke-width="2.5"/><path d="M730 36H864V110" fill="none" stroke="' + GOLD + '" stroke-opacity=".5" stroke-width="1.5"/>' +
-      logo(208, 50, 128) +
-      wordmark(358, 128, 54) +
+      logo(64, 44, 158) +
+      wordmark(246, 100, cfg) +
       '<text x="450" y="246" text-anchor="middle" font-family="Poppins" font-weight="500" font-size="23" fill="' + WHITE + '">' + esc(cfg.tagline) + "</text>" +
       '<rect x="60" y="278" width="780" height="2.5" fill="url(#fline' + u + ')"/>' +
       // nama
@@ -237,6 +277,6 @@
     return here.replace(/[^/]*$/, "") + "ar.html";
   }
 
-  window.RUCard = { front: front, back: back, qrInner: qrInner, arUrl: arUrl, logo: logo, wordmark: wordmark, snowflake: snowflake, sparkle: sparkle,
+  window.RUCard = { front: front, back: back, qrInner: qrInner, arUrl: arUrl, logo: logo, wordmark: wordmark, star: star, BRAND: BRAND, snowflake: snowflake, sparkle: sparkle,
     acUnit: acUnit, lineIcon: lineIcon, AC: AC, BLEED: BLEED };
 })();

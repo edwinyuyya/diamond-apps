@@ -10,7 +10,7 @@
  */
 window.RU = {
   perusahaan: "Rejeki Utama AC",
-  subjudul: "Professional Air Conditioning Service",
+  subjudul: "Penjualan, Instalasi & Perawatan AC",
   tagline: "AC Sehat. Ruangan Nyaman. Bisnis Lancar.",
 
   // ---------- KONTAK ----------
