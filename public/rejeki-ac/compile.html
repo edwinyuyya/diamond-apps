@@ -13,11 +13,12 @@
 </style>
 </head>
 <body>
-<h1>Buat ulang target AR (kartu-depan.mind)</h1>
-<p>Hanya perlu dipakai kalau <b>desain sisi DEPAN kartu diubah</b>. Halaman ini menggambar sisi depan dari <code>card.js</code>,
-lalu membuat file <code>kartu-depan.mind</code> yang dipakai kamera untuk mengenali kartu. Simpan kedua file hasilnya ke folder <code>targets/</code>.</p>
-<img id="preview" alt="Sisi depan kartu">
-<p><button id="go" disabled>Buat target AR</button><a class="b" id="dlPng" download="kartu-depan.png">⬇️ kartu-depan.png</a><a class="b" id="dlMind" download="kartu-depan.mind" style="display:none">⬇️ kartu-depan.mind</a></p>
+<h1>Buat ulang target AR (kartu-ac.mind)</h1>
+<p>Hanya perlu dipakai kalau <b>desain sisi BELAKANG kartu (yang bergambar AC) diubah</b>. Halaman ini menggambar sisi itu dari <code>card.js</code>
+(area QR sengaja dikosongkan, jadi ganti link QR tidak perlu compile ulang), lalu membuat file <code>kartu-ac.mind</code> yang dipakai kamera
+untuk mengenali kartu. Simpan kedua file hasilnya ke folder <code>targets/</code>.</p>
+<img id="preview" alt="Sisi belakang kartu">
+<p><button id="go" disabled>Buat target AR</button><a class="b" id="dlPng" download="kartu-ac.png">⬇️ kartu-ac.png</a><a class="b" id="dlMind" download="kartu-ac.mind" style="display:none">⬇️ kartu-ac.mind</a></p>
 <div id="log">Menyiapkan…</div>
 
 <script src="config.js"></script>
@@ -39,7 +40,7 @@ lalu membuat file <code>kartu-depan.mind</code> yang dipakai kamera untuk mengen
   }
 
   async function renderFront() {
-    let svg = RUCard.front(window.RU);
+    let svg = RUCard.back(window.RU, "", { noQr: true });
     svg = svg.replace(/(<svg[^>]*>)/, '$1<style>' + await fontCss() + "</style>").replace("<svg ", '<svg width="' + W + '" height="' + H + '" ');
     const img = new Image();
     img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
@@ -67,7 +68,7 @@ lalu membuat file <code>kartu-depan.mind</code> yang dipakai kamera untuk mengen
     const blob = new Blob([data]);
     const a = document.getElementById("dlMind");
     a.href = URL.createObjectURL(blob); a.style.display = "inline-block";
-    log("Selesai! Unduh kartu-depan.mind dan kartu-depan.png, lalu ganti file lama di folder targets/.");
+    log("Selesai! Unduh kartu-ac.mind dan kartu-ac.png, lalu ganti file lama di folder targets/.");
     btn.disabled = false;
     return Array.from(new Uint8Array(data));
   };

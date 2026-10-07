@@ -6,7 +6,7 @@
 <title>Kartu Nama Rejeki Utama AC</title>
 <link rel="stylesheet" href="fonts.css">
 <style>
-  :root{--navy:#071A33;--ice:#19C6F0;--gold:#F5B800;--bg:#EAF2FA;--ink:#0C2340;--muted:#4D6684}
+  :root{--navy:#0E1B33;--ice:#19C6F0;--gold:#E2B04A;--bg:#EAF2FA;--ink:#0C2340;--muted:#4D6684}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:Poppins,system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
   header{background:var(--navy);color:#fff;padding:22px 16px;text-align:center}
@@ -47,7 +47,7 @@
 <body>
 <header>
   <h1>Kartu Nama — Rejeki Utama AC</h1>
-  <p>Ukuran 90 × 55 mm • siap cetak • sisi depan bisa di-scan AR</p>
+  <p>Ukuran 90 × 55 mm • siap cetak • sisi belakang bisa "hidup" lewat AR</p>
 </header>
 <main>
   <div class="stage"><div class="flip" id="flip"><div class="face f" id="pvFront"></div><div class="face b" id="pvBack"></div></div></div>
@@ -60,15 +60,15 @@
   </div>
 
   <div class="both">
-    <figure><div id="sFront"></div><figcaption>DEPAN — ini yang di-scan kamera (target AR)</figcaption></figure>
-    <figure><div id="sBack"></div><figcaption>BELAKANG — kontak, QR, promo & jadwal service</figcaption></figure>
+    <figure><div id="sFront"></div><figcaption>DEPAN — Minimal: logo, tagline, nama, WhatsApp, layanan</figcaption></figure>
+    <figure><div id="sBack"></div><figcaption>BELAKANG — QR & AR: AC rutin dirawat VS tidak dirawat (target AR)</figcaption></figure>
   </div>
 
   <div class="tips">
     <h2>Cara cetak</h2>
     <ol>
       <li>Klik <b>Cetak / Simpan PDF</b> → pilih <b>Save as PDF</b>. Hasilnya 2 halaman (depan & belakang) ukuran 96 × 61 mm (sudah termasuk bleed 3 mm).</li>
-      <li>Kirim PDF ke percetakan. Minta: <b>art carton 310 gsm, laminasi doff</b> (doff = tidak silau, kamera lebih gampang membaca kartu untuk AR).</li>
+      <li>Kirim PDF ke percetakan. Minta: <b>art carton 310 gsm, laminasi doff</b> (doff = tidak silau, kamera lebih gampang mengenali gambar AC untuk AR). Kalau mau lebih premium: <b>spot UV / hot print emas</b> di logo depan.</li>
       <li>Sebelum cetak banyak, cetak 1 dulu dan tes scan QR + AR-nya.</li>
     </ol>
     <p style="margin-top:10px">QR mengarah ke: <code id="qrUrl"></code></p>
@@ -80,7 +80,7 @@
 <script src="vendor/qrcode.js"></script>
 <script src="card.js"></script>
 <script>
-  var cfg = window.RU, url = RUCard.arUrl(cfg), qr = RUCard.qrInner(url);
+  var cfg = window.RU, url = RUCard.arUrl(cfg), qr = RUCard.qrInner(url, 112);
   var svgs = { front: RUCard.front(cfg), back: RUCard.back(cfg, qr) };
   pvFront.innerHTML = sFront.innerHTML = svgs.front;
   pvBack.innerHTML = sBack.innerHTML = svgs.back;
