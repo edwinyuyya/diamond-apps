@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond Make Up Artist - Jasa Makeup &amp; Makeup Course by Ing2</title>
+    <meta name="description" content="Diamond Make Up Artist Surakarta: jasa makeup wedding, sweet seventeen, prewedding, party, maternity, modeling, hairdo, dan makeup course by Ing2.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.85); padding: 0.8rem 1rem; z-index: 1000; }
+        nav ul { list-style: none; display: flex; justify-content: center; align-items: center; gap: 2rem; }
+        nav a { color: white; text-decoration: none; font-weight: bold; transition: color 0.3s; white-space: nowrap; }
+        nav a:hover { color: #ffd700; }
+        .logo img { height: 40px; display: block; }
+        header { position: relative; overflow: hidden; background: #000; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; padding: 0 1rem; }
+        .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+        .hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
+        .hero .btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .btn { display: inline-block; background: #ffd700; color: #000; padding: 1rem 2rem; text-decoration: none; border-radius: 50px; font-weight: bold; transition: transform 0.3s; }
+        .btn:hover { transform: scale(1.05); }
+        .btn.outline { background: transparent; color: #ffd700; border: 2px solid #ffd700; }
+        .btn.small { padding: 0.6rem 1.4rem; font-size: 0.9rem; margin-top: 1rem; }
+        .band { padding: 5rem 1rem; }
+        .band.alt { background: #f9f9f9; }
+        .wrap { max-width: 1200px; margin: auto; }
+        h2 { text-align: center; font-size: 2.5rem; margin-bottom: 1rem; color: #c9a400; }
+        .lead { text-align: center; font-size: 1.1rem; max-width: 750px; margin: 0 auto 3rem; }
+        h3.group { font-size: 1.8rem; margin: 3rem 0 0.5rem; color: #222; border-left: 6px solid #ffd700; padding-left: 0.8rem; }
+        h4.cat { font-size: 1.2rem; margin: 2rem 0 1rem; color: #555; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; }
+        .card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .card h3 { margin: 1rem 0 0.5rem; }
+        .card video { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; background: #111; }
+        .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.2rem; }
+        .slot { position: relative; aspect-ratio: 9 / 16; border-radius: 12px; overflow: hidden; background: #1a1a1a; }
+        .slot video { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .slot span { position: absolute; top: 0.6rem; left: 0.6rem; background: rgba(0,0,0,0.6); color: #ffd700; font-size: 0.8rem; font-weight: bold; padding: 0.2rem 0.6rem; border-radius: 20px; pointer-events: none; }
+        .wa-btn { position: fixed; bottom: 2rem; right: 2rem; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 1000; }
+        footer { background: #222; color: white; text-align: center; padding: 2rem 1rem; }
+        @media (max-width: 768px) {
+            nav ul { justify-content: flex-start; gap: 1.2rem; overflow-x: auto; }
+            .hero h1 { font-size: 2rem; }
+            h2 { font-size: 2rem; }
+            .slots { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+            .wa-btn { bottom: 1rem; right: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li class="logo"><img src="logo.png" alt="Diamond Make Up Artist"></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#jasa">Jasa Makeup</a></li>
+            <li><a href="#portofolio">Portofolio</a></li>
+            <li><a href="#course">Makeup Course</a></li>
+            <li><a href="#kontak">Kontak</a></li>
+        </ul>
+    </nav>
+
+    <header id="home" class="hero">
+        <video class="hero-video" src="hero.mp4" autoplay muted loop playsinline></video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Diamond Make Up Artist</h1>
+            <p>Jasa makeup profesional &amp; makeup course by Ing2 and team. Wedding, Sweet Seventeen, Prewedding, Party &amp; lebih!</p>
+            <div class="btns">
+                <a href="#jasa" class="btn">Booking Makeup</a>
+                <a href="#course" class="btn outline">Lihat Makeup Course</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- JASA MAKEUP -->
+    <section id="jasa" class="band">
+        <div class="wrap">
+            <h2>Jasa Makeup</h2>
+            <p class="lead">Ing2 dan tim Diamond siap merias Anda di hari spesial. Makeup artist berpengalaman dengan spesialisasi bridal &amp; event di Surakarta dan sekitarnya.</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>Wedding Bride</h3>
+                    <p>Rias pengantin akad &amp; resepsi, tahan lama dan waterproof.</p>
+                    <a href="https://wa.me/6289512614222?text=Halo%20Diamond%20Make%20Up%20Artist%2C%20saya%20ingin%20booking%20makeup%20Wedding%20Bride" class="btn small" target="_blank">Booking via WA</a>
+                </div>
+                <div class="card">
+                    <h3>Sweet Seventeen</h3>
+                    <p>Look fresh dan glamor untuk momen ulang tahun ke-17.</p>
+                    <a href="https://wa.me/6289512614222?text=Halo%20Diamond%20Make%20Up%20Artist%2C%20saya%20ingin%20booking%20makeup%20Sweet%20Seventeen" class="btn small" target="_blank">Booking via WA</a>
+                </div>
+                <div class="card">
+                    <h3>Prewedding</h3>
+                    <p>Makeup photo-ready untuk sesi foto prewedding indoor &amp; outdoor.</p>
+                    <a href="https://wa.me/6289512614222?text=Halo%20Diamond%20Make%20Up%20Artist%2C%20saya%20ingin%20booking%20makeup%20Prewedding" class="btn small" target="_blank">Booking via WA</a>
+                </div>
+                <div class="card">
+                    <h3>Party Makeup</h3>
+                    <p>Rias pesta, wisuda, kondangan, dan acara spesial lainnya.</p>
+                    <a href="https://wa.me/6289512614222?text=Halo%20Diamond%20Make%20Up%20Artist%2C%20saya%20ingin%20booking%20makeup%20Party%20Makeup" class="btn small" target="_blank">Booking via WA</a>
+                </div>
+                <div class="card">
+                    <h3>Maternity</h3>
+                    <p>Makeup lembut dan natural untuk sesi foto maternity.</p>
+                    <a href="https://wa.me/6289512614222?text=Halo%20Diamond%20Make%20Up%20Artist%2C%20saya%20ingin%20booking%20makeup%20Maternity" class="btn small" target="_blank">Booking via WA</a>
+                </div>
+                <div class="card">
+                    <h3>Modeling</h3>
+                    <p>Makeup untuk photoshoot, fashion show, dan kebutuhan komersial.</p>
+                    <a href="https://wa.me/6289512614222?text=Halo%20Diamond%20Make%20Up%20Artist%2C%20saya%20ingin%20booking%20makeup%20Modeling" class="btn small" target="_blank">Booking via WA</a>
+                </div>
+                <div class="card">
+                    <h3>Hairdo</h3>
+                    <p>Tata rambut &amp; hijab do oleh tim hairdo Diamond.</p>
+                    <a href="https://wa.me/6289512614222?text=Halo%20Diamond%20Make%20Up%20Artist%2C%20saya%20ingin%20booking%20makeup%20Hairdo" class="btn small" target="_blank">Booking via WA</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PORTOFOLIO -->
+    <section id="portofolio" class="band alt">
+        <div class="wrap">
+            <h2>Portofolio Makeup</h2>
+            <p class="lead">Hasil karya makeup by Ing2 dan tim Diamond Make Up Artist.</p>
+
+            <h3 class="group">Makeup by Ing2</h3>
+            <h4 class="cat">Wedding Bride</h4>
+            <div class="slots">
+                <div class="slot"><video src="video/ing2-wedding-1.mp4" controls playsinline preload="metadata"></video><span>Wedding Bride 1</span></div>
+                <div class="slot"><video src="video/ing2-wedding-2.mp4" controls playsinline preload="metadata"></video><span>Wedding Bride 2</span></div>
+                <div class="slot"><video src="video/ing2-wedding-3.mp4" controls playsinline preload="metadata"></video><span>Wedding Bride 3</span></div>
+            </div>
+            <h4 class="cat">Sweet Seventeen</h4>
+            <div class="slots">
+                <div class="slot"><video src="video/ing2-sweet17-1.mp4" controls playsinline preload="metadata"></video><span>Sweet Seventeen 1</span></div>
+                <div class="slot"><video src="video/ing2-sweet17-2.mp4" controls playsinline preload="metadata"></video><span>Sweet Seventeen 2</span></div>
+            </div>
+            <h4 class="cat">Prewedding</h4>
+            <div class="slots">
+                <div class="slot"><video src="video/ing2-prewedding-1.mp4" controls playsinline preload="metadata"></video><span>Prewedding 1</span></div>
+                <div class="slot"><video src="video/ing2-prewedding-2.mp4" controls playsinline preload="metadata"></video><span>Prewedding 2</span></div>
+            </div>
+            <h4 class="cat">Party Makeup</h4>
+            <div class="slots">
+                <div class="slot"><video src="video/ing2-party-1.mp4" controls playsinline preload="metadata"></video><span>Party Makeup 1</span></div>
+                <div class="slot"><video src="video/ing2-party-2.mp4" controls playsinline preload="metadata"></video><span>Party Makeup 2</span></div>
+            </div>
+            <h4 class="cat">Maternity</h4>
+            <div class="slots">
+                <div class="slot"><video src="video/ing2-maternity-1.mp4" controls playsinline preload="metadata"></video><span>Maternity</span></div>
+            </div>
+            <h4 class="cat">Modeling</h4>
+            <div class="slots">
+                <div class="slot"><video src="video/ing2-modeling-1.mp4" controls playsinline preload="metadata"></video><span>Modeling</span></div>
+            </div>
+
+            <h3 class="group">Makeup by Team</h3>
+            <h4 class="cat">by Elly &middot; Makeup Artist</h4>
+            <div class="slots">
+                <div class="slot"><video src="video/elly-1.mp4" controls playsinline preload="metadata"></video><span>Elly 1</span></div>
+                <div class="slot"><video src="video/elly-2.mp4" controls playsinline preload="metadata"></video><span>Elly 2</span></div>
+                <div class="slot"><video src="video/elly-3.mp4" controls playsinline preload="metadata"></video><span>Elly 3</span></div>
+            </div>
+            <h4 class="cat">by Monic &middot; Makeup Artist</h4>
+            <div class="slots">
+                <div class="slot"><video src="video/monic-1.mp4" controls playsinline preload="metadata"></video><span>Monic 1</span></div>
+                <div class="slot"><video src="video/monic-2.mp4" controls playsinline preload="metadata"></video><span>Monic 2</span></div>
+                <div class="slot"><video src="video/monic-3.mp4" controls playsinline preload="metadata"></video><span>Monic 3</span></div>
+            </div>
+            <h4 class="cat">by Davina &middot; Makeup Artist</h4>
+            <div class="slots">
+                <div class="slot"><video src="video/davina-1.mp4" controls playsinline preload="metadata"></video><span>Davina 1</span></div>
+                <div class="slot"><video src="video/davina-2.mp4" controls playsinline preload="metadata"></video><span>Davina 2</span></div>
+                <div class="slot"><video src="video/davina-3.mp4" controls playsinline preload="metadata"></video><span>Davina 3</span></div>
+            </div>
+            <h4 class="cat">by Clara &middot; Hairdo</h4>
+            <div class="slots">
+                <div class="slot"><video src="video/clara-1.mp4" controls playsinline preload="metadata"></video><span>Clara 1</span></div>
+                <div class="slot"><video src="video/clara-2.mp4" controls playsinline preload="metadata"></video><span>Clara 2</span></div>
+                <div class="slot"><video src="video/clara-3.mp4" controls playsinline preload="metadata"></video><span>Clara 3</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAKEUP COURSE -->
+    <section id="course" class="band">
+        <div class="wrap">
+            <h2>Makeup Course</h2>
+            <p class="lead">Mau jadi makeup artist profesional? Belajar langsung dari Ing2. Kelas dirancang untuk pemula hingga pro, fokus teknik premium seperti monolid dan facelift aging makeup.</p>
+            <div class="grid">
+                <div class="card">
+                    <video src="video/course-basic.mp4" autoplay muted loop playsinline></video>
+                    <h3>Basic MUA (3 Hari)</h3>
+                    <p>Anatomi wajah, kontur dasar, rias harian &amp; pesta ringan. Siap terima klien!</p>
+                    <a href="https://wa.me/6289512614222?text=Halo%20Ing2%2C%20saya%20ingin%20daftar%20kelas%20Basic%20MUA%20%283%20Hari%29" class="btn small" target="_blank">Daftar via WA</a>
+                </div>
+                <div class="card">
+                    <video src="video/course-wedding.mp4" autoplay muted loop playsinline></video>
+                    <h3>Wedding Advance</h3>
+                    <p>Teknik bridal full, engagement, waterproof look untuk acara besar.</p>
+                    <a href="https://wa.me/6289512614222?text=Halo%20Ing2%2C%20saya%20ingin%20daftar%20kelas%20Wedding%20Advance" class="btn small" target="_blank">Daftar via WA</a>
+                </div>
+                <div class="card">
+                    <video src="video/course-monolid.mp4" autoplay muted loop playsinline></video>
+                    <h3>Monolid Technique (1 Sesi 4-6 Jam)</h3>
+                    <p>Eye makeup spesial mata sipit: smokey, cat eye, natural glam.</p>
+                    <a href="https://wa.me/6289512614222?text=Halo%20Ing2%2C%20saya%20ingin%20daftar%20kelas%20Monolid%20Technique%20%281%20Sesi%204-6%20Jam%29" class="btn small" target="_blank">Daftar via WA</a>
+                </div>
+                <div class="card">
+                    <video src="video/course-mature.mp4" autoplay muted loop playsinline></video>
+                    <h3>Mature/Facelift (1 Sesi)</h3>
+                    <p>Rias anti-aging, lifting effect untuk klien dewasa.</p>
+                    <a href="https://wa.me/6289512614222?text=Halo%20Ing2%2C%20saya%20ingin%20daftar%20kelas%20Mature/Facelift%20%281%20Sesi%29" class="btn small" target="_blank">Daftar via WA</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KONTAK -->
+    <section id="kontak" class="band alt">
+        <div class="wrap" style="text-align: center;">
+            <h2>Kontak Kami</h2>
+            <p class="lead">Booking jasa makeup atau daftar makeup course? Chat WA sekarang!<br>WhatsApp: 0895-1261-4222</p>
+            <a href="https://wa.me/6289512614222?text=Halo%20Diamond%20Make%20Up%20Artist%2C%20saya%20ingin%20bertanya" class="btn" target="_blank">Hubungi via WhatsApp</a>
+        </div>
+    </section>
+
+    <a href="https://wa.me/6289512614222" class="wa-btn" target="_blank" aria-label="Chat WhatsApp">💬</a>
+    <footer>
+        <p>&copy; 2026 Diamond Make Up Artist by Ing2. All rights reserved. Surakarta, Indonesia.</p>
+    </footer>
+</body>
+</html>
