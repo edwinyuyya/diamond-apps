@@ -7,7 +7,10 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
-        header { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('hero.jpg'); background-size: cover; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+        header { position: relative; overflow: hidden; background: #000; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+        .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
+        .hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
+        .hero > div:last-child { position: relative; z-index: 2; }
         nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.8); padding: 1rem 0; z-index: 1000; }
         nav ul { list-style: none; display: flex; justify-content: center; }
         nav li { margin: 0 1.5rem; }
@@ -22,7 +25,7 @@
         h2 { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: #ffd700; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
         .card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
-        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
+        .card video { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
         .wa-btn { position: fixed; bottom: 2rem; right: 2rem; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 1000; }
         footer { background: #333; color: white; text-align: center; padding: 2rem; }
         @media (max-width: 768px) { nav ul { flex-direction: column; } .hero h1 { font-size: 2rem; } }
@@ -40,6 +43,8 @@
         </ul>
     </nav>
     <header id="home" class="hero">
+        <video class="hero-video" src="hero.mp4" autoplay muted loop playsinline></video>
+        <div class="hero-overlay"></div>
         <div>
             <h1>Diamond Makeup by Ing2</h1>
             <p>Jadi Makeup Artist Profesional dalam Waktu Singkat. Kelas Wedding, Monolid, Mature &amp; Lebih!</p>
@@ -54,22 +59,22 @@
         <h2>Paket Kelas Makeup</h2>
         <div class="grid">
             <div class="card">
-                <img src="basic.jpg" alt="Basic Makeup">
+                <video src="basic.mp4" autoplay muted loop playsinline></video>
                 <h3>Basic MUA (3 Hari)</h3>
                 <p>Anatomi wajah, kontur dasar, rias harian &amp; pesta ringan. Siap terima klien!</p>
             </div>
             <div class="card">
-                <img src="wedding.jpg" alt="Wedding">
+                <video src="wedding.mp4" autoplay muted loop playsinline></video>
                 <h3>Wedding Advance</h3>
                 <p>Teknik bridal full, engagement, waterproof look untuk acara besar.</p>
             </div>
             <div class="card">
-                <img src="monolid.jpg" alt="Monolid">
+                <video src="monolid.mp4" autoplay muted loop playsinline></video>
                 <h3>Monolid Technique (1 Sesi 4-6 Jam)</h3>
                 <p>Eye makeup spesial mata sipit: smokey, cat eye, natural glam.</p>
             </div>
             <div class="card">
-                <img src="mature.jpg" alt="Mature">
+                <video src="mature.mp4" autoplay muted loop playsinline></video>
                 <h3>Mature/Facelift (1 Sesi)</h3>
                 <p>Rias anti-aging, lifting effect untuk klien dewasa.</p>
             </div>
@@ -78,8 +83,8 @@
     <section id="portofolio">
         <h2>Portofolio</h2>
         <div class="grid">
-            <img src="portfolio1.jpg" alt="Portfolio 1" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;">
-            <img src="portfolio2.jpg" alt="Portfolio 2" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;">
+            <video src="portfolio1.mp4" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;" controls muted loop playsinline preload="metadata"></video>
+            <video src="portfolio2.mp4" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;" controls muted loop playsinline preload="metadata"></video>
         </div>
     </section>
     <section id="kontak" style="background: #f9f9f9;">
