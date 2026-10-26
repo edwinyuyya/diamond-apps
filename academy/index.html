@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond Makeup by Ing2 - Akademi Makeup Artist Profesional</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
+        header { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('hero.jpg'); background-size: cover; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.8); padding: 1rem 0; z-index: 1000; }
+        nav ul { list-style: none; display: flex; justify-content: center; }
+        nav li { margin: 0 1.5rem; }
+        nav a { color: white; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+        nav a:hover { color: #ffd700; }
+        .logo { font-size: 1.5rem; margin-right: 2rem; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; }
+        .btn { background: #ffd700; color: #000; padding: 1rem 2rem; text-decoration: none; border-radius: 50px; font-weight: bold; transition: transform 0.3s; }
+        .btn:hover { transform: scale(1.05); }
+        section { padding: 5rem 2rem; max-width: 1200px; margin: auto; }
+        h2 { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: #ffd700; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .card { background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .card img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
+        .wa-btn { position: fixed; bottom: 2rem; right: 2rem; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; text-decoration: none; box-shadow: 0 5px 15px rgba(0,0,0,0.3); z-index: 1000; }
+        footer { background: #333; color: white; text-align: center; padding: 2rem; }
+        @media (max-width: 768px) { nav ul { flex-direction: column; } .hero h1 { font-size: 2rem; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li class="logo"><img src="logo.png" alt="Logo" style="height: 40px;"></li>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#tentang">Tentang</a></li>
+            <li><a href="#kelas">Kelas</a></li>
+            <li><a href="#portofolio">Portofolio</a></li>
+            <li><a href="#kontak">Kontak</a></li>
+        </ul>
+    </nav>
+    <header id="home" class="hero">
+        <div>
+            <h1>Diamond Makeup by Ing2</h1>
+            <p>Jadi Makeup Artist Profesional dalam Waktu Singkat. Kelas Wedding, Monolid, Mature &amp; Lebih!</p>
+            <a href="#kelas" class="btn">Lihat Paket Kelas</a>
+        </div>
+    </header>
+    <section id="tentang">
+        <h2>Tentang Ing2</h2>
+        <p style="text-align: center; font-size: 1.2rem;">Makeup artist berpengalaman dengan spesialisasi bridal &amp; event. Akademi ini dirancang untuk pemula hingga pro, fokus teknik premium seperti monolid dan facelift aging makeup.</p>
+    </section>
+    <section id="kelas" style="background: #f9f9f9;">
+        <h2>Paket Kelas Makeup</h2>
+        <div class="grid">
+            <div class="card">
+                <img src="basic.jpg" alt="Basic Makeup">
+                <h3>Basic MUA (3 Hari)</h3>
+                <p>Anatomi wajah, kontur dasar, rias harian &amp; pesta ringan. Siap terima klien!</p>
+            </div>
+            <div class="card">
+                <img src="wedding.jpg" alt="Wedding">
+                <h3>Wedding Advance</h3>
+                <p>Teknik bridal full, engagement, waterproof look untuk acara besar.</p>
+            </div>
+            <div class="card">
+                <img src="monolid.jpg" alt="Monolid">
+                <h3>Monolid Technique (1 Sesi 4-6 Jam)</h3>
+                <p>Eye makeup spesial mata sipit: smokey, cat eye, natural glam.</p>
+            </div>
+            <div class="card">
+                <img src="mature.jpg" alt="Mature">
+                <h3>Mature/Facelift (1 Sesi)</h3>
+                <p>Rias anti-aging, lifting effect untuk klien dewasa.</p>
+            </div>
+        </div>
+    </section>
+    <section id="portofolio">
+        <h2>Portofolio</h2>
+        <div class="grid">
+            <img src="portfolio1.jpg" alt="Portfolio 1" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;">
+            <img src="portfolio2.jpg" alt="Portfolio 2" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px;">
+        </div>
+    </section>
+    <section id="kontak" style="background: #f9f9f9;">
+        <h2>Kontak Kami</h2>
+        <p style="text-align: center;">Siap daftar kelas? Chat WA sekarang!</p>
+        <p style="text-align: center; margin-bottom: 1.5rem;">WhatsApp: 0895-1261-4222</p>
+        <div style="text-align: center;"><a href="https://wa.me/6289512614222?text=Halo%20Ing2,%20saya%20ingin%20daftar%20kelas%20makeup" class="btn" target="_blank">Hubungi via WhatsApp</a></div>
+    </section>
+    <a href="https://wa.me/6289512614222" class="wa-btn" target="_blank" aria-label="Chat WhatsApp">💬</a>
+    <footer>
+        <p>&copy; 2026 Diamond Makeup by Ing2. All rights reserved. Surakarta, Indonesia.</p>
+    </footer>
+</body>
+</html>
