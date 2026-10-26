@@ -1,16 +1,18 @@
 /*
- * Desain kartu nama Rejeki Utama AC (ukuran standar 90 x 55 mm), gaya navy + emas.
+ * Desain kartu nama Rejeki Utama AC (ukuran standar 90 x 55 mm), gaya putih + biru dingin.
  * Kedua sisi digambar sebagai SVG 900 x 550 (1 unit = 0,1 mm) dengan
  * bleed 3 mm (30 unit) di tiap sisi untuk percetakan.
  *
- *  - DEPAN    : layout "Minimal" — logo, tagline, nama, WhatsApp, pita layanan emas.
+ *  - DEPAN    : layout "Minimal" — logo, tagline, nama, WhatsApp, pita layanan biru.
  *  - BELAKANG : layout "QR & AR dominan" — AC rutin dirawat VS tidak dirawat + QR.
  *               Sisi ini adalah TARGET AR: kalau desainnya diubah, buat ulang
  *               targets/kartu-ac.mind lewat compile.html.
  */
 (function () {
-  var NAVY = "#0E1B33", NAVY2 = "#13284A", DEEP = "#0A1528", ICE = "#19C6F0", ICE2 = "#8FE6FF",
-      GOLD = "#E2B04A", GOLD2 = "#F5D27A", CREAM = "#F4F0E8", INK = "#1B2A45", WHITE = "#FFFFFF";
+  // Palet putih + biru dingin (diambil dari biru logo #0AA0D2):
+  // DARK = teks biru dingin gelap, BLUE = aksen biru logo, DEEP = biru pita/kolom.
+  var DARK = "#0B4A6B", BLUE_M = "#0A86BD", DEEP = "#0A86BD", ICE = "#19C6F0", ICE2 = "#8FE6FF",
+      BLUE = "#0AA0D2", BLUE2 = "#7FD3F2", FROST = "#E6F6FC", INK = "#0E3E5A", WHITE = "#FFFFFF";
   var BLEED = 30;
   // Unit AC digambar di koordinat aslinya 560 x 150, lalu diperkecil.
   // AC = posisi AC "rutin dirawat" di sisi belakang — overlay AR menempel tepat di sini.
@@ -93,10 +95,9 @@
   }
 
   // Tulisan merek sesuai logo resmi: nama, bidang usaha, SERVICE EXCELLENT + 5 bintang.
-  // Bintang memakai emas merek (bukan kuning terang) supaya selaras dengan palet navy-emas.
   function wordmark(x, y, cfg, light) {
-    var main = light ? NAVY : WHITE, sub = light ? BRAND : "#5CC8F0", stars = "";
-    for (var k = 0; k < 5; k++) stars += star(x + 316 + k * 32, y + 75, 12.5, GOLD2);
+    var main = light ? DARK : WHITE, sub = light ? BRAND : "#5CC8F0", stars = "";
+    for (var k = 0; k < 5; k++) stars += star(x + 316 + k * 32, y + 75, 12.5, light ? BLUE : BLUE2);
     return '<text x="' + x + '" y="' + y + '" font-family="Montserrat" font-weight="900" font-size="50" letter-spacing=".5" fill="' + main + '">REJEKI UTAMA AC</text>' +
       '<text x="' + (x + 2) + '" y="' + (y + 37) + '" font-family="Poppins" font-weight="600" font-size="23" fill="' + sub + '">' + esc(cfg.subjudul) + "</text>" +
       '<text transform="translate(' + (x + 2) + "," + (y + 84) + ') skewX(-12)" font-family="Montserrat" font-weight="900" font-size="26" fill="' + main + '">SERVICE EXCELLENT</text>' +
@@ -117,8 +118,8 @@
       '<rect x="0" y="0" width="' + w + '" height="' + h + '" rx="30" fill="' + (d ? "#CFC6B3" : WHITE) + '" stroke="' + (d ? "#9b907b" : "#C9D5E2") + '" stroke-width="3"/>' +
       '<path d="M30 0h500a30 30 0 0 1 30 30v42H0V30A30 30 0 0 1 30 0z" fill="' + (d ? "#DDD4C0" : "#F0F5FA") + '"/>' +
       '<rect x="22" y="104" width="516" height="36" rx="12" fill="' + (d ? "#8f846d" : "#DCE8F4") + '"/>' + vents + stains +
-      '<text x="34" y="52" font-family="Montserrat" font-weight="800" font-size="24" letter-spacing="4" fill="' + (d ? "#6d6252" : NAVY2) + '">RU·AC</text>' +
-      '<rect x="392" y="22" width="108" height="46" rx="10" fill="' + (d ? "#3b352c" : NAVY) + '"/>' +
+      '<text x="34" y="52" font-family="Montserrat" font-weight="800" font-size="24" letter-spacing="4" fill="' + (d ? "#6d6252" : BLUE_M) + '">RU·AC</text>' +
+      '<rect x="392" y="22" width="108" height="46" rx="10" fill="' + (d ? "#3b352c" : DARK) + '"/>' +
       '<text class="ac-temp" x="446" y="55" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="26" fill="' + (d ? "#FF8E6B" : ICE2) + '">' + (d ? "31°C" : "18°C") + "</text>" +
       '<circle class="ac-led" cx="526" cy="45" r="9" fill="' + (d ? "#d9534f" : ICE) + '"/>' +
       "</g>";
@@ -168,38 +169,38 @@
     var svc = [["SERVICE AC", 129.6], ["MAINTENANCE", 161.8], ["INSTALLATION", 158.5], ["TROUBLESHOOTING", 217.6]], band = "", GAP = 40;
     var bx = 450 - (svc.reduce(function (t, s) { return t + s[1]; }, 0) + GAP * (svc.length - 1)) / 2;
     svc.forEach(function (s, k) {
-      if (k) band += '<rect x="' + (bx - GAP / 2 - 4).toFixed(1) + '" y="495" width="8" height="8" transform="rotate(45 ' + (bx - GAP / 2).toFixed(1) + ' 499)" fill="' + NAVY + '" fill-opacity=".55"/>';
-      band += '<text x="' + bx.toFixed(1) + '" y="506" font-family="Montserrat" font-weight="800" font-size="19" letter-spacing=".9" fill="' + NAVY + '">' + s[0] + "</text>";
+      if (k) band += '<rect x="' + (bx - GAP / 2 - 4).toFixed(1) + '" y="495" width="8" height="8" transform="rotate(45 ' + (bx - GAP / 2).toFixed(1) + ' 499)" fill="#fff" fill-opacity=".7"/>';
+      band += '<text x="' + bx.toFixed(1) + '" y="506" font-family="Montserrat" font-weight="800" font-size="19" letter-spacing=".9" fill="#fff">' + s[0] + "</text>";
       bx += s[1] + GAP;
     });
     var nama = cfg.nama.toUpperCase(), jab = cfg.jabatan.toUpperCase();
     var nSize = fitSize(nama, 34, 410, 0.78), jSize = fitSize(jab, 18.5, 410, 0.74);
     return svgOpen(opts.bleed) +
-      '<defs><radialGradient id="fbg' + u + '" cx=".78" cy=".05" r="1.1"><stop offset="0" stop-color="#1C3763"/><stop offset=".45" stop-color="' + NAVY2 + '"/><stop offset="1" stop-color="' + DEEP + '"/></radialGradient>' +
-      '<linearGradient id="fgold' + u + '" x1="0" y1="0" x2="1" y2=".25"><stop offset="0" stop-color="#C08E2C"/><stop offset=".48" stop-color="' + GOLD2 + '"/><stop offset="1" stop-color="#C08E2C"/></linearGradient>' +
-      '<linearGradient id="fline' + u + '" x1="0" x2="1"><stop offset="0" stop-color="' + GOLD + '"/><stop offset=".7" stop-color="' + GOLD + '" stop-opacity=".55"/><stop offset="1" stop-color="' + GOLD + '" stop-opacity="0"/></linearGradient></defs>' +
+      '<defs><radialGradient id="fbg' + u + '" cx=".78" cy=".05" r="1.1"><stop offset="0" stop-color="#DDF3FC"/><stop offset=".45" stop-color="#F5FBFE"/><stop offset="1" stop-color="#FFFFFF"/></radialGradient>' +
+      '<linearGradient id="fgold' + u + '" x1="0" y1="0" x2="1" y2=".25"><stop offset="0" stop-color="#0A86BD"/><stop offset=".5" stop-color="#19B5E8"/><stop offset="1" stop-color="#0A86BD"/></linearGradient>' +
+      '<linearGradient id="fline' + u + '" x1="0" x2="1"><stop offset="0" stop-color="' + BLUE + '"/><stop offset=".7" stop-color="' + BLUE + '" stop-opacity=".55"/><stop offset="1" stop-color="' + BLUE + '" stop-opacity="0"/></linearGradient></defs>' +
       '<rect x="' + -b + '" y="' + -b + '" width="' + (900 + 2 * b) + '" height="' + (550 + 2 * b) + '" fill="url(#fbg' + u + ')"/>' +
-      '<g stroke="#fff" stroke-opacity=".022" stroke-width="26">' + tex + "</g>" +
+      '<g stroke="' + BLUE + '" stroke-opacity=".035" stroke-width="26">' + tex + "</g>" +
       // tanda air kepingan salju (sangat halus) di kanan
-      '<g opacity=".045">' + snowflake(858, 40, 150, "#fff", 9) + "</g>" +
+      '<g opacity=".08">' + snowflake(858, 40, 150, BLUE, 9) + "</g>" +
       // logo + tulisan merek
       logo(60, 46, 152) +
-      wordmark(238, 102, cfg) +
+      wordmark(238, 102, cfg, true) +
       // tagline rata kiri, sejajar logo
-      '<text x="62" y="262" font-family="Poppins" font-weight="500" font-size="24" fill="' + WHITE + '" fill-opacity=".9">' + esc(cfg.tagline) + "</text>" +
+      '<text x="62" y="262" font-family="Poppins" font-weight="500" font-size="24" fill="' + INK + '">' + esc(cfg.tagline) + "</text>" +
       '<rect x="62" y="288" width="778" height="2" fill="url(#fline' + u + ')"/>' +
       // nama & jabatan
-      '<text x="60" y="360" font-family="Montserrat" font-weight="800" font-size="' + nSize + '" letter-spacing=".5" fill="' + WHITE + '">' + esc(nama) + "</text>" +
-      '<text x="62" y="396" font-family="Montserrat" font-weight="700" font-size="' + jSize + '" letter-spacing="1.6" fill="' + GOLD + '">' + esc(jab) + "</text>" +
-      '<rect x="508" y="324" width="2" height="82" fill="' + GOLD + '" fill-opacity=".8"/>' +
+      '<text x="60" y="360" font-family="Montserrat" font-weight="800" font-size="' + nSize + '" letter-spacing=".5" fill="' + DARK + '">' + esc(nama) + "</text>" +
+      '<text x="62" y="396" font-family="Montserrat" font-weight="700" font-size="' + jSize + '" letter-spacing="1.6" fill="' + BLUE + '">' + esc(jab) + "</text>" +
+      '<rect x="508" y="324" width="2" height="82" fill="' + BLUE + '" fill-opacity=".8"/>' +
       // whatsapp
-      '<circle cx="568" cy="364" r="32" fill="' + GOLD + '"/>' +
-      '<g transform="translate(548.5,344.5) scale(1.22)"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3z" fill="none" stroke="' + NAVY + '" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 10.5c.3-.6.6-.6.9-.6h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6-.6 1.1-1.2 1-.9 1.5a7.6 7.6 0 0 0 3.8 3.3c.3.1.4 0 .6-.2s.6-.8.8-1 .4-.2.7-.1 1.6.8 1.9.9.4.2.5.3a2.4 2.4 0 0 1-.2 1.3 2.9 2.9 0 0 1-1.8 1.3c-.9.2-1.7.1-3.4-.7a12.6 12.6 0 0 1-4.8-4.3 5.5 5.5 0 0 1-1.1-2.9 3.2 3.2 0 0 1 1-2.4z" fill="' + NAVY + '"/></g>' +
-      '<text x="618" y="350" font-family="Montserrat" font-weight="700" font-size="18.5" letter-spacing="1.6" fill="' + GOLD + '">WHATSAPP</text>' +
-      '<text x="617" y="389" font-family="Montserrat" font-weight="800" font-size="' + fitSize(cfg.telepon, 30, 245, 0.66) + '" fill="' + WHITE + '">' + esc(cfg.telepon) + "</text>" +
-      // pita layanan emas
+      '<circle cx="568" cy="364" r="32" fill="' + BLUE + '"/>' +
+      '<g transform="translate(548.5,344.5) scale(1.22)"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 10.5c.3-.6.6-.6.9-.6h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6-.6 1.1-1.2 1-.9 1.5a7.6 7.6 0 0 0 3.8 3.3c.3.1.4 0 .6-.2s.6-.8.8-1 .4-.2.7-.1 1.6.8 1.9.9.4.2.5.3a2.4 2.4 0 0 1-.2 1.3 2.9 2.9 0 0 1-1.8 1.3c-.9.2-1.7.1-3.4-.7a12.6 12.6 0 0 1-4.8-4.3 5.5 5.5 0 0 1-1.1-2.9 3.2 3.2 0 0 1 1-2.4z" fill="#fff"/></g>' +
+      '<text x="618" y="350" font-family="Montserrat" font-weight="700" font-size="18.5" letter-spacing="1.6" fill="' + BLUE + '">WHATSAPP</text>' +
+      '<text x="617" y="389" font-family="Montserrat" font-weight="800" font-size="' + fitSize(cfg.telepon, 30, 245, 0.66) + '" fill="' + DARK + '">' + esc(cfg.telepon) + "</text>" +
+      // pita layanan biru
       '<rect x="' + -b + '" y="450" width="' + (900 + 2 * b) + '" height="' + (100 + b) + '" fill="url(#fgold' + u + ')"/>' +
-      '<rect x="' + -b + '" y="450" width="' + (900 + 2 * b) + '" height="2" fill="#FFF3CF" fill-opacity=".55"/>' +
+      '<rect x="' + -b + '" y="450" width="' + (900 + 2 * b) + '" height="2" fill="#fff" fill-opacity=".4"/>' +
       band +
       "</svg>";
   }
@@ -231,22 +232,22 @@
     var band = "";
     feats.forEach(function (f, k) {
       var cx = 28 + k * 172;
-      band += lineIcon(f[0], cx, 482, 32, GOLD, 1.8) +
-        '<text x="' + (cx + 42) + '" y="495" font-family="Montserrat" font-weight="700" font-size="12.5" letter-spacing=".8" fill="' + WHITE + '">' + f[1] + "</text>" +
-        '<text x="' + (cx + 42) + '" y="512" font-family="Montserrat" font-weight="700" font-size="12.5" letter-spacing=".8" fill="' + WHITE + '">' + f[2] + "</text>";
+      band += lineIcon(f[0], cx, 482, 32, BLUE, 2) +
+        '<text x="' + (cx + 42) + '" y="495" font-family="Montserrat" font-weight="700" font-size="12.5" letter-spacing=".8" fill="' + DARK + '">' + f[1] + "</text>" +
+        '<text x="' + (cx + 42) + '" y="512" font-family="Montserrat" font-weight="700" font-size="12.5" letter-spacing=".8" fill="' + DARK + '">' + f[2] + "</text>";
     });
     var qr = opts.noQr ? "" : qrSvgInner;
     return svgOpen(opts.bleed) +
-      '<defs><linearGradient id="bcr' + u + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBF9F4"/><stop offset="1" stop-color="#E9E3D6"/></linearGradient></defs>' +
-      '<rect x="' + -b + '" y="' + -b + '" width="' + (900 + 2 * b) + '" height="' + (550 + 2 * b) + '" fill="' + NAVY + '"/>' +
+      '<defs><linearGradient id="bcr' + u + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EAF7FD"/></linearGradient></defs>' +
+      '<rect x="' + -b + '" y="' + -b + '" width="' + (900 + 2 * b) + '" height="' + (550 + 2 * b) + '" fill="' + DEEP + '"/>' +
       '<rect x="' + -b + '" y="' + -b + '" width="' + (668 + b) + '" height="' + (484 + b) + '" fill="url(#bcr' + u + ')"/>' +
       // judul kolom
       '<text x="165" y="58" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="18" letter-spacing=".5" fill="' + INK + '">AC RUTIN DIRAWAT</text>' +
       '<text x="474" y="58" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="18" letter-spacing=".5" fill="' + INK + '">AC TIDAK DIRAWAT</text>' +
-      '<line x1="318" y1="36" x2="318" y2="158" stroke="#BDB5A4" stroke-width="2"/><line x1="318" y1="222" x2="318" y2="452" stroke="#BDB5A4" stroke-width="2"/>' +
+      '<line x1="318" y1="36" x2="318" y2="158" stroke="#BFE3F2" stroke-width="2"/><line x1="318" y1="222" x2="318" y2="452" stroke="#BFE3F2" stroke-width="2"/>' +
       acAt(AC, {}) + acAt(AC_DIRTY, { dirty: true }) +
       cleanAir + dirtyAir +
-      '<circle cx="318" cy="190" r="30" fill="' + NAVY + '"/><text x="318" y="199" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="24" fill="' + WHITE + '">VS</text>' +
+      '<circle cx="318" cy="190" r="30" fill="' + BLUE + '"/><text x="318" y="199" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="24" fill="' + WHITE + '">VS</text>' +
       '<circle cx="70" cy="236" r="17" fill="none" stroke="' + INK + '" stroke-width="2.6"/><path d="M62 236l6 6 11-12" fill="none" stroke="' + INK + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
       '<circle cx="602" cy="236" r="17" fill="none" stroke="' + INK + '" stroke-width="2.6"/><path d="M595 229l14 14M609 229l-14 14" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
       lists +
@@ -254,22 +255,22 @@
       '<text x="784" y="56" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="19" fill="' + WHITE + '">Jangan tunggu</text>' +
       '<text x="784" y="81" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="19" fill="' + WHITE + '">AC rusak untuk</text>' +
       '<text x="784" y="106" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="19" fill="' + WHITE + '">mulai peduli.</text>' +
-      '<rect x="700" y="124" width="168" height="70" rx="6" fill="' + GOLD + '"/>' +
-      '<text x="784" y="150" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="17" fill="' + NAVY + '">SCAN —</text>' +
-      '<text x="784" y="168" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="13" fill="' + NAVY + '">LIHAT KONDISI</text>' +
-      '<text x="784" y="185" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="13" fill="' + NAVY + '">AC ANDA</text>' +
+      '<rect x="700" y="124" width="168" height="70" rx="6" fill="' + WHITE + '"/>' +
+      '<text x="784" y="150" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="17" fill="' + DARK + '">SCAN —</text>' +
+      '<text x="784" y="168" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="13" fill="' + DARK + '">LIHAT KONDISI</text>' +
+      '<text x="784" y="185" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="13" fill="' + DARK + '">AC ANDA</text>' +
       '<rect x="716" y="208" width="136" height="136" rx="8" fill="' + WHITE + '"/>' +
       '<g transform="translate(728,220)">' + qr + "</g>" +
-      '<rect x="704" y="360" width="160" height="46" rx="6" fill="none" stroke="' + GOLD + '" stroke-width="2"/>' +
-      '<rect x="712" y="367" width="40" height="32" rx="4" fill="none" stroke="' + GOLD + '" stroke-width="2"/>' +
-      '<text x="732" y="390" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="18" fill="' + GOLD + '">AR</text>' +
-      '<text x="762" y="381" font-family="Montserrat" font-weight="800" font-size="12.5" letter-spacing="1" fill="' + GOLD + '">COMPANY</text>' +
-      '<text x="762" y="397" font-family="Montserrat" font-weight="800" font-size="12.5" letter-spacing="1" fill="' + GOLD + '">PROFILE</text>' +
+      '<rect x="704" y="360" width="160" height="46" rx="6" fill="none" stroke="' + WHITE + '" stroke-width="2"/>' +
+      '<rect x="712" y="367" width="40" height="32" rx="4" fill="none" stroke="' + WHITE + '" stroke-width="2"/>' +
+      '<text x="732" y="390" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="18" fill="' + WHITE + '">AR</text>' +
+      '<text x="762" y="381" font-family="Montserrat" font-weight="800" font-size="12.5" letter-spacing="1" fill="' + WHITE + '">COMPANY</text>' +
+      '<text x="762" y="397" font-family="Montserrat" font-weight="800" font-size="12.5" letter-spacing="1" fill="' + WHITE + '">PROFILE</text>' +
       '<text x="784" y="432" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="12" fill="' + WHITE + '">Simpan kartu ini. Suatu hari</text>' +
       '<text x="784" y="449" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="12" fill="' + WHITE + '">AC Anda akan membutuhkannya.</text>' +
       // pita bawah
-      '<rect x="' + -b + '" y="466" width="' + (900 + 2 * b) + '" height="' + (84 + b) + '" fill="' + DEEP + '"/>' +
-      '<rect x="' + -b + '" y="466" width="' + (900 + 2 * b) + '" height="2" fill="' + GOLD + '" opacity=".6"/>' + band +
+      '<rect x="' + -b + '" y="466" width="' + (900 + 2 * b) + '" height="' + (84 + b) + '" fill="' + FROST + '"/>' +
+      '<rect x="' + -b + '" y="466" width="' + (900 + 2 * b) + '" height="2" fill="' + BLUE + '" opacity=".5"/>' + band +
       "</svg>";
   }
 
@@ -281,7 +282,7 @@
     qr.make();
     var n = qr.getModuleCount(), cell = size / n, d = "";
     for (var y = 0; y < n; y++) for (var x = 0; x < n; x++) if (qr.isDark(y, x)) d += "M" + (x * cell).toFixed(2) + " " + (y * cell).toFixed(2) + "h" + cell.toFixed(2) + "v" + cell.toFixed(2) + "h-" + cell.toFixed(2) + "z";
-    return '<path d="' + d + '" fill="' + NAVY + '"/>';
+    return '<path d="' + d + '" fill="' + DARK + '"/>';
   }
 
   function arUrl(cfg) {

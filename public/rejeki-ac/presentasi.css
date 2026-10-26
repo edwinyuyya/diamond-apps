@@ -1,20 +1,21 @@
 /* =========================================================
    Panel presentasi: 1000 x 1100 px  •  Overlay kartu: 1000 x 611 px
    (di mode AR, 1000 px = lebar kartu)
+   Palet: putih + biru dingin (biru logo #0AA0D2), tanpa emas / navy.
    ========================================================= */
-.ru-stage,.ru-ov{--navy:#0E1B33;--navy2:#13284A;--ice:#19C6F0;--ice2:#8FE6FF;--gold:#E2B04A;--red:#FF5A5F;--amber:#FFB020;--green:#2BD99A}
-.ru-stage{position:relative;width:1000px;height:1100px;font-family:Poppins,system-ui,sans-serif;color:#fff;overflow:hidden;border-radius:56px;
-  background:radial-gradient(120% 80% at 80% 0%,#1d3a66 0%,var(--navy2) 38%,#0A1528 85%);
-  box-shadow:0 0 0 3px rgba(226,176,74,.9),0 0 0 10px rgba(226,176,74,.12),0 50px 120px rgba(0,0,0,.45)}
+.ru-stage,.ru-ov{--ink:#0B4A6B;--blue:#0AA0D2;--deep:#0A7FB5;--ice:#19C6F0;--ice2:#19B5E8;--frost:#EAF7FD;--line:#CDEBF7;--red:#E5484E;--amber:#E99A0B;--green:#12A877}
+.ru-stage{position:relative;width:1000px;height:1100px;font-family:Poppins,system-ui,sans-serif;color:var(--ink);overflow:hidden;border-radius:56px;
+  background:radial-gradient(120% 80% at 85% 0%,#DDF3FC 0%,#F4FBFE 45%,#FFFFFF 85%);
+  box-shadow:0 0 0 3px rgba(10,160,210,.85),0 0 0 10px rgba(10,160,210,.12),0 50px 120px rgba(10,90,140,.25)}
 .ru-stage:before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
-  background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 22%),radial-gradient(60% 40% at 0% 100%,rgba(226,176,74,.08),transparent 70%)}
+  background:radial-gradient(60% 40% at 0% 100%,rgba(25,198,240,.10),transparent 70%)}
 .ru-stage *{box-sizing:border-box}
 .ru-stage h2{font:900 66px/1.05 Montserrat;letter-spacing:-.5px;margin:0}
 .ru-stage h3{font:800 32px/1.2 Montserrat;margin:0}
 .ru-stage p{margin:0}
-.ru-gold{color:var(--gold)}.ru-ice{color:var(--ice2)}.ru-red{color:#FF8E91}
-.ru-kicker{display:flex;align-items:center;gap:18px;font:700 25px Montserrat;letter-spacing:6px;color:var(--gold);text-transform:uppercase;margin-bottom:18px}
-.ru-kicker:before{content:"";flex:none;width:44px;height:3px;border-radius:2px;background:var(--gold)}
+.ru-gold{color:var(--deep)}.ru-ice{color:var(--ice2)}.ru-red{color:var(--red)}
+.ru-kicker{display:flex;align-items:center;gap:18px;font:700 25px Montserrat;letter-spacing:6px;color:var(--blue);text-transform:uppercase;margin-bottom:18px}
+.ru-kicker:before{content:"";flex:none;width:44px;height:3px;border-radius:2px;background:var(--blue)}
 .s-end .ru-kicker{justify-content:center}
 .ru-lead{font:500 32px/1.4 Poppins;opacity:.92;margin-top:26px}
 
@@ -28,8 +29,8 @@
 
 /* progress & navigasi */
 .ru-bar{position:absolute;left:72px;right:72px;bottom:60px;display:flex;gap:8px;z-index:5}
-.ru-bar i{flex:1;height:8px;border-radius:8px;background:rgba(255,255,255,.14);overflow:hidden;cursor:pointer}
-.ru-bar i b{display:block;height:100%;width:0;background:var(--gold);border-radius:9px}
+.ru-bar i{flex:1;height:8px;border-radius:8px;background:rgba(10,160,210,.14);overflow:hidden;cursor:pointer}
+.ru-bar i b{display:block;height:100%;width:0;background:var(--blue);border-radius:9px}
 .ru-bar i.done b{width:100%}
 .ru-bar i.cur b{animation:ruProg linear forwards;animation-duration:var(--dur,7s)}
 .ru-stage.paused .ru-bar i.cur b{animation-play-state:paused}
@@ -40,17 +41,17 @@
 
 /* 1-2. hidup & pertanyaan */
 .chips{display:flex;gap:18px;margin-top:46px;flex-wrap:wrap}
-.chips span{display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,.07);border:2px solid rgba(143,230,255,.4);border-radius:99px;padding:16px 30px 16px 22px;font:600 30px Poppins}
+.chips span{display:inline-flex;align-items:center;gap:12px;background:rgba(10,160,210,.07);border:2px solid rgba(10,160,210,.4);border-radius:99px;padding:16px 30px 16px 22px;font:600 30px Poppins}
 .chips svg{width:36px;height:36px}
 .bigtemp{margin-top:56px;display:flex;align-items:baseline;gap:20px}
-.bigtemp b{font:900 180px/1 Montserrat;color:var(--ice2);text-shadow:0 0 60px rgba(25,198,240,.6)}
+.bigtemp b{font:900 180px/1 Montserrat;color:var(--blue);text-shadow:0 10px 40px rgba(25,198,240,.35)}
 .bigtemp span{font:600 34px Poppins;opacity:.85}
 .s-q h2{font-size:74px}
-.scanbox{margin-top:70px;background:rgba(0,0,0,.25);border-radius:30px;padding:30px 36px;border:3px solid rgba(143,230,255,.3)}
+.scanbox{margin-top:70px;background:var(--frost);border-radius:30px;padding:30px 36px;border:3px solid rgba(10,160,210,.3)}
 .scanbox .t{font:700 28px Montserrat;color:var(--ice2);display:flex;justify-content:space-between;align-items:center}
 .scanbox .t span:first-child{display:inline-flex;align-items:center;gap:14px}.scanbox .t svg{width:34px;height:34px}
 .scanbox .t span:last-child{font-size:22px;letter-spacing:4px;text-transform:uppercase;opacity:.7}
-.scanbox .track{height:22px;border-radius:11px;background:rgba(255,255,255,.1);margin-top:18px;overflow:hidden}
+.scanbox .track{height:22px;border-radius:11px;background:rgba(10,160,210,.1);margin-top:18px;overflow:hidden}
 .scanbox .track i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--ice),var(--ice2));border-radius:11px}
 .s-q.on .scanbox .track i{animation:ruFill 4.2s ease-in-out .6s forwards}
 @keyframes ruFill{to{width:100%}}
@@ -59,50 +60,50 @@
 .xl{margin-top:44px;display:flex;flex-direction:column;gap:20px}
 .xl .it{display:flex;gap:24px;align-items:center;background:rgba(255,90,95,.1);border:3px solid rgba(255,90,95,.45);border-radius:28px;padding:22px 26px}
 .xl .n{flex:none;width:74px;height:74px;border-radius:22px;background:#6b4a2b;display:grid;place-items:center;font:900 34px Montserrat;color:#ffd9a8}
-.xl b{display:block;font:800 31px Montserrat;color:#FFC2C3}
+.xl b{display:block;font:800 31px Montserrat;color:#C9343A}
 .xl span{font:500 25px/1.3 Poppins;opacity:.92}
 
 /* 4. indikator */
 .ind{margin-top:50px;display:flex;flex-direction:column;gap:30px}
 .ind .r .t{display:flex;justify-content:space-between;align-items:baseline;font:900 34px Montserrat;letter-spacing:1px;margin-bottom:12px}
 .ind .r .t em{font-style:normal;font:800 28px Montserrat}
-.ind .tr{height:46px;border-radius:14px;background:rgba(255,255,255,.08);overflow:hidden}
+.ind .tr{height:46px;border-radius:14px;background:rgba(10,160,210,.08);overflow:hidden}
 .ind .tr i{display:block;height:100%;width:var(--a);border-radius:14px;transition:width 2.2s cubic-bezier(.3,.8,.2,1) .9s}
 .s-imp.on .ind .tr i{width:var(--b)}
 .ind .down i{background:linear-gradient(90deg,var(--ice),var(--ice2))}
 .ind .up i{background:linear-gradient(90deg,var(--amber),var(--red))}
-.ind .down em{color:var(--ice2)}.ind .up em{color:#FF8E91}
+.ind .down em{color:var(--ice2)}.ind .up em{color:#D9434A}
 .ind-note{margin-top:40px;font:500 26px Poppins;opacity:.8;text-align:center}
 
 /* 5. solusi + teknisi */
 .sol{display:flex;gap:26px;align-items:flex-end;margin-top:0;position:relative}
-.sol:after{content:"";position:absolute;left:-72px;right:-72px;bottom:0;height:3px;background:linear-gradient(90deg,transparent,rgba(226,176,74,.6) 30%,rgba(226,176,74,.6) 70%,transparent)}
+.sol:after{content:"";position:absolute;left:-72px;right:-72px;bottom:0;height:3px;background:linear-gradient(90deg,transparent,rgba(10,160,210,.6) 30%,rgba(10,160,210,.6) 70%,transparent)}
 .sol svg.tech{flex:none;width:330px;height:440px}
 .s-sol.on svg.tech{animation:ruTech 1s cubic-bezier(.3,1.4,.5,1) .3s both}
 @keyframes ruTech{from{transform:translateY(160px) scale(.6);opacity:0}}
-.bubble{position:relative;background:#fff;color:var(--navy);border-radius:36px;padding:34px 36px;font:800 38px/1.25 Montserrat;margin-bottom:250px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
-.bubble:after{content:"";position:absolute;left:-26px;bottom:44px;border:16px solid transparent;border-right:26px solid #fff;border-left:0}
+.bubble{position:relative;background:var(--blue);color:#fff;border-radius:36px;padding:34px 36px;font:800 38px/1.25 Montserrat;margin-bottom:250px;box-shadow:0 20px 50px rgba(10,110,160,.25)}
+.bubble:after{content:"";position:absolute;left:-26px;bottom:44px;border:16px solid transparent;border-right:26px solid var(--blue);border-left:0}
 .pm{margin-top:44px;text-align:center}
-.pm b{display:block;font:900 70px/1.05 Montserrat;color:var(--gold);letter-spacing:1px;text-shadow:0 0 40px rgba(226,176,74,.3)}
+.pm b{display:block;font:900 70px/1.05 Montserrat;color:var(--blue);letter-spacing:1px;text-shadow:0 0 40px rgba(10,160,210,.3)}
 .pm span{display:block;font:500 28px/1.4 Poppins;opacity:.9;margin-top:16px}
 
 /* 6. established */
 .est{display:flex;align-items:center;gap:30px;margin-top:6px}
-.est b{font:900 150px/1 Montserrat;color:var(--gold)}
+.est b{font:900 150px/1 Montserrat;color:var(--blue)}
 .est span{font:800 30px/1.2 Montserrat;letter-spacing:6px;color:var(--ice2)}
 .tl{position:relative;margin-top:40px;padding-left:86px}
-.tl:before{content:"";position:absolute;left:28px;top:10px;width:8px;height:0;background:linear-gradient(var(--ice),var(--gold));border-radius:8px}
+.tl:before{content:"";position:absolute;left:28px;top:10px;width:8px;height:0;background:linear-gradient(var(--ice),var(--blue));border-radius:8px}
 .s-est.on .tl:before{animation:ruLine 2.4s ease-out forwards}
 @keyframes ruLine{to{height:calc(100% - 30px)}}
 .tl .it{position:relative;margin-bottom:40px}
-.tl .it:before{content:"";position:absolute;left:-74px;top:10px;width:38px;height:38px;border-radius:50%;background:var(--navy);border:8px solid var(--ice)}
-.tl .it:last-child:before{border-color:var(--gold);box-shadow:0 0 0 12px rgba(245,184,0,.25)}
-.tl .yr{font:900 48px Montserrat;color:var(--gold);line-height:1}
+.tl .it:before{content:"";position:absolute;left:-74px;top:10px;width:38px;height:38px;border-radius:50%;background:#fff;border:8px solid var(--ice)}
+.tl .it:last-child:before{border-color:var(--blue);box-shadow:0 0 0 12px rgba(10,160,210,.25)}
+.tl .yr{font:900 48px Montserrat;color:var(--blue);line-height:1}
 .tl .tx{font:500 29px/1.35 Poppins;margin-top:6px}
 
 /* 7. layanan */
 .lg{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:46px}
-.lg .c{background:#fff;color:var(--navy);border-radius:28px;padding:26px 26px;min-height:200px}
+.lg .c{background:#fff;color:var(--ink);border-radius:28px;padding:26px 26px;min-height:200px}
 .lg .ic{width:80px;height:80px;border-radius:22px;background:linear-gradient(135deg,var(--ice2),var(--ice));display:grid;place-items:center;margin-bottom:14px}
 .lg .ic svg{width:50px;height:50px}
 .lg h3{font-size:29px}
@@ -110,12 +111,12 @@
 
 /* 8. proyek & klien */
 .pj{margin-top:38px;display:flex;flex-direction:column;gap:16px}
-.pj .c{display:flex;gap:22px;align-items:center;background:rgba(255,255,255,.08);border-radius:24px;padding:20px 24px;border-left:10px solid var(--gold)}
+.pj .c{display:flex;gap:22px;align-items:center;background:rgba(10,160,210,.08);border-radius:24px;padding:20px 24px;border-left:10px solid var(--blue)}
 .pj b{display:block;font:800 30px Montserrat}
 .pj span{font:500 24px Poppins;opacity:.85}
-.kl-h{font:700 24px Montserrat;letter-spacing:4px;color:var(--gold);margin:40px 0 18px}
+.kl-h{font:700 24px Montserrat;letter-spacing:4px;color:var(--blue);margin:40px 0 18px}
 .kl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
-.kl .c{height:110px;border-radius:22px;background:#fff;color:var(--navy);display:flex;align-items:center;justify-content:center;gap:12px;padding:0 14px;font:800 22px/1.15 Montserrat;text-align:center}
+.kl .c{height:110px;border-radius:22px;background:#fff;color:var(--ink);display:flex;align-items:center;justify-content:center;gap:12px;padding:0 14px;font:800 22px/1.15 Montserrat;text-align:center}
 .kl .c img{max-width:100%;max-height:80px;object-fit:contain}
 .kl .c i{flex:none;width:52px;height:52px;border-radius:15px;display:grid;place-items:center;font:900 22px Montserrat;color:#fff;font-style:normal}
 
@@ -127,51 +128,51 @@
 .s-ba.on .ba .after{animation:ruWipe 5s ease-in-out .6s infinite alternate}
 @keyframes ruWipe{from{clip-path:inset(0 0 0 92%)}to{clip-path:inset(0 0 0 8%)}}
 .ba .tag{position:absolute;top:24px;font:900 26px Montserrat;padding:10px 22px;border-radius:99px;letter-spacing:2px;z-index:2}
-.ba .tag.b{left:24px;background:var(--red)}.ba .tag.a{right:24px;background:var(--green);color:var(--navy)}
+.ba .tag.b{left:24px;background:var(--red);color:#fff}.ba .tag.a{right:24px;background:var(--green);color:#fff}
 .ba-cap{font:500 27px Poppins;text-align:center;margin-top:24px;opacity:.9}
 
 /* 10. testimoni */
 .tm{margin-top:46px;display:flex;flex-direction:column;gap:26px}
-.tm .c{background:#fff;color:var(--navy);border-radius:32px;padding:34px 36px;position:relative}
+.tm .c{background:#fff;color:var(--ink);border-radius:32px;padding:34px 36px;position:relative}
 .tm .c:before{content:"\201C";position:absolute;right:30px;top:-20px;font:900 160px/1 Montserrat;color:var(--ice);opacity:.35}
-.tm .st{color:var(--gold);font-size:34px;letter-spacing:4px}
+.tm .st{color:var(--blue);font-size:34px;letter-spacing:4px}
 .tm p{font:500 30px/1.4 Poppins;margin-top:8px}
 .tm .who{margin-top:16px;font:800 26px Montserrat}
 .tm .who span{font:500 23px Poppins;color:#3D5878}
 
 /* 11. tim & standar */
-.team{margin-top:34px;height:300px;border-radius:32px;overflow:hidden;background:rgba(255,255,255,.07);display:flex;align-items:flex-end;justify-content:center;gap:10px;position:relative}
+.team{margin-top:34px;height:300px;border-radius:32px;overflow:hidden;background:rgba(10,160,210,.07);display:flex;align-items:flex-end;justify-content:center;gap:10px;position:relative}
 .team img{width:100%;height:100%;object-fit:cover}
 .team svg{width:210px;height:280px}
-.team .cap{position:absolute;left:24px;top:20px;font:800 26px Montserrat;background:var(--gold);color:var(--navy);padding:8px 18px;border-radius:99px}
+.team .cap{position:absolute;left:24px;top:20px;font:800 26px Montserrat;background:var(--blue);color:#fff;padding:8px 18px;border-radius:99px}
 .sop{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.sop div{display:flex;gap:14px;align-items:center;font:600 24px/1.25 Poppins;background:rgba(255,255,255,.07);border-radius:20px;padding:16px 18px}
-.sop em{flex:none;width:42px;height:42px;border-radius:50%;background:var(--green);color:var(--navy);display:grid;place-items:center;font:900 24px Montserrat;font-style:normal}
+.sop div{display:flex;gap:14px;align-items:center;font:600 24px/1.25 Poppins;background:rgba(10,160,210,.07);border-radius:20px;padding:16px 18px}
+.sop em{flex:none;width:42px;height:42px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font:900 24px Montserrat;font-style:normal}
 
 /* 12. kuis */
 .qz{margin-top:44px}
-.qz .step{font:700 24px Montserrat;color:var(--gold);letter-spacing:3px}
+.qz .step{font:700 24px Montserrat;color:var(--blue);letter-spacing:3px}
 .qz .q{font:800 46px/1.2 Montserrat;margin:14px 0 34px}
 .qz .opts{display:flex;flex-direction:column;gap:18px}
-.qz button{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;background:#fff;color:var(--navy);border-radius:26px;padding:30px 34px;font:600 34px Poppins;cursor:pointer;position:relative;z-index:6;transition:transform .15s,box-shadow .2s}
+.qz button{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;background:#fff;color:var(--ink);border-radius:26px;padding:30px 34px;font:600 34px Poppins;cursor:pointer;position:relative;z-index:6;transition:transform .15s,box-shadow .2s}
 .qz .opts button:after{content:"";flex:none;width:30px;height:30px;border-radius:50%;border:3px solid #C3CEDB}
-.qz .opts button:hover{box-shadow:0 0 0 4px var(--gold)}
+.qz .opts button:hover{box-shadow:0 0 0 4px var(--blue)}
 .qz button:active{transform:scale(.97)}
 .qz .skip{all:unset;display:inline-block;margin-top:34px;font:600 26px Poppins;opacity:.7;text-decoration:underline;cursor:pointer;position:relative;z-index:6}
 .qz .btn-w{display:flex;justify-content:center;padding:0;height:104px;border-radius:26px;font:800 32px Montserrat}
 .qz .anim{animation:ruIn .5s cubic-bezier(.2,.9,.25,1.15) both}
 .res{border-radius:36px;padding:40px;text-align:center;margin-top:10px}
 .res .lv{font:900 64px/1 Montserrat;letter-spacing:1px}
-.res .dot{width:92px;height:92px;margin:0 auto 22px;border-radius:50%;display:grid;place-items:center;background:currentColor;box-shadow:0 0 0 12px rgba(255,255,255,.06),0 0 50px currentColor}
+.res .dot{width:92px;height:92px;margin:0 auto 22px;border-radius:50%;display:grid;place-items:center;background:currentColor;box-shadow:0 0 0 12px rgba(10,160,210,.06),0 0 50px currentColor}
 .res .dot svg{width:52px;height:52px}
 .res.g .dot{color:var(--green)}.res.y .dot{color:var(--amber)}.res.r .dot{color:var(--red)}
 .res p{font:500 29px/1.4 Poppins;margin-top:18px}
 .res.g{background:rgba(43,217,154,.15);border:4px solid var(--green)}.res.g .lv{color:var(--green)}
 .res.y{background:rgba(255,176,32,.14);border:4px solid var(--amber)}.res.y .lv{color:var(--amber)}
-.res.r{background:rgba(255,90,95,.15);border:4px solid var(--red)}.res.r .lv{color:#FF8E91}
+.res.r{background:rgba(255,90,95,.15);border:4px solid var(--red)}.res.r .lv{color:#D9434A}
 .btn-wa,.btn-w{all:unset;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:14px;height:116px;border-radius:30px;font:800 34px Montserrat;text-decoration:none;cursor:pointer;position:relative;z-index:6;width:100%}
 .btn-wa{background:#25D366;color:#fff;margin-top:30px;box-shadow:0 16px 40px rgba(37,211,102,.28)}
-.btn-w{background:#fff;color:var(--navy);font-size:30px;white-space:nowrap}
+.btn-w{background:#fff;color:var(--ink);font-size:30px;white-space:nowrap}
 .btn-wa svg,.btn-w svg{width:46px;height:46px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
 
@@ -182,13 +183,13 @@
 .s-end .lg-wrap{margin-top:48px;display:flex;align-items:center;gap:24px}
 .s-end .brand{font:900 50px/1 Montserrat;text-align:left}
 .s-end .lg-wrap svg{width:150px;height:150px}
-.s-end .brand small{display:block;font:600 24px Poppins;color:#5CC8F0;margin-top:10px}
+.s-end .brand small{display:block;font:600 24px Poppins;color:var(--blue);margin-top:10px}
 .s-end .brand em{display:block;font:italic 900 30px Montserrat;margin-top:8px}
-.s-end .brand em span{color:#F5D27A;letter-spacing:4px;font-style:normal;margin-left:8px}
-.s-end .promo{margin-top:34px;border:4px dashed var(--gold);border-radius:24px;padding:14px 28px;font:800 28px Montserrat;color:var(--gold)}
-.s-end .promo b{background:#fff;color:var(--navy);padding:2px 14px;border-radius:10px;margin-left:10px;letter-spacing:3px}
+.s-end .brand em span{color:var(--blue);letter-spacing:4px;font-style:normal;margin-left:8px}
+.s-end .promo{margin-top:34px;border:4px dashed var(--blue);border-radius:24px;padding:14px 28px;font:800 28px Montserrat;color:var(--blue)}
+.s-end .promo b{background:var(--blue);color:#fff;padding:2px 14px;border-radius:10px;margin-left:10px;letter-spacing:3px}
 .s-end.on .promo{animation:ruPop .7s cubic-bezier(.3,1.6,.5,1) 1.2s both,ruGlow 2s ease-in-out 2s infinite}
-@keyframes ruGlow{50%{box-shadow:0 0 60px rgba(245,184,0,.5)}}
+@keyframes ruGlow{50%{box-shadow:0 0 50px rgba(10,160,210,.35)}}
 .s-end .again{all:unset;margin-top:26px;font:600 24px Poppins;opacity:.65;text-decoration:underline;cursor:pointer;position:relative;z-index:6}
 
 /* =========================================================
@@ -204,7 +205,7 @@
 .ru-ov.ov-alive .ac-led{animation:ovBlink .5s steps(2) 3}
 @keyframes ovBlink{50%{fill:#5b6b7d}}
 .ru-ov.ov-impact .ac-led{fill:#FF5A5F;animation:ovBlink .8s steps(2) infinite}
-.ru-ov.ov-impact .ac-temp{fill:#FF8E91}
+.ru-ov.ov-impact .ac-temp{fill:#D9434A}
 /* angin dingin */
 .ru-ov .wind{stroke-dasharray:26 22;animation:ovWind .9s linear infinite}
 @keyframes ovWind{to{stroke-dashoffset:-48}}
@@ -252,8 +253,20 @@
 
 /* kenapa Rejeki Utama AC (6 alasan) */
 .why6{margin-top:46px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.why6 .c{border:3px solid rgba(226,176,74,.55);background:rgba(226,176,74,.06);border-radius:26px;padding:24px 24px;display:flex;gap:18px;align-items:flex-start}
+.why6 .c{border:3px solid rgba(10,160,210,.55);background:rgba(10,160,210,.06);border-radius:26px;padding:24px 24px;display:flex;gap:18px;align-items:flex-start}
 .why6 svg{flex:none;width:58px;height:58px}
-.why6 b{display:block;font:800 28px/1.2 Montserrat;color:#fff}
+.why6 b{display:block;font:800 28px/1.2 Montserrat;color:var(--ink)}
 .why6 span{display:block;font:500 22px/1.3 Poppins;opacity:.82;margin-top:4px}
-.why-foot{margin-top:34px;text-align:center;font:600 26px Poppins;color:var(--gold)}
+.why-foot{margin-top:34px;text-align:center;font:600 26px Poppins;color:var(--blue)}
+
+/* kartu putih di panel terang */
+.lg .c,.tm .c,.kl .c,.btn-w{border:2px solid var(--line);box-shadow:0 10px 26px rgba(10,110,160,.10)}
+.qz .opts button{background:#fff;border:2px solid var(--line);box-shadow:0 8px 20px rgba(10,110,160,.08)}
+.qz .opts button:after{border-color:#9FD3EA}
+.pj .c,.sop div,.chips span,.why6 .c{color:var(--ink)}
+.xl span,.ind-note,.ba-cap,.ru-lead,.pm span,.res p{color:#2F5F7A}
+.res .dot{color:#fff}
+.res.g .dot{background:var(--green)}.res.y .dot{background:var(--amber)}.res.r .dot{background:var(--red)}
+.ru-bar i{background:#D3ECF7}
+.s-end .lg-wrap svg{filter:drop-shadow(0 8px 18px rgba(10,110,160,.2))}
+.qz .btn-w{background:#fff;border:2px solid var(--line);box-shadow:0 8px 20px rgba(10,110,160,.08)}

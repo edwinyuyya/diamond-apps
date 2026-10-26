@@ -15,22 +15,23 @@
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
 
-  var NAVY = "#0E1B33", NAVY2 = "#13284A", ICE = "#19C6F0", ICE2 = "#8FE6FF", GOLD = "#E2B04A";
+  // palet putih + biru dingin: DARK = teks biru dingin gelap, BLUE_M = seragam teknisi, BLUE = aksen biru logo
+  var DARK = "#0B4A6B", BLUE_M = "#0A86BD", ICE = "#19C6F0", ICE2 = "#8FE6FF", BLUE = "#0AA0D2";
 
   var ICONS = {
-    rumah: '<path d="M8 30 32 10l24 20v24a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4z" fill="#071A33"/><rect x="26" y="38" width="12" height="20" rx="2" fill="#8FE6FF"/>',
-    gedung: '<rect x="12" y="8" width="28" height="50" rx="3" fill="#071A33"/><rect x="40" y="24" width="14" height="34" rx="2" fill="#071A33"/><path d="M19 17h5m5 0h5M19 27h5m5 0h5M19 37h5m5 0h5" stroke="#8FE6FF" stroke-width="4" stroke-linecap="round"/>',
-    kontrak: '<rect x="14" y="8" width="36" height="48" rx="6" fill="#071A33"/><path d="M22 22h20M22 31h20M22 40h12" stroke="#8FE6FF" stroke-width="4" stroke-linecap="round"/>',
-    tameng: '<path d="M32 6 54 14v16c0 14-10 24-22 28C20 54 10 44 10 30V14z" fill="#071A33"/><path d="m22 32 7 7 13-14" stroke="#8FE6FF" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
-    perbaikan: '<path d="M40 10a14 14 0 0 0-13 19L10 46l8 8 17-17a14 14 0 0 0 19-13l-8 8-8-2-2-8z" fill="#071A33"/>',
-    pasang: '<rect x="6" y="14" width="52" height="22" rx="7" fill="#071A33"/><path d="M14 30h36" stroke="#8FE6FF" stroke-width="3"/><path d="M32 40v16m-7-7 7 7 7-7" stroke="#071A33" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    rumah: '<path d="M8 30 32 10l24 20v24a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4z" fill="#0B4A6B"/><rect x="26" y="38" width="12" height="20" rx="2" fill="#8FE6FF"/>',
+    gedung: '<rect x="12" y="8" width="28" height="50" rx="3" fill="#0B4A6B"/><rect x="40" y="24" width="14" height="34" rx="2" fill="#0B4A6B"/><path d="M19 17h5m5 0h5M19 27h5m5 0h5M19 37h5m5 0h5" stroke="#8FE6FF" stroke-width="4" stroke-linecap="round"/>',
+    kontrak: '<rect x="14" y="8" width="36" height="48" rx="6" fill="#0B4A6B"/><path d="M22 22h20M22 31h20M22 40h12" stroke="#8FE6FF" stroke-width="4" stroke-linecap="round"/>',
+    tameng: '<path d="M32 6 54 14v16c0 14-10 24-22 28C20 54 10 44 10 30V14z" fill="#0B4A6B"/><path d="m22 32 7 7 13-14" stroke="#8FE6FF" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
+    perbaikan: '<path d="M40 10a14 14 0 0 0-13 19L10 46l8 8 17-17a14 14 0 0 0 19-13l-8 8-8-2-2-8z" fill="#0B4A6B"/>',
+    pasang: '<rect x="6" y="14" width="52" height="22" rx="7" fill="#0B4A6B"/><path d="M14 30h36" stroke="#8FE6FF" stroke-width="3"/><path d="M32 40v16m-7-7 7 7 7-7" stroke="#0B4A6B" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
   };
   var WA_ICON = '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>';
   var PHONE_ICON = '<svg viewBox="0 0 26 26" fill="currentColor"><path d="M5 2h5l2 6-3 2a13 13 0 0 0 6 6l2-3 6 2v5a2 2 0 0 1-2 2A20 20 0 0 1 3 4a2 2 0 0 1 2-2z"/></svg>';
   var USER_ICON = '<svg viewBox="0 0 26 26" fill="currentColor"><circle cx="13" cy="8" r="6"/><path d="M1 25a12 10 0 0 1 24 0z"/></svg>';
   var SEARCH_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>';
-  var RES_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="#0E1B33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
-  var RES_WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="#0E1B33" stroke-width="3" stroke-linecap="round"><path d="M12 6v8M12 18.5h.01"/></svg>';
+  var RES_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
+  var RES_WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M12 6v8M12 18.5h.01"/></svg>';
   // ikon garis kecil (dari card.js) sebagai <svg> mandiri
   function ico(name, color) { return '<svg viewBox="0 0 24 24">' + RUCard.lineIcon(name, 0, 0, 24, color, 2) + "</svg>"; }
   var CHIP_COLORS = ["#0C3363", "#19A7D6", "#C99700", "#2BB58A", "#E0555A", "#6B5BD6", "#0F7C9E", "#D9822B"];
@@ -47,22 +48,22 @@
     var lg = window.RUCard ? RUCard.logo(0, 0, 100) : "";
     return '<svg class="' + (cls || "tech") + '" viewBox="0 0 300 400">' +
       '<ellipse cx="150" cy="394" rx="115" ry="9" fill="#000" opacity=".25"/>' +
-      '<path d="M48 400V300q0-56 62-66h80q62 10 62 66v100z" fill="' + NAVY2 + '"/>' +
+      '<path d="M48 400V300q0-56 62-66h80q62 10 62 66v100z" fill="' + BLUE_M + '"/>' +
       '<path d="M126 234l24 44 24-44z" fill="#fff"/>' +
       '<rect x="48" y="318" width="204" height="12" fill="' + ICE + '"/>' +
       '<g transform="translate(184,256) scale(.38)">' + lg + "</g>" +
       '<rect x="132" y="204" width="36" height="36" rx="8" fill="#D99A6C"/>' +
       '<circle cx="93" cy="168" r="12" fill="#E0A97E"/><circle cx="207" cy="168" r="12" fill="#E0A97E"/>' +
       '<circle cx="150" cy="162" r="58" fill="#E8B48A"/>' +
-      '<path d="M90 152q0-60 60-60t60 60z" fill="' + NAVY2 + '"/>' +
-      '<path d="M150 142q72-2 92 12-34 10-92 2z" fill="' + NAVY + '"/>' +
-      '<circle cx="150" cy="118" r="11" fill="' + GOLD + '"/>' +
+      '<path d="M90 152q0-60 60-60t60 60z" fill="' + BLUE_M + '"/>' +
+      '<path d="M150 142q72-2 92 12-34 10-92 2z" fill="' + DARK + '"/>' +
+      '<circle cx="150" cy="118" r="11" fill="#fff"/>' +
       '<ellipse cx="130" cy="172" rx="5.5" ry="7.5" fill="#2b1a10"/><ellipse cx="170" cy="172" rx="5.5" ry="7.5" fill="#2b1a10"/>' +
       '<circle cx="118" cy="190" r="9" fill="#f08a7a" opacity=".35"/><circle cx="182" cy="190" r="9" fill="#f08a7a" opacity=".35"/>' +
       '<path d="M130 192q20 18 40 0" stroke="#7a3e22" stroke-width="5" fill="none" stroke-linecap="round"/>' +
-      '<path d="M238 306q38-30 30-86" stroke="' + NAVY2 + '" stroke-width="34" stroke-linecap="round" fill="none"/>' +
+      '<path d="M238 306q38-30 30-86" stroke="' + BLUE_M + '" stroke-width="34" stroke-linecap="round" fill="none"/>' +
       '<circle cx="266" cy="208" r="22" fill="#E8B48A"/><rect x="257" y="166" width="15" height="32" rx="7.5" fill="#E8B48A"/>' +
-      '<path d="M62 306q-20 40-6 80" stroke="' + NAVY2 + '" stroke-width="32" stroke-linecap="round" fill="none"/>' +
+      '<path d="M62 306q-20 40-6 80" stroke="' + BLUE_M + '" stroke-width="32" stroke-linecap="round" fill="none"/>' +
       "</svg>";
   }
 
@@ -136,26 +137,26 @@
       '<g stroke="#9fb3c8" stroke-width="3">' + cg + "</g>" +
       '<rect class="dirt" style="--t:8s" x="' + cx + '" y="' + cy + '" width="118" height="92" rx="10" fill="url(#dust)" opacity=".85"/>';
     function pill(px, py, pw, text, t, pt) {
-      return '<g style="--t:' + t + '"><line x1="' + px + '" y1="' + (py + 15) + '" x2="' + pt[0] + '" y2="' + pt[1] + '" stroke="' + GOLD + '" stroke-width="2.5"/>' +
-        '<circle cx="' + pt[0] + '" cy="' + pt[1] + '" r="5" fill="' + GOLD + '"/>' +
-        '<rect x="' + px + '" y="' + py + '" width="' + pw + '" height="30" rx="15" fill="' + GOLD + '"/>' +
-        '<text x="' + (px + pw / 2) + '" y="' + (py + 20) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="13.5" fill="' + NAVY + '">' + text + "</text></g>";
+      return '<g style="--t:' + t + '"><line x1="' + px + '" y1="' + (py + 15) + '" x2="' + pt[0] + '" y2="' + pt[1] + '" stroke="' + BLUE + '" stroke-width="2.5"/>' +
+        '<circle cx="' + pt[0] + '" cy="' + pt[1] + '" r="5" fill="' + BLUE + '"/>' +
+        '<rect x="' + px + '" y="' + py + '" width="' + pw + '" height="30" rx="15" fill="' + BLUE + '"/>' +
+        '<text x="' + (px + pw / 2) + '" y="' + (py + 20) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="13.5" fill="#fff">' + text + "</text></g>";
     }
     var lbl = pill(318, 62, 150, "1 · FILTER", ".6s", C(470, 25)) +
       pill(318, 104, 150, "2 · EVAPORATOR", "3s", C(470, 69)) +
       pill(318, 146, 150, "3 · BLOWER", "5.4s", C(470, 119)) +
-      '<g style="--t:7.8s"><rect x="' + (cx - 16) + '" y="' + (cy - 38) + '" width="150" height="30" rx="15" fill="' + GOLD + '"/><text x="' + (cx + 59) + '" y="' + (cy - 18) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="13.5" fill="' + NAVY + '">4 · KONDENSOR</text></g>';
+      '<g style="--t:7.8s"><rect x="' + (cx - 16) + '" y="' + (cy - 38) + '" width="150" height="30" rx="15" fill="' + BLUE + '"/><text x="' + (cx + 59) + '" y="' + (cy - 18) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="13.5" fill="#fff">4 · KONDENSOR</text></g>';
     var ac0 = C(0, 0), ac1 = C(w, h);
-    var shine = '<g class="tw">' + RUCard.sparkle(ac0[0] - 4, ac0[1] + 2, 15, GOLD) + '</g>' +
+    var shine = '<g class="tw">' + RUCard.sparkle(ac0[0] - 4, ac0[1] + 2, 15, BLUE) + '</g>' +
       '<g class="tw" style="animation-delay:.3s">' + RUCard.sparkle(ac1[0] + 4, ac0[1] + 16, 12, "#fff") + '</g>' +
-      '<g class="tw" style="animation-delay:.6s">' + RUCard.sparkle(ac0[0] + 40, ac1[1] + 22, 10, GOLD) + '</g>' +
+      '<g class="tw" style="animation-delay:.6s">' + RUCard.sparkle(ac0[0] + 40, ac1[1] + 22, 10, BLUE) + '</g>' +
       '<g class="tw" style="animation-delay:.15s">' + RUCard.sparkle(ac1[0] - 30, ac1[1] + 26, 13, "#fff") + '</g>' +
       '<g class="ok"><rect x="' + ((ac0[0] + ac1[0]) / 2 - 70) + '" y="' + (ac1[1] + 14) + '" width="140" height="36" rx="18" fill="#2BD99A"/>' +
-      '<text x="' + ((ac0[0] + ac1[0]) / 2) + '" y="' + (ac1[1] + 38) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="17" fill="' + NAVY + '">✓ BERSIH</text></g>';
+      '<text x="' + ((ac0[0] + ac1[0]) / 2) + '" y="' + (ac1[1] + 38) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="17" fill="' + DARK + '">✓ BERSIH</text></g>';
 
     var T = '<g transform="translate(' + A.x + "," + A.y + ") scale(" + A.s + ')">';
     return uniqueIds('<svg viewBox="0 0 900 550">' + defs +
-      '<g class="g o-dim"><rect x="-40" y="-40" width="980" height="630" rx="20" fill="#06101f" opacity=".8"/></g>' +
+      '<g class="g o-dim"><rect x="-40" y="-40" width="980" height="630" rx="20" fill="#F2FAFE" opacity=".88"/></g>' +
       T +
       '<g class="g o-cold">' + cold + "</g>" +
       '<g class="g o-weak">' + weak + "</g>" +
@@ -278,7 +279,7 @@
     s.push({ cls: "s-why6", ov: "calm", dur: 9000, html:
       '<div class="ru-kicker in">Kenapa Rejeki Utama AC?</div><h2 class="in" style="--d:150">Kepercayaan dibangun<br><span class="ru-gold">dari layanan</span></h2>' +
       '<div class="why6">' + cfg.keunggulan.slice(0, 6).map(function (k, i) {
-        return '<div class="c pop" style="--d:' + (400 + i * 160) + '"><svg viewBox="0 0 24 24">' + RUCard.lineIcon(k.ikon, 0, 0, 24, GOLD, 1.6) + "</svg><div><b>" + esc(k.judul) + "</b><span>" + esc(k.teks) + "</span></div></div>";
+        return '<div class="c pop" style="--d:' + (400 + i * 160) + '"><svg viewBox="0 0 24 24">' + RUCard.lineIcon(k.ikon, 0, 0, 24, BLUE, 1.6) + "</svg><div><b>" + esc(k.judul) + "</b><span>" + esc(k.teks) + "</span></div></div>";
       }).join("") + '</div><p class="why-foot in" style="--d:1500">Cocok untuk restoran & kafe • hotel • kantor • rumah</p>' });
 
     s.push({ cls: "s-team", ov: "calm", dur: 9000, html:
