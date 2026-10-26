@@ -19,13 +19,13 @@
             --ink-soft: #8a7a83;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; scroll-padding-top: 110px; }
         body { font-family: 'Arial', sans-serif; line-height: 1.6; color: var(--ink); background: var(--cream); }
         nav { position: fixed; top: 0; width: 100%; background: rgba(255, 250, 246, 0.92); backdrop-filter: blur(6px); box-shadow: 0 2px 12px rgba(185, 124, 139, 0.15); padding: 0.8rem 1rem; z-index: 1000; }
         nav ul { list-style: none; display: flex; justify-content: center; align-items: center; gap: 2rem; }
         nav a { color: var(--ink); text-decoration: none; font-weight: bold; transition: color 0.3s; white-space: nowrap; }
         nav a:hover { color: var(--rose); }
-        .logo img { height: 40px; display: block; }
+        .logo a { font-family: Georgia, serif; font-weight: normal; font-size: 1.2rem; color: var(--rose); letter-spacing: 0.04em; }
         header { position: relative; overflow: hidden; background: linear-gradient(135deg, var(--blush), var(--lavender) 50%, var(--sage)); height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; color: white; padding: 0 1rem; }
         .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(94, 78, 87, 0.25), rgba(94, 78, 87, 0.45)); z-index: 1; }
@@ -66,10 +66,26 @@
         .lightbox { position: fixed; inset: 0; background: rgba(94, 78, 87, 0.88); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 1rem; cursor: zoom-out; }
         .lightbox.open { display: flex; }
         .lightbox img { max-width: 100%; max-height: 100%; border: 8px solid #fff; border-radius: 6px; }
+        .chips { display: flex; gap: 0.5rem; overflow-x: auto; padding: 0.3rem 0 1rem; margin-bottom: 0.5rem; scrollbar-width: none; }
+        .chips::-webkit-scrollbar { display: none; }
+        .chips a { flex: none; background: #fff; border: 1px solid var(--blush); color: var(--rose); text-decoration: none; font-size: 0.85rem; padding: 0.4rem 0.9rem; border-radius: 30px; white-space: nowrap; }
+        .chips a:active { background: var(--blush); }
         .wa-btn { position: fixed; bottom: 2rem; right: 2rem; background: #8fcfa8; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; text-decoration: none; box-shadow: 0 5px 15px rgba(94, 78, 87, 0.25); z-index: 1000; }
         footer { background: var(--lavender); color: var(--ink); text-align: center; padding: 2rem 1rem; }
         @media (max-width: 768px) {
-            nav ul { justify-content: flex-start; gap: 1.2rem; overflow-x: auto; }
+            nav { padding: 0.5rem 0 0.4rem; }
+            nav ul { flex-wrap: wrap; justify-content: center; gap: 0.2rem 1.1rem; padding: 0 0.8rem; }
+            nav li.logo { flex-basis: 100%; text-align: center; }
+            nav a { font-size: 0.85rem; }
+            .logo a { font-size: 1.1rem; }
+            .band { padding: 3.5rem 1rem; }
+            .lead { font-size: 1rem; margin-bottom: 2rem; }
+            #jasa .grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+            #jasa .card { padding: 1rem 0.8rem; border-radius: 12px; }
+            #jasa .card h3 { font-size: 1rem; margin-top: 0.2rem; }
+            #jasa .card p { font-size: 0.82rem; line-height: 1.45; }
+            .btn.small { padding: 0.5rem 1rem; font-size: 0.8rem; margin-top: 0.7rem; }
+            h3.group { font-size: 1.5rem; margin-top: 2rem; }
             .hero h1 { font-size: 2.2rem; }
             h2 { font-size: 2rem; }
             .gallery { grid-template-columns: repeat(2, 1fr); gap: 1.6rem 0.9rem; }
@@ -83,17 +99,17 @@
 <body>
     <nav>
         <ul>
-            <li class="logo"><img src="media/logo.png" alt="Diamond Make Up Artist"></li>
+            <li class="logo"><a href="#home">&#9670; Diamond MUA</a></li>
             <li><a href="#home">Home</a></li>
-            <li><a href="#jasa">Jasa Makeup</a></li>
+            <li><a href="#jasa">Jasa</a></li>
             <li><a href="#portofolio">Portofolio</a></li>
-            <li><a href="#course">Makeup Course</a></li>
+            <li><a href="#course">Course</a></li>
             <li><a href="#kontak">Kontak</a></li>
         </ul>
     </nav>
 
     <header id="home" class="hero">
-        <video class="hero-video" src="media/hero.mp4" autoplay muted loop playsinline></video>
+        <video class="hero-video" src="media/hero.mp4" poster="media/hero-poster.jpg" autoplay muted loop playsinline></video>
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Diamond Make Up Artist</h1>
@@ -171,34 +187,35 @@
             <h2>Portofolio Makeup</h2>
             <p class="lead">Hasil karya makeup by Ing2 dan tim Diamond Make Up Artist.</p>
 
+            <div class="chips"><a href="#p-ing2-wedding">Wedding Bride</a><a href="#p-ing2-sweet17">Sweet Seventeen</a><a href="#p-ing2-presweet17">Pre Sweet 17</a><a href="#p-ing2-prewedding">Prewedding</a><a href="#p-ing2-engagement">Engagement</a><a href="#p-ing2-party">Party Makeup</a><a href="#p-ing2-maternity">Maternity</a><a href="#p-ing2-photoshoot">Photoshoot</a><a href="#p-ing2-kids">Kids Makeup</a><a href="#p-eliana">Eliana</a><a href="#p-monic">Monic</a><a href="#p-davina">Davina</a><a href="#p-clara-hairdo">Clara</a></div>
             <h3 class="group">Makeup by Ing2</h3>
-            <h4 class="cat">Wedding Bride</h4>
+            <h4 class="cat" id="p-ing2-wedding">Wedding Bride</h4>
             <div class="gallery" data-folder="ing2-wedding" data-title="Wedding Bride" data-by="by Ing2" data-slots="3"></div>
-            <h4 class="cat">Sweet Seventeen</h4>
+            <h4 class="cat" id="p-ing2-sweet17">Sweet Seventeen</h4>
             <div class="gallery" data-folder="ing2-sweet17" data-title="Sweet Seventeen" data-by="by Ing2" data-slots="2"></div>
-            <h4 class="cat">Pre Sweet 17</h4>
+            <h4 class="cat" id="p-ing2-presweet17">Pre Sweet 17</h4>
             <div class="gallery" data-folder="ing2-presweet17" data-title="Pre Sweet 17" data-by="by Ing2" data-slots="2"></div>
-            <h4 class="cat">Prewedding</h4>
+            <h4 class="cat" id="p-ing2-prewedding">Prewedding</h4>
             <div class="gallery" data-folder="ing2-prewedding" data-title="Prewedding" data-by="by Ing2" data-slots="2"></div>
-            <h4 class="cat">Engagement</h4>
+            <h4 class="cat" id="p-ing2-engagement">Engagement</h4>
             <div class="gallery" data-folder="ing2-engagement" data-title="Engagement" data-by="by Ing2" data-slots="2"></div>
-            <h4 class="cat">Party Makeup</h4>
+            <h4 class="cat" id="p-ing2-party">Party Makeup</h4>
             <div class="gallery" data-folder="ing2-party" data-title="Party Makeup" data-by="by Ing2" data-slots="2"></div>
-            <h4 class="cat">Maternity</h4>
+            <h4 class="cat" id="p-ing2-maternity">Maternity</h4>
             <div class="gallery" data-folder="ing2-maternity" data-title="Maternity" data-by="by Ing2" data-slots="1"></div>
-            <h4 class="cat">Photoshoot</h4>
+            <h4 class="cat" id="p-ing2-photoshoot">Photoshoot</h4>
             <div class="gallery" data-folder="ing2-photoshoot" data-title="Photoshoot" data-by="by Ing2" data-slots="1"></div>
-            <h4 class="cat">Kids Makeup</h4>
+            <h4 class="cat" id="p-ing2-kids">Kids Makeup</h4>
             <div class="gallery" data-folder="ing2-kids" data-title="Kids Makeup" data-by="by Ing2" data-slots="2"></div>
 
             <h3 class="group">Makeup by Team</h3>
-            <h4 class="cat">by Eliana &middot; Makeup Artist</h4>
+            <h4 class="cat" id="p-eliana">by Eliana &middot; Makeup Artist</h4>
             <div class="gallery" data-folder="eliana" data-title="Makeup Artist" data-by="by Eliana" data-slots="3"></div>
-            <h4 class="cat">by Monic &middot; Makeup Artist</h4>
+            <h4 class="cat" id="p-monic">by Monic &middot; Makeup Artist</h4>
             <div class="gallery" data-folder="monic" data-title="Makeup Artist" data-by="by Monic" data-slots="3"></div>
-            <h4 class="cat">by Davina &middot; Makeup Artist</h4>
+            <h4 class="cat" id="p-davina">by Davina &middot; Makeup Artist</h4>
             <div class="gallery" data-folder="davina" data-title="Makeup Artist" data-by="by Davina" data-slots="3"></div>
-            <h4 class="cat">by Clara &middot; Hairdo</h4>
+            <h4 class="cat" id="p-clara-hairdo">by Clara &middot; Hairdo</h4>
             <div class="gallery" data-folder="clara-hairdo" data-title="Hairdo" data-by="by Clara" data-slots="3"></div>
         </div>
     </section>
@@ -208,27 +225,26 @@
         <div class="wrap">
             <h2>Makeup Course</h2>
             <p class="lead">Mau jadi makeup artist profesional? Belajar langsung dari Ing2. Kelas dirancang untuk pemula hingga pro, fokus teknik premium seperti monolid dan facelift aging makeup.</p>
+            <h4 class="cat">Suasana Kelas</h4>
+            <div class="gallery" data-folder="course" data-title="Makeup Course" data-by="Kelas Ing2" data-slots="3"></div>
+            <h4 class="cat">Pilihan Kelas</h4>
             <div class="grid">
                 <div class="card">
-                    <video src="media/course/basic.mp4" autoplay muted loop playsinline></video>
                     <h3>Basic MUA (3 Hari)</h3>
                     <p>Anatomi wajah, kontur dasar, rias harian &amp; pesta ringan. Siap terima klien!</p>
                     <a href="https://wa.me/6289512614222?text=Halo%20Ing2%2C%20saya%20ingin%20daftar%20kelas%20Basic%20MUA%20%283%20Hari%29" class="btn small" target="_blank">Daftar via WA</a>
                 </div>
                 <div class="card">
-                    <video src="media/course/wedding.mp4" autoplay muted loop playsinline></video>
                     <h3>Wedding Advance</h3>
                     <p>Teknik bridal full, engagement, waterproof look untuk acara besar.</p>
                     <a href="https://wa.me/6289512614222?text=Halo%20Ing2%2C%20saya%20ingin%20daftar%20kelas%20Wedding%20Advance" class="btn small" target="_blank">Daftar via WA</a>
                 </div>
                 <div class="card">
-                    <video src="media/course/monolid.mp4" autoplay muted loop playsinline></video>
                     <h3>Monolid Technique (1 Sesi 4-6 Jam)</h3>
                     <p>Eye makeup spesial mata sipit: smokey, cat eye, natural glam.</p>
                     <a href="https://wa.me/6289512614222?text=Halo%20Ing2%2C%20saya%20ingin%20daftar%20kelas%20Monolid%20Technique%20%281%20Sesi%204-6%20Jam%29" class="btn small" target="_blank">Daftar via WA</a>
                 </div>
                 <div class="card">
-                    <video src="media/course/mature.mp4" autoplay muted loop playsinline></video>
                     <h3>Mature/Facelift (1 Sesi)</h3>
                     <p>Rias anti-aging, lifting effect untuk klien dewasa.</p>
                     <a href="https://wa.me/6289512614222?text=Halo%20Ing2%2C%20saya%20ingin%20daftar%20kelas%20Mature/Facelift%20%281%20Sesi%29" class="btn small" target="_blank">Daftar via WA</a>
@@ -258,19 +274,20 @@
         // Boleh foto (.jpg/.png/.webp) atau video (.mp4/.webm/.mov), jumlah bebas.
         // Kategori yang masih kosong menampilkan bingkai "Segera Hadir".
         const PORTFOLIO = {
-            "ing2-wedding": [],
-            "ing2-sweet17": [],
-            "ing2-presweet17": [],
-            "ing2-prewedding": [],
-            "ing2-engagement": [],
+            "ing2-wedding": ["01.mp4", "02.mp4", "03.mp4", "04.webp", "05.webp", "06.webp", "07.webp", "08.webp", "09.webp", "10.mp4"],
+            "ing2-sweet17": ["01.webp", "02.webp", "03.webp", "04.webp"],
+            "ing2-presweet17": ["01.webp", "02.webp", "03.mp4", "04.webp", "05.webp", "06.webp", "07.webp", "08.webp", "09.mp4", "10.webp", "11.webp"],
+            "ing2-prewedding": ["01.mp4", "02.webp"],
+            "ing2-engagement": ["01.mp4", "02.mp4", "03.mp4", "04.webp", "05.webp"],
             "ing2-party": [],
-            "ing2-maternity": [],
-            "ing2-photoshoot": [],
-            "ing2-kids": [],
+            "ing2-maternity": ["01.mp4", "02.webp", "03.mp4", "04.webp", "05.mp4"],
+            "ing2-photoshoot": ["01.webp", "02.webp", "03.webp", "04.webp", "05.webp", "06.webp", "07.webp", "08.webp", "09.webp", "10.webp", "11.webp", "12.webp", "13.webp"],
+            "ing2-kids": ["01.mp4", "02.webp", "03.webp"],
             "eliana": [],
             "monic": [],
             "davina": [],
-            "clara-hairdo": [],
+            "course": ["01.mp4", "02.mp4", "03.mp4"],
+            "clara-hairdo": ["01.mp4"],
         };
 
         const isVideo = f => /\.(mp4|webm|mov|m4v)$/i.test(f);
@@ -289,7 +306,7 @@
                 if (!file) {
                     media = '<div class="media empty"><b>&#9670;</b>Segera Hadir</div>';
                 } else if (isVideo(file)) {
-                    media = `<div class="media"><video src="media/${folder}/${file}" controls playsinline preload="metadata"></video></div>`;
+                    media = `<div class="media"><video src="media/${folder}/${file}" poster="media/${folder}/${file.replace(/\.\w+$/, '.jpg')}" controls playsinline preload="none"></video></div>`;
                 } else {
                     media = `<div class="media"><img src="media/${folder}/${file}" alt="${g.dataset.title} ${g.dataset.by}" loading="lazy"></div>`;
                 }
