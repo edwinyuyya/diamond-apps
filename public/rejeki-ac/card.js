@@ -92,13 +92,14 @@
     return '<polygon points="' + p.join(" ") + '" fill="' + fill + '"/>';
   }
 
-  // Tulisan merek sesuai logo resmi: nama, bidang usaha, SERVICE EXCELLENT + 5 bintang
+  // Tulisan merek sesuai logo resmi: nama, bidang usaha, SERVICE EXCELLENT + 5 bintang.
+  // Bintang memakai emas merek (bukan kuning terang) supaya selaras dengan palet navy-emas.
   function wordmark(x, y, cfg, light) {
     var main = light ? NAVY : WHITE, sub = light ? BRAND : "#5CC8F0", stars = "";
-    for (var k = 0; k < 5; k++) stars += star(x + 382 + k * 38, y + 72, 14, "#FDE100");
-    return '<text x="' + x + '" y="' + y + '" font-family="Montserrat" font-weight="900" font-size="50" fill="' + main + '">REJEKI UTAMA AC</text>' +
-      '<text x="' + (x + 2) + '" y="' + (y + 36) + '" font-family="Poppins" font-weight="600" font-size="21.5" fill="' + sub + '">' + esc(cfg.subjudul) + "</text>" +
-      '<text transform="translate(' + (x + 2) + "," + (y + 82) + ') skewX(-12)" font-family="Montserrat" font-weight="900" font-size="29" fill="' + main + '">SERVICE EXCELLENT</text>' +
+    for (var k = 0; k < 5; k++) stars += star(x + 316 + k * 32, y + 75, 12.5, GOLD2);
+    return '<text x="' + x + '" y="' + y + '" font-family="Montserrat" font-weight="900" font-size="50" letter-spacing=".5" fill="' + main + '">REJEKI UTAMA AC</text>' +
+      '<text x="' + (x + 2) + '" y="' + (y + 37) + '" font-family="Poppins" font-weight="600" font-size="23" fill="' + sub + '">' + esc(cfg.subjudul) + "</text>" +
+      '<text transform="translate(' + (x + 2) + "," + (y + 84) + ') skewX(-12)" font-family="Montserrat" font-weight="900" font-size="26" fill="' + main + '">SERVICE EXCELLENT</text>' +
       stars;
   }
 
@@ -153,41 +154,53 @@
   }
 
   // ---------------- DEPAN: Minimal ----------------
+  // Kisi: margin kiri 60, area aman 30 unit dari tepi potong. Teks terkecil 18,5 unit (± 5,3 pt, huruf kapital tebal).
+  function fitSize(text, max, width, em) {
+    // perkiraan lebar huruf kapital Montserrat tebal ≈ em × ukuran per karakter
+    return Math.min(max, +(width / (String(text).length * em)).toFixed(1));
+  }
   function front(cfg, opts) {
     opts = opts || {};
     var u = "_" + (logoSeq++); // id unik: beberapa kartu bisa tampil di satu halaman
     var b = BLEED, tex = "";
     for (var i = 0; i < 14; i++) tex += '<line x1="' + (i * 80 - 300) + '" y1="' + (-b) + '" x2="' + (i * 80 + 100) + '" y2="' + (550 + b) + '"/>';
-    var svc = [["tools", "SERVICE AC"], ["gear", "MAINTENANCE"], ["box", "INSTALLATION"], ["hand", "TROUBLESHOOTING"]];
-    var band = "", cxs = [112, 304, 506, 712];
+    // pita layanan: satu baris rata tengah, dipisah belah ketupat kecil (lebar teks diukur untuk Montserrat 800 / 19)
+    var svc = [["SERVICE AC", 129.6], ["MAINTENANCE", 161.8], ["INSTALLATION", 158.5], ["TROUBLESHOOTING", 217.6]], band = "", GAP = 40;
+    var bx = 450 - (svc.reduce(function (t, s) { return t + s[1]; }, 0) + GAP * (svc.length - 1)) / 2;
     svc.forEach(function (s, k) {
-      band += lineIcon(s[0], cxs[k] - 78, 478, 28, NAVY, 2.2) +
-        '<text x="' + (cxs[k] - 42) + '" y="498" font-family="Montserrat" font-weight="800" font-size="13.5" letter-spacing="1.1" fill="' + NAVY + '">' + s[1] + "</text>";
-      if (k) band += '<line x1="' + (cxs[k] - 98) + '" y1="474" x2="' + (cxs[k] - 98) + '" y2="508" stroke="' + NAVY + '" stroke-opacity=".45" stroke-width="2"/>';
+      if (k) band += '<rect x="' + (bx - GAP / 2 - 4).toFixed(1) + '" y="495" width="8" height="8" transform="rotate(45 ' + (bx - GAP / 2).toFixed(1) + ' 499)" fill="' + NAVY + '" fill-opacity=".55"/>';
+      band += '<text x="' + bx.toFixed(1) + '" y="506" font-family="Montserrat" font-weight="800" font-size="19" letter-spacing=".9" fill="' + NAVY + '">' + s[0] + "</text>";
+      bx += s[1] + GAP;
     });
+    var nama = cfg.nama.toUpperCase(), jab = cfg.jabatan.toUpperCase();
+    var nSize = fitSize(nama, 34, 410, 0.78), jSize = fitSize(jab, 18.5, 410, 0.74);
     return svgOpen(opts.bleed) +
-      '<defs><linearGradient id="fbg' + u + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="' + NAVY2 + '"/><stop offset="1" stop-color="' + DEEP + '"/></linearGradient>' +
-      '<linearGradient id="fgold' + u + '" x1="0" x2="1"><stop offset="0" stop-color="#C9972F"/><stop offset=".5" stop-color="' + GOLD2 + '"/><stop offset="1" stop-color="#C9972F"/></linearGradient>' +
-      '<linearGradient id="fline' + u + '" x1="0" x2="1"><stop offset="0" stop-color="' + GOLD + '" stop-opacity="0"/><stop offset=".15" stop-color="' + GOLD + '"/><stop offset=".85" stop-color="' + GOLD + '"/><stop offset="1" stop-color="' + GOLD + '" stop-opacity="0"/></linearGradient></defs>' +
+      '<defs><radialGradient id="fbg' + u + '" cx=".78" cy=".05" r="1.1"><stop offset="0" stop-color="#1C3763"/><stop offset=".45" stop-color="' + NAVY2 + '"/><stop offset="1" stop-color="' + DEEP + '"/></radialGradient>' +
+      '<linearGradient id="fgold' + u + '" x1="0" y1="0" x2="1" y2=".25"><stop offset="0" stop-color="#C08E2C"/><stop offset=".48" stop-color="' + GOLD2 + '"/><stop offset="1" stop-color="#C08E2C"/></linearGradient>' +
+      '<linearGradient id="fline' + u + '" x1="0" x2="1"><stop offset="0" stop-color="' + GOLD + '"/><stop offset=".7" stop-color="' + GOLD + '" stop-opacity=".55"/><stop offset="1" stop-color="' + GOLD + '" stop-opacity="0"/></linearGradient></defs>' +
       '<rect x="' + -b + '" y="' + -b + '" width="' + (900 + 2 * b) + '" height="' + (550 + 2 * b) + '" fill="url(#fbg' + u + ')"/>' +
-      '<g stroke="#fff" stroke-opacity=".025" stroke-width="26">' + tex + "</g>" +
-      '<path d="M690 22H878V150" fill="none" stroke="' + GOLD + '" stroke-width="2.5"/><path d="M730 36H864V110" fill="none" stroke="' + GOLD + '" stroke-opacity=".5" stroke-width="1.5"/>' +
-      logo(64, 44, 158) +
-      wordmark(246, 100, cfg) +
-      '<text x="450" y="246" text-anchor="middle" font-family="Poppins" font-weight="500" font-size="23" fill="' + WHITE + '">' + esc(cfg.tagline) + "</text>" +
-      '<rect x="60" y="278" width="780" height="2.5" fill="url(#fline' + u + ')"/>' +
-      // nama
-      '<circle cx="118" cy="364" r="38" fill="none" stroke="' + GOLD + '" stroke-width="2.5"/>' +
-      '<circle cx="118" cy="352" r="12" fill="none" stroke="' + WHITE + '" stroke-width="2.5"/><path d="M96 386q22-26 44 0" fill="none" stroke="' + WHITE + '" stroke-width="2.5" stroke-linecap="round"/>' +
-      '<text x="174" y="358" font-family="Montserrat" font-weight="700" font-size="27" fill="' + WHITE + '">' + esc(cfg.nama.toUpperCase()) + "</text>" +
-      '<text x="174" y="390" font-family="Montserrat" font-weight="600" font-size="16" letter-spacing="1" fill="' + GOLD + '">' + esc(cfg.jabatan.toUpperCase()) + "</text>" +
-      '<rect x="508" y="318" width="2.5" height="92" fill="' + GOLD + '"/>' +
+      '<g stroke="#fff" stroke-opacity=".022" stroke-width="26">' + tex + "</g>" +
+      // tanda air kepingan salju (sangat halus) di kanan
+      '<g opacity=".045">' + snowflake(858, 40, 150, "#fff", 9) + "</g>" +
+      // logo + tulisan merek
+      logo(60, 46, 152) +
+      wordmark(238, 102, cfg) +
+      // tagline rata kiri, sejajar logo
+      '<text x="62" y="262" font-family="Poppins" font-weight="500" font-size="24" fill="' + WHITE + '" fill-opacity=".9">' + esc(cfg.tagline) + "</text>" +
+      '<rect x="62" y="288" width="778" height="2" fill="url(#fline' + u + ')"/>' +
+      // nama & jabatan
+      '<text x="60" y="360" font-family="Montserrat" font-weight="800" font-size="' + nSize + '" letter-spacing=".5" fill="' + WHITE + '">' + esc(nama) + "</text>" +
+      '<text x="62" y="396" font-family="Montserrat" font-weight="700" font-size="' + jSize + '" letter-spacing="1.6" fill="' + GOLD + '">' + esc(jab) + "</text>" +
+      '<rect x="508" y="324" width="2" height="82" fill="' + GOLD + '" fill-opacity=".8"/>' +
       // whatsapp
-      '<g transform="translate(546,332) scale(2)"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3z" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 10.5c.3-.6.6-.6.9-.6h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6-.6 1.1-1.2 1-.9 1.5a7.6 7.6 0 0 0 3.8 3.3c.3.1.4 0 .6-.2s.6-.8.8-1 .4-.2.7-.1 1.6.8 1.9.9.4.2.5.3a2.4 2.4 0 0 1-.2 1.3 2.9 2.9 0 0 1-1.8 1.3c-.9.2-1.7.1-3.4-.7a12.6 12.6 0 0 1-4.8-4.3 5.5 5.5 0 0 1-1.1-2.9 3.2 3.2 0 0 1 1-2.4z" fill="#fff"/></g>' +
-      '<text x="622" y="356" font-family="Poppins" font-weight="500" font-size="21" fill="' + WHITE + '">WhatsApp</text>' +
-      '<text x="622" y="390" font-family="Montserrat" font-weight="700" font-size="25" fill="' + WHITE + '">' + esc(cfg.telepon) + "</text>" +
+      '<circle cx="568" cy="364" r="32" fill="' + GOLD + '"/>' +
+      '<g transform="translate(548.5,344.5) scale(1.22)"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3z" fill="none" stroke="' + NAVY + '" stroke-width="2.2" stroke-linejoin="round"/><path d="M12 10.5c.3-.6.6-.6.9-.6h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6-.6 1.1-1.2 1-.9 1.5a7.6 7.6 0 0 0 3.8 3.3c.3.1.4 0 .6-.2s.6-.8.8-1 .4-.2.7-.1 1.6.8 1.9.9.4.2.5.3a2.4 2.4 0 0 1-.2 1.3 2.9 2.9 0 0 1-1.8 1.3c-.9.2-1.7.1-3.4-.7a12.6 12.6 0 0 1-4.8-4.3 5.5 5.5 0 0 1-1.1-2.9 3.2 3.2 0 0 1 1-2.4z" fill="' + NAVY + '"/></g>' +
+      '<text x="618" y="350" font-family="Montserrat" font-weight="700" font-size="18.5" letter-spacing="1.6" fill="' + GOLD + '">WHATSAPP</text>' +
+      '<text x="617" y="389" font-family="Montserrat" font-weight="800" font-size="' + fitSize(cfg.telepon, 30, 245, 0.66) + '" fill="' + WHITE + '">' + esc(cfg.telepon) + "</text>" +
       // pita layanan emas
-      '<rect x="' + -b + '" y="450" width="' + (900 + 2 * b) + '" height="' + (100 + b) + '" fill="url(#fgold' + u + ')"/>' + band +
+      '<rect x="' + -b + '" y="450" width="' + (900 + 2 * b) + '" height="' + (100 + b) + '" fill="url(#fgold' + u + ')"/>' +
+      '<rect x="' + -b + '" y="450" width="' + (900 + 2 * b) + '" height="2" fill="#FFF3CF" fill-opacity=".55"/>' +
+      band +
       "</svg>";
   }
 

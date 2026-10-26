@@ -28,6 +28,11 @@
   var WA_ICON = '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>';
   var PHONE_ICON = '<svg viewBox="0 0 26 26" fill="currentColor"><path d="M5 2h5l2 6-3 2a13 13 0 0 0 6 6l2-3 6 2v5a2 2 0 0 1-2 2A20 20 0 0 1 3 4a2 2 0 0 1 2-2z"/></svg>';
   var USER_ICON = '<svg viewBox="0 0 26 26" fill="currentColor"><circle cx="13" cy="8" r="6"/><path d="M1 25a12 10 0 0 1 24 0z"/></svg>';
+  var SEARCH_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>';
+  var RES_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="#0E1B33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
+  var RES_WARN = '<svg viewBox="0 0 24 24" fill="none" stroke="#0E1B33" stroke-width="3" stroke-linecap="round"><path d="M12 6v8M12 18.5h.01"/></svg>';
+  // ikon garis kecil (dari card.js) sebagai <svg> mandiri
+  function ico(name, color) { return '<svg viewBox="0 0 24 24">' + RUCard.lineIcon(name, 0, 0, 24, color, 2) + "</svg>"; }
   var CHIP_COLORS = ["#0C3363", "#19A7D6", "#C99700", "#2BB58A", "#E0555A", "#6B5BD6", "#0F7C9E", "#D9822B"];
 
   // angka acak tapi tetap sama tiap kali (supaya gambar konsisten)
@@ -193,17 +198,17 @@
     var s = [];
 
     s.push({ cls: "s-alive", ov: "alive", dur: 7000, temp: [30, 18, 900, 2200], html:
-      '<div class="ru-kicker in">Kartu ini hidup ✨</div>' +
+      '<div class="ru-kicker in">Kartu ini hidup</div>' +
       '<h2 class="in" style="--d:150">Ini AC Anda.</h2>' +
       '<p class="ru-lead in" style="--d:400">Dinyalakan… udara dingin keluar, ruangan jadi nyaman. Semua terlihat baik-baik saja.</p>' +
       '<div class="bigtemp in" style="--d:700"><b class="tempMirror">30°</b><span>suhu ruangan<br>turun perlahan</span></div>' +
-      '<div class="chips"><span class="pop" style="--d:2200">❄️ Sejuk</span><span class="pop" style="--d:2450">😌 Nyaman</span><span class="pop" style="--d:2700">👍 Normal</span></div>' });
+      '<div class="chips"><span class="pop" style="--d:2200">' + ico("snow", ICE2) + 'Sejuk</span><span class="pop" style="--d:2450">' + ico("smile", ICE2) + 'Nyaman</span><span class="pop" style="--d:2700">' + ico("shield", ICE2) + "Normal</span></div>" });
 
     s.push({ cls: "s-q", ov: "question", dur: 5500, temp: [18, 18, 0, 0], html:
       '<div class="ru-kicker in">Tunggu dulu…</div>' +
       '<h2 class="in" style="--d:150">AC Anda mungkin<br>terlihat bersih.</h2>' +
       '<h2 class="in ru-gold" style="--d:900;margin-top:26px">Tapi bagaimana kondisi di dalamnya?</h2>' +
-      '<div class="scanbox in" style="--d:500"><div class="t"><span>🔍 Memindai bagian dalam AC</span><span>x-ray</span></div><div class="track"><i></i></div></div>' });
+      '<div class="scanbox in" style="--d:500"><div class="t"><span>' + SEARCH_ICON + 'Memindai bagian dalam AC</span><span>x-ray</span></div><div class="track"><i></i></div></div>' });
 
     s.push({ cls: "s-x", ov: "xray", dur: 11000, temp: [18, 18, 0, 0], html:
       '<div class="ru-kicker in">Di balik casing</div>' +
@@ -319,9 +324,9 @@
         return;
       }
       var score = ans.reduce(function (t, k, j) { return t + QUIZ[j].o[k][1]; }, 0);
-      var lv = score <= 1 ? ["g", "🟢", "GOOD", "AC Anda dalam kondisi baik. Pertahankan dengan service rutin tiap 3–4 bulan."] :
-               score <= 3 ? ["y", "🟡", "NEEDS ATTENTION", "Mulai ada tanda-tanda. Lebih murah dicek sekarang daripada diperbaiki nanti."] :
-                            ["r", "🔴", "SERVICE RECOMMENDED", "AC Anda butuh perhatian segera sebelum kerusakan makin besar."];
+      var lv = score <= 1 ? ["g", RES_OK, "GOOD", "AC Anda dalam kondisi baik. Pertahankan dengan service rutin tiap 3–4 bulan."] :
+               score <= 3 ? ["y", RES_WARN, "NEEDS ATTENTION", "Mulai ada tanda-tanda. Lebih murah dicek sekarang daripada diperbaiki nanti."] :
+                            ["r", RES_WARN, "SERVICE RECOMMENDED", "AC Anda butuh perhatian segera sebelum kerusakan makin besar."];
       var detail = QUIZ.map(function (q, j) { return q.q.replace("?", "") + ": " + q.o[ans[j]][0]; }).join("; ");
       var msg = "Halo " + cfg.perusahaan + ", saya habis cek kesehatan AC lewat kartu nama Anda. Hasil: " + lv[2] + " (" + detail + "). Mau konsultasi gratis.";
       box.innerHTML = '<div class="anim"><div class="res ' + lv[0] + '"><div class="dot">' + lv[1] + '</div><div class="lv">' + lv[2] + "</div><p>" + lv[3] + "</p></div>" +

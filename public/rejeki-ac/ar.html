@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0E1B33">
+<link rel="icon" href="data:,">
 <title>Rejeki Utama AC — Kartu AR</title>
 <meta name="description" content="Arahkan kamera ke kartu nama Rejeki Utama AC dan lihat apa yang sebenarnya terjadi di dalam AC Anda.">
 <link rel="stylesheet" href="fonts.css">
@@ -18,25 +19,29 @@
   #intro{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 20px calc(20px + env(safe-area-inset-bottom));overflow-y:auto;
     background:radial-gradient(120% 70% at 70% 0%,#1d3a66,#13284A 40%,var(--deep) 85%)}
   #intro .brand{display:flex;align-items:center;gap:12px;animation:rise .9s cubic-bezier(.2,.9,.2,1) both}
-  #intro .brand svg{width:64px;height:64px}
-  #intro .brand svg{width:72px;height:72px}
+  #intro .brand > svg{width:72px;height:72px;flex:none}
   #intro .brand b{display:block;font:900 22px/1 Montserrat;text-align:left}
   #intro .brand small{display:block;font:italic 900 14px Montserrat;text-align:left;margin-top:7px}
-  #intro .brand small span{color:#FDE100;font-style:normal;letter-spacing:2px;margin-left:4px}
+  #intro .brand small span{color:var(--gold2);font-style:normal;letter-spacing:2px;margin-left:4px}
   @keyframes rise{from{opacity:0;transform:translateY(20px)}}
-  #intro p.s{color:var(--gold2);margin-top:14px;font-size:14px}
+  #intro p.s{color:var(--gold2);margin-top:16px;font-size:15px;font-weight:500;max-width:300px;text-wrap:balance;animation:rise .9s .1s cubic-bezier(.2,.9,.2,1) both}
+  #intro .rule{width:56px;height:2px;background:var(--gold);opacity:.7;margin-top:16px;border-radius:2px}
   .demo{position:relative;width:min(300px,78vw);aspect-ratio:90/55;margin:78px 0 22px;perspective:700px}
   .demo .card{position:absolute;inset:0;border-radius:10px;overflow:hidden;transform:rotateX(38deg);box-shadow:0 18px 30px rgba(0,0,0,.45)}
   .demo .card svg{width:100%;height:100%;display:block}
   .demo .phone{position:absolute;left:50%;top:-30%;width:40%;aspect-ratio:9/17;border:4px solid #fff;border-radius:16px;transform:translateX(-50%);animation:hover 2.4s ease-in-out infinite;background:rgba(226,176,74,.1)}
   .demo .phone:after{content:"";position:absolute;inset:18% 10%;border:3px dashed var(--gold);border-radius:6px}
   @keyframes hover{50%{transform:translate(-50%,-10px)}}
-  .steps{font-size:14px;line-height:1.6;max-width:340px;opacity:.9}
+  .steps{font-size:14px;line-height:1.6;max-width:330px;opacity:.85;text-wrap:balance}
   .steps b{color:var(--gold2)}
   .go{margin-top:18px;width:min(340px,100%);display:flex;flex-direction:column;gap:10px}
-  .go button{height:54px;border-radius:14px;font:800 16px Montserrat}
+  .go button{height:54px;border-radius:14px;font:800 16px Montserrat;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s}
+  .go button:active{transform:scale(.97)}
+  .go svg,#dock .sw svg{width:20px;height:20px;flex:none}
+  #btnQuiz{font-weight:700;font-size:15px}
   #btnAR{background:linear-gradient(90deg,#C9972F,var(--gold2),#C9972F);color:var(--navy);box-shadow:0 10px 30px rgba(226,176,74,.3)}
-  #btnScreen,#btnQuiz{background:rgba(255,255,255,.08);color:#fff;box-shadow:inset 0 0 0 1.5px rgba(226,176,74,.55)}
+  #btnScreen,#btnQuiz{background:rgba(255,255,255,.06);color:#fff;box-shadow:inset 0 0 0 1.5px rgba(226,176,74,.5)}
+  #btnQuiz{background:transparent;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.18)}
   .err{margin-top:12px;color:#FFB3B5;font-size:13px;max-width:340px;min-height:1em}
 
   /* AR */
@@ -84,13 +89,14 @@
 
 <div id="intro">
   <div class="brand"><svg id="introLogo" viewBox="0 0 100 100"></svg><div><b>REJEKI UTAMA AC</b><small>SERVICE EXCELLENT <span>★★★★★</span></small></div></div>
+  <div class="rule"></div>
   <p class="s">Lihat apa yang sebenarnya terjadi di dalam AC Anda.</p>
   <div class="demo"><div class="card" id="demoCard"></div><div class="phone"></div></div>
   <div class="steps">Tekan <b>Mulai AR</b>, izinkan kamera, lalu arahkan ke <b>sisi kartu bergambar AC</b> (yang ada QR-nya). Pegang HP tepat di atas kartu.</div>
   <div class="go">
-    <button id="btnAR">📷 Mulai AR</button>
-    <button id="btnScreen">▶ Lihat tanpa kamera</button>
-    <button id="btnQuiz">🩺 Cek kesehatan AC Anda (30 detik)</button>
+    <button id="btnAR"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.8l1.6-2.2h6.2L16.7 7h2.8A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="12.8" r="3.6"/></svg><span>Mulai AR</span></button>
+    <button id="btnScreen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4a.8.8 0 0 0 1.2.7l11.3-7.2a.8.8 0 0 0 0-1.4L8.2 4.1A.8.8 0 0 0 7 4.8z"/></svg>Lihat tanpa kamera</button>
+    <button id="btnQuiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2.5-6 4 12 2.5-6H22"/></svg>Cek kesehatan AC Anda (30 detik)</button>
   </div>
   <p class="err" id="err"></p>
 </div>
@@ -115,6 +121,8 @@
 
   const cfg = window.RU;
   const $ = (id) => document.getElementById(id);
+  const CAM_ICON = $("btnAR").querySelector("svg").outerHTML;
+  const arLabel = (t) => ($("btnAR").querySelector("span").textContent = t);
   $("introLogo").innerHTML = RUCard.logo(0, 0, 100);
   $("demoCard").innerHTML = RUCard.back(cfg, RUCard.qrInner(location.href, 112));
   $("dockWa").href = "https://wa.me/" + cfg.whatsapp + "?text=" +
@@ -164,7 +172,7 @@
     mode = "screen";
     $("intro").style.display = "none"; $("scan").style.display = "none"; $("ar").style.display = "none";
     $("screen").style.display = "flex"; $("dock").style.display = "flex";
-    $("dockSwitch").textContent = "📷 Mode AR";
+    $("dockSwitch").innerHTML = CAM_ICON + "Mode AR";
     if (!screenShow) buildScreen();
     fitScreen();
     screenShow.start(fromIndex || 0);
@@ -173,7 +181,7 @@
   // ---------- Mode AR ----------
   async function openAR() {
     $("err").textContent = "";
-    $("btnAR").textContent = "Menyalakan kamera…";
+    arLabel("Menyalakan kamera…");
     if (screenShow) screenShow.pause();
     try {
       if (!mindar) {
@@ -230,11 +238,11 @@
       $("scan").style.display = "flex";
       $("dock").style.display = "flex";
       $("dockSwitch").textContent = "Mode layar";
-      $("btnAR").textContent = "📷 Mulai AR";
+      arLabel("Mulai AR");
     } catch (e) {
       console.error(e);
       mode = null;
-      $("btnAR").textContent = "📷 Mulai AR";
+      arLabel("Mulai AR");
       $("ar").style.display = "none";
       const msg = location.protocol !== "https:" && location.hostname !== "localhost"
         ? "AR butuh alamat https://."
