@@ -535,3 +535,4 @@ body:has(.sticky-buy.show) .wa-float{bottom:100px}
   .ftr-bottom{flex-direction:column;align-items:flex-start}
   .sec{padding-top:44px}
 }
+.ig-link{color:var(--orange);font-weight:600}

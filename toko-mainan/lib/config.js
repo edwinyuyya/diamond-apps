@@ -12,7 +12,7 @@ export const STORE = {
   whatsapp: '6282122023000', // 0821 220 23000
   email: 'halo@toyzone.id',
   address: 'Jakarta, Indonesia',
-  instagram: 'https://instagram.com/toyzone.id',
+  instagram: 'https://instagram.com/toyzone888',
   tiktok: 'https://tiktok.com/@toyzone.id',
 };
 

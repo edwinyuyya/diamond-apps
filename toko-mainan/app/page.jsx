@@ -69,7 +69,7 @@ export default function Home() {
       <section className="sec">
         <div className="wrap">
           <h2 className="sec-title center">Lihat Koleksi Mereka</h2>
-          <p className="center muted sub">Inspirasi dari koleksi pelanggan Toyzone. Tandai kami di Instagram!</p>
+          <p className="center muted sub">Inspirasi dari koleksi pelanggan Toyzone. Tandai kami di Instagram <a href="https://instagram.com/toyzone888" target="_blank" rel="noreferrer" className="ig-link">@toyzone888</a></p>
           <div className="mosaic">
             {CATEGORIES.map((c, i) => (
               <Link key={c.slug} href={`/produk?kategori=${c.slug}`} className={`mosaic-item bframe m${i}`} style={{ '--c': c.color }}>
