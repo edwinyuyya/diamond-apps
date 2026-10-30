@@ -62,7 +62,7 @@ export default function Dashboard() {
         </div>
 
         {info && !info.instagram && <div className="alert alert-warn">⚠️ Akun Instagram belum dihubungkan. Postingan yang disetujui belum bisa terbit. <Link className="link" href="/pengaturan">Hubungkan sekarang</Link></div>}
-        {info && !info.ai && <div className="alert alert-warn">ℹ️ AI caption belum aktif (ANTHROPIC_API_KEY kosong), caption memakai template.</div>}
+        {info && !info.ai && <div className="alert alert-warn">ℹ️ Caption AI belum aktif, caption memakai template. Atur FreeLLMAPI (gratis) atau Claude di environment server.</div>}
 
         <div className="tabs">
           {TABS.map(([k, l]) => <button key={k} className={tab === k ? 'on' : ''} onClick={() => setTab(k)}>{l}{counts[k] > 0 && <i>{counts[k]}</i>}</button>)}

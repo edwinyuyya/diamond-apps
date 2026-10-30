@@ -3,6 +3,7 @@ import { connect, getAccount } from '../../../lib/instagram';
 import { setSetting } from '../../../lib/db';
 import { usingLocalDb } from '../../../lib/db';
 import { BRAND, CLAUDE_MODEL, SCHEDULE } from '../../../lib/config';
+import { captionProvider } from '../../../lib/caption';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,7 +12,7 @@ export async function GET() {
   const acc = await getAccount();
   return NextResponse.json({
     instagram: acc?.token ? { username: acc.username, igUserId: acc.igUserId, expiresAt: acc.expiresAt, connectedAt: acc.connectedAt } : null,
-    ai: process.env.ANTHROPIC_API_KEY ? CLAUDE_MODEL : null,
+    ai: { freellm: `FreeLLMAPI (gratis, model ${process.env.FREELLM_MODEL || 'auto'})`, claude: `Claude (${CLAUDE_MODEL})`, template: null }[captionProvider()] ?? null,
     database: usingLocalDb ? 'lokal (uji coba)' : 'Supabase',
     storeUrl: BRAND.storeUrl,
     schedule: SCHEDULE,

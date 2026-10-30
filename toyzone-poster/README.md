@@ -20,13 +20,29 @@ Aplikasi terpisah untuk @toyzone888. Developed by **Nexora** (08131888116).
 | Access Token Instagram | Panduan ada di dashboard → Pengaturan | Gratis |
 | Supabase | Database (jalankan `schema.sql` di SQL Editor) | Gratis |
 | Hosting | Netlify atau Vercel | Gratis |
-| ANTHROPIC_API_KEY | Opsional, untuk caption AI. Kosong = caption template | Bayar per pemakaian |
+| Caption AI (opsional) | **FreeLLMAPI** (gratis, perlu server sendiri) atau **Claude** (bayar per pemakaian). Tanpa keduanya = caption template | Gratis / sangat kecil |
 
 ## Pasang (deploy)
 1. Buat project Supabase → SQL Editor → jalankan isi `schema.sql`.
 2. Deploy folder `toyzone-poster` ke Netlify (Base directory: `toyzone-poster`) atau Vercel (Root Directory: `toyzone-poster`).
 3. Isi Environment Variables sesuai `env.example`.
 4. Buka aplikasi → login → **Pengaturan** → tempel Access Token Instagram.
+
+## Caption gratis dengan FreeLLMAPI
+[FreeLLMAPI](https://github.com/tashfeenahmed/freellmapi) menggabungkan jatah gratis
+banyak penyedia AI (Google, Groq, Mistral, dll.) dalam satu alamat API.
+1. Jalankan FreeLLMAPI di server yang **menyala 24 jam** dan bisa diakses dari internet
+   (VPS, atau komputer di rumah + Cloudflare Tunnel). Butuh Docker:
+   `curl -fsSL https://freellmapi.co/install.sh | bash`
+2. Buka dashboard FreeLLMAPI → **Keys**: tambahkan API key gratis dari beberapa penyedia,
+   lalu salin **unified key** (`freellmapi-...`).
+3. Isi env Toyzone Poster: `FREELLM_BASE_URL=https://alamat-server-kamu/v1`,
+   `FREELLM_API_KEY=freellmapi-...`, `FREELLM_MODEL=auto`.
+
+Catatan: menurut pembuatnya FreeLLMAPI ditujukan untuk eksperimen pribadi, tanpa jaminan
+layanan, dan kualitas model gratis bisa naik-turun. Kalau FreeLLMAPI mati atau gagal,
+Toyzone Poster otomatis memakai caption template, jadi pengajuan mingguan tetap dibuat.
+Owner tetap memeriksa & bisa mengedit caption sebelum menyetujui.
 
 ## Penjadwal (cron)
 - **Netlify**: otomatis lewat `netlify/functions/cron-weekly.mjs` (Minggu 08.00 WIB)

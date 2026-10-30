@@ -51,28 +51,67 @@ Order sekarang lewat link di bio atau chat WhatsApp ${BRAND.whatsapp} 📦
 #toyzone888 #toyzone #mainan #actionfigure #toys #toycollector #mainananak #koleksimainan #tokomainan #hobbytoys #${p.categoryName.toLowerCase().replace(/[^a-z0-9]/g, '')} #mainanoriginal`;
 }
 
+// Sumber caption: "freellm" (FreeLLMAPI, gratis), "claude" (Anthropic API) atau "template".
+// Otomatis: FREELLM_BASE_URL diisi → freellm; ANTHROPIC_API_KEY diisi → claude; selain itu template.
+export function captionProvider() {
+  const p = process.env.CAPTION_PROVIDER;
+  if (p) return p;
+  if (process.env.FREELLM_BASE_URL) return 'freellm';
+  if (process.env.ANTHROPIC_API_KEY) return 'claude';
+  return 'template';
+}
+
+async function claudeCaption(prompt) {
+  const client = new Anthropic();
+  const res = await client.beta.messages.create({
+    model: CLAUDE_MODEL,
+    max_tokens: 16000,
+    output_config: { effort: 'low' },
+    betas: ['server-side-fallback-2026-07-01'],
+    fallbacks: 'default',
+    system: SYSTEM,
+    messages: [{ role: 'user', content: prompt }],
+  });
+  if (res.stop_reason === 'refusal') throw new Error('Model menolak permintaan');
+  return res.content.filter((b) => b.type === 'text').map((b) => b.text).join('');
+}
+
+// FreeLLMAPI (self-hosted, endpoint kompatibel OpenAI /v1/chat/completions)
+async function freellmCaption(prompt) {
+  const base = process.env.FREELLM_BASE_URL.replace(/\/$/, '');
+  const res = await fetch(`${base}/chat/completions`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.FREELLM_API_KEY || ''}` },
+    body: JSON.stringify({
+      model: process.env.FREELLM_MODEL || 'auto',
+      max_tokens: 1500,
+      messages: [{ role: 'system', content: SYSTEM }, { role: 'user', content: prompt }],
+    }),
+    signal: AbortSignal.timeout(45000),
+    cache: 'no-store',
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error?.message || `FreeLLMAPI error ${res.status}`);
+  return data.choices?.[0]?.message?.content || '';
+}
+
+// Beberapa model gratis menulis "proses berpikir" atau pembuka; dibuang
+const clean = (t) => t
+  .replace(/<think>[\s\S]*?<\/think>/gi, '')
+  .replace(/^\s*(berikut|ini) (adalah )?caption[^\n]*:\s*/i, '')
+  .replace(/^["“]|["”]$/g, '')
+  .trim();
+
 export async function generateCaption(product, theme, style = 'jualan') {
-  if (!process.env.ANTHROPIC_API_KEY) return { caption: templateCaption(product, theme), source: 'template' };
+  const provider = captionProvider();
+  if (provider === 'template') return { caption: templateCaption(product, theme), source: 'template' };
+  const prompt = `${productBrief(product, theme)}\n\nGaya bahasa: ${CAPTION_STYLES[style] || CAPTION_STYLES.jualan}`;
   try {
-    const client = new Anthropic();
-    const res = await client.beta.messages.create({
-      model: CLAUDE_MODEL,
-      max_tokens: 16000,
-      output_config: { effort: 'low' },
-      betas: ['server-side-fallback-2026-07-01'],
-      fallbacks: 'default',
-      system: SYSTEM,
-      messages: [{
-        role: 'user',
-        content: `${productBrief(product, theme)}\n\nGaya bahasa: ${CAPTION_STYLES[style] || CAPTION_STYLES.jualan}`,
-      }],
-    });
-    if (res.stop_reason === 'refusal') throw new Error('Model menolak permintaan');
-    const text = res.content.filter((b) => b.type === 'text').map((b) => b.text).join('').trim();
-    if (!text) throw new Error('Caption kosong');
+    const text = clean(provider === 'freellm' ? await freellmCaption(prompt) : await claudeCaption(prompt));
+    if (text.length < 40) throw new Error('Caption kosong/terlalu pendek');
     return { caption: text.slice(0, 2200), source: 'ai' };
   } catch (e) {
-    console.error('Caption AI gagal, pakai template:', e?.status || '', e?.message);
+    console.error(`Caption ${provider} gagal, pakai template:`, e?.status || '', e?.message);
     return { caption: templateCaption(product, theme), source: 'template', error: e?.message };
   }
 }
