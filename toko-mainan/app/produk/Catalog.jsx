@@ -9,7 +9,7 @@ const SORTS = [
   ['rekomendasi', 'Rekomendasi'], ['terbaru', 'Terbaru'], ['terlaris', 'Terlaris'],
   ['termurah', 'Harga Terendah'], ['termahal', 'Harga Tertinggi'], ['rating', 'Rating Tertinggi'],
 ];
-const TAGS = { baru: 'Produk Baru', terlaris: 'Terlaris', eksklusif: 'Eksklusif', diskon: 'Promo' };
+const TAGS = { baru: 'Produk Baru', terlaris: 'Terlaris', eksklusif: 'Eksklusif', diskon: 'Sale', terbatas: 'Stok Terbatas' };
 
 export default function Catalog() {
   const sp = useSearchParams();
@@ -33,7 +33,7 @@ export default function Catalog() {
     let r = PRODUCTS.filter((p) => {
       if (q && !`${p.name} ${p.description} ${getCategory(p.category)?.name}`.toLowerCase().includes(q.toLowerCase())) return false;
       if (kat.length && !kat.includes(p.category)) return false;
-      if (tag && p.badge.toLowerCase() !== tag && !(tag === 'diskon' && p.salePrice)) return false;
+      if (tag === 'terbatas' ? !(p.stock > 0 && p.stock <= 5) : tag && p.badge.toLowerCase() !== tag && !(tag === 'diskon' && p.salePrice)) return false;
       if (stok && p.stock <= 0) return false;
       if (umur.length && !AGE_GROUPS.filter((a) => umur.includes(a.slug)).some((a) => p.age >= a.min && p.age <= a.max)) return false;
       if (harga.length && !PRICE_RANGES.filter((h) => harga.includes(h.slug)).some((h) => finalPrice(p) >= h.min && finalPrice(p) < h.max)) return false;
@@ -69,11 +69,11 @@ export default function Catalog() {
 
   return (
     <div className="wrap pad">
-      <div className="crumbs"><Link href="/">Beranda</Link> / <span>{title}</span></div>
+      <div className="crumbs"><Link href="/">Beranda</Link><i>/</i><span>{title}</span></div>
       <div className="cat-head">
         <h1>{title}</h1>
-        <p className="muted">{result.length} produk ditemukan</p>
       </div>
+      <p className="count-txt">{result.length} produk</p>
       <div className="catalog">
         <aside className={`filters ${showFilter ? 'open' : ''}`}>
           <div className="filters-top">
@@ -88,11 +88,11 @@ export default function Catalog() {
             <h4>Ketersediaan</h4>
             <label className="fcheck"><input type="checkbox" checked={stok} onChange={() => update('stok', stok ? '' : '1')} /><span>Hanya yang tersedia</span></label>
           </div>
-          <button className="btn btn-primary btn-block filters-apply" onClick={() => setShowFilter(false)}>Lihat {result.length} produk</button>
+          <button className="btn-orange wide filters-apply" onClick={() => setShowFilter(false)}>Lihat {result.length} produk</button>
         </aside>
         <div>
           <div className="toolbar">
-            <button className="btn btn-ghost filter-toggle" onClick={() => setShowFilter(true)}>⚙ Filter {active > 0 && `(${active})`}</button>
+            <button className="btn-orange-outline filter-toggle" onClick={() => setShowFilter(true)}>⚙ Filter {active > 0 && `(${active})`}</button>
             <div className="chips">
               {tag && <button className="chip" onClick={() => update('tag', '')}>{TAGS[tag]} ✕</button>}
               {q && <button className="chip" onClick={() => update('q', '')}>"{q}" ✕</button>}
@@ -104,7 +104,7 @@ export default function Catalog() {
             </label>
           </div>
           {result.length === 0 ? (
-            <div className="empty"><div style={{ fontSize: 56 }}>🔍</div><p>Produk tidak ditemukan. Coba ubah filter.</p><Link href="/produk" className="btn btn-primary">Lihat semua produk</Link></div>
+            <div className="empty"><div style={{ fontSize: 56 }}>🔍</div><p>Produk tidak ditemukan. Coba ubah filter.</p><Link href="/produk" className="btn-orange">Lihat semua produk</Link></div>
           ) : (
             <div className="grid">{result.map((p) => <ProductCard key={p.id} product={p} />)}</div>
           )}

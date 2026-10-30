@@ -10,7 +10,7 @@ import ProductImage from '../../components/ProductImage';
 
 const PROVINCES = ['Aceh','Sumatera Utara','Sumatera Barat','Riau','Kepulauan Riau','Jambi','Sumatera Selatan','Kepulauan Bangka Belitung','Bengkulu','Lampung','DKI Jakarta','Jawa Barat','Banten','Jawa Tengah','DI Yogyakarta','Jawa Timur','Bali','Nusa Tenggara Barat','Nusa Tenggara Timur','Kalimantan Barat','Kalimantan Tengah','Kalimantan Selatan','Kalimantan Timur','Kalimantan Utara','Sulawesi Utara','Gorontalo','Sulawesi Tengah','Sulawesi Barat','Sulawesi Selatan','Sulawesi Tenggara','Maluku','Maluku Utara','Papua','Papua Barat','Papua Barat Daya','Papua Tengah','Papua Pegunungan','Papua Selatan'];
 const EMPTY = { name: '', phone: '', email: '', address: '', city: '', province: '', postal: '', note: '' };
-const SAVED_KEY = 'bt_customer';
+const SAVED_KEY = 'tz_customer';
 
 export default function Checkout() {
   const { items, ready, clear } = useStore();

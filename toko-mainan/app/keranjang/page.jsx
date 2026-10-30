@@ -1,22 +1,30 @@
 'use client';
 import Link from 'next/link';
 import { useStore } from '../../lib/store';
-import { finalPrice, formatRp } from '../../lib/products';
+import { PRODUCTS, finalPrice, formatRp } from '../../lib/products';
 import { SHIPPING } from '../../lib/config';
 import ProductImage from '../../components/ProductImage';
 import QtyInput from '../../components/QtyInput';
+import ProductRail from '../../components/home/ProductRail';
+import ThemeRail from '../../components/ThemeRail';
+import { IcCart } from '../../components/Icons';
 
 export default function CartPage() {
   const { items, ready, setQty, remove } = useStore();
   const subtotal = items.reduce((s, x) => s + finalPrice(x.product) * x.qty, 0);
   const shipping = subtotal >= SHIPPING.freeAbove ? 0 : SHIPPING.flat;
+  const suggest = [...PRODUCTS].sort((a, b) => b.sold - a.sold).filter((p) => !items.some((i) => i.id === p.id)).slice(0, 10);
   if (!ready) return <div className="wrap pad">Memuat…</div>;
   return (
     <div className="wrap pad">
-      <div className="crumbs"><Link href="/">Beranda</Link> / <span>Keranjang</span></div>
       <h1 className="page-title">Keranjang Belanja</h1>
       {items.length === 0 ? (
-        <div className="empty"><div style={{ fontSize: 64 }}>🛒</div><p>Keranjang kamu masih kosong.</p><Link href="/produk" className="btn btn-primary">Mulai Belanja</Link></div>
+        <div className="empty big">
+          <IcCart size={110} sw={2.2} className="empty-cart" />
+          <h2>Keranjang kamu masih kosong</h2>
+          <p className="muted">Sepertinya kamu belum menambahkan apa pun ke keranjang. Yuk lihat produk kami dan temukan yang kamu suka.</p>
+          <Link href="/produk" className="btn-orange">Mulai Belanja</Link>
+        </div>
       ) : (
         <div className="two-col">
           <div className="panel">
@@ -41,11 +49,15 @@ export default function CartPage() {
             <div className="row-between"><span>Ongkos kirim</span><span>{shipping ? formatRp(shipping) : <b className="green">GRATIS</b>}</span></div>
             <div className="row-between total"><span>Total</span><b>{formatRp(subtotal + shipping)}</b></div>
             <p className="muted small">Kode unik pembayaran ditambahkan di halaman berikutnya.</p>
-            <Link href="/checkout" className="btn btn-primary btn-block btn-lg">Lanjut ke Checkout</Link>
-            <Link href="/produk" className="btn btn-ghost btn-block">Lanjut Belanja</Link>
+            <Link href="/checkout" className="btn-orange wide">Checkout</Link>
+            <Link href="/produk" className="btn-orange-outline wide">Lanjut Belanja</Link>
           </div>
         </div>
       )}
+      <h2 className="sec-title mt">Belanja per Kategori</h2>
+      <ThemeRail />
+      <h2 className="sec-title mt">Kamu Mungkin Juga Suka</h2>
+      <ProductRail products={suggest} />
     </div>
   );
 }

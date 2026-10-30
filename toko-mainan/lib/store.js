@@ -3,8 +3,9 @@ import { createContext, useContext, useEffect, useState, useCallback } from 'rea
 import { PRODUCTS } from './products';
 
 const Ctx = createContext(null);
-const CART_KEY = 'bt_cart';
-const ORDERS_KEY = 'bt_orders';
+const CART_KEY = 'tz_cart';
+const ORDERS_KEY = 'tz_orders';
+const WISH_KEY = 'tz_wish';
 
 const read = (k, fb) => { try { return JSON.parse(localStorage.getItem(k)) ?? fb; } catch { return fb; } };
 const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
@@ -14,9 +15,12 @@ export function StoreProvider({ children }) {
   const [ready, setReady] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const [toast, setToast] = useState(null);
+  const [wish, setWish] = useState([]); // [id]
 
-  useEffect(() => { setCart(read(CART_KEY, [])); setReady(true); }, []);
+  useEffect(() => { setCart(read(CART_KEY, [])); setWish(read(WISH_KEY, [])); setReady(true); }, []);
   useEffect(() => { if (ready) write(CART_KEY, cart); }, [cart, ready]);
+  useEffect(() => { if (ready) write(WISH_KEY, wish); }, [wish, ready]);
+  const toggleWish = useCallback((id) => setWish((w) => (w.includes(id) ? w.filter((x) => x !== id) : [...w, id])), []);
 
   const add = useCallback((id, qty = 1) => {
     const p = PRODUCTS.find((x) => x.id === id);
@@ -43,7 +47,7 @@ export function StoreProvider({ children }) {
   const notify = useCallback((msg) => { setToast(msg); setTimeout(() => setToast(null), 2500); }, []);
 
   return (
-    <Ctx.Provider value={{ items, count, ready, add, setQty, remove, clear, drawer, setDrawer, toast, notify }}>
+    <Ctx.Provider value={{ items, count, ready, wish, toggleWish, add, setQty, remove, clear, drawer, setDrawer, toast, notify }}>
       {children}
     </Ctx.Provider>
   );

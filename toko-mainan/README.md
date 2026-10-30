@@ -1,4 +1,6 @@
-# BrickToys — Toko Mainan Online
+# Toyzone — Your Happiness World
+
+Toko online action figure & mainan. Developed by **Nexora** (08131888116).
 
 Website toko action figure & mainan (Next.js 14). Pembayaran **transfer manual + konfirmasi WhatsApp**.
 
@@ -11,9 +13,9 @@ Website toko action figure & mainan (Next.js 14). Pembayaran **transfer manual +
 ## Yang perlu kamu ubah
 | File | Isi |
 |---|---|
-| `lib/config.js` | Nama toko, **nomor WhatsApp admin**, **rekening bank**, ongkir, teks pengumuman |
+| `lib/config.js` | Nama toko, logo, **nomor WhatsApp admin**, **rekening bank**, ongkir, teks pengumuman |
 | `lib/products.js` | Daftar produk, harga, stok, kategori |
-| `public/produk/` | Foto produk (lalu isi `images: ['/produk/nama.jpg']` di products.js) |
+| `public/produk/` | Foto produk dari Google Drive (dikompres ke .webp), lalu isi `images: ['/produk/<slug>/01.webp']` di products.js. Bisa juga langsung paste link share Google Drive. |
 | `components/home/HeroSlider.jsx` | Teks/gambar banner beranda |
 
 ## Jalankan lokal

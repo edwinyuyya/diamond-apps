@@ -29,7 +29,7 @@ export default function CartDrawer() {
             <div className="empty">
               <div style={{ fontSize: 56 }}>🛒</div>
               <p>Keranjang kamu masih kosong</p>
-              <Link href="/produk" className="btn btn-primary" onClick={() => setDrawer(false)}>Mulai Belanja</Link>
+              <Link href="/produk" className="btn-orange" onClick={() => setDrawer(false)}>Mulai Belanja</Link>
             </div>
           )}
           {items.map(({ id, qty, product: p }) => (
@@ -49,8 +49,8 @@ export default function CartDrawer() {
         {items.length > 0 && (
           <div className="drawer-foot">
             <div className="row-between"><span>Subtotal</span><b>{formatRp(subtotal)}</b></div>
-            <Link href="/checkout" className="btn btn-primary btn-block" onClick={() => setDrawer(false)}>Checkout</Link>
-            <Link href="/keranjang" className="btn btn-ghost btn-block" onClick={() => setDrawer(false)}>Lihat Keranjang</Link>
+            <Link href="/checkout" className="btn-orange wide" onClick={() => setDrawer(false)}>Checkout</Link>
+            <Link href="/keranjang" className="btn-orange-outline wide" onClick={() => setDrawer(false)}>Lihat Keranjang</Link>
           </div>
         )}
       </aside>

@@ -1,7 +1,10 @@
 // ════════════════════════════════════════════════════════════
 //  DATA PRODUK & KATEGORI
-//  - Foto: taruh file di folder /public/produk lalu isi `images`,
-//    contoh: images: ['/produk/robot-titan-1.jpg', '/produk/robot-titan-2.jpg']
+//  - Foto: paste link share GOOGLE DRIVE ke `images` (file di-share "Siapa saja
+//    yang memiliki link"), boleh lebih dari 1 foto, contoh:
+//      images: ['https://drive.google.com/file/d/1AbCdEf.../view?usp=sharing',
+//               'https://drive.google.com/file/d/1XyZ.../view?usp=sharing']
+//    Bisa juga file lokal di /public/produk: images: ['/produk/robot-titan-1.jpg']
 //    Kalau `images` kosong, tampil gambar placeholder (emoji + warna).
 //  - Harga dalam Rupiah (angka saja, tanpa titik).
 //  - salePrice opsional: isi kalau sedang diskon.

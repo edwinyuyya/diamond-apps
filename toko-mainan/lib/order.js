@@ -18,7 +18,7 @@ export function priceItems(items) {
 function makeOrderId(now) {
   const d = now.toISOString().slice(2, 10).replace(/-/g, '');
   const r = (Math.random().toString(36).slice(2) + Math.random().toString(36).slice(2)).slice(0, 6).toUpperCase();
-  return `BT${d}${r}`;
+  return `TZ${d}${r}`;
 }
 
 export function buildOrder(items, customer) {
