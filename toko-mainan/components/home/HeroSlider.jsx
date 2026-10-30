@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { imgUrl } from '../../lib/image';
+import FrameTag from '../FrameTag';
 
 // Banner utama. Kalau punya gambar banner, taruh di /public/banner/ lalu isi `image`
 // (ukuran ideal 1920x600 desktop). Kalau `image` kosong, tampil banner warna.
@@ -23,7 +24,7 @@ export default function HeroSlider() {
       <div className="hero-track" style={{ transform: `translateX(-${i * 100}%)` }}>
         {SLIDES.map((s, k) => (
           <Link key={k} href={s.href} className="hero-slide" style={{ '--bg': s.bg, '--ac': s.accent }} tabIndex={k === i ? 0 : -1}>
-            {s.image ? <img src={imgUrl(s.image, 1920)} alt={s.title} referrerPolicy="no-referrer" /> : (
+            {s.image ? <div className="bframe hero-img"><img src={imgUrl(s.image, 1920)} alt={s.title} referrerPolicy="no-referrer" /><FrameTag /></div> : (
               <div className="wrap hero-inner">
                 <div className="hero-txt">
                   <small>{s.kicker}</small>

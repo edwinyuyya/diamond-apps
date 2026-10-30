@@ -100,7 +100,8 @@ img{max-width:100%;display:block}
 .hero{position:relative;overflow:hidden}
 .hero-track{display:flex;transition:transform .6s ease}
 .hero-slide{flex:0 0 100%;background:var(--bg);color:#fff;min-height:430px;display:flex;overflow:hidden;position:relative}
-.hero-slide img{width:100%;height:430px;object-fit:cover}
+.hero-img{width:100%;height:430px}
+.hero-img img{width:100%;height:100%;object-fit:cover}
 .hero-slide::before{content:'';position:absolute;right:-8%;top:-30%;width:60%;height:160%;background:var(--ac);opacity:.9;border-radius:50% 0 0 50%;transform:rotate(-8deg)}
 .hero-inner{display:flex;align-items:center;width:100%;position:relative}
 .hero-txt{flex:1}
@@ -158,7 +159,9 @@ img{max-width:100%;display:block}
 .promos{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .promo{display:flex;border-radius:22px;overflow:hidden;background:#000;color:#fff;min-height:208px}
 .promo-art{flex:1.6;background:linear-gradient(135deg,var(--bg),#000 140%);display:grid;place-items:center;font-size:96px}
-.promo-art img{width:100%;height:100%;object-fit:cover}
+.promo-art img,.band-art img,.mosaic-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.band-art{position:relative}
+.promo-art{position:relative}
 .promo:hover .promo-art span{transform:scale(1.1)}
 .promo-art span{transition:.3s;filter:drop-shadow(0 8px 12px rgba(0,0,0,.4))}
 .promo-txt{flex:1;padding:20px 22px;display:flex;flex-direction:column;justify-content:center;gap:4px}
@@ -195,7 +198,8 @@ img{max-width:100%;display:block}
 .mosaic-item.m5{display:none}
 .mosaic-item span{filter:drop-shadow(0 14px 18px rgba(0,0,0,.3));transition:.3s}
 .mosaic-item:hover span{transform:scale(1.08)}
-.mosaic-item i{position:absolute;left:12px;bottom:12px;width:42px;height:42px;border-radius:50%;background:#fff;color:#111;font-style:normal;font-size:30px;line-height:40px;text-align:center;border:1.5px solid #111;font-weight:300}
+.mosaic-item .bframe-tag{display:none}
+.mosaic-item i{position:absolute;z-index:4;left:24px;bottom:24px;width:42px;height:42px;border-radius:50%;background:#fff;color:#111;font-style:normal;font-size:30px;line-height:40px;text-align:center;border:1.5px solid #111;font-weight:300}
 
 /* ── rail ── */
 .rail-wrap{position:relative}
@@ -211,7 +215,7 @@ img{max-width:100%;display:block}
 
 /* ── product card ── */
 .card{position:relative;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;height:100%}
-.card-img{display:block;padding:18px 18px 0}
+.card-img{display:block;padding:10px 10px 0}
 .wish{position:absolute;top:10px;left:10px;width:32px;height:32px;border-radius:50%;background:#f1f1f1;display:grid;place-items:center;z-index:2;color:#999;transition:.15s}
 .wish:hover{color:var(--red)}
 .wish.on{color:var(--red);background:#ffe8e8}
@@ -229,12 +233,36 @@ img{max-width:100%;display:block}
 .btn-add{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--orange);color:#fff;border-radius:999px;padding:8px 6px;font-weight:600;font-size:14.5px;letter-spacing:.3px;transition:.15s}
 .btn-add:hover:not(:disabled){background:var(--orange2)}
 .btn-add:disabled{background:#d5d5d5;color:#777;cursor:not-allowed}
-.pimg{width:100%;aspect-ratio:1/1;object-fit:contain}
-.pimg-ph{display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,color-mix(in srgb,var(--c) 18%,#fff) 0%,#fff 72%)}
-.pimg-ph span{font-size:96px;filter:drop-shadow(0 10px 12px rgba(0,0,0,.22));transition:.3s}
-.card:hover .pimg-ph span{transform:scale(1.07)!important}
-.pimg-sm.pimg-ph span{font-size:34px}
-.pimg-lg.pimg-ph span{font-size:clamp(130px,20vw,240px)}
+/* frame template foto produk */
+.pframe{position:relative;width:100%;aspect-ratio:1/1;border-radius:10px;overflow:hidden;display:grid;place-items:center;isolation:isolate;
+  background:
+    radial-gradient(circle,color-mix(in srgb,var(--c) 22%,transparent) 2.2px,transparent 2.8px) 0 0/18px 18px,
+    radial-gradient(circle at 50% 42%,#fff 0%,#fff 30%,color-mix(in srgb,var(--c) 14%,#fff) 72%,color-mix(in srgb,var(--c) 26%,#fff) 100%)}
+.pframe::before{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 50% 42%,#fff 0 34%,transparent 62%)}
+.pframe::after{content:'';position:absolute;inset:7px;border:2px solid rgba(255,255,255,.95);border-radius:8px;box-shadow:0 0 0 1px color-mix(in srgb,var(--c) 18%,transparent);pointer-events:none;z-index:3}
+.pframe-floor{position:absolute;left:22%;right:22%;bottom:14%;height:7%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.22),transparent);z-index:0}
+.pframe-img{position:relative;z-index:1;width:78%;height:78%;object-fit:contain;mix-blend-mode:multiply;transition:transform .35s ease;margin-bottom:4%}
+.pframe-emoji{position:relative;z-index:1;font-size:96px;line-height:1;filter:drop-shadow(0 10px 10px rgba(0,0,0,.2));transition:transform .35s;margin-bottom:6%}
+.pframe-ribbon{position:absolute;left:0;right:0;bottom:0;height:9px;z-index:2;
+  background:radial-gradient(circle,rgba(255,255,255,.55) 2px,transparent 2.6px) 4px 50%/12px 9px repeat-x,linear-gradient(90deg,var(--c),color-mix(in srgb,var(--c) 55%,#ffc400))}
+.pframe-badge{position:absolute;right:12px;bottom:15px;z-index:4;width:30px;height:30px;border-radius:8px;background:#fff;display:grid;place-items:center;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+.pframe-badge svg{width:18px;height:22px}
+.pframe-sm{border-radius:6px}
+.pframe-sm::after{inset:3px;border-width:1.5px;border-radius:4px}
+.pframe-sm .pframe-emoji{font-size:34px}
+.pframe-sm .pframe-img{width:84%;height:84%}
+.pframe-lg .pframe-emoji{font-size:clamp(130px,20vw,240px)}
+.pframe-lg .pframe-img{width:76%;height:76%}
+.pframe-lg::after{inset:12px;border-width:3px;border-radius:10px}
+.pframe-lg .pframe-ribbon{height:14px;background-size:18px 14px,auto}
+.pframe-lg .pframe-badge{width:44px;height:44px;right:22px;bottom:26px;border-radius:10px}
+.pframe-lg .pframe-badge svg{width:26px;height:32px}
+.card:hover .pframe-img,.card:hover .pframe-emoji{transform:scale(1.06)!important}
+/* frame banner (hero, promo, koleksi) — dipakai saat ada foto asli */
+.bframe{position:relative}
+.bframe::after{content:'';position:absolute;inset:12px;border:2.5px solid rgba(255,255,255,.9);border-radius:10px;pointer-events:none;z-index:3}
+.bframe-tag{position:absolute;left:24px;bottom:22px;z-index:4;background:#fff;color:var(--navy);font-family:'Fredoka';font-weight:700;font-size:14px;padding:4px 12px 4px 8px;border-radius:999px;display:flex;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.bframe-tag svg{width:16px;height:20px}
 
 /* ── catalog ── */
 .crumbs{font-size:14px;color:var(--ink3);margin-bottom:22px;display:flex;gap:10px;flex-wrap:wrap}
@@ -483,12 +511,14 @@ body:has(.sticky-buy.show) .wa-float{bottom:100px}
   .tiles{grid-auto-columns:calc((100% - 20px)/3.3)}
   .tabs-lg{gap:22px}
   .tabs-lg button{font-size:18px}
-  .card-img{padding:12px 12px 0}
+  .card-img{padding:6px 6px 0}
   .card-name{font-size:14px}
   .card-body{padding:8px}
   .btn-add{font-size:13px;padding:8px 4px}
   .btn-add svg{display:none}
-  .pimg-ph span{font-size:64px}
+  .pframe-md .pframe-emoji{font-size:64px}
+  .pframe-md .pframe-badge{width:24px;height:24px;right:10px;bottom:13px}
+  .pframe-md .pframe-badge svg{width:14px;height:17px}
   .rail-arrow{display:none}
   .form-grid{grid-template-columns:1fr}
   .ftr-grid{grid-template-columns:1fr 1fr}

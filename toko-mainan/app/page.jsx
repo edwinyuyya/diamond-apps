@@ -8,6 +8,13 @@ import ProductCard from '../components/ProductCard';
 import { PRODUCTS, CATEGORIES } from '../lib/products';
 import { IcRight } from '../components/Icons';
 import { imgUrl } from '../lib/image';
+import FrameTag from '../components/FrameTag';
+
+// Foto banner pita kuning (opsional, link Google Drive atau /banner/xxx.webp)
+const BAND_IMAGE = '';
+
+// Foto galeri "Lihat Koleksi Mereka" (opsional), urutan sesuai kategori
+const GALLERY = ['', '', '', '', ''];
 
 // 4 banner promo (2x2). Isi `image` kalau punya foto (rasio ± 3:1).
 const PROMOS = [
@@ -31,7 +38,7 @@ export default function Home() {
       <section className="band">
         <div className="wrap">
           <Link href="/produk?umur=3-5" className="band-banner">
-            <div className="band-art">🧸🎁🚗</div>
+            <div className="band-art bframe">{BAND_IMAGE ? <img src={imgUrl(BAND_IMAGE, 1200)} alt="" referrerPolicy="no-referrer" /> : '🧸🎁🚗'}<FrameTag /></div>
             <div className="band-txt">
               <h3>Hadiah yang<br /><em>selalu bikin senang</em></h3>
               <span className="band-cta">Belanja Sekarang ›</span>
@@ -45,7 +52,7 @@ export default function Home() {
         <div className="wrap promos">
           {PROMOS.map((p) => (
             <Link key={p.title} href={p.href} className="promo" style={{ '--bg': p.bg }}>
-              <div className="promo-art">{p.image ? <img src={imgUrl(p.image, 1200)} alt="" referrerPolicy="no-referrer" /> : <span>{p.emoji}</span>}</div>
+              <div className="promo-art bframe">{p.image ? <img src={imgUrl(p.image, 1200)} alt="" referrerPolicy="no-referrer" /> : <span>{p.emoji}</span>}<FrameTag /></div>
               <div className="promo-txt">
                 <small>{p.title}</small>
                 <b>{p.head}</b>
@@ -65,8 +72,8 @@ export default function Home() {
           <p className="center muted sub">Inspirasi dari koleksi pelanggan Toyzone. Tandai kami di Instagram!</p>
           <div className="mosaic">
             {CATEGORIES.map((c, i) => (
-              <Link key={c.slug} href={`/produk?kategori=${c.slug}`} className={`mosaic-item m${i}`} style={{ '--c': c.color }}>
-                <span>{c.emoji}</span><i>+</i>
+              <Link key={c.slug} href={`/produk?kategori=${c.slug}`} className={`mosaic-item bframe m${i}`} style={{ '--c': c.color }}>
+                {GALLERY[i] ? <img src={imgUrl(GALLERY[i], 1000)} alt={c.name} referrerPolicy="no-referrer" /> : <span>{c.emoji}</span>}<i>+</i>
               </Link>
             ))}
           </div>
