@@ -9,7 +9,7 @@ export const STORE = {
   logoImage: '',
   tagline: 'Toko Action Figure, Brick & Mainan Koleksi',
   // Nomor WhatsApp admin, format internasional TANPA "+" / "0" di depan
-  whatsapp: '6281234567890',
+  whatsapp: '6282122023000', // 0821 220 23000
   email: 'halo@toyzone.id',
   address: 'Jakarta, Indonesia',
   instagram: 'https://instagram.com/toyzone.id',
@@ -18,9 +18,7 @@ export const STORE = {
 
 // Rekening tujuan transfer manual
 export const BANKS = [
-  { bank: 'BCA', number: '1234567890', holder: 'Toyzone Indonesia' },
-  { bank: 'Mandiri', number: '1230009876543', holder: 'Toyzone Indonesia' },
-  { bank: 'BRI', number: '012301000123456', holder: 'Toyzone Indonesia' },
+  { bank: 'BCA', number: '0159888055', holder: 'Arianita Dewi' },
 ];
 
 // Ongkos kirim flat & gratis ongkir di atas nominal tertentu

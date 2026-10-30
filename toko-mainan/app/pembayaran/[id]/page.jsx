@@ -78,11 +78,11 @@ export default function Payment({ params }) {
           <div className="panel pay-step">
             <div className="pay-num">2</div>
             <div className="grow">
-              <h3>Ke salah satu rekening berikut</h3>
+              <h3>{BANKS.length > 1 ? 'Ke salah satu rekening berikut' : 'Ke rekening berikut'}</h3>
               {BANKS.map((b) => (
                 <div key={b.bank} className="bank-row">
                   <span className="bank-logo">{b.bank}</span>
-                  <div className="grow"><b className="mono">{b.number}</b><small>a.n. {b.holder}</small></div>
+                  <div className="grow"><b className="mono">{b.number.replace(/^(\d{3})(\d{3})(\d+)$/, '$1 $2 $3')}</b><small>a.n. {b.holder}</small></div>
                   <Copy text={b.number} />
                 </div>
               ))}
