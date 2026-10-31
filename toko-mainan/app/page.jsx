@@ -26,12 +26,12 @@ const GALLERY = [
   { img: `${FT2}/04.webp`, href: FT2, color: '#e65100' },
 ];
 
-// 4 banner promo (2x2)
+// 4 promo tile (2x2), gambar dibuat oleh scripts/make_banners.py
 const PROMOS = [
-  { title: 'Fat Tiger Blind Box', head: 'Dragon Soaring & Tiger Leaping', body: '8 desain + 1 hidden edition. Siapa yang dapat Coiling Dragon?', href: FT1, image: `${FT1}/01.webp`, bg: '#f27c00' },
-  { title: 'Fat Tiger Food Party', head: 'Gantungan boneka blind box', body: '6 desain lucu untuk tas & kunci kamu.', href: FT2, image: `${FT2}/01.webp`, bg: '#e65100' },
-  { title: 'Rolife Super Creator', head: 'Double Joy Bubble Tea', body: 'Rakit sendiri kedai bubble tea mini yang detail.', href: RL, image: `${RL}/01.webp`, bg: '#d81b60' },
-  { title: 'Segera Hadir', head: 'Doraemon, Sinchan & Emma', body: 'Blind box karakter favorit segera masuk. Pantau terus!', href: '/produk?kategori=blind-box', emoji: '🎁', bg: '#0b2d5e' },
+  { title: 'Fat Tiger Blind Box Dragon Soaring & Tiger Leaping', href: FT1, banner: '/banner/promo-fat-tiger-dragon.webp' },
+  { title: 'Fat Tiger Food Party gantungan boneka blind box', href: FT2, banner: '/banner/promo-food-party.webp' },
+  { title: 'Rolife Super Creator Double Joy Bubble Tea', href: RL, banner: '/banner/promo-rolife.webp' },
+  { title: 'Segera hadir: Doraemon, Sinchan & Emma', href: '/produk?kategori=blind-box', banner: '/banner/promo-segera-hadir.webp' },
 ];
 
 export default function Home() {
@@ -61,14 +61,8 @@ export default function Home() {
       <section className="sec">
         <div className="wrap promos">
           {PROMOS.map((p) => (
-            <Link key={p.title} href={p.href} className="promo" style={{ '--bg': p.bg }}>
-              <div className="promo-art bframe">{p.image ? <img src={imgUrl(p.image, 1200)} alt="" referrerPolicy="no-referrer" /> : <span>{p.emoji}</span>}<FrameTag /></div>
-              <div className="promo-txt">
-                <small>{p.title}</small>
-                <b>{p.head}</b>
-                <p>{p.body}</p>
-                <span className="promo-btn">Belanja ›</span>
-              </div>
+            <Link key={p.title} href={p.href} className="promo promo-banner" aria-label={p.title}>
+              <img src={imgUrl(p.banner, 1200)} alt={p.title} loading="lazy" />
             </Link>
           ))}
         </div>
