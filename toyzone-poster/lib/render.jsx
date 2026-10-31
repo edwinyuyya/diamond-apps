@@ -64,34 +64,17 @@ async function photoDataUri(url) {
   } catch { return null; }
 }
 
-function BoxMark({ size }) {
-  return (
-    <svg width={size * 0.78} height={size} viewBox="0 0 40 52">
-      <path d="M13 6 30 14l2 8-17-8z" fill="#ffc400" stroke="#0b2d5e" strokeWidth="2.6" strokeLinejoin="round" />
-      <path d="M4 26 20 18l16 8v17l-16 8-16-8z" fill="#ff8a00" stroke="#0b2d5e" strokeWidth="2.6" strokeLinejoin="round" />
-      <path d="M20 34 36 26v17l-16 8z" fill="#ff6a13" />
-      <path d="M20 18v33M4 26l16 8 16-8M20 34 36 26v17l-16 8zM4 26l16 8v17L4 43z" fill="none" stroke="#0b2d5e" strokeWidth="2.6" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function Logo() {
-  const s = 66;
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div style={{ display: 'flex', alignItems: 'flex-end', fontFamily: 'Fredoka', fontSize: s, color: '#0b2d5e', lineHeight: 1 }}>
-        <span>T</span><div style={{ display: 'flex', marginBottom: 2 }}><BoxMark size={s * 0.92} /></div><span>y</span>
-        <span style={{ color: '#ff6a13' }}>z</span><span>o</span><span style={{ color: '#ff6a13' }}>n</span><span>e</span>
-      </div>
-      <div style={{ fontFamily: 'Outfit', fontWeight: 800, fontSize: 15, letterSpacing: 2.4, color: '#0b2d5e', marginTop: 2 }}>{BRAND.slogan}</div>
-    </div>
-  );
+// Logo asli Toyzone (brand/logo.png, latar transparan)
+let logoCache;
+async function logoDataUri() {
+  if (!logoCache) logoCache = 'data:image/png;base64,' + (await fs.readFile(path.join(ROOT, 'brand', 'logo.png'))).toString('base64');
+  return logoCache;
 }
 
 export async function renderPost(post, format = 'jpeg') {
   const p = post.product;
   const theme = THEMES[post.theme] || THEMES.baru;
-  const [photo, emoji] = await Promise.all([photoDataUri(p.image), emojiDataUri(p.emoji)]);
+  const [photo, emoji, logo] = await Promise.all([photoDataUri(p.image), emojiDataUri(p.emoji), logoDataUri()]);
   const disc = p.salePrice ? Math.round((1 - p.salePrice / p.price) * 100) : 0;
   const tint = p.color || theme.color;
 
@@ -100,7 +83,7 @@ export async function renderPost(post, format = 'jpeg') {
       <div style={{ width: 1080, height: 1350, display: 'flex', flexDirection: 'column', background: '#fff8e7', fontFamily: 'Outfit' }}>
         {/* header kuning */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 150, padding: '0 60px', background: '#ffd400' }}>
-          <Logo />
+          <img src={logo} width={290} height={114} />
           <div style={{ display: 'flex', background: theme.color, color: '#fff', fontWeight: 800, fontSize: 30, letterSpacing: 2, padding: '14px 30px', borderRadius: 999 }}>{theme.tag}</div>
         </div>
 

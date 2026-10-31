@@ -4,7 +4,7 @@ const nextConfig = {
     serverComponentsExternalPackages: ['sharp'],
     // font & emoji template ikut dibundel ke serverless function
     outputFileTracingIncludes: {
-      '/api/image/[id]': ['./fonts/**', './emoji/**'],
+      '/api/image/[id]': ['./fonts/**', './emoji/**', './brand/**'],
     },
   },
 };

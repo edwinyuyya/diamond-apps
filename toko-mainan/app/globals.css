@@ -536,3 +536,4 @@ body:has(.sticky-buy.show) .wa-float{bottom:100px}
   .sec{padding-top:44px}
 }
 .ig-link{color:var(--orange);font-weight:600}
+@media (max-width:900px){.logo img{height:40px}}

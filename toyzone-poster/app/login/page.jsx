@@ -20,7 +20,7 @@ export default function Login() {
   return (
     <div className="login">
       <form onSubmit={submit}>
-        <div className="logo"><span className="logo-word">Toy<em>z</em>o<em>n</em>e</span><span className="logo-sub">POSTER</span></div>
+        <div className="logo"><img src="/logo.png" alt="Toyzone" className="logo-img lg" /><span className="logo-sub">POSTER</span></div>
         <p className="muted">Dashboard konten Instagram @toyzone888</p>
         <input type="password" value={pw} onChange={(e) => setPw(e.target.value)} placeholder="Password admin" autoFocus />
         {err && <div className="alert alert-err">{err}</div>}
