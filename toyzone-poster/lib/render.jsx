@@ -124,7 +124,9 @@ export async function renderPost(post, format = 'jpeg') {
         <div style={{ display: 'flex', flexDirection: 'column', padding: '30px 60px 26px' }}>
           <div style={{ display: 'flex', fontFamily: 'Fredoka', fontSize: p.name.length > 38 ? 46 : 56, color: '#0b2d5e', lineHeight: 1.1 }}>{p.name}</div>
           <div style={{ display: 'flex', alignItems: 'baseline', marginTop: 14 }}>
-            <span style={{ fontSize: 76, fontWeight: 800, color: p.salePrice ? '#e3000b' : '#111' }}>{rupiah(p.finalPrice ?? p.salePrice ?? p.price)}</span>
+            {p.price == null
+              ? <span style={{ fontSize: 54, fontWeight: 800, color: '#e3000b' }}>Tanya harga via DM / WA</span>
+              : <span style={{ fontSize: 76, fontWeight: 800, color: p.salePrice ? '#e3000b' : '#111' }}>{rupiah(p.finalPrice ?? p.salePrice ?? p.price)}</span>}
             {p.salePrice ? <span style={{ fontSize: 40, fontWeight: 500, color: '#888', textDecoration: 'line-through', marginLeft: 24 }}>{rupiah(p.price)}</span> : null}
           </div>
         </div>

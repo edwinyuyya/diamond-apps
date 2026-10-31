@@ -14,12 +14,12 @@ const TABS = {
     { label: 'LIHAT SEMUA', href: '/produk', emoji: '🧱', bg: '#0b2d5e' },
   ],
   'Minat': [
-    { label: 'KOLEKTOR DEWASA', href: '/produk?umur=18', emoji: '🏆', bg: '#0b2d5e' },
-    { label: 'HADIAH ANAK', href: '/produk?umur=3-5', emoji: '🎁', bg: '#ff6a13' },
-    { label: 'SUPERHERO', href: '/produk?q=hero', emoji: '🦸', bg: '#e3000b' },
-    { label: 'ANIME', href: '/produk?kategori=anime-figure', emoji: '🍥', bg: '#8e24aa' },
-    { label: 'OTOMOTIF', href: '/produk?kategori=diecast', emoji: '🏎️', bg: '#2d7ff9' },
-    { label: 'DI BAWAH 250RB', href: '/produk?harga=0-250', emoji: '💰', bg: '#13854a' },
+    { label: 'BLIND BOX', href: '/produk?kategori=blind-box', emoji: '🎁', bg: '#f27c00' },
+    { label: 'FAT TIGER', href: '/produk?q=fat tiger', emoji: '🐯', bg: '#ff8a00' },
+    { label: 'GANTUNGAN TAS', href: '/produk?q=gantungan', emoji: '🎒', bg: '#e3000b' },
+    { label: 'DIY MINIATUR', href: '/produk?kategori=rolife', emoji: '🏠', bg: '#d81b60' },
+    { label: 'KOLEKTOR', href: '/produk?umur=13-17', emoji: '🏆', bg: '#0b2d5e' },
+    { label: 'LIHAT SEMUA', href: '/produk', emoji: '🧸', bg: '#2d7ff9' },
   ],
   'Kategori': CATEGORIES.map((c) => ({ label: c.name.toUpperCase(), href: `/produk?kategori=${c.slug}`, emoji: c.emoji, bg: c.color })),
 };

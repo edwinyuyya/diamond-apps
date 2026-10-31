@@ -7,7 +7,7 @@ export function priceItems(items) {
   for (const it of items || []) {
     const p = PRODUCTS.find((x) => x.id === it.id);
     const qty = Math.max(1, Math.min(99, parseInt(it.qty, 10) || 1));
-    if (!p || p.stock <= 0) continue;
+    if (!p || p.stock <= 0 || p.price == null) continue;
     lines.push({ id: p.id, slug: p.slug, name: p.name, price: finalPrice(p), qty: Math.min(qty, p.stock) });
   }
   const subtotal = lines.reduce((s, l) => s + l.price * l.qty, 0);

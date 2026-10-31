@@ -7,7 +7,7 @@ export const STORE = {
   slogan: 'YOUR HAPPINESS WORLD',
   // Logo asli: isi link Google Drive atau /logo.png (taruh file di folder public)
   logoImage: '/logo.png',
-  tagline: 'Toko Action Figure, Brick & Mainan Koleksi',
+  tagline: 'Toko Blind Box, Rolife & Mainan Koleksi',
   // Nomor WhatsApp admin, format internasional TANPA "+" / "0" di depan
   whatsapp: '6282122023000', // 0821 220 23000
   email: 'halo@toyzone.id',

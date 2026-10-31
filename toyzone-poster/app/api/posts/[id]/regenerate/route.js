@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getPost, updatePost, listPosts } from '../../../../../lib/db';
 import { generateCaption } from '../../../../../lib/caption';
 import { fetchProducts, snapshot } from '../../../../../lib/products';
-import { pickProduct } from '../../../../../lib/planner';
+import { pickProduct, themeFor } from '../../../../../lib/planner';
 
 export const maxDuration = 60;
 
@@ -21,9 +21,10 @@ export async function POST(req, { params }) {
       if (!picked) return NextResponse.json({ error: 'Tidak ada produk lain yang tersedia' }, { status: 400 });
       product = snapshot(picked);
     }
+    const theme = mode === 'product' ? themeFor(product, post.theme) : post.theme;
     const s = style || post.style;
-    const { caption, source } = await generateCaption(product, post.theme, s);
-    const updated = await updatePost(params.id, { product, caption, caption_source: source, style: s, status: 'pending', error: null }, post.status);
+    const { caption, source } = await generateCaption(product, theme, s);
+    const updated = await updatePost(params.id, { product, theme, caption, caption_source: source, style: s, status: 'pending', error: null }, post.status);
     return NextResponse.json({ post: updated });
   } catch (e) {
     return NextResponse.json({ error: e.message }, { status: 500 });

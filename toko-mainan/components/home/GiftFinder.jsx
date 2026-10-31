@@ -17,7 +17,7 @@ export default function GiftFinder() {
   const [applied, setApplied] = useState({ age: AGES.length - 1, price: MAX_PRICE, cat: '' });
 
   const list = useMemo(() => PRODUCTS.filter((p) =>
-    p.age <= AGES[applied.age] && finalPrice(p) <= applied.price && (!applied.cat || p.category === applied.cat)
+    p.age <= AGES[applied.age] && (finalPrice(p) == null || finalPrice(p) <= applied.price) && (!applied.cat || p.category === applied.cat)
   ), [applied]);
 
   const fmtM = (v) => (v / 1e6).toFixed(1) + ' jt';

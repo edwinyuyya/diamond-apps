@@ -18,7 +18,8 @@ function productBrief(p, theme) {
   const lines = [
     `Produk: ${p.name}`,
     `Kategori: ${p.categoryName}`,
-    p.salePrice ? `Harga: ${rupiah(p.salePrice)} (harga normal ${rupiah(p.price)})` : `Harga: ${rupiah(p.price)}`,
+    p.price == null ? 'Harga: belum dicantumkan — JANGAN sebut angka harga, ajak tanya harga via DM/WhatsApp'
+      : p.salePrice ? `Harga: ${rupiah(p.salePrice)} (harga normal ${rupiah(p.price)})` : `Harga: ${rupiah(p.price)}`,
     `Rekomendasi umur: ${p.age}+ tahun`,
     p.stock > 0 && p.stock <= 5 ? `Stok tinggal ${p.stock}` : null,
     `Deskripsi: ${p.description}`,
@@ -37,7 +38,8 @@ function templateCaption(p, theme) {
     koleksi: `👑 Untuk kolektor sejati.`,
     terbatas: `⏳ Stok tinggal sedikit, siapa cepat dia dapat!`,
   }[theme] || `Kenalan sama ${p.name}!`;
-  const price = p.salePrice ? `Dari ${rupiah(p.price)} jadi ${rupiah(p.salePrice)} 🏷️` : `Harga: ${rupiah(p.price)}`;
+  const price = p.price == null ? 'Tanya harga & stok langsung via DM/WhatsApp ya 💬'
+    : p.salePrice ? `Dari ${rupiah(p.price)} jadi ${rupiah(p.salePrice)} 🏷️` : `Harga: ${rupiah(p.price)}`;
   return `${hook}
 
 ${p.name}

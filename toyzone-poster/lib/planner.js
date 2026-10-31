@@ -13,6 +13,12 @@ const MATCH = {
   terbatas: (p) => p.stock > 0 && p.stock <= 5,
 };
 
+// Tema harus sesuai kondisi produk (mis. "Promo" hanya kalau ada harga coret)
+export function themeFor(p, wanted) {
+  if (MATCH[wanted]?.(p)) return wanted;
+  return ['promo', 'terbatas', 'baru', 'terlaris', 'koleksi'].find((t) => MATCH[t](p)) || 'baru';
+}
+
 const shuffle = (a) => a.map((v) => [Math.random(), v]).sort((x, y) => x[0] - y[0]).map((x) => x[1]);
 
 // Pilih produk untuk tema, hindari yang sudah dipilih / baru diposting 4 minggu terakhir
@@ -38,10 +44,11 @@ export async function createWeeklyDrafts({ weekStart = nextWeekStart(), force = 
   const rows = [];
   const days = SCHEDULE.postDays.slice(0, SCHEDULE.postsPerWeek);
   for (let i = 0; i < days.length; i++) {
-    const theme = WEEKLY_THEMES[i % WEEKLY_THEMES.length];
-    const product = pickProduct(products, theme, used);
+    const wanted = WEEKLY_THEMES[i % WEEKLY_THEMES.length];
+    const product = pickProduct(products, wanted, used);
     if (!product) continue;
     used.add(product.id);
+    const theme = themeFor(product, wanted);
     const style = theme === 'koleksi' ? 'premium' : 'jualan';
     const { caption, source } = await generateCaption(product, theme, style);
     rows.push({

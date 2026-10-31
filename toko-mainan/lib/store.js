@@ -24,7 +24,7 @@ export function StoreProvider({ children }) {
 
   const add = useCallback((id, qty = 1) => {
     const p = PRODUCTS.find((x) => x.id === id);
-    if (!p || p.stock <= 0) return;
+    if (!p || p.stock <= 0 || p.price == null) return;
     setCart((c) => {
       const ex = c.find((x) => x.id === id);
       if (ex) return c.map((x) => (x.id === id ? { ...x, qty: Math.min(p.stock, x.qty + qty) } : x));
@@ -41,7 +41,7 @@ export function StoreProvider({ children }) {
 
   const items = cart
     .map((c) => ({ ...c, product: PRODUCTS.find((p) => p.id === c.id) }))
-    .filter((x) => x.product);
+    .filter((x) => x.product && x.product.price != null);
   const count = items.reduce((s, x) => s + x.qty, 0);
 
   const notify = useCallback((msg) => { setToast(msg); setTimeout(() => setToast(null), 2500); }, []);

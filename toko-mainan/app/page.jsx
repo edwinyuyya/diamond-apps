@@ -10,35 +10,45 @@ import { IcRight } from '../components/Icons';
 import { imgUrl } from '../lib/image';
 import FrameTag from '../components/FrameTag';
 
-// Foto banner pita kuning (opsional, link Google Drive atau /banner/xxx.webp)
-const BAND_IMAGE = '';
+const FT1 = '/produk/fat-tiger-dragon-soaring-tiger-leaping';
+const FT2 = '/produk/fat-tiger-food-party-plush-pendant';
+const RL = '/produk/rolife-super-creator-double-joy-bubble-tea';
 
-// Foto galeri "Lihat Koleksi Mereka" (opsional), urutan sesuai kategori
-const GALLERY = ['', '', '', '', ''];
+// Foto banner pita kuning (link Google Drive atau path di /public)
+const BAND_IMAGE = `${FT2}/02.webp`;
 
-// 4 banner promo (2x2). Isi `image` kalau punya foto (rasio ± 3:1).
+// Foto galeri "Lihat Koleksi Mereka" (5 kotak)
+const GALLERY = [
+  { img: `${FT2}/03.webp`, href: FT2, color: '#e65100' },
+  { img: `${FT1}/03.webp`, href: FT1, color: '#f27c00' },
+  { img: `${RL}/01.webp`, href: RL, color: '#d81b60' },
+  { img: `${FT1}/04.webp`, href: FT1, color: '#f27c00' },
+  { img: `${FT2}/04.webp`, href: FT2, color: '#e65100' },
+];
+
+// 4 banner promo (2x2)
 const PROMOS = [
-  { title: 'Iron Guardian Mark X', head: 'Figure skala 1/12 terlaris', body: 'LED di dada, 30+ titik artikulasi, 12 tangan pengganti.', href: '/produk/iron-guardian-mark-x', emoji: '🦾', bg: '#c62828' },
-  { title: 'Kastil Naga Api', head: 'Brick set 1.850 keping', body: 'Naga dengan sayap bergerak, 6 minifigure, ruang rahasia.', href: '/produk/kastil-naga-api', emoji: '🏰', bg: '#ef6c00' },
-  { title: 'Mobil Sport Teknik', head: 'Untuk perakit dewasa', body: 'Mesin piston bergerak & girboks 8 percepatan.', href: '/produk/mobil-sport-teknik', emoji: '🏁', bg: '#0b2d5e' },
-  { title: 'Pirate King Gear Fifth', head: 'Anime figure premium', body: 'Detail awan & petir dengan base bercahaya.', href: '/produk/pirate-king-gear', emoji: '🏴‍☠️', bg: '#6a1b9a' },
+  { title: 'Fat Tiger Blind Box', head: 'Dragon Soaring & Tiger Leaping', body: '8 desain + 1 hidden edition. Siapa yang dapat Coiling Dragon?', href: FT1, image: `${FT1}/01.webp`, bg: '#f27c00' },
+  { title: 'Fat Tiger Food Party', head: 'Gantungan boneka blind box', body: '6 desain lucu untuk tas & kunci kamu.', href: FT2, image: `${FT2}/01.webp`, bg: '#e65100' },
+  { title: 'Rolife Super Creator', head: 'Double Joy Bubble Tea', body: 'Rakit sendiri kedai bubble tea mini yang detail.', href: RL, image: `${RL}/01.webp`, bg: '#d81b60' },
+  { title: 'Segera Hadir', head: 'Doraemon, Sinchan & Emma', body: 'Blind box karakter favorit segera masuk. Pantau terus!', href: '/produk?kategori=blind-box', emoji: '🎁', bg: '#0b2d5e' },
 ];
 
 export default function Home() {
   const popular = [...PRODUCTS].sort((a, b) => b.sold - a.sold);
   const featured = PRODUCTS.filter((p) => ['Baru', 'Eksklusif'].includes(p.badge));
   const sale = PRODUCTS.filter((p) => p.salePrice);
-  const gifts = PRODUCTS.filter((p) => p.price <= 800000);
+  const gifts = PRODUCTS;
   return (
     <>
       <HeroSlider />
       <TileTabs />
-      <Offers groups={{ Populer: popular, Unggulan: featured, Sale: sale }} />
+      <Offers groups={Object.fromEntries(Object.entries({ Populer: popular, Unggulan: featured, Sale: sale }).filter(([, v]) => v.length))} />
 
       <section className="band">
         <div className="wrap">
-          <Link href="/produk?umur=3-5" className="band-banner">
-            <div className="band-art bframe">{BAND_IMAGE ? <img src={imgUrl(BAND_IMAGE, 1200)} alt="" referrerPolicy="no-referrer" /> : '🧸🎁🚗'}<FrameTag /></div>
+          <Link href="/produk?kategori=blind-box" className="band-banner">
+            <div className="band-art bframe">{BAND_IMAGE ? <img src={imgUrl(BAND_IMAGE, 1200)} alt="" referrerPolicy="no-referrer" /> : '🎁🐯🧋'}<FrameTag /></div>
             <div className="band-txt">
               <h3>Hadiah yang<br /><em>selalu bikin senang</em></h3>
               <span className="band-cta">Belanja Sekarang ›</span>
@@ -71,9 +81,9 @@ export default function Home() {
           <h2 className="sec-title center">Lihat Koleksi Mereka</h2>
           <p className="center muted sub">Inspirasi dari koleksi pelanggan Toyzone. Tandai kami di Instagram <a href="https://instagram.com/toyzone888" target="_blank" rel="noreferrer" className="ig-link">@toyzone888</a></p>
           <div className="mosaic">
-            {CATEGORIES.map((c, i) => (
-              <Link key={c.slug} href={`/produk?kategori=${c.slug}`} className={`mosaic-item bframe m${i}`} style={{ '--c': c.color }}>
-                {GALLERY[i] ? <img src={imgUrl(GALLERY[i], 1000)} alt={c.name} referrerPolicy="no-referrer" /> : <span>{c.emoji}</span>}<i>+</i>
+            {GALLERY.map((g, i) => (
+              <Link key={i} href={g.href} className={`mosaic-item bframe m${i}`} style={{ '--c': g.color }}>
+                <img src={imgUrl(g.img, 1000)} alt="" referrerPolicy="no-referrer" /><i>+</i>
               </Link>
             ))}
           </div>

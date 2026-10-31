@@ -68,7 +68,7 @@ export default function PostCard({ post, onChange, notify, onZoom }) {
             ? <label className="when">🗓 <input type="datetime-local" value={when} onChange={(e) => setWhen(e.target.value)} /> <small className="muted">WIB</small></label>
             : <span className="when">🗓 {fmt(post.published_at || post.schedule_at)}</span>}
         </div>
-        <div className="prod"><b>{p.name}</b> · {p.salePrice ? <><s>{rp(p.price)}</s> {rp(p.salePrice)}</> : rp(p.price)}</div>
+        <div className="prod"><b>{p.name}</b> · {p.price == null ? 'Tanya harga' : p.salePrice ? <><s>{rp(p.price)}</s> {rp(p.salePrice)}</> : rp(p.price)}</div>
         <textarea className="caption" value={caption} onChange={(e) => setCaption(e.target.value)} readOnly={!editable} maxLength={2200} />
         <div className="cap-foot">
           <span>{post.caption_source === 'template' ? 'Caption dari template (AI belum aktif)' : 'Caption dibuat AI'}</span>

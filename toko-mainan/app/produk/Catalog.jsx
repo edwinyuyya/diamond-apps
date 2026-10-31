@@ -36,14 +36,14 @@ export default function Catalog() {
       if (tag === 'terbatas' ? !(p.stock > 0 && p.stock <= 5) : tag && p.badge.toLowerCase() !== tag && !(tag === 'diskon' && p.salePrice)) return false;
       if (stok && p.stock <= 0) return false;
       if (umur.length && !AGE_GROUPS.filter((a) => umur.includes(a.slug)).some((a) => p.age >= a.min && p.age <= a.max)) return false;
-      if (harga.length && !PRICE_RANGES.filter((h) => harga.includes(h.slug)).some((h) => finalPrice(p) >= h.min && finalPrice(p) < h.max)) return false;
+      if (harga.length && !PRICE_RANGES.filter((h) => harga.includes(h.slug)).some((h) => finalPrice(p) != null && finalPrice(p) >= h.min && finalPrice(p) < h.max)) return false;
       return true;
     });
     const s = {
       terbaru: (a, b) => (b.badge === 'Baru') - (a.badge === 'Baru'),
       terlaris: (a, b) => b.sold - a.sold,
-      termurah: (a, b) => finalPrice(a) - finalPrice(b),
-      termahal: (a, b) => finalPrice(b) - finalPrice(a),
+      termurah: (a, b) => (finalPrice(a) ?? Infinity) - (finalPrice(b) ?? Infinity),
+      termahal: (a, b) => (finalPrice(b) ?? -1) - (finalPrice(a) ?? -1),
       rating: (a, b) => b.rating - a.rating,
     }[sort];
     if (s) r = [...r].sort(s);

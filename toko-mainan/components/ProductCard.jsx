@@ -2,7 +2,8 @@
 import Link from 'next/link';
 import ProductImage from './ProductImage';
 import { useStore } from '../lib/store';
-import { finalPrice, discountPct, formatRp } from '../lib/products';
+import { finalPrice, discountPct, formatRp, hasPrice } from '../lib/products';
+import { waChatUrl } from '../lib/order';
 import { IcCart, IcHeart, IcCake } from './Icons';
 
 export default function ProductCard({ product: p }) {
@@ -20,11 +21,15 @@ export default function ProductCard({ product: p }) {
         <Link href={`/produk/${p.slug}`} className="card-name">{p.name}</Link>
         <div className="card-price">
           {disc > 0 && <div className="was"><s>{formatRp(p.price)}</s><span className="pct">{disc}%</span></div>}
-          <b>{formatRp(finalPrice(p))}</b>
+          <b>{hasPrice(p) ? formatRp(finalPrice(p)) : 'Tanya harga'}</b>
         </div>
-        <button className="btn-add" disabled={out} onClick={() => add(p.id)}>
-          {out ? 'Stok Habis' : <><IcCart size={17} /> Tambah ke Keranjang</>}
-        </button>
+        {!hasPrice(p) ? (
+          <a className="btn-add btn-ask" href={waChatUrl(`Halo Toyzone, berapa harga ${p.name}?`)} target="_blank" rel="noreferrer">Tanya Harga via WA</a>
+        ) : (
+          <button className="btn-add" disabled={out} onClick={() => add(p.id)}>
+            {out ? 'Stok Habis' : <><IcCart size={17} /> Tambah ke Keranjang</>}
+          </button>
+        )}
       </div>
     </div>
   );

@@ -196,6 +196,7 @@ img{max-width:100%;display:block}
 .mosaic-item{position:relative;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 25%,#fff),var(--c));display:grid;place-items:center;font-size:110px;overflow:hidden}
 .mosaic-item.m0{grid-row:span 2;font-size:220px}
 .mosaic-item.m5{display:none}
+.mosaic-item img{transition:transform .4s}.mosaic-item:hover img{transform:scale(1.05)}
 .mosaic-item span{filter:drop-shadow(0 14px 18px rgba(0,0,0,.3));transition:.3s}
 .mosaic-item:hover span{transform:scale(1.08)}
 .mosaic-item .bframe-tag{display:none}
@@ -537,3 +538,10 @@ body:has(.sticky-buy.show) .wa-float{bottom:100px}
 }
 .ig-link{color:var(--orange);font-weight:600}
 @media (max-width:900px){.logo img{height:40px}}
+
+.btn-ask{background:var(--wa)!important;text-align:center}
+.btn-ask:hover{filter:brightness(.93)}
+
+.hero-photo{flex:0 0 auto;width:min(380px,40vw);aspect-ratio:1;border-radius:18px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.3);transform:rotate(3deg);background:#fff}
+.hero-photo img{width:100%;height:100%;object-fit:cover}
+@media (max-width:900px){.hero-photo{width:min(260px,70vw);transform:none}}

@@ -5,7 +5,7 @@ import { STORE } from '../lib/config';
 
 export const metadata = {
   title: { default: `${STORE.name} – ${STORE.tagline}`, template: `%s | ${STORE.name}` },
-  description: `Belanja action figure, brick set, anime figure, die-cast & mainan koleksi original di ${STORE.name}. Kirim ke seluruh Indonesia.`,
+  description: `Belanja blind box Fat Tiger, Rolife DIY miniatur & mainan koleksi original di ${STORE.name}. Kirim ke seluruh Indonesia.`,
 };
 
 export const viewport = { width: 'device-width', initialScale: 1, themeColor: '#ffd500' };

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ProductImage from '../../../components/ProductImage';
 import { useStore } from '../../../lib/store';
-import { finalPrice, discountPct, formatRp, getCategory } from '../../../lib/products';
+import { finalPrice, discountPct, formatRp, getCategory, hasPrice } from '../../../lib/products';
 import { SHIPPING } from '../../../lib/config';
 import { waChatUrl } from '../../../lib/order';
 import { IcLeft, IcRight, IcTruck, IcReturn, IcCheck, IcCart, IcMinus, IcPlus, IcUp, IcDown, IcHeart } from '../../../components/Icons';
@@ -17,6 +17,7 @@ export default function ProductDetail({ product: p }) {
   const [sticky, setSticky] = useState(false);
   const btnRef = useRef(null);
   const out = p.stock <= 0;
+  const priced = hasPrice(p);
   const views = p.images?.length || 4;
   const disc = discountPct(p);
   const liked = wish.includes(p.id);
@@ -29,7 +30,9 @@ export default function ProductDetail({ product: p }) {
   }, []);
 
   const buyNow = () => { add(p.id, qty); setDrawer(false); router.push('/checkout'); };
-  const Buttons = () => out ? (
+  const Buttons = () => !priced ? (
+    <a className="btn-orange wide" href={waChatUrl(`Halo Toyzone, saya mau tanya harga & stok ${p.name} (${p.id})`)} target="_blank" rel="noreferrer">Tanya Harga via WhatsApp</a>
+  ) : out ? (
     <a className="btn-orange wide" href={waChatUrl(`Halo, apakah ${p.name} (${p.id}) akan restock?`)} target="_blank" rel="noreferrer">Tanya Restock via WhatsApp</a>
   ) : (
     <>
@@ -61,9 +64,9 @@ export default function ProductDetail({ product: p }) {
           <div className="pdp-sku">{p.id}</div>
           <div className="pdp-price">
             {disc > 0 && <div className="was"><s>{formatRp(p.price)}</s><span className="pct">{disc}%</span></div>}
-            <b>{formatRp(finalPrice(p))}</b>
+            <b>{priced ? formatRp(finalPrice(p)) : 'Tanya harga'}</b>
           </div>
-          {!out && (
+          {!out && priced && (
             <>
               <div className="pdp-label">Jumlah</div>
               <div className="qty-box">
@@ -103,7 +106,7 @@ export default function ProductDetail({ product: p }) {
       <div className={`sticky-buy ${sticky ? 'show' : ''}`}>
         <div className="sticky-thumb"><ProductImage product={p} size="sm" /></div>
         <div className="sticky-name"><b>{p.name}</b><small>{p.id}</small></div>
-        <b className="sticky-price">{formatRp(finalPrice(p))}</b>
+        <b className="sticky-price">{priced ? formatRp(finalPrice(p)) : 'Tanya harga'}</b>
         <div className="sticky-btns"><Buttons /></div>
       </div>
     </>

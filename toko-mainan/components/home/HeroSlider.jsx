@@ -7,9 +7,9 @@ import FrameTag from '../FrameTag';
 // Banner utama. Kalau punya gambar banner, taruh di /public/banner/ lalu isi `image`
 // (ukuran ideal 1920x600 desktop). Kalau `image` kosong, tampil banner warna.
 const SLIDES = [
-  { kicker: 'KOLEKSI BARU', title: 'Action Figure\nPremium 1/12', sub: 'Stok terbatas, buruan amankan!', cta: 'Belanja Sekarang', href: '/produk?kategori=action-figure', bg: '#0b2d5e', accent: '#ffc400', art: ['🦾', '🦇', '🕷️'] },
-  { kicker: 'BANGUN IMAJINASIMU', title: 'Brick Set\nUntuk Semua Umur', sub: 'Dari balita sampai kolektor dewasa', cta: 'Lihat Brick Set', href: '/produk?kategori=brick-set', bg: '#ff6a13', accent: '#0b2d5e', art: ['🏰', '🚒', '🏁'] },
-  { kicker: 'PROMO SPESIAL', title: 'Hemat Hingga\n17%', sub: 'Untuk produk pilihan, selama persediaan ada', cta: 'Lihat Promo', href: '/produk?tag=diskon', bg: '#6fcbc9', accent: '#e3000b', art: ['🎁', '🧸', '🤖'] },
+  { kicker: 'BLIND BOX BARU', title: 'Fat Tiger\nDragon & Tiger', sub: '8 desain + 1 hidden edition. Berani tebak isinya?', cta: 'Lihat Sekarang', href: '/produk/fat-tiger-dragon-soaring-tiger-leaping', bg: '#0b2d5e', accent: '#ffc400', img: '/produk/fat-tiger-dragon-soaring-tiger-leaping/01.webp' },
+  { kicker: 'GANTUNGAN TAS', title: 'Tiger Food\nParty', sub: 'Boneka Fat Tiger mini untuk tas & kunci kamu', cta: 'Lihat Koleksi', href: '/produk/fat-tiger-food-party-plush-pendant', bg: '#ff6a13', accent: '#0b2d5e', img: '/produk/fat-tiger-food-party-plush-pendant/03.webp' },
+  { kicker: 'ROLIFE DIY', title: 'Rakit Kedai\nBubble Tea Mini', sub: 'Rolife Super Creator — Double Joy Bubble Tea', cta: 'Lihat Produk', href: '/produk/rolife-super-creator-double-joy-bubble-tea', bg: '#6fcbc9', accent: '#d81b60', img: '/produk/rolife-super-creator-double-joy-bubble-tea/01.webp' },
   { kicker: 'GRATIS ONGKIR', title: 'Belanja Rp1 Juta\nGratis Ongkir', sub: 'Ke seluruh Indonesia', cta: 'Mulai Belanja', href: '/produk', bg: '#ffc400', accent: '#0b2d5e', art: ['🚚', '📦', '🎉'] },
 ];
 
@@ -32,7 +32,9 @@ export default function HeroSlider() {
                   <p>{s.sub}</p>
                   <span className="hero-cta">{s.cta} ›</span>
                 </div>
-                <div className="hero-art">{s.art.map((a, j) => <span key={j}>{a}</span>)}</div>
+                {s.img
+                  ? <div className="hero-photo bframe"><img src={imgUrl(s.img, 900)} alt="" /></div>
+                  : <div className="hero-art">{s.art.map((a, j) => <span key={j}>{a}</span>)}</div>}
               </div>
             )}
           </Link>
