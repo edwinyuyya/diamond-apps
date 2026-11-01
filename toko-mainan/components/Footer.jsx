@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import { STORE, BANKS } from '../lib/config';
-import { CATEGORIES, PRODUCTS } from '../lib/products';
 import { waChatUrl } from '../lib/order';
 import { IcIg, IcTiktok, IcWa } from './Icons';
 import NexoraCredit from './NexoraCredit';
 
-export default function Footer() {
+export default function Footer({ catalog }) {
+  const { products: PRODUCTS, categories: CATEGORIES } = catalog;
   const top = [...PRODUCTS].sort((a, b) => b.sold - a.sold).slice(0, 5);
   return (
     <footer className="ftr">

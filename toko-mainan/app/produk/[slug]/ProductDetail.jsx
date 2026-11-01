@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import ProductImage from '../../../components/ProductImage';
 import { useStore } from '../../../lib/store';
-import { finalPrice, discountPct, formatRp, getCategory, hasPrice } from '../../../lib/products';
+import { finalPrice, discountPct, formatRp, hasPrice } from '../../../lib/products';
 import { SHIPPING } from '../../../lib/config';
 import { waChatUrl } from '../../../lib/order';
 import { IcLeft, IcRight, IcTruck, IcReturn, IcCheck, IcCart, IcMinus, IcPlus, IcUp, IcDown, IcHeart } from '../../../components/Icons';
@@ -59,7 +59,7 @@ export default function ProductDetail({ product: p }) {
         </div>
 
         <div className="pdp-info">
-          <div className="pdp-brand">{getCategory(p.category)?.name}</div>
+          <div className="pdp-brand">{p.categoryName}</div>
           <h1>{p.name}</h1>
           <div className="pdp-sku">{p.id}</div>
           <div className="pdp-price">

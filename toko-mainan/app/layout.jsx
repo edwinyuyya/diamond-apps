@@ -2,6 +2,7 @@ import './globals.css';
 import Shell from '../components/Shell';
 import Footer from '../components/Footer';
 import { STORE } from '../lib/config';
+import { getCatalog } from '../lib/catalog';
 
 export const metadata = {
   title: { default: `${STORE.name} – ${STORE.tagline}`, template: `%s | ${STORE.name}` },
@@ -10,11 +11,12 @@ export const metadata = {
 
 export const viewport = { width: 'device-width', initialScale: 1, themeColor: '#ffd500' };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const catalog = await getCatalog();
   return (
     <html lang="id">
       <body>
-        <Shell footer={<Footer />}>{children}</Shell>
+        <Shell catalog={catalog} footer={<Footer catalog={catalog} />}>{children}</Shell>
       </body>
     </html>
   );

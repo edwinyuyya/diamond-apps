@@ -1,8 +1,10 @@
+'use client';
 import Link from 'next/link';
-import { CATEGORIES } from '../lib/products';
+import { useCatalog } from './CatalogProvider';
 
 // "Belanja per Kategori" (dipakai di halaman keranjang & wishlist)
 export default function ThemeRail() {
+  const { categories: CATEGORIES } = useCatalog();
   return (
     <div className="themes">
       {CATEGORIES.map((c) => (

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useStore } from '../lib/store';
 import { ANNOUNCEMENTS } from '../lib/config';
 import Logo from './Logo';
-import { CATEGORIES } from '../lib/products';
+import { useCatalog } from './CatalogProvider';
 import { IcSearch, IcHeart, IcCart, IcLeft, IcRight, IcMenu, IcClose, IcBox, IcHelp, IcStore, IcDown } from './Icons';
 
 const SHOP_LINKS = [
@@ -18,6 +18,7 @@ const SHOP_LINKS = [
 ];
 
 export default function Header() {
+  const { categories: CATEGORIES } = useCatalog();
   const { count, wish, setDrawer } = useStore();
   const router = useRouter();
   const [q, setQ] = useState('');

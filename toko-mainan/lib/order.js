@@ -1,8 +1,8 @@
-import { PRODUCTS, finalPrice, formatRp } from './products';
+import { finalPrice, formatRp } from './products';
 import { SHIPPING, PAYMENT_DEADLINE_HOURS, STORE, BANKS } from './config';
 
 // Hitung ulang total dari data produk (harga dari klien tidak dipercaya)
-export function priceItems(items) {
+export function priceItems(items, PRODUCTS) {
   const lines = [];
   for (const it of items || []) {
     const p = PRODUCTS.find((x) => x.id === it.id);
@@ -21,8 +21,8 @@ function makeOrderId(now) {
   return `TZ${d}${r}`;
 }
 
-export function buildOrder(items, customer) {
-  const { lines, subtotal, shipping } = priceItems(items);
+export function buildOrder(items, customer, products) {
+  const { lines, subtotal, shipping } = priceItems(items, products);
   if (!lines.length) throw new Error('Keranjang kosong');
   const now = new Date();
   // Kode unik 3 digit (1–999) supaya transfer mudah dicocokkan

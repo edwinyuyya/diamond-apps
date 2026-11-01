@@ -6,6 +6,7 @@ import { useStore, saveOrder } from '../../lib/store';
 import { finalPrice, formatRp } from '../../lib/products';
 import { SHIPPING, BANKS } from '../../lib/config';
 import { buildOrder, validateCustomer } from '../../lib/order';
+import { useCatalog } from '../../components/CatalogProvider';
 import ProductImage from '../../components/ProductImage';
 
 const PROVINCES = ['Aceh','Sumatera Utara','Sumatera Barat','Riau','Kepulauan Riau','Jambi','Sumatera Selatan','Kepulauan Bangka Belitung','Bengkulu','Lampung','DKI Jakarta','Jawa Barat','Banten','Jawa Tengah','DI Yogyakarta','Jawa Timur','Bali','Nusa Tenggara Barat','Nusa Tenggara Timur','Kalimantan Barat','Kalimantan Tengah','Kalimantan Selatan','Kalimantan Timur','Kalimantan Utara','Sulawesi Utara','Gorontalo','Sulawesi Tengah','Sulawesi Barat','Sulawesi Selatan','Sulawesi Tenggara','Maluku','Maluku Utara','Papua','Papua Barat','Papua Barat Daya','Papua Tengah','Papua Pegunungan','Papua Selatan'];
@@ -13,6 +14,7 @@ const EMPTY = { name: '', phone: '', email: '', address: '', city: '', province:
 const SAVED_KEY = 'tz_customer';
 
 export default function Checkout() {
+  const { products } = useCatalog();
   const { items, ready, clear } = useStore();
   const router = useRouter();
   const [f, setF] = useState(EMPTY);
@@ -41,7 +43,7 @@ export default function Checkout() {
       if (!r.ok) { if (d.errors) { setErr(d.errors); setBusy(false); return; } throw new Error(d.error); }
       order = d.order;
     } catch {
-      order = buildOrder(payload.items, f); // cadangan kalau server tidak bisa dihubungi
+      order = buildOrder(payload.items, f, products); // cadangan kalau server tidak bisa dihubungi
     }
     saveOrder(order);
     try { const { note, ...keep } = f; localStorage.setItem(SAVED_KEY, JSON.stringify(keep)); } catch {}

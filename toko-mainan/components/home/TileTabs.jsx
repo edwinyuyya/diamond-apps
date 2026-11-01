@@ -1,10 +1,10 @@
 'use client';
 import Link from 'next/link';
 import { useState } from 'react';
-import { CATEGORIES } from '../../lib/products';
+import { useCatalog } from '../CatalogProvider';
 
 // Section hitam "Terbaru | Minat | Kategori" dengan kartu tegak
-const TABS = {
+const BASE_TABS = {
   'Terbaru': [
     { label: 'PRODUK BARU', href: '/produk?tag=baru', emoji: '🆕', bg: '#ff8a00' },
     { label: 'STOK TERBATAS', href: '/produk?tag=terbatas', emoji: '⏳', bg: '#2d7ff9' },
@@ -21,10 +21,11 @@ const TABS = {
     { label: 'KOLEKTOR', href: '/produk?umur=13-17', emoji: '🏆', bg: '#0b2d5e' },
     { label: 'LIHAT SEMUA', href: '/produk', emoji: '🧸', bg: '#2d7ff9' },
   ],
-  'Kategori': CATEGORIES.map((c) => ({ label: c.name.toUpperCase(), href: `/produk?kategori=${c.slug}`, emoji: c.emoji, bg: c.color })),
 };
 
 export default function TileTabs() {
+  const { categories } = useCatalog();
+  const TABS = { ...BASE_TABS, Kategori: categories.map((c) => ({ label: c.name.toUpperCase(), href: `/produk?kategori=${c.slug}`, emoji: c.emoji, bg: c.color })) };
   const [tab, setTab] = useState('Terbaru');
   return (
     <section className="tiles-sec">

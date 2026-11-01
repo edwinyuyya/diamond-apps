@@ -2,7 +2,8 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { PRODUCTS, CATEGORIES, finalPrice } from '../../lib/products';
+import { finalPrice } from '../../lib/products';
+import { useCatalog } from '../CatalogProvider';
 import ProductRail from './ProductRail';
 import { IcRight } from '../Icons';
 
@@ -10,6 +11,7 @@ const AGES = [1.5, 3, 6, 9, 13, 18];
 const MAX_PRICE = 3500000;
 
 export default function GiftFinder() {
+  const { products: PRODUCTS, categories: CATEGORIES } = useCatalog();
   const router = useRouter();
   const [age, setAge] = useState(AGES.length - 1);
   const [price, setPrice] = useState(MAX_PRICE);
@@ -18,7 +20,7 @@ export default function GiftFinder() {
 
   const list = useMemo(() => PRODUCTS.filter((p) =>
     p.age <= AGES[applied.age] && (finalPrice(p) == null || finalPrice(p) <= applied.price) && (!applied.cat || p.category === applied.cat)
-  ), [applied]);
+  ), [applied, PRODUCTS]);
 
   const fmtM = (v) => (v / 1e6).toFixed(1) + ' jt';
   return (

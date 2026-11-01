@@ -1,7 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { useStore } from '../../lib/store';
-import { PRODUCTS, finalPrice, formatRp } from '../../lib/products';
+import { finalPrice, formatRp } from '../../lib/products';
+import { useCatalog } from '../../components/CatalogProvider';
 import { SHIPPING } from '../../lib/config';
 import ProductImage from '../../components/ProductImage';
 import QtyInput from '../../components/QtyInput';
@@ -10,6 +11,7 @@ import ThemeRail from '../../components/ThemeRail';
 import { IcCart } from '../../components/Icons';
 
 export default function CartPage() {
+  const { products: PRODUCTS } = useCatalog();
   const { items, ready, setQty, remove } = useStore();
   const subtotal = items.reduce((s, x) => s + finalPrice(x.product) * x.qty, 0);
   const shipping = subtotal >= SHIPPING.freeAbove ? 0 : SHIPPING.flat;

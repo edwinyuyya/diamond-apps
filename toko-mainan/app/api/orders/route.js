@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { buildOrder, validateCustomer } from '../../../lib/order';
+import { getCatalog } from '../../../lib/catalog';
 import { insertOrder } from '../../../lib/db';
 
 export async function POST(req) {
@@ -7,7 +8,7 @@ export async function POST(req) {
     const { items, customer } = await req.json();
     const errors = validateCustomer(customer || {});
     if (Object.keys(errors).length) return NextResponse.json({ errors }, { status: 400 });
-    const order = buildOrder(items, customer);
+    const order = buildOrder(items, customer, (await getCatalog()).products);
     let saved = false;
     try { saved = await insertOrder(order); } catch (e) { console.error('Gagal simpan pesanan:', e.message); }
     return NextResponse.json({ order, saved });

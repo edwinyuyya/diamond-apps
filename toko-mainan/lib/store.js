@@ -1,6 +1,6 @@
 'use client';
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { PRODUCTS } from './products';
+import { useCatalog } from '../components/CatalogProvider';
 
 const Ctx = createContext(null);
 const CART_KEY = 'tz_cart';
@@ -11,6 +11,7 @@ const read = (k, fb) => { try { return JSON.parse(localStorage.getItem(k)) ?? fb
 const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
 
 export function StoreProvider({ children }) {
+  const { products: PRODUCTS } = useCatalog();
   const [cart, setCart] = useState([]); // [{id, qty}]
   const [ready, setReady] = useState(false);
   const [drawer, setDrawer] = useState(false);
@@ -31,11 +32,11 @@ export function StoreProvider({ children }) {
       return [...c, { id, qty: Math.min(p.stock, qty) }];
     });
     setDrawer(true);
-  }, []);
+  }, [PRODUCTS]);
   const setQty = useCallback((id, qty) => {
     const p = PRODUCTS.find((x) => x.id === id);
     setCart((c) => c.map((x) => (x.id === id ? { ...x, qty: Math.max(1, Math.min(p?.stock || 1, qty)) } : x)));
-  }, []);
+  }, [PRODUCTS]);
   const remove = useCallback((id) => setCart((c) => c.filter((x) => x.id !== id)), []);
   const clear = useCallback(() => setCart([]), []);
 

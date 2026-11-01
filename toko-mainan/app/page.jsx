@@ -5,7 +5,7 @@ import Offers from '../components/home/Offers';
 import ProductRail from '../components/home/ProductRail';
 import GiftFinder from '../components/home/GiftFinder';
 import ProductCard from '../components/ProductCard';
-import { PRODUCTS, CATEGORIES } from '../lib/products';
+import { getCatalog } from '../lib/catalog';
 import { IcRight } from '../components/Icons';
 import { imgUrl } from '../lib/image';
 import FrameTag from '../components/FrameTag';
@@ -34,7 +34,8 @@ const PROMOS = [
   { title: 'Segera hadir: Doraemon, Sinchan & Emma', href: '/produk?kategori=blind-box', banner: '/banner/promo-segera-hadir.webp' },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const { products: PRODUCTS } = await getCatalog();
   const popular = [...PRODUCTS].sort((a, b) => b.sold - a.sold);
   const featured = PRODUCTS.filter((p) => ['Baru', 'Eksklusif'].includes(p.badge));
   const sale = PRODUCTS.filter((p) => p.salePrice);

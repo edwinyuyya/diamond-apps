@@ -1,11 +1,12 @@
 'use client';
 import Link from 'next/link';
 import { useStore } from '../../lib/store';
-import { PRODUCTS } from '../../lib/products';
+import { useCatalog } from '../../components/CatalogProvider';
 import ProductCard from '../../components/ProductCard';
 import { IcHeart } from '../../components/Icons';
 
 export default function Wishlist() {
+  const { products: PRODUCTS } = useCatalog();
   const { wish, ready } = useStore();
   const list = PRODUCTS.filter((p) => wish.includes(p.id));
   if (!ready) return <div className="wrap pad">Memuat…</div>;

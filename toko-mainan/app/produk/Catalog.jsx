@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import ProductCard from '../../components/ProductCard';
-import { PRODUCTS, CATEGORIES, AGE_GROUPS, PRICE_RANGES, finalPrice, getCategory } from '../../lib/products';
+import { AGE_GROUPS, PRICE_RANGES, finalPrice } from '../../lib/products';
+import { useCatalog } from '../../components/CatalogProvider';
 
 const SORTS = [
   ['rekomendasi', 'Rekomendasi'], ['terbaru', 'Terbaru'], ['terlaris', 'Terlaris'],
@@ -12,6 +13,8 @@ const SORTS = [
 const TAGS = { baru: 'Produk Baru', terlaris: 'Terlaris', eksklusif: 'Eksklusif', diskon: 'Sale', terbatas: 'Stok Terbatas' };
 
 export default function Catalog() {
+  const { products: PRODUCTS, categories: CATEGORIES } = useCatalog();
+  const getCategory = (slug) => CATEGORIES.find((c) => c.slug === slug);
   const sp = useSearchParams();
   const router = useRouter();
   const [showFilter, setShowFilter] = useState(false);
@@ -48,7 +51,7 @@ export default function Catalog() {
     }[sort];
     if (s) r = [...r].sort(s);
     return r;
-  }, [sp]); // eslint-disable-line
+  }, [sp, PRODUCTS]); // eslint-disable-line
 
   const title = q ? `Hasil pencarian "${q}"`
     : kat.length === 1 ? getCategory(kat[0])?.name

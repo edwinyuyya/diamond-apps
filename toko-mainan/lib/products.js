@@ -1,13 +1,5 @@
-// ════════════════════════════════════════════════════════════
-//  DATA PRODUK & KATEGORI
-//  Sumber data: Google Sheet "Toyzone — Data Produk" → disinkronkan oleh
-//  scripts/sync_products.py ke lib/products-data.json (jangan edit JSON manual).
-//  Foto diambil dari "Link Folder Foto", dikompres ke /public/produk/<slug>/.
-//  Harga kosong → tampil "Tanya Harga" via WhatsApp, belum bisa dibeli.
-// ════════════════════════════════════════════════════════════
-import data from './products-data.json';
-
-export const CATEGORIES = data.categories;
+// Konstanta & helper produk. Data produk sendiri ada di katalog (lib/catalog.js,
+// diisi lewat halaman /admin) dan dibaca komponen client lewat useCatalog().
 
 export const AGE_GROUPS = [
   { slug: '3-5', name: '3–5 tahun', min: 3, max: 5 },
@@ -25,11 +17,7 @@ export const PRICE_RANGES = [
   { slug: '2500', name: 'Di atas Rp2,5jt', min: 2500000, max: Infinity },
 ];
 
-export const PRODUCTS = data.products;
-
 // ── helper ──
-export const getProduct = (slug) => PRODUCTS.find((p) => p.slug === slug);
-export const getCategory = (slug) => CATEGORIES.find((c) => c.slug === slug);
 export const finalPrice = (p) => p.salePrice ?? p.price;
 export const hasPrice = (p) => p.price != null;
 export const discountPct = (p) => (p.salePrice && p.price ? Math.round((1 - p.salePrice / p.price) * 100) : 0);
