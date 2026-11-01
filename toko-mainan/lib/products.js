@@ -1,18 +1,13 @@
 // ════════════════════════════════════════════════════════════
-//  DATA PRODUK & KATEGORI (sesuai folder Google Drive "Toyzone materi")
-//  - Foto: file .webp di /public/produk/<slug>/ (diambil dari Drive & dikompres),
-//    atau paste link share Google Drive. Foto pertama = foto utama.
-//    Semua foto otomatis tampil di dalam frame template Toyzone.
-//  - price: harga dalam Rupiah (angka saja, tanpa titik).
-//    Kosongkan (null) kalau harga belum ada → tampil "Tanya Harga" via WhatsApp
-//    dan produk belum bisa dimasukkan ke keranjang.
-//  - salePrice opsional: isi kalau sedang diskon.
+//  DATA PRODUK & KATEGORI
+//  Sumber data: Google Sheet "Toyzone — Data Produk" → disinkronkan oleh
+//  scripts/sync_products.py ke lib/products-data.json (jangan edit JSON manual).
+//  Foto diambil dari "Link Folder Foto", dikompres ke /public/produk/<slug>/.
+//  Harga kosong → tampil "Tanya Harga" via WhatsApp, belum bisa dibeli.
 // ════════════════════════════════════════════════════════════
+import data from './products-data.json';
 
-export const CATEGORIES = [
-  { slug: 'blind-box', name: 'Blind Box', emoji: '🎁', color: '#f27c00', desc: 'Figure & gantungan kejutan, siapa tahu dapat hidden edition' },
-  { slug: 'rolife', name: 'Rolife', emoji: '🏠', color: '#d81b60', desc: 'Rumah miniatur DIY untuk dirakit sendiri' },
-];
+export const CATEGORIES = data.categories;
 
 export const AGE_GROUPS = [
   { slug: '3-5', name: '3–5 tahun', min: 3, max: 5 },
@@ -30,40 +25,7 @@ export const PRICE_RANGES = [
   { slug: '2500', name: 'Di atas Rp2,5jt', min: 2500000, max: Infinity },
 ];
 
-const img = (slug, n) => Array.from({ length: n }, (_, i) => `/produk/${slug}/${String(i + 1).padStart(2, '0')}.webp`);
-
-export const PRODUCTS = [
-  {
-    id: 'BB001', slug: 'fat-tiger-dragon-soaring-tiger-leaping',
-    name: 'Fat Tiger Blind Box — Dragon Soaring & Tiger Leaping Series',
-    category: 'blind-box', series: 'Fat Tiger',
-    price: null, salePrice: null, age: 15, stock: 10,
-    badge: 'Baru', emoji: '🐯', color: '#f27c00', rating: 5.0, sold: 0,
-    images: img('fat-tiger-dragon-soaring-tiger-leaping', 7),
-    description: 'Blind box figure Alexander si Fat Tiger seri "Long Teng Hu Yue" (Dragon Soaring & Tiger Leaping). Tiap box berisi 1 figure acak dari 8 desain: Soaring Dragon, Leaping Tiger, Subduing Dragon, Crouching Tiger, Dragon Pool, Tiger\'s Den, Sleeping Dragon dan Fledgling Phoenix, plus peluang mendapatkan hidden edition "Coiling Dragon & Crouching Saw Tiger".',
-    specs: { 'Jenis': 'Blind box figure', 'Isi': '1 figure acak per box', 'Pilihan desain': '8 desain + 1 hidden edition', 'Karakter': 'Fat Tiger (BU2MA)' },
-  },
-  {
-    id: 'BB002', slug: 'fat-tiger-food-party-plush-pendant',
-    name: 'Fat Tiger Blind Box — Tiger Food Party Plush Pendant',
-    category: 'blind-box', series: 'Fat Tiger',
-    price: null, salePrice: null, age: 15, stock: 10,
-    badge: 'Baru', emoji: '🐯', color: '#e65100', rating: 5.0, sold: 0,
-    images: img('fat-tiger-food-party-plush-pendant', 4),
-    description: 'Gantungan boneka (plush pendant) Fat Tiger seri "Tiger Food Party — Let\'s Eat Together". Tiap blind box berisi 1 gantungan acak dari 6 desain, lucu dipasang di tas atau kunci.',
-    specs: { 'Jenis': 'Blind box gantungan boneka', 'Isi': '1 gantungan acak per box', 'Pilihan desain': '6 desain', 'Karakter': 'Fat Tiger (BU2MA)' },
-  },
-  {
-    id: 'RL001', slug: 'rolife-super-creator-double-joy-bubble-tea',
-    name: 'Rolife Super Creator — Double Joy Bubble Tea',
-    category: 'rolife', series: 'Super Creator',
-    price: null, salePrice: null, age: 14, stock: 10,
-    badge: 'Baru', emoji: '🧋', color: '#d81b60', rating: 5.0, sold: 0,
-    images: img('rolife-super-creator-double-joy-bubble-tea', 1),
-    description: 'Kit rumah miniatur DIY dari Rolife seri Super Creator bertema kedai bubble tea "Double Joy". Rakit sendiri jadi pajangan meja yang detail dan menggemaskan.',
-    specs: { 'Merek': 'Rolife', 'Seri': 'Super Creator', 'Jenis': 'Kit rumah miniatur DIY' },
-  },
-];
+export const PRODUCTS = data.products;
 
 // ── helper ──
 export const getProduct = (slug) => PRODUCTS.find((p) => p.slug === slug);
