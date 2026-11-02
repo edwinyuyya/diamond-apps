@@ -11,7 +11,7 @@ export default function AdminHome() {
   const [toast, setToast] = useState('');
   const notify = (m) => { setToast(m); setTimeout(() => setToast(''), 2500); };
 
-  useEffect(() => { fetch('/api/admin/products').then((r) => r.json()).then((d) => setProducts(d.products || [])); }, []);
+  useEffect(() => { fetch('/api/admin/products').then((r) => { if (r.status === 401) { location.href = '/admin/login'; return {}; } return r.json(); }).then((d) => setProducts(d.products || [])); }, []);
 
   const patch = async (p, body, msg) => {
     const r = await fetch(`/api/admin/products/${p.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });

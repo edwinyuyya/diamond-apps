@@ -1,10 +1,13 @@
 import { NextResponse } from 'next/server';
+import { requireAdmin } from '../../../../lib/admin-auth';
 import { getAllProducts, saveAllProducts } from '../../../../lib/catalog';
 import { slugify, categoryStyle } from '../../../../lib/categories';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(req) {
+  const deny = await requireAdmin(req);
+  if (deny) return deny;
   return NextResponse.json({ products: await getAllProducts({ fresh: true }) });
 }
 
@@ -12,6 +15,8 @@ const int = (v) => (v === '' || v == null ? null : Math.max(0, parseInt(String(v
 
 // Simpan produk (baru atau ubah). Body: { product }
 export async function POST(req) {
+  const deny = await requireAdmin(req);
+  if (deny) return deny;
   const { product: f } = await req.json().catch(() => ({}));
   if (!f?.name?.trim()) return NextResponse.json({ error: 'Nama produk wajib diisi' }, { status: 400 });
   if (!f?.categoryName?.trim()) return NextResponse.json({ error: 'Kategori wajib diisi' }, { status: 400 });

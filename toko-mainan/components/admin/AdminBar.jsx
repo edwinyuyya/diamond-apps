@@ -10,6 +10,7 @@ export default function AdminBar() {
       <div className="adm-wrap adm-bar-row">
         <Link href="/admin" className="adm-logo"><img src="/logo.png" alt="Toyzone" /><span>ADMIN</span></Link>
         <nav>
+          <Link href="/admin/pengaturan">Pengaturan</Link>
           <Link href="/" target="_blank">Lihat Toko ↗</Link>
           <button onClick={logout}>Keluar</button>
         </nav>

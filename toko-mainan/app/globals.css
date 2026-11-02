@@ -617,3 +617,4 @@ body:has(.sticky-buy.show) .wa-float{bottom:100px}
   .adm-info{flex-basis:calc(100% - 80px)}
   .adm-stock{flex-direction:row;align-items:center;gap:6px}
 }
+.adm-ok{color:var(--green);font-weight:600}

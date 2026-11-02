@@ -30,7 +30,7 @@ export default function ProductForm({ params }) {
   const fileRef = useRef(null);
 
   useEffect(() => {
-    fetch('/api/admin/products').then((r) => r.json()).then((d) => {
+    fetch('/api/admin/products').then((r) => { if (r.status === 401) { location.href = '/admin/login'; return {}; } return r.json(); }).then((d) => {
       const all = d.products || [];
       setCats([...new Set(all.map((p) => p.categoryName).filter(Boolean))]);
       if (isNew) return;

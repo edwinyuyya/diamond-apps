@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { requireAdmin } from '../../../../lib/admin-auth';
 import sharp from 'sharp';
 import { setBinary } from '../../../../lib/blobs';
 
@@ -6,6 +7,8 @@ export const runtime = 'nodejs';
 
 // Unggah 1 foto produk → dikompres ke WebP (maks 1400px) → disimpan di Blobs
 export async function POST(req) {
+  const deny = await requireAdmin(req);
+  if (deny) return deny;
   const form = await req.formData().catch(() => null);
   const file = form?.get('file');
   if (!file || typeof file === 'string') return NextResponse.json({ error: 'File foto tidak ada' }, { status: 400 });

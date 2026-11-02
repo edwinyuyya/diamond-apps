@@ -1,9 +1,12 @@
 import { NextResponse } from 'next/server';
+import { requireAdmin } from '../../../../../lib/admin-auth';
 import { getAllProducts, saveAllProducts } from '../../../../../lib/catalog';
 import { remove } from '../../../../../lib/blobs';
 
 // Ubah cepat (tampil/sembunyi, stok) dari daftar produk
 export async function PATCH(req, { params }) {
+  const deny = await requireAdmin(req);
+  if (deny) return deny;
   const body = await req.json().catch(() => ({}));
   const all = await getAllProducts({ fresh: true });
   const p = all.find((x) => x.id === params.id);
@@ -15,7 +18,9 @@ export async function PATCH(req, { params }) {
   return NextResponse.json({ product: p });
 }
 
-export async function DELETE(_req, { params }) {
+export async function DELETE(req, { params }) {
+  const deny = await requireAdmin(req);
+  if (deny) return deny;
   const all = await getAllProducts({ fresh: true });
   const p = all.find((x) => x.id === params.id);
   if (!p) return NextResponse.json({ error: 'Produk tidak ditemukan' }, { status: 404 });
