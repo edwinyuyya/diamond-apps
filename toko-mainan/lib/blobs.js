@@ -12,7 +12,10 @@ async function netlifyStore(name) {
   if (storeCache[name]) return storeCache[name];
   const { getStore } = await import('@netlify/blobs');
   try {
-    return (storeCache[name] = getStore(name));
+    // Pakai fetch asli: fetch versi Next.js mencoba memakai cache Next, yang di Netlify juga
+    // tersimpan di Blobs, sehingga permintaan Blobs menunggu dirinya sendiri (macet).
+    const rawFetch = globalThis.fetch._nextOriginalFetch || globalThis.fetch;
+    return (storeCache[name] = getStore({ name, fetch: (...a) => rawFetch(...a) }));
   } catch (e) {
     console.error('[blobs] getStore gagal:', e?.name, e?.message);
     return null;
