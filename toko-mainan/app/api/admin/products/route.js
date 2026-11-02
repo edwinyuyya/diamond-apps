@@ -5,7 +5,7 @@ import { slugify, categoryStyle } from '../../../../lib/categories';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  return NextResponse.json({ products: await getAllProducts() });
+  return NextResponse.json({ products: await getAllProducts({ fresh: true }) });
 }
 
 const int = (v) => (v === '' || v == null ? null : Math.max(0, parseInt(String(v).replace(/[^\d]/g, ''), 10) || 0));
@@ -15,7 +15,7 @@ export async function POST(req) {
   const { product: f } = await req.json().catch(() => ({}));
   if (!f?.name?.trim()) return NextResponse.json({ error: 'Nama produk wajib diisi' }, { status: 400 });
   if (!f?.categoryName?.trim()) return NextResponse.json({ error: 'Kategori wajib diisi' }, { status: 400 });
-  const all = await getAllProducts();
+  const all = await getAllProducts({ fresh: true });
   const existing = f.id ? all.find((p) => p.id === f.id) : null;
   if (f.id && !existing) return NextResponse.json({ error: 'Produk tidak ditemukan' }, { status: 404 });
 

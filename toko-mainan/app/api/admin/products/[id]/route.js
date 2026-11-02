@@ -5,7 +5,7 @@ import { remove } from '../../../../../lib/blobs';
 // Ubah cepat (tampil/sembunyi, stok) dari daftar produk
 export async function PATCH(req, { params }) {
   const body = await req.json().catch(() => ({}));
-  const all = await getAllProducts();
+  const all = await getAllProducts({ fresh: true });
   const p = all.find((x) => x.id === params.id);
   if (!p) return NextResponse.json({ error: 'Produk tidak ditemukan' }, { status: 404 });
   if (typeof body.visible === 'boolean') p.visible = body.visible;
@@ -16,7 +16,7 @@ export async function PATCH(req, { params }) {
 }
 
 export async function DELETE(_req, { params }) {
-  const all = await getAllProducts();
+  const all = await getAllProducts({ fresh: true });
   const p = all.find((x) => x.id === params.id);
   if (!p) return NextResponse.json({ error: 'Produk tidak ditemukan' }, { status: 404 });
   await saveAllProducts(all.filter((x) => x.id !== params.id));
