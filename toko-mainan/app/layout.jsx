@@ -4,6 +4,9 @@ import Footer from '../components/Footer';
 import { STORE } from '../lib/config';
 import { getCatalog } from '../lib/catalog';
 
+// Katalog dibaca saat halaman dibuka (bukan saat build), supaya perubahan dari /admin langsung tampil
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: { default: `${STORE.name} – ${STORE.tagline}`, template: `%s | ${STORE.name}` },
   description: `Belanja blind box Fat Tiger, Rolife DIY miniatur & mainan koleksi original di ${STORE.name}. Kirim ke seluruh Indonesia.`,

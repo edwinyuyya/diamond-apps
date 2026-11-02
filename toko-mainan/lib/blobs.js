@@ -5,10 +5,16 @@ import path from 'path';
 
 const LOCAL = path.join(process.cwd(), '.data', 'blobs');
 
+// Di Netlify (fungsi server) Blobs tersedia; saat build atau lokal tidak, maka pakai folder lokal.
 async function netlifyStore(name) {
   if (!process.env.NETLIFY_BLOBS_CONTEXT && !process.env.NETLIFY) return null;
   const { getStore } = await import('@netlify/blobs');
-  return getStore({ name, consistency: 'strong' });
+  try {
+    return getStore({ name, consistency: 'strong' });
+  } catch (e) {
+    if (e?.name === 'MissingBlobsEnvironmentError') return null;
+    throw e;
+  }
 }
 
 function localPath(name, key) {
