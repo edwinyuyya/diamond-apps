@@ -86,7 +86,10 @@ export default function Home({ slides = [], media = {} }) {
   return (
     <>
     <nav className="nav" aria-label="Menu utama">
-      <a className="nav-brand" href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>HARMONY OF LIFE</a>
+      <div className="nav-top">
+        <a className="nav-brand" href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Harmony of Life</a>
+        <a className="pill dark nav-cta" href="#jadwal" onClick={(e) => { e.preventDefault(); pick('venue'); }}>Daftar yoga <span aria-hidden>→</span></a>
+      </div>
       <div className="nav-links">
         <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Beranda</a>
         {NAV.map(([k, t]) => (
@@ -100,7 +103,8 @@ export default function Home({ slides = [], media = {} }) {
 
       {result ? (
         <div className="card pay">
-          <h2 style={{ marginTop: 0 }}>Silakan transfer</h2>
+          <div className="eyebrow">Pembayaran</div>
+          <h2 style={{ marginTop: 0 }}>Silakan <em>transfer</em></h2>
           <p className="muted" style={{ marginTop: 0 }}>Pesanan <b>{result.label}</b> atas nama <b>{fullName}</b> sudah kami catat{result.date ? ', kursi ditahan untukmu' : ''}.</p>
           <dl>
             <div className="row"><dt>Bank</dt><dd>{result.bank.name}</dd></div>
@@ -111,26 +115,28 @@ export default function Home({ slides = [], media = {} }) {
             <div className="row"><dt>Total transfer</dt><dd><span className="total">{rp(result.total)}</span> <Copy text={result.total} /></dd></div>
           </dl>
           <div className="note">Transfer <b>tepat <span className="hl">{rp(result.total)}</span></b> (termasuk kode unik) agar pembayaran mudah kami cocokkan. Mohon transfer sebelum {new Date(result.expiresAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB.</div>
-          <a className="btn wa" href={result.waUrl} target="_blank" rel="noopener noreferrer">📲 Kirim bukti transfer via WhatsApp</a>
+          <a className="btn wa" href={result.waUrl} target="_blank" rel="noopener noreferrer">Kirim bukti transfer via WhatsApp</a>
           <p className="muted" style={{ textAlign: 'center' }}>Setelah transfer, tekan tombol di atas lalu lampirkan bukti transfer di chat WhatsApp.</p>
         </div>
       ) : CONTENT[tab] ? (
         <>
-          <h2 id="jadwal" style={{ scrollMarginTop: 90 }}>{CONTENT[tab].title}</h2>
+          <div className="eyebrow">Harmony of Life</div>
+          <h2 id="jadwal" style={{ scrollMarginTop: 110 }}>{CONTENT[tab].title}</h2>
           <p className="muted" style={{ marginTop: -6 }}>{CONTENT[tab].desc}</p>
           {items.length > 0
             ? <div className="mgrid">{items.map((m) => <MediaItem key={m.src} m={m} />)}</div>
             : <p className="muted">Foto dan video segera hadir.</p>}
-          {data?.wa && <a className="btn wa" target="_blank" rel="noopener noreferrer" href={`https://wa.me/${data.wa}?text=${encodeURIComponent(`Halo Harmony of Life, saya tertarik dengan ${CONTENT[tab].title}.`)}`}>📲 {CONTENT[tab].cta}</a>}
+          {data?.wa && <a className="btn wa" target="_blank" rel="noopener noreferrer" href={`https://wa.me/${data.wa}?text=${encodeURIComponent(`Halo Harmony of Life, saya tertarik dengan ${CONTENT[tab].title}.`)}`}>{CONTENT[tab].cta}</a>}
           <button type="button" className="btn ghost" onClick={() => pick('venue')}>Lihat jadwal & daftar yoga →</button>
         </>
       ) : (
         <>
-          <h2 id="jadwal" style={{ scrollMarginTop: 90 }}><span className="step">1</span>Mau yoga bagaimana?</h2>
+          <div className="eyebrow">Layanan</div>
+          <h2 id="jadwal" style={{ scrollMarginTop: 110 }}>Mau yoga <em>bagaimana?</em></h2>
           <div className="tabs">
-            {[['venue', '🏡', 'Omah Turi', 'Datang langsung ke venue'], ['online', '💻', 'Online Live Yoga', 'Yoga real time via online'], ['record', '🎬', 'Rekaman Yoga', 'Beli & latihan kapan saja']].map(([k, ic, t, d]) => (
+            {[['venue', 'Omah Turi', 'Datang langsung ke venue'], ['online', 'Online Live Yoga', 'Yoga real time via online'], ['record', 'Rekaman Yoga', 'Beli & latihan kapan saja']].map(([k, t, d]) => (
               <button key={k} type="button" className={'tab' + (tab === k ? ' sel' : '')} onClick={() => { setTab(k); setSel(null); setDay(null); setErr(''); }}>
-                <span>{ic}</span><b>{t}</b><small>{d}</small>
+                <b>{t}</b><small>{d}</small>
               </button>
             ))}
           </div>
@@ -141,7 +147,8 @@ export default function Home({ slides = [], media = {} }) {
             </div>
           )}
 
-          <h2><span className="step">2</span>{tab === 'record' ? 'Pilih rekaman' : 'Pilih tanggal'}</h2>
+          <div className="eyebrow">{tab === 'record' ? 'Rekaman' : 'Jadwal'}</div>
+          <h2>Pilih <em>{tab === 'record' ? 'rekaman' : 'tanggal'}</em></h2>
           {loadErr && <div className="err">{loadErr}</div>}
           {!data && !loadErr && <p className="muted">Memuat jadwal…</p>}
           {data && tab !== 'record' && list.length === 0 && <p className="muted">Belum ada jadwal yang dibuka. Silakan cek kembali nanti.</p>}
@@ -182,9 +189,9 @@ export default function Home({ slides = [], media = {} }) {
                     <div className="tt-body">
                       <small className="tt-kind">{tab === 'online' ? 'YOGA ONLINE LIVE' : 'YOGA DI OMAH TURI'}</small>
                       <h3>{tab === 'online' ? 'Yoga Online (real time)' : 'Yoga di Omah Turi'}</h3>
-                      <p className="tt-meta">📅 {fmtDate(s.date)}</p>
-                      {s.note && <p className="tt-meta">🕘 {s.note}</p>}
-                      <p className="tt-meta">📍 {tab === 'online' ? 'Online' : 'Omah Turi'}</p>
+                      <p className="tt-meta">{fmtDate(s.date)}</p>
+                      {s.note && <p className="tt-meta">{s.note}</p>}
+                      <p className="tt-meta">{tab === 'online' ? 'Online' : 'Omah Turi'}</p>
                     </div>
                   </div>
                   <div className="tt-foot">
@@ -218,14 +225,15 @@ export default function Home({ slides = [], media = {} }) {
 
           {sel && (
             <form id="form" onSubmit={submit}>
-              <h2><span className="step">3</span>Data peserta</h2>
+              <div className="eyebrow">Pendaftaran</div>
+              <h2>Data <em>peserta</em></h2>
               <div className="card">
                 <label htmlFor="n">Nama lengkap</label>
                 <input id="n" required minLength={2} maxLength={100} value={fullName} onChange={(e) => setFullName(e.target.value)} autoComplete="name" />
                 <label htmlFor="w">No. WhatsApp</label>
                 <input id="w" required inputMode="tel" placeholder="08xxxxxxxxxx" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} autoComplete="tel" />
                 {sel.price ? (
-                  <div className="note" style={{ marginTop: 14 }}>{tab === 'record' ? '🎬' : '🎟️'} <b>{rp(sel.price)}</b>{tab === 'record' ? ' — link rekaman dikirim lewat WhatsApp setelah pembayaran kami konfirmasi.' : tab === 'online' ? ' per orang — link kelas online dikirim lewat WhatsApp setelah pembayaran kami konfirmasi.' : ' per orang (harga tetap).'}</div>
+                  <div className="note" style={{ marginTop: 14 }}><b>{rp(sel.price)}</b>{tab === 'record' ? ' — link rekaman dikirim lewat WhatsApp setelah pembayaran kami konfirmasi.' : tab === 'online' ? ' per orang — link kelas online dikirim lewat WhatsApp setelah pembayaran kami konfirmasi.' : ' per orang (harga tetap).'}</div>
                 ) : (
                   <>
                     <label htmlFor="d">Donasi sukarela (Rp)</label>
@@ -244,8 +252,24 @@ export default function Home({ slides = [], media = {} }) {
           )}
         </>
       )}
-      <footer>© Harmony of Life · venue: Omah Turi</footer>
     </div>
+    <footer className="foot">
+      <div className="foot-in">
+        <div className="foot-cta">
+          <div className="eyebrow light">Mulai dari sini</div>
+          <h2>Ruang kecil untuk <em>bernapas</em></h2>
+          <p>Datang ke Omah Turi, ikut kelas online, atau latihan dari rekaman. Pilih yang cocok untukmu.</p>
+          <a className="pill light" href="#jadwal" onClick={(e) => { e.preventDefault(); pick('venue'); }}>Lihat jadwal <span aria-hidden>→</span></a>
+        </div>
+        <div className="foot-cols">
+          <div><b>Brand</b><span className="foot-brand">Harmony of Life</span><span>Venue: Omah Turi</span></div>
+          <div><b>Layanan</b>{NAV.slice(0, 3).map(([k, t]) => <a key={k} href="#jadwal" onClick={(e) => { e.preventDefault(); pick(k); }}>{t}</a>)}</div>
+          <div><b>Lainnya</b>{NAV.slice(3).map(([k, t]) => <a key={k} href="#jadwal" onClick={(e) => { e.preventDefault(); pick(k); }}>{t}</a>)}</div>
+          <div><b>Hubungi</b>{data?.wa && <a href={`https://wa.me/${data.wa}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>}<a href="https://www.instagram.com/harmonyoflife.id" target="_blank" rel="noopener noreferrer">Instagram</a></div>
+        </div>
+        <div className="foot-bot">© {new Date().getFullYear()} Harmony of Life</div>
+      </div>
+    </footer>
     </>
   );
 }
