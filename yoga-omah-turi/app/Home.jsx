@@ -4,6 +4,12 @@ import Carousel from './Carousel';
 
 const rp = (n) => 'Rp ' + Number(n).toLocaleString('id-ID');
 const fmtDate = (d) => new Date(d + 'T00:00:00Z').toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+const iso = (d) => d.toISOString().slice(0, 10);
+const todayStr = () => iso(new Date(Date.now() + 7 * 3600e3));
+const addDays = (str, n) => { const d = new Date(str + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return iso(d); };
+const mondayOf = (str) => addDays(str, -((new Date(str + 'T00:00:00Z').getUTCDay() + 6) % 7));
+const DOW = ['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'];
+const MONTH = (str) => new Date(str + 'T00:00:00Z').toLocaleDateString('id-ID', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const QUICK = [25000, 50000, 100000, 200000];
 
 function Copy({ text }) {
@@ -20,6 +26,8 @@ export default function Home({ photos = [] }) {
   const [loadErr, setLoadErr] = useState('');
   const [tab, setTab] = useState('venue'); // venue | online | record
   const [sel, setSel] = useState(null);
+  const [day, setDay] = useState(null); // null = semua tanggal
+  const [week, setWeek] = useState(() => mondayOf(todayStr()));
   const [fullName, setFullName] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
   const [donation, setDonation] = useState('');
@@ -44,6 +52,8 @@ export default function Home({ photos = [] }) {
 
   const min = data?.minDonation || 1000;
   const list = (data?.sessions || []).filter((x) => x.kind === (tab === 'online' ? 'online' : 'venue'));
+
+  const shown = day ? list.filter((x) => x.date === day) : list;
 
   return (
     <div className="wrap">
@@ -70,7 +80,7 @@ export default function Home({ photos = [] }) {
           <h2><span className="step">1</span>Mau yoga bagaimana?</h2>
           <div className="tabs">
             {[['venue', '🏡', 'Di Omah Turi', 'Datang langsung ke venue'], ['online', '💻', 'Online Live', 'Yoga real time via online'], ['record', '🎬', 'Rekaman', 'Beli & latihan kapan saja']].map(([k, ic, t, d]) => (
-              <button key={k} type="button" className={'tab' + (tab === k ? ' sel' : '')} onClick={() => { setTab(k); setSel(null); setErr(''); }}>
+              <button key={k} type="button" className={'tab' + (tab === k ? ' sel' : '')} onClick={() => { setTab(k); setSel(null); setDay(null); setErr(''); }}>
                 <span>{ic}</span><b>{t}</b><small>{d}</small>
               </button>
             ))}
@@ -81,29 +91,78 @@ export default function Home({ photos = [] }) {
           {!data && !loadErr && <p className="muted">Memuat jadwal…</p>}
           {data && tab !== 'record' && list.length === 0 && <p className="muted">Belum ada jadwal yang dibuka. Silakan cek kembali nanti.</p>}
           {data && tab === 'record' && data.recordings.length === 0 && <p className="muted">Belum ada rekaman yang dijual.</p>}
-          <div className="dates">
-            {tab !== 'record' && list.map((s) => {
+          {tab !== 'record' && (
+            <>
+              <div className="weekbar">
+                <button type="button" className="arrow" aria-label="Minggu sebelumnya" disabled={week <= mondayOf(todayStr())} onClick={() => setWeek(addDays(week, -7))}>‹</button>
+                <div className="days">
+                  {Array.from({ length: 7 }, (_, k) => addDays(week, k)).map((d, k) => {
+                    const has = list.some((x) => x.date === d);
+                    return (
+                      <button key={d} type="button" className={'day' + (day === d ? ' on' : '') + (d === todayStr() ? ' today' : '')} disabled={d < todayStr()} onClick={() => setDay(day === d ? null : d)}>
+                        <small>{DOW[k]}</small><span>{Number(d.slice(8))}</span><i className={has ? 'dot' : ''} />
+                      </button>
+                    );
+                  })}
+                </div>
+                <button type="button" className="arrow" aria-label="Minggu berikutnya" onClick={() => setWeek(addDays(week, 7))}>›</button>
+              </div>
+              <div className="filters">
+                <span className="muted">{MONTH(week)}</span>
+                <span>
+                  <button type="button" className={'chip' + (day === null ? ' sel' : '')} onClick={() => setDay(null)}>Semua</button>{' '}
+                  <button type="button" className="chip" onClick={() => { setDay(todayStr()); setWeek(mondayOf(todayStr())); }}>Hari ini</button>
+                </span>
+              </div>
+            </>
+          )}
+
+          <div className="tt">
+            {tab !== 'record' && shown.map((s, k) => {
               const full = s.remaining <= 0;
               return (
-                <button key={s.id} type="button" disabled={full} className={'date' + (sel?.id === s.id ? ' sel' : '')} onClick={() => setSel(s)}>
-                  <b>{fmtDate(s.date)}</b>
-                  <small>{s.price ? `🎟️ Tiket ${rp(s.price)} / orang` : '💛 Donasi sukarela'}</small>
-                  {s.note && <small style={{ display: 'block' }}>{s.note}</small>}
-                  <span className={'quota' + (full ? ' full' : s.remaining <= 5 ? ' low' : '')}>{full ? 'Penuh' : `Sisa ${s.remaining} dari ${s.quota} kuota`}</span>
-                </button>
+                <article key={s.id} className={'tt-card' + (sel?.id === s.id ? ' sel' : '')}>
+                  <div className="tt-top">
+                    {photos.length > 0 ? <img src={photos[k % photos.length]} alt="" className="tt-thumb" loading="lazy" /> : <div className="tt-thumb ph">🪷</div>}
+                    <div className="tt-body">
+                      <small className="tt-kind">{tab === 'online' ? 'YOGA ONLINE LIVE' : 'YOGA DI OMAH TURI'}</small>
+                      <h3>{tab === 'online' ? 'Yoga Online (real time)' : 'Yoga di Omah Turi'}</h3>
+                      <p className="tt-meta">📅 {fmtDate(s.date)}</p>
+                      {s.note && <p className="tt-meta">🕘 {s.note}</p>}
+                      <p className="tt-meta">📍 {tab === 'online' ? 'Online' : 'Omah Turi'}</p>
+                    </div>
+                  </div>
+                  <div className="tt-foot">
+                    <div>
+                      <b className="tt-price">{s.price ? rp(s.price) : 'Donasi sukarela'}</b>
+                      <span className={'quota' + (full ? ' full' : s.remaining <= 5 ? ' low' : '')}>{full ? 'Penuh' : `Sisa ${s.remaining} dari ${s.quota}`}</span>
+                    </div>
+                    <button type="button" className="btn sm" disabled={full} onClick={() => { setSel(s); setTimeout(() => document.getElementById('form')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50); }}>{sel?.id === s.id ? 'Dipilih ✓' : 'Daftar'}</button>
+                  </div>
+                </article>
               );
             })}
-            {tab === 'record' && data?.recordings.map((r) => (
-              <button key={r.id} type="button" className={'date' + (sel?.id === r.id ? ' sel' : '')} onClick={() => setSel(r)}>
-                <b>{r.title}</b>
-                {r.description && <small style={{ display: 'block' }}>{r.description}</small>}
-                <span className="quota">{rp(r.price)}</span>
-              </button>
+            {tab !== 'record' && data && list.length > 0 && shown.length === 0 && <p className="muted">Tidak ada kelas di hari ini. Coba pilih hari bertitik.</p>}
+            {tab === 'record' && data?.recordings.map((r, k) => (
+              <article key={r.id} className={'tt-card' + (sel?.id === r.id ? ' sel' : '')}>
+                <div className="tt-top">
+                  {photos.length > 0 ? <img src={photos[k % photos.length]} alt="" className="tt-thumb" loading="lazy" /> : <div className="tt-thumb ph">🎬</div>}
+                  <div className="tt-body">
+                    <small className="tt-kind">REKAMAN</small>
+                    <h3>{r.title}</h3>
+                    {r.description && <p className="tt-meta">{r.description}</p>}
+                  </div>
+                </div>
+                <div className="tt-foot">
+                  <b className="tt-price">{rp(r.price)}</b>
+                  <button type="button" className="btn sm" onClick={() => { setSel(r); setTimeout(() => document.getElementById('form')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50); }}>{sel?.id === r.id ? 'Dipilih ✓' : 'Beli'}</button>
+                </div>
+              </article>
             ))}
           </div>
 
           {sel && (
-            <form onSubmit={submit}>
+            <form id="form" onSubmit={submit}>
               <h2><span className="step">3</span>Data peserta</h2>
               <div className="card">
                 <label htmlFor="n">Nama lengkap</label>
