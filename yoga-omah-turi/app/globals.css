@@ -47,3 +47,16 @@ th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertic
 .admin{max-width:960px}
 .inline{display:flex;gap:8px;flex-wrap:wrap;align-items:end}.inline>div{flex:1;min-width:120px}
 footer{text-align:center;color:var(--mute);font-size:.8rem;margin-top:40px}
+
+/* Carousel hero */
+.car{position:relative;height:min(62vh,460px);min-height:280px;margin:0 -16px 8px;overflow:hidden;background:linear-gradient(135deg,#6b8463,#3d4f39);border-radius:0 0 28px 28px}
+.car-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease;user-select:none}
+.car-img.on{opacity:1}
+.car-shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(25,32,22,.72),rgba(25,32,22,.05) 60%)}
+.car-text{position:absolute;left:0;right:0;bottom:34px;text-align:center;color:#fff8ec;padding:0 16px}
+.car-text h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;letter-spacing:.14em;font-size:clamp(1.7rem,6vw,2.6rem);margin:0;text-shadow:0 2px 12px rgba(0,0,0,.35)}
+.car-text p{margin:6px 0 0;font-style:italic;font-family:Georgia,serif;letter-spacing:.06em;font-size:1.05rem;opacity:.95}
+.car-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:7px}
+.car-dots button{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.5);cursor:pointer}
+.car-dots button.on{background:#fff;width:20px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){.car-img{transition:none}}
