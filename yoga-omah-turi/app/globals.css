@@ -180,3 +180,98 @@ h2 em,.car-text em{font-style:italic;color:var(--accent)}
 footer{margin-top:0}
 .foot{text-align:left}
 .foot-cta h2{max-width:520px}
+
+/* ===== Beranda landing lebar (meniru Studio Yogini) ===== */
+.container{max-width:1180px;margin:0 auto;padding:0 24px}
+.sec{padding:88px 0}
+.sec h2{font-size:clamp(2rem,4.2vw,3rem);margin:12px 0 0}
+.sec .eyebrow{margin-top:0}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:36px}
+.center{text-align:center;justify-content:center}
+.pill.ghost{border-color:#b9b5a6;color:var(--green-d);background:transparent}.pill.ghost:hover{background:#ebe7de}
+.pill.sm{padding:8px 18px;font-size:.84rem}
+.pill:disabled{opacity:.5;cursor:default}
+.tinted{background:#ece8de}
+/* nav satu baris */
+.nav{padding:0}
+.nav-in{max-width:1280px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:28px}
+.nav-links{flex:1;display:flex;justify-content:center;flex-wrap:wrap;gap:6px 22px;overflow:visible;max-width:none;margin:0;padding:0}
+.nav-links a{font-size:.72rem;letter-spacing:.05em}
+.nav-cta{flex:none}
+@media (max-width:1060px){
+  .nav-in{display:grid;grid-template-columns:1fr auto;grid-template-areas:'brand cta' 'links links';gap:8px 12px;padding:10px 16px 0}
+  .nav-brand{grid-area:brand}.nav-cta{grid-area:cta}
+  .nav-links{grid-area:links;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:0 0 10px}
+  .nav-links::-webkit-scrollbar{display:none}
+}
+/* hero */
+.car{height:min(82vh,700px);min-height:440px;margin:0;border-radius:0 0 40px 40px}
+.car-shade{background:linear-gradient(to top,rgba(24,30,21,.78),rgba(24,30,21,.12) 65%)}
+.car-text{bottom:64px;text-align:left;padding:0}
+.car-text .container{width:100%}
+.car-text h1{font-size:clamp(2.6rem,8vw,5rem);line-height:1.02;letter-spacing:-.01em;margin:0 0 14px}
+.car-text h1 em{color:#d9cda4}
+.car-text p{margin:0 0 24px;font-size:clamp(1rem,2.2vw,1.3rem);opacity:.95;font-style:normal;font-family:var(--serif)}
+.car-dots{left:auto;right:24px;bottom:22px}
+/* layanan */
+.svc{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.svc-card{display:block;text-decoration:none;color:inherit}
+.svc-img{aspect-ratio:4/5;border-radius:24px;overflow:hidden;background:#d9dccb}
+.svc-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.svc-card:hover .svc-img img{transform:scale(1.04)}
+.svc-card h3{font-family:var(--serif);font-weight:400;font-size:1.7rem;margin:18px 0 6px}
+.svc-card p{margin:0 0 10px;color:var(--mute);line-height:1.55}
+.svc-card .more{font-size:.9rem;color:var(--accent)}
+/* studio */
+.studio{padding:0 0 88px}
+.studio-in{display:grid;grid-template-columns:1.05fr 1fr;gap:64px;align-items:center;max-width:1280px;margin:0 auto;padding-right:24px}
+.studio-img{aspect-ratio:4/3;border-radius:0 0 36px 0;overflow:hidden;background:#d9dccb}
+.studio-img img{width:100%;height:100%;object-fit:cover;display:block}
+.studio-txt h2{margin-bottom:16px}
+.studio-txt p{color:var(--mute);line-height:1.7;font-size:1.05rem;margin:0 0 20px;max-width:480px}
+.checks{list-style:none;padding:0;margin:0 0 28px}
+.checks li{padding:7px 0 7px 30px;position:relative}
+.checks li::before{content:'✓';position:absolute;left:0;color:var(--accent)}
+/* jadwal baris */
+.rows{margin-top:28px;border-top:1px solid var(--line)}
+.row-s{display:grid;grid-template-columns:1.3fr 1.6fr 1fr auto;gap:16px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
+.rs-name{font-family:var(--serif);font-size:1.45rem}
+.rs-when,.rs-price{color:var(--mute)}
+/* galeri & testimoni */
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.g4 .mi{width:100%;height:auto;border-radius:20px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+.g3 img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:24px;display:block}
+/* faq */
+.faq{max-width:1000px}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:36px;align-items:start}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:0 20px}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:20px 0;font-family:var(--serif);font-size:1.1rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq .n{font-family:'Inter',sans-serif;font-size:.7rem;color:var(--mute)}
+.faq .plus{margin-left:auto;font-family:'Inter',sans-serif;font-size:1.3rem;color:var(--green-d)}
+.faq details[open] .plus{transform:rotate(45deg)}
+.faq details p{margin:0 0 20px;color:var(--mute);line-height:1.65}
+/* halaman dalam */
+.wrap{padding-top:40px}
+.wrap.wide{max-width:1180px;padding-left:24px;padding-right:24px}
+.wrap.wide .mgrid{grid-template-columns:repeat(4,1fr);gap:16px}
+.wrap .eyebrow{margin-top:0}
+/* foot */
+.foot{margin-top:0}
+@media (max-width:860px){
+  .sec{padding:56px 0}
+  .svc{grid-template-columns:1fr;gap:36px}
+  .studio-in{grid-template-columns:1fr;gap:28px;padding:0 0 0}
+  .studio-txt{padding:0 24px}
+  .studio-img{border-radius:0 0 28px 28px;aspect-ratio:4/3}
+  .row-s{grid-template-columns:1fr auto;gap:6px 12px}
+  .rs-name{grid-column:1/2}.rs-act{grid-column:2/3;grid-row:1/3}
+  .rs-when,.rs-price{grid-column:1/2}
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(2,1fr)}
+  .faq-grid{grid-template-columns:1fr}
+  .wrap.wide .mgrid{grid-template-columns:repeat(2,1fr)}
+  .car{border-radius:0 0 28px 28px}
+}
+@media (min-width:1061px){.nav-in{max-width:1440px;padding:14px 40px;gap:24px}.nav-links{gap:6px 18px}.nav-links a{font-size:.7rem;letter-spacing:.04em}}

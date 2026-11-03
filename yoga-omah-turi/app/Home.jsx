@@ -44,7 +44,7 @@ function Copy({ text }) {
 export default function Home({ slides = [], media = {} }) {
   const [data, setData] = useState(null);
   const [loadErr, setLoadErr] = useState('');
-  const [tab, setTab] = useState('venue'); // venue | online | record
+  const [tab, setTab] = useState('home'); // home | venue | online | record | classes | ...
   const [sel, setSel] = useState(null);
   const [day, setDay] = useState(null); // null = semua tanggal
   const [week, setWeek] = useState(() => mondayOf(todayStr()));
@@ -78,29 +78,146 @@ export default function Home({ slides = [], media = {} }) {
   const pool = thumbs.length ? thumbs : (slides.map((m) => (m.type === 'video' ? m.poster : m.src))); // foto kecil di kartu
   const shown = day ? list.filter((x) => x.date === day) : list;
 
+  const scrollTo = (id) => setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
   const pick = (k) => {
     setTab(k); setSel(null); setDay(null); setErr(''); setResult(null);
-    setTimeout(() => document.getElementById('jadwal')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    if (k === 'home') setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 60); else scrollTo('jadwal');
   };
+  const go = (s) => { setResult(null); setDay(null); setTab(s.kind === 'online' ? 'online' : 'venue'); setSel(s); scrollTo('form'); };
+
+  // ---- bahan halaman beranda ----
+  const imgs = (t) => (media[t] || []).filter((m) => m.type === 'image').map((m) => m.src);
+  const fallbackImgs = slides.map((m) => (m.type === 'video' ? m.poster : m.src));
+  const thumbOf = (t, i = 0) => imgs(t)[i] || fallbackImgs[i % Math.max(1, fallbackImgs.length)] || null;
+  const upcoming = (data?.sessions || []).slice().sort((a, b) => a.date.localeCompare(b.date) || a.kind.localeCompare(b.kind)).slice(0, 6);
+  const ticket = (data?.sessions || []).find((x) => x.kind === 'venue' && x.price)?.price;
+  const gallery6 = [...imgs('venue').slice(0, 4), ...imgs('workshop').slice(0, 2), ...imgs('classes')].slice(0, 6);
+  const testi = (media.testimony || []).filter((m) => m.type === 'video').slice(0, 4);
+  const waLink = data?.wa ? `https://wa.me/${data.wa}` : null;
+  const FAQ = [
+    ['Bagaimana cara mendaftar?', 'Pilih layanan dan tanggal, isi nama lengkap dan nomor WhatsApp, lalu transfer sesuai nominal yang muncul. Setelah itu kirim bukti transfer lewat tombol WhatsApp.'],
+    ['Kenapa ada kode unik pada nominal transfer?', 'Tiga digit kode unik membantu kami mencocokkan transfermu dengan pendaftaranmu. Mohon transfer tepat sesuai total yang tertera.'],
+    ['Berapa biayanya?', `Kamis di Omah Turi donasi sukarela. Jumat tiket ${ticket ? rp(ticket) : 'berbayar'} per orang. Harga kelas online dan rekaman tertera di halamannya.`],
+    ['Kapan kursiku terkonfirmasi?', 'Kursi ditahan beberapa jam setelah kamu mendaftar. Setelah bukti transfer kami cek, pendaftaranmu dikonfirmasi dan kuota terpotong.'],
+    ['Bagaimana dengan kelas online dan rekaman?', 'Link kelas online atau rekaman dikirim lewat WhatsApp setelah pembayaranmu kami konfirmasi.'],
+    ['Apakah ada kelas privat atau corporate?', 'Ada. Hubungi kami lewat WhatsApp untuk jadwal dan penawaran.'],
+  ];
+
+  const landing = (
+    <>
+      <Carousel slides={slides} onCta={() => pick('venue')} />
+
+      <section className="sec" id="layanan">
+        <div className="container">
+          <div className="sec-head">
+            <div><div className="eyebrow">Layanan</div><h2>Pilih cara <em>berlatihmu</em></h2></div>
+            <a className="pill ghost" href="#jadwal" onClick={(e) => { e.preventDefault(); pick('venue'); }}>Semua jadwal <span aria-hidden>→</span></a>
+          </div>
+          <div className="svc">
+            {[['venue', 'Omah Turi', 'Datang langsung dan berlatih bersama di venue kami.'], ['online', 'Online Live Yoga', 'Yoga real time, ikut dari mana saja.'], ['record', 'Rekaman Yoga', 'Latihan kapan saja dari rekaman.']].map(([k, t, d], i) => (
+              <a key={k} className="svc-card" href="#jadwal" onClick={(e) => { e.preventDefault(); pick(k); }}>
+                <div className="svc-img">{thumbOf(k, k === 'venue' ? 1 : 0) ? <img src={thumbOf(k, k === 'venue' ? 1 : i)} alt="" loading="lazy" /> : null}</div>
+                <h3>{t}</h3><p>{d}</p><span className="more">Lihat detail <span aria-hidden>→</span></span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="sec studio">
+        <div className="studio-in">
+          <div className="studio-img">{thumbOf('venue', 2) && <img src={thumbOf('venue', 2)} alt="Kelas yoga di Omah Turi" loading="lazy" />}</div>
+          <div className="studio-txt">
+            <div className="eyebrow">Omah Turi</div>
+            <h2>Berlatih bersama, <em>di Omah Turi</em></h2>
+            <p>Kelas tatap muka kami diadakan di Omah Turi setiap Kamis dan Jumat. Kuota terbatas, jadi daftar dulu secara online.</p>
+            <ul className="checks">
+              <li>Kamis: donasi sukarela</li>
+              <li>Jumat: tiket {ticket ? rp(ticket) : 'berbayar'} per orang</li>
+              <li>Daftar dan transfer online, bukti lewat WhatsApp</li>
+            </ul>
+            <a className="pill dark" href="#jadwal" onClick={(e) => { e.preventDefault(); pick('venue'); }}>Lihat jadwal <span aria-hidden>→</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section className="sec" id="minggu-ini">
+        <div className="container">
+          <div className="eyebrow">Jadwal</div>
+          <h2>Kelas <em>terdekat</em></h2>
+          {loadErr && <div className="err">{loadErr}</div>}
+          {!data && !loadErr && <p className="muted">Memuat jadwal…</p>}
+          {data && upcoming.length === 0 && <p className="muted">Belum ada jadwal yang dibuka. Silakan cek kembali nanti.</p>}
+          <div className="rows">
+            {upcoming.map((s) => {
+              const full = s.remaining <= 0;
+              return (
+                <div key={s.id} className="row-s">
+                  <div className="rs-name">{s.kind === 'online' ? 'Yoga Online Live' : 'Yoga di Omah Turi'}</div>
+                  <div className="rs-when">{fmtDate(s.date)}{s.note ? ` · ${s.note}` : ''}</div>
+                  <div className="rs-price">{s.price ? rp(s.price) : 'Donasi sukarela'}</div>
+                  <div className="rs-act"><button type="button" className="pill dark sm" disabled={full} onClick={() => go(s)}>{full ? 'Penuh' : <>Daftar <span aria-hidden>→</span></>}</button></div>
+                </div>
+              );
+            })}
+          </div>
+          <a className="pill ghost" style={{ marginTop: 28 }} href="#jadwal" onClick={(e) => { e.preventDefault(); pick('venue'); }}>Jadwal lengkap <span aria-hidden>→</span></a>
+        </div>
+      </section>
+
+      {testi.length > 0 && (
+        <section className="sec tinted">
+          <div className="container">
+            <div className="sec-head">
+              <div><div className="eyebrow">Experience Testimony</div><h2>Cerita mereka yang <em>sudah ikut</em></h2></div>
+              <a className="pill ghost" href="#jadwal" onClick={(e) => { e.preventDefault(); pick('testimony'); }}>Lihat semua <span aria-hidden>→</span></a>
+            </div>
+            <div className="g4">{testi.map((m) => <MediaItem key={m.src} m={m} />)}</div>
+          </div>
+        </section>
+      )}
+
+      {gallery6.length > 0 && (
+        <section className="sec">
+          <div className="container">
+            <div className="eyebrow">Dokumentasi</div>
+            <h2>Intip suasana <em>kelas kami</em></h2>
+            <div className="g3">{gallery6.map((src) => <img key={src} src={src} alt="Dokumentasi Harmony of Life" loading="lazy" />)}</div>
+            <div style={{ textAlign: 'center', marginTop: 28 }}><a className="pill ghost" href="#jadwal" onClick={(e) => { e.preventDefault(); pick('classes'); }}>Buka galeri <span aria-hidden>→</span></a></div>
+          </div>
+        </section>
+      )}
+
+      <section className="sec">
+        <div className="container faq">
+          <div className="eyebrow center">FAQ</div>
+          <h2 className="center">Pertanyaan sebelum <em>mulai</em></h2>
+          <p className="muted center">Hal-hal yang perlu kamu tahu sebelum ikut kelas.</p>
+          <div className="faq-grid">
+            {FAQ.map(([q, a], i) => (
+              <details key={q}><summary><span className="n">{String(i + 1).padStart(2, '0')}</span>{q}<span className="plus" aria-hidden>+</span></summary><p>{a}</p></details>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
 
   return (
     <>
     <nav className="nav" aria-label="Menu utama">
-      <div className="nav-top">
-        <a className="nav-brand" href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Harmony of Life</a>
+      <div className="nav-in">
+        <a className="nav-brand" href="#" onClick={(e) => { e.preventDefault(); pick('home'); }}>Harmony of Life</a>
+        <div className="nav-links">
+          {NAV.map(([k, t]) => (
+            <a key={k} href="#jadwal" className={!result && tab === k ? 'on' : ''} onClick={(e) => { e.preventDefault(); pick(k); }}>{t}</a>
+          ))}
+        </div>
         <a className="pill dark nav-cta" href="#jadwal" onClick={(e) => { e.preventDefault(); pick('venue'); }}>Daftar yoga <span aria-hidden>→</span></a>
       </div>
-      <div className="nav-links">
-        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Beranda</a>
-        {NAV.map(([k, t]) => (
-          <a key={k} href="#jadwal" className={!result && tab === k ? 'on' : ''} onClick={(e) => { e.preventDefault(); pick(k); }}>{t}</a>
-        ))}
-        {data?.wa && <a href={`https://wa.me/${data.wa}`} target="_blank" rel="noopener noreferrer">Hubungi Kami</a>}
-      </div>
     </nav>
-    <div className="wrap">
-      <Carousel slides={slides} />
-
+    {!result && tab === 'home' ? landing : (
+    <div className={'wrap' + (CONTENT[tab] && !result ? ' wide' : '')}>
       {result ? (
         <div className="card pay">
           <div className="eyebrow">Pembayaran</div>
@@ -253,6 +370,7 @@ export default function Home({ slides = [], media = {} }) {
         </>
       )}
     </div>
+    )}
     <footer className="foot">
       <div className="foot-in">
         <div className="foot-cta">
