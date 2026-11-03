@@ -1,6 +1,6 @@
-# YOGA OMAH TURI — Pendaftaran Online
+# Harmony of Life — Pendaftaran Online
 
-Next.js + Supabase. Kamis = donasi sukarela, Jumat = tiket Rp 50.000/orang (jadwal dibuat otomatis 8 minggu ke depan, kuota default 20).
+Next.js + Supabase. Venue Omah Turi: Kamis = donasi sukarela, Jumat = tiket Rp 50.000/orang (jadwal dibuat otomatis 8 minggu ke depan, kuota default 20).
 
 ## Setup
 1. Supabase → SQL Editor → jalankan `schema.sql`.

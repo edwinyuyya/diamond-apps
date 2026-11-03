@@ -1,8 +1,8 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'YOGA OMAH TURI — Pendaftaran Online',
-  description: 'Daftar kelas YOGA OMAH TURI secara online: pilih tanggal, isi data, donasi, dan konfirmasi via WhatsApp.',
+  title: 'Harmony of Life — Yoga di Omah Turi, Online Live & Rekaman',
+  description: 'Daftar yoga di Omah Turi atau online (live maupun rekaman): pilih, isi data, transfer, dan konfirmasi via WhatsApp.',
 };
 
 export default function RootLayout({ children }) {

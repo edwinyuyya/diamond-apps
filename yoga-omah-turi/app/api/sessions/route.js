@@ -13,12 +13,13 @@ async function ensureSchedule(sb) {
     if (dow === 4 || dow === 5) {
       rows.push({
         date: d.toISOString().slice(0, 10),
+        kind: 'venue',
         quota: Number(process.env.DEFAULT_QUOTA || 20),
         price: dow === 5 ? Number(process.env.TICKET_PRICE || 50000) : null,
       });
     }
   }
-  await sb.from('sessions').upsert(rows, { onConflict: 'date', ignoreDuplicates: true });
+  await sb.from('sessions').upsert(rows, { onConflict: 'date,kind', ignoreDuplicates: true });
 }
 
 export async function GET() {
@@ -27,15 +28,17 @@ export async function GET() {
   const { data: sessions, error } = await sb.from('sessions').select('*')
     .gte('date', todayWIB()).eq('is_open', true).order('date');
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  const { data: recordings } = await sb.from('recordings').select('id,title,description,price').eq('is_open', true).order('created_at', { ascending: false });
   const ids = sessions.map((s) => s.id);
   const { data: regs } = ids.length
     ? await sb.from('registrations').select('session_id,status,expires_at').in('session_id', ids).neq('status', 'cancelled')
     : { data: [] };
   const used = countUsed(regs || []);
   return NextResponse.json({
+    recordings: recordings || [],
     minDonation: Number(process.env.MIN_DONATION || 1000),
     sessions: sessions.map((s) => ({
-      id: s.id, date: s.date, note: s.note, quota: s.quota, price: s.price,
+      id: s.id, kind: s.kind, date: s.date, note: s.note, quota: s.quota, price: s.price,
       remaining: Math.max(0, s.quota - (used[s.id] || 0)),
     })),
   });

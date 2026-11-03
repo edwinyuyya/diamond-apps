@@ -18,6 +18,7 @@ function Copy({ text }) {
 export default function Home({ photos = [] }) {
   const [data, setData] = useState(null);
   const [loadErr, setLoadErr] = useState('');
+  const [tab, setTab] = useState('venue'); // venue | online | record
   const [sel, setSel] = useState(null);
   const [fullName, setFullName] = useState('');
   const [whatsapp, setWhatsapp] = useState('');
@@ -34,7 +35,7 @@ export default function Home({ photos = [] }) {
     e.preventDefault();
     setErr(''); setBusy(true);
     try {
-      const res = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sessionId: sel.id, fullName, whatsapp, donation: sel.price || Number(donation) }) });
+      const res = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(tab === 'record' ? { type: 'recording', recordingId: sel.id, fullName, whatsapp } : { type: 'session', sessionId: sel.id, fullName, whatsapp, donation: sel.price || Number(donation) }) });
       const j = await res.json();
       if (!res.ok) { setErr(j.error || 'Terjadi kesalahan.'); load(); } else setResult(j);
     } catch { setErr('Koneksi bermasalah, coba lagi.'); }
@@ -42,6 +43,7 @@ export default function Home({ photos = [] }) {
   }
 
   const min = data?.minDonation || 1000;
+  const list = (data?.sessions || []).filter((x) => x.kind === (tab === 'online' ? 'online' : 'venue'));
 
   return (
     <div className="wrap">
@@ -50,7 +52,7 @@ export default function Home({ photos = [] }) {
       {result ? (
         <div className="card pay">
           <h2 style={{ marginTop: 0 }}>Silakan transfer</h2>
-          <p className="muted" style={{ marginTop: 0 }}>Kursi untuk <b>{fmtDate(result.date)}</b> sudah kami tahan atas nama <b>{fullName}</b>.</p>
+          <p className="muted" style={{ marginTop: 0 }}>Pesanan <b>{result.label}</b> atas nama <b>{fullName}</b> sudah kami catat{result.date ? ', kursi ditahan untukmu' : ''}.</p>
           <dl>
             <div className="row"><dt>Bank</dt><dd>{result.bank.name}</dd></div>
             <div className="row"><dt>No. Rekening</dt><dd>{result.bank.account} <Copy text={result.bank.account} /></dd></div>
@@ -59,18 +61,28 @@ export default function Home({ photos = [] }) {
             <div className="row"><dt>Kode unik</dt><dd>+ {result.uniqueCode}</dd></div>
             <div className="row"><dt>Total transfer</dt><dd><span className="total">{rp(result.total)}</span> <Copy text={result.total} /></dd></div>
           </dl>
-          <div className="note">Transfer <b>tepat <span className="hl">{rp(result.total)}</span></b> (termasuk kode unik) agar pembayaran mudah kami cocokkan. Kursi ditahan sampai {new Date(result.expiresAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB.</div>
+          <div className="note">Transfer <b>tepat <span className="hl">{rp(result.total)}</span></b> (termasuk kode unik) agar pembayaran mudah kami cocokkan. Mohon transfer sebelum {new Date(result.expiresAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB.</div>
           <a className="btn wa" href={result.waUrl} target="_blank" rel="noopener noreferrer">📲 Kirim bukti transfer via WhatsApp</a>
           <p className="muted" style={{ textAlign: 'center' }}>Setelah transfer, tekan tombol di atas lalu lampirkan bukti transfer di chat WhatsApp.</p>
         </div>
       ) : (
         <>
-          <h2><span className="step">1</span>Pilih tanggal</h2>
+          <h2><span className="step">1</span>Mau yoga bagaimana?</h2>
+          <div className="tabs">
+            {[['venue', '🏡', 'Di Omah Turi', 'Datang langsung ke venue'], ['online', '💻', 'Online Live', 'Yoga real time via online'], ['record', '🎬', 'Rekaman', 'Beli & latihan kapan saja']].map(([k, ic, t, d]) => (
+              <button key={k} type="button" className={'tab' + (tab === k ? ' sel' : '')} onClick={() => { setTab(k); setSel(null); setErr(''); }}>
+                <span>{ic}</span><b>{t}</b><small>{d}</small>
+              </button>
+            ))}
+          </div>
+
+          <h2><span className="step">2</span>{tab === 'record' ? 'Pilih rekaman' : 'Pilih tanggal'}</h2>
           {loadErr && <div className="err">{loadErr}</div>}
           {!data && !loadErr && <p className="muted">Memuat jadwal…</p>}
-          {data && data.sessions.length === 0 && <p className="muted">Belum ada jadwal yang dibuka. Silakan cek kembali nanti.</p>}
+          {data && tab !== 'record' && list.length === 0 && <p className="muted">Belum ada jadwal yang dibuka. Silakan cek kembali nanti.</p>}
+          {data && tab === 'record' && data.recordings.length === 0 && <p className="muted">Belum ada rekaman yang dijual.</p>}
           <div className="dates">
-            {data?.sessions.map((s) => {
+            {tab !== 'record' && list.map((s) => {
               const full = s.remaining <= 0;
               return (
                 <button key={s.id} type="button" disabled={full} className={'date' + (sel?.id === s.id ? ' sel' : '')} onClick={() => setSel(s)}>
@@ -81,18 +93,25 @@ export default function Home({ photos = [] }) {
                 </button>
               );
             })}
+            {tab === 'record' && data?.recordings.map((r) => (
+              <button key={r.id} type="button" className={'date' + (sel?.id === r.id ? ' sel' : '')} onClick={() => setSel(r)}>
+                <b>{r.title}</b>
+                {r.description && <small style={{ display: 'block' }}>{r.description}</small>}
+                <span className="quota">{rp(r.price)}</span>
+              </button>
+            ))}
           </div>
 
           {sel && (
             <form onSubmit={submit}>
-              <h2><span className="step">2</span>Data peserta</h2>
+              <h2><span className="step">3</span>Data peserta</h2>
               <div className="card">
                 <label htmlFor="n">Nama lengkap</label>
                 <input id="n" required minLength={2} maxLength={100} value={fullName} onChange={(e) => setFullName(e.target.value)} autoComplete="name" />
                 <label htmlFor="w">No. WhatsApp</label>
                 <input id="w" required inputMode="tel" placeholder="08xxxxxxxxxx" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} autoComplete="tel" />
                 {sel.price ? (
-                  <div className="note" style={{ marginTop: 14 }}>🎟️ Tiket <b>{rp(sel.price)}</b> per orang (harga tetap).</div>
+                  <div className="note" style={{ marginTop: 14 }}>{tab === 'record' ? '🎬' : '🎟️'} <b>{rp(sel.price)}</b>{tab === 'record' ? ' — link rekaman dikirim lewat WhatsApp setelah pembayaran kami konfirmasi.' : tab === 'online' ? ' per orang — link kelas online dikirim lewat WhatsApp setelah pembayaran kami konfirmasi.' : ' per orang (harga tetap).'}</div>
                 ) : (
                   <>
                     <label htmlFor="d">Donasi sukarela (Rp)</label>
@@ -111,7 +130,7 @@ export default function Home({ photos = [] }) {
           )}
         </>
       )}
-      <footer>© YOGA OMAH TURI</footer>
+      <footer>© Harmony of Life · venue: Omah Turi</footer>
     </div>
   );
 }

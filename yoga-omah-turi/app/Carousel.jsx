@@ -30,8 +30,8 @@ export default function Carousel({ photos }) {
       ))}
       <div className="car-shade" />
       <div className="car-text">
-        <h1>YOGA OMAH TURI</h1>
-        <p>part of harmony of life</p>
+        <h1>HARMONY OF LIFE</h1>
+        <p>yoga di Omah Turi · online live · rekaman</p>
       </div>
       {n > 1 && (
         <div className="car-dots">
