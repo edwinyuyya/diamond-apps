@@ -50,7 +50,8 @@ footer{text-align:center;color:var(--mute);font-size:.8rem;margin-top:40px}
 
 /* Carousel hero */
 .car{position:relative;height:min(62vh,460px);min-height:280px;margin:0 -16px 8px;overflow:hidden;background:linear-gradient(135deg,#6b8463,#3d4f39);border-radius:0 0 28px 28px}
-.car-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease;user-select:none}
+.car-img{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;user-select:none}
+.car-img img,.car-img video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .car-img.on{opacity:1}
 .car-shade{position:absolute;inset:0;background:linear-gradient(to top,rgba(25,32,22,.72),rgba(25,32,22,.05) 60%)}
 .car-text{position:absolute;left:0;right:0;bottom:34px;text-align:center;color:#fff8ec;padding:0 16px}
@@ -109,4 +110,13 @@ html{scroll-behavior:smooth}
 /* Galeri dokumentasi per menu */
 .gal{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:16px -16px 0;padding:0 16px 6px;scrollbar-width:none}
 .gal::-webkit-scrollbar{display:none}
-.gal img{flex:none;height:170px;width:auto;max-width:78vw;border-radius:16px;object-fit:cover;scroll-snap-align:start;background:#e6efe1}
+.gal .mi{flex:none;height:210px;scroll-snap-align:start}
+
+.mi{aspect-ratio:4/5;border-radius:16px;object-fit:cover;background:#e6efe1;display:block}
+video.mi{background:#000;object-fit:contain}
+.vid{position:relative;border:0;padding:0;cursor:pointer;overflow:hidden}
+.vid img{width:100%;height:100%;object-fit:cover;display:block}
+.play{position:absolute;inset:0;margin:auto;width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,.88);color:var(--green-d);display:grid;place-items:center;padding-left:3px}
+.mgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+.mgrid .mi{width:100%;height:auto}
+@media (min-width:560px){.mgrid{grid-template-columns:repeat(3,1fr)}}

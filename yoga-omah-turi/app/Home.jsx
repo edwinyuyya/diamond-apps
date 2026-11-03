@@ -12,6 +12,26 @@ const DOW = ['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'];
 const MONTH = (str) => new Date(str + 'T00:00:00Z').toLocaleDateString('id-ID', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const QUICK = [25000, 50000, 100000, 200000];
 
+function MediaItem({ m, className = '' }) {
+  const [play, setPlay] = useState(false);
+  if (m.type === 'video') {
+    return play
+      ? <video className={'mi ' + className} src={m.src} poster={m.poster} controls autoPlay playsInline />
+      : <button type="button" className={'mi vid ' + className} onClick={() => setPlay(true)} aria-label="Putar video"><img src={m.poster} alt="" loading="lazy" /><span className="play">▶</span></button>;
+  }
+  return <img className={'mi ' + className} src={m.src} alt="Dokumentasi Harmony of Life" loading="lazy" />;
+}
+
+// Menu yang berisi dokumentasi (bukan pendaftaran)
+const CONTENT = {
+  classes: { title: 'Our Classes', desc: 'Suasana kelas-kelas Harmony of Life.', cta: 'Tanya via WhatsApp' },
+  workshop: { title: 'Workshop & Event', desc: 'Dokumentasi workshop dan event Harmony of Life.', cta: 'Tanya via WhatsApp' },
+  private: { title: 'Private Classes', desc: 'Kelas privat sesuai kebutuhanmu. Hubungi kami untuk jadwal dan harga.', cta: 'Tanya jadwal & harga via WhatsApp' },
+  corporate: { title: 'Corporate Yoga', desc: 'Yoga untuk tim dan perusahaan. Hubungi kami untuk penawaran.', cta: 'Minta penawaran via WhatsApp' },
+  testimony: { title: 'Experience Testimony', desc: 'Cerita dan pengalaman peserta.', cta: 'Tanya via WhatsApp' },
+};
+const NAV = [['venue', 'Omah Turi'], ['online', 'Online Live Yoga'], ['record', 'Rekaman Yoga'], ['classes', 'Our Classes'], ['workshop', 'Workshop & Event'], ['private', 'Private Classes'], ['corporate', 'Corporate Yoga'], ['testimony', 'Experience Testimony']];
+
 function Copy({ text }) {
   const [ok, setOk] = useState(false);
   return (
@@ -21,7 +41,7 @@ function Copy({ text }) {
   );
 }
 
-export default function Home({ photos = [], photosByTab = {} }) {
+export default function Home({ slides = [], media = {} }) {
   const [data, setData] = useState(null);
   const [loadErr, setLoadErr] = useState('');
   const [tab, setTab] = useState('venue'); // venue | online | record
@@ -53,15 +73,15 @@ export default function Home({ photos = [], photosByTab = {} }) {
   const min = data?.minDonation || 1000;
   const list = (data?.sessions || []).filter((x) => x.kind === (tab === 'online' ? 'online' : 'venue'));
 
-  const gallery = photosByTab[tab] || [];
-  const pool = gallery.length ? gallery : photos; // foto kecil di kartu
+  const items = media[tab] || [];
+  const thumbs = items.map((m) => (m.type === 'video' ? m.poster : m.src));
+  const pool = thumbs.length ? thumbs : (slides.map((m) => (m.type === 'video' ? m.poster : m.src))); // foto kecil di kartu
   const shown = day ? list.filter((x) => x.date === day) : list;
 
   const pick = (k) => {
     setTab(k); setSel(null); setDay(null); setErr(''); setResult(null);
     setTimeout(() => document.getElementById('jadwal')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
   };
-  const NAV = [['venue', 'Yoga di Omah Turi'], ['online', 'Yoga Online Live'], ['record', 'Rekaman Yoga']];
 
   return (
     <>
@@ -76,7 +96,7 @@ export default function Home({ photos = [], photosByTab = {} }) {
       </div>
     </nav>
     <div className="wrap">
-      <Carousel photos={photos} />
+      <Carousel slides={slides} />
 
       {result ? (
         <div className="card pay">
@@ -94,20 +114,30 @@ export default function Home({ photos = [], photosByTab = {} }) {
           <a className="btn wa" href={result.waUrl} target="_blank" rel="noopener noreferrer">📲 Kirim bukti transfer via WhatsApp</a>
           <p className="muted" style={{ textAlign: 'center' }}>Setelah transfer, tekan tombol di atas lalu lampirkan bukti transfer di chat WhatsApp.</p>
         </div>
+      ) : CONTENT[tab] ? (
+        <>
+          <h2 id="jadwal" style={{ scrollMarginTop: 90 }}>{CONTENT[tab].title}</h2>
+          <p className="muted" style={{ marginTop: -6 }}>{CONTENT[tab].desc}</p>
+          {items.length > 0
+            ? <div className="mgrid">{items.map((m) => <MediaItem key={m.src} m={m} />)}</div>
+            : <p className="muted">Foto dan video segera hadir.</p>}
+          {data?.wa && <a className="btn wa" target="_blank" rel="noopener noreferrer" href={`https://wa.me/${data.wa}?text=${encodeURIComponent(`Halo Harmony of Life, saya tertarik dengan ${CONTENT[tab].title}.`)}`}>📲 {CONTENT[tab].cta}</a>}
+          <button type="button" className="btn ghost" onClick={() => pick('venue')}>Lihat jadwal & daftar yoga →</button>
+        </>
       ) : (
         <>
           <h2 id="jadwal" style={{ scrollMarginTop: 90 }}><span className="step">1</span>Mau yoga bagaimana?</h2>
           <div className="tabs">
-            {[['venue', '🏡', 'Di Omah Turi', 'Datang langsung ke venue'], ['online', '💻', 'Online Live', 'Yoga real time via online'], ['record', '🎬', 'Rekaman', 'Beli & latihan kapan saja']].map(([k, ic, t, d]) => (
+            {[['venue', '🏡', 'Omah Turi', 'Datang langsung ke venue'], ['online', '💻', 'Online Live Yoga', 'Yoga real time via online'], ['record', '🎬', 'Rekaman Yoga', 'Beli & latihan kapan saja']].map(([k, ic, t, d]) => (
               <button key={k} type="button" className={'tab' + (tab === k ? ' sel' : '')} onClick={() => { setTab(k); setSel(null); setDay(null); setErr(''); }}>
                 <span>{ic}</span><b>{t}</b><small>{d}</small>
               </button>
             ))}
           </div>
 
-          {gallery.length > 0 && (
+          {items.length > 0 && (
             <div className="gal" aria-label="Dokumentasi kegiatan">
-              {gallery.map((src) => <img key={src} src={src} alt="Dokumentasi kegiatan" loading="lazy" />)}
+              {items.slice(0, 12).map((m) => <MediaItem key={m.src} m={m} />)}
             </div>
           )}
 
