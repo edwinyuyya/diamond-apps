@@ -275,3 +275,15 @@ footer{margin-top:0}
   .car{border-radius:0 0 28px 28px}
 }
 @media (min-width:1061px){.nav-in{max-width:1440px;padding:14px 40px;gap:24px}.nav-links{gap:6px 18px}.nav-links a{font-size:.7rem;letter-spacing:.04em}}
+
+/* Formulir muncul tepat di bawah tanggal yang dipilih */
+.inline-form{margin:-4px 0 4px}
+.formcard{border-color:var(--green);background:#fbfaf6;padding:22px}
+.fh{font-family:var(--serif);font-weight:400;font-size:1.5rem;margin:6px 0 14px}
+.fh em{color:var(--accent)}
+.bankbox{background:#eceee4;border:1px solid #d2d6c4;border-radius:14px;padding:14px 16px;margin-bottom:6px}
+.bankbox small{display:block;color:var(--mute);font-size:.78rem}
+.bk-line{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin:4px 0 2px;font-size:1.15rem}
+.bk-line span{font-family:var(--serif);font-size:1.45rem;letter-spacing:.04em}
+.bk-holder{color:var(--ink);margin-bottom:8px}
+.tt-card{cursor:pointer}

@@ -25,7 +25,7 @@ async function ensureSchedule(sb) {
 export async function GET() {
   // Belum ada database: tetap tampilkan halaman (jadwal kosong) agar website bisa dilihat
   if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    return NextResponse.json({ sessions: [], recordings: [], wa: process.env.WA_NUMBER || null, minDonation: Number(process.env.MIN_DONATION || 1000) });
+    return NextResponse.json({ sessions: [], recordings: [], wa: process.env.WA_NUMBER || null, bank: { name: process.env.BANK_NAME, account: process.env.BANK_ACCOUNT, holder: process.env.BANK_HOLDER }, minDonation: Number(process.env.MIN_DONATION || 1000) });
   }
   const sb = db();
   await ensureSchedule(sb);

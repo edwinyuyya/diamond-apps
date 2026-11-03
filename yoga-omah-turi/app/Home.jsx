@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Carousel from './Carousel';
 
 const rp = (n) => 'Rp ' + Number(n).toLocaleString('id-ID');
@@ -102,6 +102,42 @@ export default function Home({ slides = [], media = {} }) {
     ['Bagaimana dengan kelas online dan rekaman?', 'Link kelas online atau rekaman dikirim lewat WhatsApp setelah pembayaranmu kami konfirmasi.'],
     ['Apakah ada kelas privat atau corporate?', 'Ada. Hubungi kami lewat WhatsApp untuk jadwal dan penawaran.'],
   ];
+
+  const formPanel = sel ? (
+            <form id="form" className="inline-form" onSubmit={submit}>
+              <div className="card formcard">
+                <div className="eyebrow" style={{ marginTop: 0 }}>Pendaftaran</div>
+                <h3 className="fh">Isi data lalu <em>transfer</em></h3>
+                {data?.bank?.account && (
+                  <div className="bankbox">
+                    <small>Transfer ke</small>
+                    <div className="bk-line"><b>{data.bank.name}</b> <span>{data.bank.account}</span> <Copy text={data.bank.account} /></div>
+                    <div className="bk-holder">a.n. {data.bank.holder}</div>
+                    <small>Nominal pasti (dengan kode unik) muncul setelah kamu menekan tombol di bawah.</small>
+                  </div>
+                )}
+                <label htmlFor="n">Nama lengkap</label>
+                <input id="n" required minLength={2} maxLength={100} value={fullName} onChange={(e) => setFullName(e.target.value)} autoComplete="name" />
+                <label htmlFor="w">No. WhatsApp</label>
+                <input id="w" required inputMode="tel" placeholder="08xxxxxxxxxx" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} autoComplete="tel" />
+                {sel.price ? (
+                  <div className="note" style={{ marginTop: 14 }}><b>{rp(sel.price)}</b>{tab === 'record' ? ' — link rekaman dikirim lewat WhatsApp setelah pembayaran kami konfirmasi.' : tab === 'online' ? ' per orang — link kelas online dikirim lewat WhatsApp setelah pembayaran kami konfirmasi.' : ' per orang (harga tetap).'}</div>
+                ) : (
+                  <>
+                    <label htmlFor="d">Donasi sukarela (Rp)</label>
+                    <input id="d" required type="number" min={min} step="1000" inputMode="numeric" placeholder={`Minimal ${min}`} value={donation} onChange={(e) => setDonation(e.target.value)} />
+                    <div className="quick">
+                      {QUICK.filter((q) => q >= min).map((q) => (
+                        <button key={q} type="button" className={'chip' + (Number(donation) === q ? ' sel' : '')} onClick={() => setDonation(String(q))}>{rp(q)}</button>
+                      ))}
+                    </div>
+                  </>
+                )}
+                {err && <div className="err">{err}</div>}
+                <button className="btn" disabled={busy}>{busy ? 'Memproses…' : 'Daftar & lihat nominal transfer'}</button>
+              </div>
+            </form>
+  ) : null;
 
   const landing = (
     <>
@@ -300,7 +336,8 @@ export default function Home({ slides = [], media = {} }) {
             {tab !== 'record' && shown.map((s, k) => {
               const full = s.remaining <= 0;
               return (
-                <article key={s.id} className={'tt-card' + (sel?.id === s.id ? ' sel' : '')}>
+                <Fragment key={s.id}>
+                <article className={'tt-card' + (sel?.id === s.id ? ' sel' : '')} onClick={() => !full && sel?.id !== s.id && go(s)}>
                   <div className="tt-top">
                     {pool.length > 0 ? <img src={pool[k % pool.length]} alt="" className="tt-thumb" loading="lazy" /> : <div className="tt-thumb ph">🪷</div>}
                     <div className="tt-body">
@@ -316,14 +353,17 @@ export default function Home({ slides = [], media = {} }) {
                       <b className="tt-price">{s.price ? rp(s.price) : 'Donasi sukarela'}</b>
                       <span className={'quota' + (full ? ' full' : s.remaining <= 5 ? ' low' : '')}>{full ? 'Penuh' : `Sisa ${s.remaining} dari ${s.quota}`}</span>
                     </div>
-                    <button type="button" className="btn sm" disabled={full} onClick={() => { setSel(s); setTimeout(() => document.getElementById('form')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50); }}>{sel?.id === s.id ? 'Dipilih ✓' : 'Daftar'}</button>
+                    <button type="button" className="btn sm" disabled={full} onClick={(e) => { e.stopPropagation(); go(s); }}>{sel?.id === s.id ? 'Dipilih ✓' : 'Daftar'}</button>
                   </div>
                 </article>
+                {sel?.id === s.id && formPanel}
+                </Fragment>
               );
             })}
             {tab !== 'record' && data && list.length > 0 && shown.length === 0 && <p className="muted">Tidak ada kelas di hari ini. Coba pilih hari bertitik.</p>}
             {tab === 'record' && data?.recordings.map((r, k) => (
-              <article key={r.id} className={'tt-card' + (sel?.id === r.id ? ' sel' : '')}>
+              <Fragment key={r.id}>
+              <article className={'tt-card' + (sel?.id === r.id ? ' sel' : '')} onClick={() => sel?.id !== r.id && (setSel(r), scrollTo('form'))}>
                 <div className="tt-top">
                   {pool.length > 0 ? <img src={pool[k % pool.length]} alt="" className="tt-thumb" loading="lazy" /> : <div className="tt-thumb ph">🎬</div>}
                   <div className="tt-body">
@@ -334,39 +374,14 @@ export default function Home({ slides = [], media = {} }) {
                 </div>
                 <div className="tt-foot">
                   <b className="tt-price">{rp(r.price)}</b>
-                  <button type="button" className="btn sm" onClick={() => { setSel(r); setTimeout(() => document.getElementById('form')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50); }}>{sel?.id === r.id ? 'Dipilih ✓' : 'Beli'}</button>
+                  <button type="button" className="btn sm" onClick={(e) => { e.stopPropagation(); setSel(r); scrollTo('form'); }}>{sel?.id === r.id ? 'Dipilih ✓' : 'Beli'}</button>
                 </div>
               </article>
+              {sel?.id === r.id && formPanel}
+              </Fragment>
             ))}
           </div>
 
-          {sel && (
-            <form id="form" onSubmit={submit}>
-              <div className="eyebrow">Pendaftaran</div>
-              <h2>Data <em>peserta</em></h2>
-              <div className="card">
-                <label htmlFor="n">Nama lengkap</label>
-                <input id="n" required minLength={2} maxLength={100} value={fullName} onChange={(e) => setFullName(e.target.value)} autoComplete="name" />
-                <label htmlFor="w">No. WhatsApp</label>
-                <input id="w" required inputMode="tel" placeholder="08xxxxxxxxxx" value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} autoComplete="tel" />
-                {sel.price ? (
-                  <div className="note" style={{ marginTop: 14 }}><b>{rp(sel.price)}</b>{tab === 'record' ? ' — link rekaman dikirim lewat WhatsApp setelah pembayaran kami konfirmasi.' : tab === 'online' ? ' per orang — link kelas online dikirim lewat WhatsApp setelah pembayaran kami konfirmasi.' : ' per orang (harga tetap).'}</div>
-                ) : (
-                  <>
-                    <label htmlFor="d">Donasi sukarela (Rp)</label>
-                    <input id="d" required type="number" min={min} step="1000" inputMode="numeric" placeholder={`Minimal ${min}`} value={donation} onChange={(e) => setDonation(e.target.value)} />
-                    <div className="quick">
-                      {QUICK.filter((q) => q >= min).map((q) => (
-                        <button key={q} type="button" className={'chip' + (Number(donation) === q ? ' sel' : '')} onClick={() => setDonation(String(q))}>{rp(q)}</button>
-                      ))}
-                    </div>
-                  </>
-                )}
-                {err && <div className="err">{err}</div>}
-                <button className="btn" disabled={busy}>{busy ? 'Memproses…' : 'Lanjut ke pembayaran'}</button>
-              </div>
-            </form>
-          )}
         </>
       )}
     </div>
