@@ -21,7 +21,7 @@ function Copy({ text }) {
   );
 }
 
-export default function Home({ photos = [] }) {
+export default function Home({ photos = [], photosByTab = {} }) {
   const [data, setData] = useState(null);
   const [loadErr, setLoadErr] = useState('');
   const [tab, setTab] = useState('venue'); // venue | online | record
@@ -53,9 +53,28 @@ export default function Home({ photos = [] }) {
   const min = data?.minDonation || 1000;
   const list = (data?.sessions || []).filter((x) => x.kind === (tab === 'online' ? 'online' : 'venue'));
 
+  const gallery = photosByTab[tab] || [];
+  const pool = gallery.length ? gallery : photos; // foto kecil di kartu
   const shown = day ? list.filter((x) => x.date === day) : list;
 
+  const pick = (k) => {
+    setTab(k); setSel(null); setDay(null); setErr(''); setResult(null);
+    setTimeout(() => document.getElementById('jadwal')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  };
+  const NAV = [['venue', 'Yoga di Omah Turi'], ['online', 'Yoga Online Live'], ['record', 'Rekaman Yoga']];
+
   return (
+    <>
+    <nav className="nav" aria-label="Menu utama">
+      <a className="nav-brand" href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>HARMONY OF LIFE</a>
+      <div className="nav-links">
+        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Beranda</a>
+        {NAV.map(([k, t]) => (
+          <a key={k} href="#jadwal" className={!result && tab === k ? 'on' : ''} onClick={(e) => { e.preventDefault(); pick(k); }}>{t}</a>
+        ))}
+        {data?.wa && <a href={`https://wa.me/${data.wa}`} target="_blank" rel="noopener noreferrer">Hubungi Kami</a>}
+      </div>
+    </nav>
     <div className="wrap">
       <Carousel photos={photos} />
 
@@ -77,7 +96,7 @@ export default function Home({ photos = [] }) {
         </div>
       ) : (
         <>
-          <h2><span className="step">1</span>Mau yoga bagaimana?</h2>
+          <h2 id="jadwal" style={{ scrollMarginTop: 90 }}><span className="step">1</span>Mau yoga bagaimana?</h2>
           <div className="tabs">
             {[['venue', '🏡', 'Di Omah Turi', 'Datang langsung ke venue'], ['online', '💻', 'Online Live', 'Yoga real time via online'], ['record', '🎬', 'Rekaman', 'Beli & latihan kapan saja']].map(([k, ic, t, d]) => (
               <button key={k} type="button" className={'tab' + (tab === k ? ' sel' : '')} onClick={() => { setTab(k); setSel(null); setDay(null); setErr(''); }}>
@@ -85,6 +104,12 @@ export default function Home({ photos = [] }) {
               </button>
             ))}
           </div>
+
+          {gallery.length > 0 && (
+            <div className="gal" aria-label="Dokumentasi kegiatan">
+              {gallery.map((src) => <img key={src} src={src} alt="Dokumentasi kegiatan" loading="lazy" />)}
+            </div>
+          )}
 
           <h2><span className="step">2</span>{tab === 'record' ? 'Pilih rekaman' : 'Pilih tanggal'}</h2>
           {loadErr && <div className="err">{loadErr}</div>}
@@ -123,7 +148,7 @@ export default function Home({ photos = [] }) {
               return (
                 <article key={s.id} className={'tt-card' + (sel?.id === s.id ? ' sel' : '')}>
                   <div className="tt-top">
-                    {photos.length > 0 ? <img src={photos[k % photos.length]} alt="" className="tt-thumb" loading="lazy" /> : <div className="tt-thumb ph">🪷</div>}
+                    {pool.length > 0 ? <img src={pool[k % pool.length]} alt="" className="tt-thumb" loading="lazy" /> : <div className="tt-thumb ph">🪷</div>}
                     <div className="tt-body">
                       <small className="tt-kind">{tab === 'online' ? 'YOGA ONLINE LIVE' : 'YOGA DI OMAH TURI'}</small>
                       <h3>{tab === 'online' ? 'Yoga Online (real time)' : 'Yoga di Omah Turi'}</h3>
@@ -146,7 +171,7 @@ export default function Home({ photos = [] }) {
             {tab === 'record' && data?.recordings.map((r, k) => (
               <article key={r.id} className={'tt-card' + (sel?.id === r.id ? ' sel' : '')}>
                 <div className="tt-top">
-                  {photos.length > 0 ? <img src={photos[k % photos.length]} alt="" className="tt-thumb" loading="lazy" /> : <div className="tt-thumb ph">🎬</div>}
+                  {pool.length > 0 ? <img src={pool[k % pool.length]} alt="" className="tt-thumb" loading="lazy" /> : <div className="tt-thumb ph">🎬</div>}
                   <div className="tt-body">
                     <small className="tt-kind">REKAMAN</small>
                     <h3>{r.title}</h3>
@@ -191,5 +216,6 @@ export default function Home({ photos = [] }) {
       )}
       <footer>© Harmony of Life · venue: Omah Turi</footer>
     </div>
+    </>
   );
 }

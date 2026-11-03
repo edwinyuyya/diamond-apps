@@ -94,3 +94,19 @@ footer{text-align:center;color:var(--mute);font-size:.8rem;margin-top:40px}
 .tt-price{display:block;font-size:1.15rem}
 .tt-foot .quota{margin-top:2px}
 .tt-foot .btn.sm{padding:10px 22px;font-size:.92rem}
+
+/* Navigasi atas */
+.nav{position:sticky;top:0;z-index:30;background:#faf5ee;border-bottom:1px solid var(--line);text-align:center;padding:8px 12px 0}
+.nav-brand{display:inline-block;font-family:Georgia,serif;letter-spacing:.28em;font-size:.95rem;color:var(--green-d);text-decoration:none;margin-bottom:2px}
+.nav-links{display:flex;justify-content:center;gap:4px 22px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:2px 0 10px}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-links a{flex:none;text-transform:uppercase;letter-spacing:.06em;font-size:.76rem;color:#3d5a52;text-decoration:none;white-space:nowrap;padding:4px 0;border-bottom:1px solid transparent}
+.nav-links a:hover{color:#c8765a}
+.nav-links a.on{color:#c8765a;border-bottom-color:#c8765a}
+@media (max-width:640px){.nav-links{justify-content:flex-start}}
+html{scroll-behavior:smooth}
+
+/* Galeri dokumentasi per menu */
+.gal{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:16px -16px 0;padding:0 16px 6px;scrollbar-width:none}
+.gal::-webkit-scrollbar{display:none}
+.gal img{flex:none;height:170px;width:auto;max-width:78vw;border-radius:16px;object-fit:cover;scroll-snap-align:start;background:#e6efe1}

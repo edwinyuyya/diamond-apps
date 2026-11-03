@@ -10,3 +10,8 @@ Next.js + Supabase. Venue Omah Turi: Kamis = donasi sukarela, Jumat = tiket Rp 5
 
 ## Alur kuota
 Daftar → kursi ditahan (`HOLD_MINUTES`, default 3 jam) → transfer nominal + kode unik → kirim bukti via WhatsApp → admin tandai **lunas** (kuota terpotong permanen). Pending yang kedaluwarsa otomatis melepas kursi.
+
+## Foto
+- `public/photos/` → carousel di bagian atas.
+- `public/photos/venue/`, `online/`, `record/` → galeri dokumentasi di tiap menu (Omah Turi, Online Live, Rekaman) dan foto kecil di kartunya.
+Format .jpg/.png/.webp; urut menurut nama file. Folder kosong = bagian itu tidak tampil.

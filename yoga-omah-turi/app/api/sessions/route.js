@@ -36,6 +36,7 @@ export async function GET() {
   const used = countUsed(regs || []);
   return NextResponse.json({
     recordings: recordings || [],
+    wa: process.env.WA_NUMBER || null,
     minDonation: Number(process.env.MIN_DONATION || 1000),
     sessions: sessions.map((s) => ({
       id: s.id, kind: s.kind, date: s.date, note: s.note, quota: s.quota, price: s.price,
