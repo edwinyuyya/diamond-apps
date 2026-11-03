@@ -28,6 +28,9 @@ export async function POST(req) {
   if (name.length < 2 || name.length > 100) return bad('Nama lengkap tidak valid.');
   if (!phone) return bad('Nomor WhatsApp tidak valid.');
 
+  if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    return bad('Mode pratinjau: database belum tersambung, jadi pendaftaran belum bisa disimpan.', 503);
+  }
   const sb = db();
   let reg, label, date = null;
 

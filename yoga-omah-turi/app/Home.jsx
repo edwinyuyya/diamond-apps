@@ -109,6 +109,7 @@ export default function Home({ slides = [], media = {} }) {
               <div className="card formcard">
                 <div className="eyebrow" style={{ marginTop: 0 }}>Pendaftaran</div>
                 <h3 className="fh">Isi data lalu <em>transfer</em></h3>
+                {data?.demo && <div className="err" style={{ marginTop: 0, marginBottom: 12 }}>Mode pratinjau: database belum tersambung, pendaftaran belum bisa disimpan.</div>}
                 {data?.bank?.account && (
                   <div className="bankbox">
                     <small>Transfer ke</small>

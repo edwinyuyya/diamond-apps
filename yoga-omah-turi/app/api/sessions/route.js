@@ -5,7 +5,7 @@ import { BANK, WA } from '@/lib/config';
 export const dynamic = 'force-dynamic';
 
 // Jadwal tetap: Kamis = donasi sukarela, Jumat = tiket harga tetap. Dibuat otomatis 8 minggu ke depan.
-async function ensureSchedule(sb) {
+function buildSchedule() {
   const rows = [];
   const start = new Date(todayWIB() + 'T00:00:00Z');
   for (let i = 0; i < 56; i++) {
@@ -20,13 +20,19 @@ async function ensureSchedule(sb) {
       });
     }
   }
-  await sb.from('sessions').upsert(rows, { onConflict: 'date,kind', ignoreDuplicates: true });
+  return rows;
+}
+
+async function ensureSchedule(sb) {
+  await sb.from('sessions').upsert(buildSchedule(), { onConflict: 'date,kind', ignoreDuplicates: true });
 }
 
 export async function GET() {
   // Belum ada database: tetap tampilkan halaman (jadwal kosong) agar website bisa dilihat
   if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    return NextResponse.json({ sessions: [], recordings: [], wa: WA, bank: BANK, minDonation: Number(process.env.MIN_DONATION || 1000) });
+    // Mode pratinjau: tampilkan jadwal Kamis/Jumat (kuota penuh), pendaftaran belum bisa disimpan
+    const sessions = buildSchedule().map((r) => ({ id: 'demo-' + r.date, kind: r.kind, date: r.date, note: null, quota: r.quota, price: r.price, remaining: r.quota }));
+    return NextResponse.json({ demo: true, sessions, recordings: [], wa: WA, bank: BANK, minDonation: Number(process.env.MIN_DONATION || 1000) });
   }
   const sb = db();
   await ensureSchedule(sb);
