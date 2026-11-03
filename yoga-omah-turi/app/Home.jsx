@@ -239,6 +239,7 @@ export default function Home({ slides = [], media = {} }) {
       <div className="nav-in">
         <a className="nav-brand" href="#" onClick={(e) => { e.preventDefault(); pick('home'); }}>Harmony of Life</a>
         <div className="nav-links">
+          <a href="#" className={!result && tab === 'home' ? 'on' : ''} onClick={(e) => { e.preventDefault(); pick('home'); }}>Beranda</a>
           {NAV.map(([k, t]) => (
             <a key={k} href="#jadwal" className={!result && tab === k ? 'on' : ''} onClick={(e) => { e.preventDefault(); pick(k); }}>{t}</a>
           ))}
