@@ -4,7 +4,7 @@ const NEXORA_WA = 'https://wa.me/628131888116?text=' + encodeURIComponent('Halo 
 
 export default function NexoraCredit() {
   return (
-    <a className="nexora" href={NEXORA_WA} target="_blank" rel="noreferrer" aria-label={`Developed by Nexora, hubungi ${NEXORA_PHONE}`}>
+    <a className="nexora" href={NEXORA_WA} target="_blank" rel="noreferrer" aria-label={`Developed by Nexora, ${NEXORA_PHONE}`}>
       <small>Developed by</small>
       <svg viewBox="0 0 270 52" height="34" role="img" aria-label="Nexora">
         <rect x="8" y="4" width="38" height="9" rx="3" fill="#d9cdf7" />

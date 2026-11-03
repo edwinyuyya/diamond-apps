@@ -28,6 +28,13 @@ Sheet harus dibagikan "Siapa saja yang memiliki link: Pelihat". Alternatif: down
 | `public/produk/` | Foto produk dari Google Drive (dikompres ke .webp), lalu isi `images: ['/produk/<slug>/01.webp']` di products.js. Bisa juga langsung paste link share Google Drive. |
 | `components/home/HeroSlider.jsx` | Teks/gambar banner beranda |
 
+## Dua bahasa (Indonesia / English)
+- Pengunjung memilih bahasa lewat tombol **ID | EN** di bar atas (HP: di sebelah logo & di menu). Pilihan disimpan di cookie `lang`.
+- Semua teks website ada di `lib/i18n.js` (kolom kiri Indonesia, kanan Inggris). Teks pengumuman di `lib/config.js`.
+- Nama/deskripsi/spesifikasi produk versi Inggris diisi di **/admin → Ubah Produk → Versi Bahasa Inggris** (opsional, kalau kosong dipakai teks Indonesia).
+- Banner versi Inggris: file `public/banner/*-en.webp`, dibuat ulang dengan `python3 scripts/make_banners.py`.
+- Halaman admin tetap Bahasa Indonesia.
+
 ## Jalankan lokal
 ```bash
 npm install

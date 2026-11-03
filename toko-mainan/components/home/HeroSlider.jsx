@@ -2,20 +2,24 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { imgUrl } from '../../lib/image';
-import FrameTag from '../FrameTag';
+import { useLang } from '../LangProvider';
 
 // Banner utama. Kalau punya gambar banner, taruh di /public/banner/ lalu isi `image`
 // (ukuran ideal 1920x600 desktop). Kalau `image` kosong, tampil banner warna.
 // Banner dibuat oleh scripts/make_banners.py (desktop 1920x640, HP 1080x1080)
+// Versi bahasa Inggris memakai file *-en.webp
 const B = (n) => ({ image: `/banner/hero-${n}.webp`, imageMobile: `/banner/hero-${n}-m.webp` });
 const SLIDES = [
-  { title: 'Fat Tiger Blind Box Dragon & Tiger', href: '/produk/fat-tiger-dragon-soaring-tiger-leaping', ...B('fat-tiger-dragon') },
-  { title: 'Fat Tiger Food Party gantungan tas', href: '/produk/fat-tiger-food-party-plush-pendant', ...B('food-party') },
-  { title: 'Rolife Super Creator Bubble Tea', href: '/produk/rolife-super-creator-double-joy-bubble-tea', ...B('rolife-bubble-tea') },
-  { title: 'Gratis ongkir belanja Rp1 juta', href: '/produk', ...B('gratis-ongkir') },
+  { title: 'hero.1', href: '/produk/fat-tiger-dragon-soaring-tiger-leaping', ...B('fat-tiger-dragon') },
+  { title: 'hero.2', href: '/produk/fat-tiger-food-party-plush-pendant', ...B('food-party') },
+  { title: 'hero.3', href: '/produk/rolife-super-creator-double-joy-bubble-tea', ...B('rolife-bubble-tea') },
+  { title: 'hero.4', href: '/produk', ...B('gratis-ongkir') },
 ];
+const enFile = (f) => f.replace(/\.webp$/, '-en.webp');
 
 export default function HeroSlider() {
+  const { lang, t } = useLang();
+  const L = (f) => (lang === 'en' ? enFile(f) : f);
   const [i, setI] = useState(0);
   useEffect(() => {
     const t = setTimeout(() => setI((x) => (x + 1) % SLIDES.length), 5500);
@@ -28,8 +32,8 @@ export default function HeroSlider() {
           <Link key={k} href={s.href} className="hero-slide" style={{ '--bg': s.bg, '--ac': s.accent }} tabIndex={k === i ? 0 : -1}>
             {s.image ? (
               <picture className="hero-img">
-                {s.imageMobile && <source media="(max-width: 900px)" srcSet={imgUrl(s.imageMobile, 1080)} />}
-                <img src={imgUrl(s.image, 1920)} alt={s.title} referrerPolicy="no-referrer" loading={k === 0 ? 'eager' : 'lazy'} />
+                {s.imageMobile && <source media="(max-width: 900px)" srcSet={imgUrl(L(s.imageMobile), 1080)} />}
+                <img src={imgUrl(L(s.image), 1920)} alt={t(s.title)} referrerPolicy="no-referrer" loading={k === 0 ? 'eager' : 'lazy'} />
               </picture>
             ) : (
               <div className="wrap hero-inner">

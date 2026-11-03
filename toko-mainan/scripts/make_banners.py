@@ -23,31 +23,39 @@ RL = '/produk/rolife-super-creator-double-joy-bubble-tea'
 HERO = [
     dict(name='fat-tiger-dragon', kicker='BLIND BOX BARU', title=['Fat Tiger', 'Dragon & Tiger'],
          sub='8 desain + 1 hidden edition. Berani tebak isinya?', cta='Lihat Sekarang',
+         en=dict(kicker='NEW BLIND BOX', sub='8 designs + 1 hidden edition. Can you guess yours?', cta='Shop Now'),
          bg=('#0b2d5e', '#1d4f9c'), fg='#ffffff', accent='#ffd400', cta_fg='#e3000b',
          photos=[f'{FT1}/01.webp', f'{FT1}/04.webp', f'{FT1}/03.webp']),
     dict(name='food-party', kicker='GANTUNGAN TAS BLIND BOX', title=['Tiger Food', 'Party'],
          sub='Boneka Fat Tiger mini, 6 desain lucu', cta='Lihat Koleksi',
+         en=dict(kicker='BLIND BOX BAG CHARMS', sub='Mini Fat Tiger plushies, 6 cute designs', cta='See Collection'),
          bg=('#ff6a13', '#ffa040'), fg='#ffffff', accent='#0b2d5e', cta_fg='#e3000b',
          photos=[f'{FT2}/03.webp', f'{FT2}/01.webp', f'{FT2}/04.webp']),
     dict(name='rolife-bubble-tea', kicker='ROLIFE DIY MINIATUR', title=['Rakit Kedai', 'Bubble Tea Mini'],
          sub='Rolife Super Creator, Double Joy Bubble Tea', cta='Lihat Produk',
+         en=dict(kicker='ROLIFE DIY MINIATURE', title=['Build a Mini', 'Bubble Tea Shop'], cta='View Product'),
          bg=('#3fa9a6', '#7fd6d3'), fg='#ffffff', accent='#d81b60', cta_fg='#d81b60',
          photos=[f'{RL}/01.webp']),
     dict(name='gratis-ongkir', kicker='GRATIS ONGKIR', title=['Belanja Rp1 Juta', 'Gratis Ongkir'],
          sub='Dikirim aman ke seluruh Indonesia', cta='Mulai Belanja',
+         en=dict(kicker='FREE SHIPPING', title=['Spend Rp1 Million', 'Ship for Free'], sub='Safely delivered all over Indonesia', cta='Start Shopping'),
          bg=('#ffd400', '#ffb300'), fg='#0b2d5e', accent='#e3000b', cta_fg='#e3000b',
          photos=[f'{FT2}/01.webp', f'{RL}/01.webp', f'{FT1}/01.webp']),
 ]
 
 PROMO = [
     dict(name='fat-tiger-dragon', small='Fat Tiger Blind Box', big=['Dragon Soaring &', 'Tiger Leaping'],
-         body='8 desain + 1 hidden edition', bg='#f27c00', photo=f'{FT1}/02.webp'),
+         body='8 desain + 1 hidden edition', bg='#f27c00', photo=f'{FT1}/02.webp',
+         en=dict(body='8 designs + 1 hidden edition')),
     dict(name='food-party', small='Fat Tiger Food Party', big=['Gantungan boneka', 'blind box'],
-         body='6 desain lucu untuk tas & kunci', bg='#e65100', photo=f'{FT2}/01.webp', focus=0.08),
+         body='6 desain lucu untuk tas & kunci', bg='#e65100', photo=f'{FT2}/01.webp', focus=0.08,
+         en=dict(big=['Blind box', 'plush charms'], body='6 cute designs for bags & keys')),
     dict(name='rolife', small='Rolife Super Creator', big=['Double Joy', 'Bubble Tea'],
-         body='Rakit sendiri kedai mini yang detail', bg='#d81b60', photo=f'{RL}/01.webp'),
+         body='Rakit sendiri kedai mini yang detail', bg='#d81b60', photo=f'{RL}/01.webp',
+         en=dict(body='Build your own detailed mini shop')),
     dict(name='segera-hadir', small='Segera Hadir', big=['Doraemon, Sinchan', '& Emma'],
-         body='Blind box karakter favorit segera masuk', bg='#0b2d5e', photo=None),
+         body='Blind box karakter favorit segera masuk', bg='#0b2d5e', photo=None,
+         en=dict(small='Coming Soon', body='Favourite character blind boxes')),
 ]
 
 
@@ -198,7 +206,7 @@ def promo(c):
     for i, line in enumerate(c['big']):
         text(d, (x, 134 + i * 54), line, fb, '#ffffff', shadow=False)
     text(d, (x, 262), c['body'], font('Outfit-500.ttf', 27), '#d8d8de', shadow=False)
-    pill(d, (x, 330), 'Belanja  ›', font('Outfit-800.ttf', 28), '#ffffff', '#111111')
+    pill(d, (x, 330), c.get('shop', 'Belanja') + '  ›', font('Outfit-800.ttf', 28), '#ffffff', '#111111')
     return im
 
 
@@ -215,3 +223,11 @@ if __name__ == '__main__':
         save(hero_mobile(c), f"hero-{c['name']}-m.webp")
     for c in PROMO:
         save(promo(c), f"promo-{c['name']}.webp")
+    # Versi bahasa Inggris (file *-en.webp)
+    for c in HERO:
+        e = {**c, **c.get('en', {})}
+        save(hero_desktop(e), f"hero-{c['name']}-en.webp")
+        save(hero_mobile(e), f"hero-{c['name']}-m-en.webp")
+    for c in PROMO:
+        e = {**c, **c.get('en', {}), 'shop': 'Shop'}
+        save(promo(e), f"promo-{c['name']}-en.webp")

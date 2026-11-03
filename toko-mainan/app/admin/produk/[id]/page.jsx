@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import AdminBar from '../../../../components/admin/AdminBar';
 import ProductImage from '../../../../components/ProductImage';
 
-const EMPTY = { name: '', categoryName: '', series: '', price: '', compareAt: '', stock: '', age: '', badge: 'Baru', description: '', specsText: '', images: [], visible: true };
+const EMPTY = { name: '', categoryName: '', series: '', price: '', compareAt: '', stock: '', age: '', badge: 'Baru', description: '', specsText: '', nameEn: '', descriptionEn: '', specsEnText: '', images: [], visible: true };
 
 // Perkecil foto di HP sebelum diunggah (maks 1600px) supaya cepat & hemat kuota
 async function shrink(file) {
@@ -41,6 +41,8 @@ export default function ProductForm({ params }) {
         price: p.salePrice ?? p.price ?? '', compareAt: p.salePrice ? p.price : '',
         stock: p.stock ?? '', age: p.age ?? '', badge: p.badge || '', description: p.description || '',
         specsText: Object.entries(p.specs || {}).map(([k, v]) => `${k}: ${v}`).join('\n'),
+        nameEn: p.nameEn || '', descriptionEn: p.descriptionEn || '',
+        specsEnText: Object.entries(p.specsEn || {}).map(([k, v]) => `${k}: ${v}`).join('\n'),
         images: p.images || [], visible: p.visible !== false, slug: p.slug, color: p.color, emoji: p.emoji,
       });
     });
@@ -148,6 +150,14 @@ export default function ProductForm({ params }) {
             <h2>Deskripsi</h2>
             <label className="adm-field full"><span>Deskripsi untuk pembeli</span><textarea rows={5} value={f.description} onChange={set('description')} /></label>
             <label className="adm-field full"><span>Spesifikasi (satu baris satu, format "Nama: isi")</span><textarea rows={4} value={f.specsText} onChange={set('specsText')} placeholder={'Jenis: Blind box figure\nIsi: 1 figure acak per box'} /></label>
+          </section>
+
+          <section className="adm-card">
+            <h2>🇬🇧 Versi Bahasa Inggris <small className="adm-muted">(opsional)</small></h2>
+            <p className="adm-muted small">Tampil saat pembeli memilih bahasa EN di website. Kalau dikosongkan, dipakai teks Bahasa Indonesia di atas.</p>
+            <label className="adm-field full"><span>Product name (English)</span><input value={f.nameEn} onChange={set('nameEn')} placeholder={f.name || 'e.g. Fat Tiger Blind Box — Tiger Food Party'} /></label>
+            <label className="adm-field full"><span>Description (English)</span><textarea rows={5} value={f.descriptionEn} onChange={set('descriptionEn')} /></label>
+            <label className="adm-field full"><span>Specifications (English, "Name: value" per line)</span><textarea rows={4} value={f.specsEnText} onChange={set('specsEnText')} placeholder={'Type: Blind box figure\nContents: 1 random figure per box'} /></label>
           </section>
 
           <label className="adm-check"><input type="checkbox" checked={f.visible} onChange={set('visible')} /> Tampilkan di toko</label>

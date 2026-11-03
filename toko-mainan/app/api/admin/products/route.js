@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { requireAdmin } from '../../../../lib/admin-auth';
-import { getAllProducts, saveAllProducts } from '../../../../lib/catalog';
+import { getAllProducts, saveAllProducts, withSeedEn } from '../../../../lib/catalog';
 import { slugify, categoryStyle } from '../../../../lib/categories';
 
 export const dynamic = 'force-dynamic';
@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 export async function GET(req) {
   const deny = await requireAdmin(req);
   if (deny) return deny;
-  return NextResponse.json({ products: await getAllProducts({ fresh: true }) });
+  return NextResponse.json({ products: (await getAllProducts({ fresh: true })).map(withSeedEn) });
 }
 
 const int = (v) => (v === '' || v == null ? null : Math.max(0, parseInt(String(v).replace(/[^\d]/g, ''), 10) || 0));
@@ -41,11 +41,15 @@ export async function POST(req) {
     slug = slugify(f.name) || id.toLowerCase();
     while (all.some((p) => p.slug === slug)) slug += '-' + id.toLowerCase();
   }
-  const specs = {};
-  for (const line of String(f.specsText || '').split('\n')) {
-    const i = line.indexOf(':');
-    if (i > 0 && line.slice(i + 1).trim()) specs[line.slice(0, i).trim()] = line.slice(i + 1).trim();
-  }
+  const parseSpecs = (text) => {
+    const out = {};
+    for (const line of String(text || '').split('\n')) {
+      const i = line.indexOf(':');
+      if (i > 0 && line.slice(i + 1).trim()) out[line.slice(0, i).trim()] = line.slice(i + 1).trim();
+    }
+    return out;
+  };
+  const specs = parseSpecs(f.specsText);
   const product = {
     ...(existing || { rating: 5, sold: 0 }),
     id, slug,
@@ -61,6 +65,10 @@ export async function POST(req) {
     images: (Array.isArray(f.images) ? f.images : []).filter((u) => typeof u === 'string' && /^\/(img\/|produk\/|\.netlify\/functions\/data\?media=)/.test(u)).slice(0, 12),
     description: String(f.description || '').trim().slice(0, 3000),
     specs,
+    // Versi bahasa Inggris (opsional; kalau kosong, website memakai teks Indonesia)
+    nameEn: String(f.nameEn || '').trim().slice(0, 150),
+    descriptionEn: String(f.descriptionEn || '').trim().slice(0, 3000),
+    specsEn: parseSpecs(f.specsEnText),
     visible: f.visible !== false,
     updatedAt: new Date().toISOString(),
   };

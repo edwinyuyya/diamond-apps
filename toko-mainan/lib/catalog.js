@@ -4,6 +4,7 @@ import 'server-only';
 import seed from './products-data.json';
 import { getJSON, setJSON } from './blobs';
 import { buildCategories } from './categories';
+import { localizeProduct } from './i18n';
 
 const STORE = 'toyzone';
 const KEY = 'catalog';
@@ -34,8 +35,22 @@ export async function saveAllProducts(products) {
   mem = { at: Date.now(), products };
 }
 
-// Katalog publik: hanya produk yang tampil
-export async function getCatalog() {
-  const products = (await getAllProducts()).filter((p) => p.visible !== false);
-  return { products, categories: buildCategories(products) };
+// Teks Inggris bawaan untuk produk awal (dipakai kalau admin belum mengisi versi Inggrisnya)
+const SEED_EN = Object.fromEntries(seed.products.map((p) => [p.id, p]));
+export const withSeedEn = (p) => {
+  const s = SEED_EN[p.id];
+  if (!s) return p;
+  return {
+    ...p,
+    nameEn: p.nameEn || (p.name === s.name ? s.nameEn : ''),
+    descriptionEn: p.descriptionEn || (p.description === s.description ? s.descriptionEn : ''),
+    specsEn: p.specsEn && Object.keys(p.specsEn).length ? p.specsEn : (JSON.stringify(p.specs) === JSON.stringify(s.specs) ? s.specsEn : undefined),
+  };
+};
+
+// Katalog publik: hanya produk yang tampil. lang 'en' → nama/deskripsi/spesifikasi versi Inggris.
+export async function getCatalog(lang = 'id') {
+  const products = (await getAllProducts()).filter((p) => p.visible !== false)
+    .map((p) => localizeProduct(withSeedEn(p), lang));
+  return { products, categories: buildCategories(products, lang) };
 }

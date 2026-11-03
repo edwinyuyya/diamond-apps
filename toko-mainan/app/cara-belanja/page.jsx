@@ -1,26 +1,27 @@
 import Link from 'next/link';
 import { BANKS, SHIPPING, STORE, PAYMENT_DEADLINE_HOURS } from '../../lib/config';
 import { formatRp } from '../../lib/products';
+import { getLang } from '../../lib/lang-server';
+import { t as tr, tHtml } from '../../lib/i18n';
 
-export const metadata = { title: 'Cara Belanja' };
+export const generateMetadata = () => ({ title: tr(getLang(), 'hdr.howToShop') });
 
 export default function Help() {
+  const lang = getLang();
+  const t = (k, v) => tr(lang, k, v);
+  const H = ({ k, v, as: Tag = 'li' }) => <Tag dangerouslySetInnerHTML={{ __html: tHtml(lang, k, v) }} />;
   return (
     <div className="wrap pad narrow prose">
-      <div className="crumbs"><Link href="/">Beranda</Link> / <span>Cara Belanja</span></div>
-      <h1 className="page-title">Cara Belanja di {STORE.name}</h1>
+      <div className="crumbs"><Link href="/">{t('common.home')}</Link> / <span>{t('hdr.howToShop')}</span></div>
+      <h1 className="page-title">{t('help.title', { store: STORE.name })}</h1>
       <ol className="howto">
-        <li><b>Pilih produk</b> lalu klik <i>+ Keranjang</i> atau <i>Beli Sekarang</i>.</li>
-        <li><b>Checkout</b>: isi nama penerima, nomor WhatsApp/HP yang bisa dihubungi, dan alamat lengkap.</li>
-        <li><b>Transfer</b> sesuai total yang tertera <b>termasuk 3 digit kode unik</b> ke salah satu rekening kami.</li>
-        <li><b>Kirim bukti transfer</b> lewat tombol WhatsApp di halaman pembayaran.</li>
-        <li>Admin mengonfirmasi pembayaran dan <b>pesanan dikirim</b>. Nomor resi dikirim via WhatsApp.</li>
+        {['help.s1', 'help.s2', 'help.s3', 'help.s4', 'help.s5'].map((k) => <H key={k} k={k} />)}
       </ol>
-      <h2 id="pembayaran">Pembayaran</h2>
-      <p>Saat ini pembayaran melalui transfer bank manual. Batas pembayaran {PAYMENT_DEADLINE_HOURS} jam setelah pesanan dibuat.</p>
-      <ul>{BANKS.map((b) => <li key={b.bank}><b>{b.bank}</b> {b.number} a.n. {b.holder}</li>)}</ul>
-      <h2 id="pengiriman">Pengiriman</h2>
-      <p>Ongkos kirim flat {formatRp(SHIPPING.flat)} ke seluruh Indonesia, <b>GRATIS</b> untuk belanja di atas {formatRp(SHIPPING.freeAbove)}. Pesanan dikirim 1×24 jam hari kerja setelah pembayaran terkonfirmasi.</p>
+      <h2 id="pembayaran">{t('help.payment')}</h2>
+      <p>{t('help.paymentText', { hours: PAYMENT_DEADLINE_HOURS })}</p>
+      <ul>{BANKS.map((b) => <li key={b.bank}><b>{b.bank}</b> {b.number} {t('pay.holder')} {b.holder}</li>)}</ul>
+      <h2 id="pengiriman">{t('help.delivery')}</h2>
+      <H as="p" k="help.deliveryText" v={{ flat: formatRp(SHIPPING.flat), free: formatRp(SHIPPING.freeAbove) }} />
     </div>
   );
 }

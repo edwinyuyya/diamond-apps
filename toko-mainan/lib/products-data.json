@@ -7,14 +7,16 @@
       "name": "Blind Box",
       "emoji": "🎁",
       "color": "#f27c00",
-      "desc": "Figure & gantungan kejutan, siapa tahu dapat hidden edition"
+      "desc": "Figure & gantungan kejutan, siapa tahu dapat hidden edition",
+      "descEn": "Surprise figures & charms, maybe you will get the hidden edition"
     },
     {
       "slug": "rolife",
       "name": "Rolife",
       "emoji": "🏠",
       "color": "#d81b60",
-      "desc": "Rumah miniatur DIY untuk dirakit sendiri"
+      "desc": "Rumah miniatur DIY untuk dirakit sendiri",
+      "descEn": "DIY miniature houses to build yourself"
     }
   ],
   "products": [
@@ -48,6 +50,14 @@
         "Isi": "1 figure acak per box",
         "Pilihan desain": "8 desain + 1 hidden edition",
         "Karakter": "Fat Tiger (BU2MA)"
+      },
+      "nameEn": "Fat Tiger Blind Box — Dragon Soaring & Tiger Leaping Series",
+      "descriptionEn": "Blind box figures of Alexander the Fat Tiger from the \"Long Teng Hu Yue\" (Dragon Soaring & Tiger Leaping) series. Each box contains 1 random figure out of 8 designs: Soaring Dragon, Leaping Tiger, Subduing Dragon, Crouching Tiger, Dragon Pool, Tiger's Den, Sleeping Dragon and Fledgling Phoenix, plus a chance to get the hidden edition \"Coiling Dragon & Crouching Saw Tiger\".",
+      "specsEn": {
+        "Type": "Blind box figure",
+        "Contents": "1 random figure per box",
+        "Designs": "8 designs + 1 hidden edition",
+        "Character": "Fat Tiger (BU2MA)"
       }
     },
     {
@@ -77,6 +87,14 @@
         "Isi": "1 gantungan acak per box",
         "Pilihan desain": "6 desain",
         "Karakter": "Fat Tiger (BU2MA)"
+      },
+      "nameEn": "Fat Tiger Blind Box — Tiger Food Party Plush Pendant",
+      "descriptionEn": "Fat Tiger plush pendants from the \"Tiger Food Party — Let's Eat Together\" series. Each blind box contains 1 random pendant out of 6 designs, adorable on your bag or keys.",
+      "specsEn": {
+        "Type": "Blind box plush pendant",
+        "Contents": "1 random pendant per box",
+        "Designs": "6 designs",
+        "Character": "Fat Tiger (BU2MA)"
       }
     },
     {
@@ -102,6 +120,13 @@
         "Merek": "Rolife",
         "Seri": "Super Creator",
         "Jenis": "Kit rumah miniatur DIY"
+      },
+      "nameEn": "Rolife Super Creator — Double Joy Bubble Tea",
+      "descriptionEn": "A DIY miniature house kit from Rolife's Super Creator series, themed as the \"Double Joy\" bubble tea shop. Build it yourself into a detailed and charming desk display.",
+      "specsEn": {
+        "Brand": "Rolife",
+        "Series": "Super Creator",
+        "Type": "DIY miniature house kit"
       }
     }
   ]

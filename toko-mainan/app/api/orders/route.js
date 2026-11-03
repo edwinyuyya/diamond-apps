@@ -2,11 +2,12 @@ import { NextResponse } from 'next/server';
 import { buildOrder, validateCustomer } from '../../../lib/order';
 import { getCatalog } from '../../../lib/catalog';
 import { insertOrder } from '../../../lib/db';
+import { getLang } from '../../../lib/lang-server';
 
 export async function POST(req) {
   try {
     const { items, customer } = await req.json();
-    const errors = validateCustomer(customer || {});
+    const errors = validateCustomer(customer || {}, getLang());
     if (Object.keys(errors).length) return NextResponse.json({ errors }, { status: 400 });
     const order = buildOrder(items, customer, (await getCatalog()).products);
     let saved = false;

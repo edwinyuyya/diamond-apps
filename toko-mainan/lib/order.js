@@ -1,5 +1,6 @@
 import { finalPrice, formatRp } from './products';
 import { SHIPPING, PAYMENT_DEADLINE_HOURS, STORE, BANKS } from './config';
+import { t } from './i18n';
 
 // Hitung ulang total dari data produk (harga dari klien tidak dipercaya)
 export function priceItems(items, PRODUCTS) {
@@ -50,41 +51,30 @@ export function buildOrder(items, customer, products) {
   };
 }
 
-export function validateCustomer(c) {
+export function validateCustomer(c, lang = 'id') {
   const e = {};
-  if (!c.name?.trim()) e.name = 'Nama wajib diisi';
+  const m = (k) => t(lang, `err.${k}`);
+  if (!c.name?.trim()) e.name = m('name');
   const phone = (c.phone || '').replace(/[^0-9]/g, '');
-  if (phone.length < 9 || phone.length > 15) e.phone = 'Nomor WhatsApp/HP tidak valid';
-  if (!c.address?.trim() || c.address.trim().length < 10) e.address = 'Alamat lengkap wajib diisi';
-  if (!c.city?.trim()) e.city = 'Kota/Kabupaten wajib diisi';
-  if (!c.province?.trim()) e.province = 'Provinsi wajib diisi';
-  if (!/^\d{5}$/.test((c.postal || '').trim())) e.postal = 'Kode pos 5 digit';
+  if (phone.length < 9 || phone.length > 15) e.phone = m('phone');
+  if (!c.address?.trim() || c.address.trim().length < 10) e.address = m('address');
+  if (!c.city?.trim()) e.city = m('city');
+  if (!c.province?.trim()) e.province = m('province');
+  if (!/^\d{5}$/.test((c.postal || '').trim())) e.postal = m('postal');
   return e;
 }
 
-// Pesan WhatsApp yang otomatis terisi untuk konfirmasi pembayaran
-export function waConfirmUrl(order) {
+// Pesan WhatsApp yang otomatis terisi untuk konfirmasi pembayaran (bahasa mengikuti pilihan pembeli)
+export function waConfirmUrl(order, lang = 'id') {
   const c = order.customer;
   const lines = order.items.map((l) => `• ${l.name} x${l.qty} = ${formatRp(l.price * l.qty)}`).join('\n');
-  const text =
-`Halo ${STORE.name}, saya sudah transfer untuk pesanan berikut:
-
-*No. Pesanan:* ${order.id}
-*Total Transfer:* ${formatRp(order.total)}
-
-*Produk:*
-${lines}
-
-Subtotal: ${formatRp(order.subtotal)}
-Ongkir: ${order.shipping ? formatRp(order.shipping) : 'GRATIS'}
-Kode unik: ${order.uniqueCode}
-
-*Data Pengiriman:*
-Nama: ${c.name}
-No. HP/WA: ${c.phone}
-Alamat: ${c.address}, ${c.city}, ${c.province} ${c.postal}${c.note ? `\nCatatan: ${c.note}` : ''}
-
-Berikut saya lampirkan foto bukti transfernya 👇`;
+  const text = t(lang, 'wa.confirm', {
+    store: STORE.name, id: order.id, total: formatRp(order.total), lines,
+    subtotal: formatRp(order.subtotal), shipping: order.shipping ? formatRp(order.shipping) : t(lang, 'common.free'),
+    code: order.uniqueCode, name: c.name, phone: c.phone,
+    address: `${c.address}, ${c.city}, ${c.province} ${c.postal}`,
+    note: c.note ? t(lang, 'wa.noteLine', { note: c.note }) : '',
+  });
   return `https://wa.me/${STORE.whatsapp}?text=${encodeURIComponent(text)}`;
 }
 

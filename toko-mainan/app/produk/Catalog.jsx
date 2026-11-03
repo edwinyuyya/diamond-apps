@@ -5,15 +5,18 @@ import { useMemo, useState } from 'react';
 import ProductCard from '../../components/ProductCard';
 import { AGE_GROUPS, PRICE_RANGES, finalPrice } from '../../lib/products';
 import { useCatalog } from '../../components/CatalogProvider';
+import { useLang } from '../../components/LangProvider';
+import { pick, AGE_NAMES, PRICE_NAMES } from '../../lib/i18n';
 
-const SORTS = [
-  ['rekomendasi', 'Rekomendasi'], ['terbaru', 'Terbaru'], ['terlaris', 'Terlaris'],
-  ['termurah', 'Harga Terendah'], ['termahal', 'Harga Tertinggi'], ['rating', 'Rating Tertinggi'],
-];
-const TAGS = { baru: 'Produk Baru', terlaris: 'Terlaris', eksklusif: 'Eksklusif', diskon: 'Sale', terbatas: 'Stok Terbatas' };
+const SORTS = ['rekomendasi', 'terbaru', 'terlaris', 'termurah', 'termahal', 'rating'];
+const TAGS = ['baru', 'terlaris', 'eksklusif', 'diskon', 'terbatas'];
 
 export default function Catalog() {
   const { products: PRODUCTS, categories: CATEGORIES } = useCatalog();
+  const { lang, t } = useLang();
+  const tagName = (k) => (TAGS.includes(k) ? t(`tag.${k}`) : k);
+  const ages = AGE_GROUPS.map((a) => ({ ...a, name: pick(lang, AGE_NAMES[a.slug]) || a.name }));
+  const prices = PRICE_RANGES.map((h) => ({ ...h, name: pick(lang, PRICE_NAMES[h.slug]) || h.name }));
   const getCategory = (slug) => CATEGORIES.find((c) => c.slug === slug);
   const sp = useSearchParams();
   const router = useRouter();
@@ -53,9 +56,9 @@ export default function Catalog() {
     return r;
   }, [sp, PRODUCTS]); // eslint-disable-line
 
-  const title = q ? `Hasil pencarian "${q}"`
+  const title = q ? t('cat.searchResult', { q })
     : kat.length === 1 ? getCategory(kat[0])?.name
-    : tag ? TAGS[tag] : 'Semua Produk';
+    : tag ? tagName(tag) : t('common.allProducts');
   const active = kat.length + umur.length + harga.length + (stok ? 1 : 0) + (tag ? 1 : 0) + (q ? 1 : 0);
 
   const Group = ({ title, k, cur, opts }) => (
@@ -72,42 +75,42 @@ export default function Catalog() {
 
   return (
     <div className="wrap pad">
-      <div className="crumbs"><Link href="/">Beranda</Link><i>/</i><span>{title}</span></div>
+      <div className="crumbs"><Link href="/">{t('common.home')}</Link><i>/</i><span>{title}</span></div>
       <div className="cat-head">
         <h1>{title}</h1>
       </div>
-      <p className="count-txt">{result.length} produk</p>
+      <p className="count-txt">{t('cat.count', { n: result.length })}</p>
       <div className="catalog">
         <aside className={`filters ${showFilter ? 'open' : ''}`}>
           <div className="filters-top">
             <b>Filter</b>
-            {active > 0 && <Link href="/produk" className="link-btn">Hapus semua</Link>}
+            {active > 0 && <Link href="/produk" className="link-btn">{t('cat.clearAll')}</Link>}
             <button className="filters-close" onClick={() => setShowFilter(false)}>✕</button>
           </div>
-          <Group title="Kategori" k="kategori" cur={kat} opts={CATEGORIES} />
-          <Group title="Umur" k="umur" cur={umur} opts={AGE_GROUPS} />
-          <Group title="Harga" k="harga" cur={harga} opts={PRICE_RANGES} />
+          <Group title={t('cat.category')} k="kategori" cur={kat} opts={CATEGORIES} />
+          <Group title={t('hdr.age')} k="umur" cur={umur} opts={ages} />
+          <Group title={t('hdr.price')} k="harga" cur={harga} opts={prices} />
           <div className="fgroup">
-            <h4>Ketersediaan</h4>
-            <label className="fcheck"><input type="checkbox" checked={stok} onChange={() => update('stok', stok ? '' : '1')} /><span>Hanya yang tersedia</span></label>
+            <h4>{t('cat.availability')}</h4>
+            <label className="fcheck"><input type="checkbox" checked={stok} onChange={() => update('stok', stok ? '' : '1')} /><span>{t('cat.inStock')}</span></label>
           </div>
-          <button className="btn-orange wide filters-apply" onClick={() => setShowFilter(false)}>Lihat {result.length} produk</button>
+          <button className="btn-orange wide filters-apply" onClick={() => setShowFilter(false)}>{t('cat.showN', { n: result.length })}</button>
         </aside>
         <div>
           <div className="toolbar">
             <button className="btn-orange-outline filter-toggle" onClick={() => setShowFilter(true)}>⚙ Filter {active > 0 && `(${active})`}</button>
             <div className="chips">
-              {tag && <button className="chip" onClick={() => update('tag', '')}>{TAGS[tag]} ✕</button>}
+              {tag && <button className="chip" onClick={() => update('tag', '')}>{tagName(tag)} ✕</button>}
               {q && <button className="chip" onClick={() => update('q', '')}>"{q}" ✕</button>}
             </div>
-            <label className="sort">Urutkan:
+            <label className="sort">{t('cat.sortBy')}
               <select value={sort} onChange={(e) => update('sort', e.target.value === 'rekomendasi' ? '' : e.target.value)}>
-                {SORTS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+                {SORTS.map((v) => <option key={v} value={v}>{t(`sort.${v}`)}</option>)}
               </select>
             </label>
           </div>
           {result.length === 0 ? (
-            <div className="empty"><div style={{ fontSize: 56 }}>🔍</div><p>Produk tidak ditemukan. Coba ubah filter.</p><Link href="/produk" className="btn-orange">Lihat semua produk</Link></div>
+            <div className="empty"><div style={{ fontSize: 56 }}>🔍</div><p>{t('cat.notFound')}</p><Link href="/produk" className="btn-orange">{t('cat.seeAll')}</Link></div>
           ) : (
             <div className="grid">{result.map((p) => <ProductCard key={p.id} product={p} />)}</div>
           )}

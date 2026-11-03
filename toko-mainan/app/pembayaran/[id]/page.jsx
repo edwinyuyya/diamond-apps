@@ -4,19 +4,23 @@ import { useEffect, useState } from 'react';
 import { getOrder, saveOrder } from '../../../lib/store';
 import { formatRp } from '../../../lib/products';
 import { BANKS, STORE } from '../../../lib/config';
-import { waConfirmUrl } from '../../../lib/order';
+import { waConfirmUrl, waChatUrl } from '../../../lib/order';
+import { useLang } from '../../../components/LangProvider';
+import { locale } from '../../../lib/i18n';
 
 function Countdown({ to }) {
+  const { t } = useLang();
   const [now, setNow] = useState(Date.now());
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
   const left = Math.max(0, new Date(to).getTime() - now);
-  if (!left) return <b className="red">Waktu pembayaran habis</b>;
+  if (!left) return <b className="red">{t('pay.expired')}</b>;
   const h = Math.floor(left / 3.6e6), m = Math.floor((left % 3.6e6) / 6e4), s = Math.floor((left % 6e4) / 1000);
   const p = (n) => String(n).padStart(2, '0');
   return <span className="countdown"><i>{p(h)}</i>:<i>{p(m)}</i>:<i>{p(s)}</i></span>;
 }
 
-function Copy({ text, label = 'Salin' }) {
+function Copy({ text, label }) {
+  const { t } = useLang();
   const [ok, setOk] = useState(false);
   const copy = async () => {
     try { await navigator.clipboard.writeText(String(text)); } catch {
@@ -24,10 +28,11 @@ function Copy({ text, label = 'Salin' }) {
     }
     setOk(true); setTimeout(() => setOk(false), 1500);
   };
-  return <button type="button" className="copy" onClick={copy}>{ok ? '✓ Tersalin' : label}</button>;
+  return <button type="button" className="copy" onClick={copy}>{ok ? t('pay.copied') : label || t('pay.copy')}</button>;
 }
 
 export default function Payment({ params }) {
+  const { lang, t, html } = useLang();
   const [order, setOrder] = useState(undefined);
 
   useEffect(() => {
@@ -38,11 +43,11 @@ export default function Payment({ params }) {
       .catch(() => setOrder(null));
   }, [params.id]);
 
-  if (order === undefined) return <div className="wrap pad">Memuat…</div>;
+  if (order === undefined) return <div className="wrap pad">{t('common.loading')}</div>;
   if (order === null) return (
     <div className="wrap pad"><div className="empty"><div style={{ fontSize: 56 }}>🧾</div>
-      <p>Pesanan <b>{params.id}</b> tidak ditemukan di perangkat ini.</p>
-      <a className="btn btn-primary" href={`https://wa.me/${STORE.whatsapp}?text=${encodeURIComponent(`Halo, saya mau cek pesanan ${params.id}`)}`} target="_blank" rel="noreferrer">Tanya Admin via WhatsApp</a>
+      <p dangerouslySetInnerHTML={html('pay.notFound', { id: params.id })} />
+      <a className="btn btn-primary" href={waChatUrl(t('wa.checkOrder', { id: params.id }))} target="_blank" rel="noreferrer">{t('pay.askAdmin')}</a>
     </div></div>
   );
 
@@ -52,13 +57,13 @@ export default function Payment({ params }) {
 
   return (
     <div className="wrap pad pay">
-      <div className="steps"><span className="done">1. Keranjang</span><span className="done">2. Data Pengiriman</span><span className="on">3. Pembayaran</span></div>
+      <div className="steps"><span className="done">{t('co.step1')}</span><span className="done">{t('co.step2')}</span><span className="on">{t('co.step3')}</span></div>
 
       <div className="pay-hero">
         <div className="pay-ok">✓</div>
-        <h1>Pesanan Berhasil Dibuat!</h1>
-        <p>No. Pesanan: <b>{order.id}</b> <Copy text={order.id} /></p>
-        <div className="pay-deadline">Selesaikan pembayaran dalam <Countdown to={order.deadline} /><small>Batas: {new Date(order.deadline).toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'short' })}</small></div>
+        <h1>{t('pay.success')}</h1>
+        <p>{t('pay.orderNo')} <b>{order.id}</b> <Copy text={order.id} /></p>
+        <div className="pay-deadline">{t('pay.finishIn')} <Countdown to={order.deadline} /><small>{t('pay.deadline')} {new Date(order.deadline).toLocaleString(locale(lang), { dateStyle: 'full', timeStyle: 'short' })}</small></div>
       </div>
 
       <div className="two-col">
@@ -66,23 +71,23 @@ export default function Payment({ params }) {
           <div className="panel pay-step">
             <div className="pay-num">1</div>
             <div className="grow">
-              <h3>Transfer TEPAT sesuai nominal berikut</h3>
+              <h3>{t('pay.step1')}</h3>
               <div className="pay-total">
                 <span>Rp{Number(main).toLocaleString('id-ID')}.<mark>{tail}</mark></span>
-                <Copy text={order.total} label="Salin Nominal" />
+                <Copy text={order.total} label={t('pay.copyAmount')} />
               </div>
-              <div className="warn">⚠️ Mohon transfer <b>sampai 3 digit terakhir</b> (kode unik <b>{order.uniqueCode}</b>) agar pembayaranmu bisa dicek otomatis & lebih cepat diproses.</div>
+              <div className="warn" dangerouslySetInnerHTML={html('pay.warn', { code: order.uniqueCode })} />
             </div>
           </div>
 
           <div className="panel pay-step">
             <div className="pay-num">2</div>
             <div className="grow">
-              <h3>{BANKS.length > 1 ? 'Ke salah satu rekening berikut' : 'Ke rekening berikut'}</h3>
+              <h3>{BANKS.length > 1 ? t('pay.toOne') : t('pay.to')}</h3>
               {BANKS.map((b) => (
                 <div key={b.bank} className="bank-row">
                   <span className="bank-logo">{b.bank}</span>
-                  <div className="grow"><b className="mono">{b.number.replace(/^(\d{3})(\d{3})(\d+)$/, '$1 $2 $3')}</b><small>a.n. {b.holder}</small></div>
+                  <div className="grow"><b className="mono">{b.number.replace(/^(\d{3})(\d{3})(\d+)$/, '$1 $2 $3')}</b><small>{t('pay.holder')} {b.holder}</small></div>
                   <Copy text={b.number} />
                 </div>
               ))}
@@ -92,34 +97,34 @@ export default function Payment({ params }) {
           <div className="panel pay-step">
             <div className="pay-num">3</div>
             <div className="grow">
-              <h3>Kirim bukti transfer via WhatsApp</h3>
-              <p className="muted">Klik tombol di bawah, detail pesanan otomatis terisi. <b>Lampirkan foto/screenshot bukti transfer</b> lalu kirim. Pesanan diproses setelah pembayaran dikonfirmasi admin.</p>
-              <a className="btn btn-wa btn-block btn-lg" href={waConfirmUrl(order)} target="_blank" rel="noreferrer">💬 Kirim Bukti Transfer ke WhatsApp</a>
-              <small className="muted center-txt">WhatsApp admin: +{STORE.whatsapp}</small>
+              <h3>{t('pay.step3')}</h3>
+              <p className="muted" dangerouslySetInnerHTML={html('pay.step3Text')} />
+              <a className="btn btn-wa btn-block btn-lg" href={waConfirmUrl(order, lang)} target="_blank" rel="noreferrer">{t('pay.sendWa')}</a>
+              <small className="muted center-txt">{t('pay.adminWa')} +{STORE.whatsapp}</small>
             </div>
           </div>
         </div>
 
         <div>
           <div className="panel summary">
-            <h3>Rincian Pesanan</h3>
+            <h3>{t('pay.details')}</h3>
             <div className="sum-items">
               {order.items.map((l) => (
                 <div key={l.id} className="sum-item plain"><span>{l.name} <small className="muted">x{l.qty}</small></span><b>{formatRp(l.price * l.qty)}</b></div>
               ))}
             </div>
-            <div className="row-between"><span>Subtotal</span><span>{formatRp(order.subtotal)}</span></div>
-            <div className="row-between"><span>Ongkos kirim</span><span>{order.shipping ? formatRp(order.shipping) : <b className="green">GRATIS</b>}</span></div>
-            <div className="row-between"><span>Kode unik</span><span>{formatRp(order.uniqueCode)}</span></div>
-            <div className="row-between total"><span>Total Transfer</span><b>{formatRp(order.total)}</b></div>
+            <div className="row-between"><span>{t('common.subtotal')}</span><span>{formatRp(order.subtotal)}</span></div>
+            <div className="row-between"><span>{t('common.shipping')}</span><span>{order.shipping ? formatRp(order.shipping) : <b className="green">{t('common.free')}</b>}</span></div>
+            <div className="row-between"><span>{t('common.uniqueCode')}</span><span>{formatRp(order.uniqueCode)}</span></div>
+            <div className="row-between total"><span>{t('pay.totalTransfer')}</span><b>{formatRp(order.total)}</b></div>
           </div>
           <div className="panel">
-            <h3>Dikirim ke</h3>
+            <h3>{t('pay.shipTo')}</h3>
             <p><b>{c.name}</b><br />{c.phone}{c.email && <><br />{c.email}</>}</p>
             <p className="muted">{c.address}<br />{c.city}, {c.province} {c.postal}</p>
-            {c.note && <p className="muted small">Catatan: {c.note}</p>}
+            {c.note && <p className="muted small">{t('pay.note')} {c.note}</p>}
           </div>
-          <Link href="/produk" className="btn btn-ghost btn-block">Lanjut Belanja</Link>
+          <Link href="/produk" className="btn btn-ghost btn-block">{t('common.continueShopping')}</Link>
         </div>
       </div>
     </div>

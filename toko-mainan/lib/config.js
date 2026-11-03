@@ -30,9 +30,9 @@ export const SHIPPING = {
 // Batas waktu pembayaran (jam) sebelum pesanan dianggap batal
 export const PAYMENT_DEADLINE_HOURS = 24;
 
-// Teks bar pengumuman di paling atas (link opsional)
+// Teks bar pengumuman di paling atas: [Bahasa Indonesia, English] (link opsional)
 export const ANNOUNCEMENTS = [
-  { text: 'Wujudkan Imajinasimu -', link: 'BELANJA SEKARANG', href: '/produk' },
-  { text: 'GRATIS ONGKIR untuk belanja di atas Rp1.000.000', link: 'LIHAT PRODUK', href: '/produk' },
-  { text: '100% produk original & bergaransi -', link: 'CARA BELANJA', href: '/cara-belanja' },
+  { text: ['Wujudkan Imajinasimu -', 'Bring Your Imagination to Life -'], link: ['BELANJA SEKARANG', 'SHOP NOW'], href: '/produk' },
+  { text: ['GRATIS ONGKIR untuk belanja di atas Rp1.000.000', 'FREE SHIPPING on orders over Rp1,000,000'], link: ['LIHAT PRODUK', 'VIEW PRODUCTS'], href: '/produk' },
+  { text: ['100% produk original & bergaransi -', '100% original & guaranteed products -'], link: ['CARA BELANJA', 'HOW TO SHOP'], href: '/cara-belanja' },
 ];

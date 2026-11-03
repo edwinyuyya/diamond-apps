@@ -3,23 +3,29 @@ import Shell from '../components/Shell';
 import Footer from '../components/Footer';
 import { STORE } from '../lib/config';
 import { getCatalog } from '../lib/catalog';
+import { getLang } from '../lib/lang-server';
+import { t } from '../lib/i18n';
 
 // Katalog dibaca saat halaman dibuka (bukan saat build), supaya perubahan dari /admin langsung tampil
 export const dynamic = 'force-dynamic';
 
-export const metadata = {
-  title: { default: `${STORE.name} – ${STORE.tagline}`, template: `%s | ${STORE.name}` },
-  description: `Belanja blind box Fat Tiger, Rolife DIY miniatur & mainan koleksi original di ${STORE.name}. Kirim ke seluruh Indonesia.`,
-};
+export function generateMetadata() {
+  const lang = getLang();
+  return {
+    title: { default: `${STORE.name} – ${t(lang, 'meta.tagline')}`, template: `%s | ${STORE.name}` },
+    description: t(lang, 'meta.desc', { store: STORE.name }),
+  };
+}
 
 export const viewport = { width: 'device-width', initialScale: 1, themeColor: '#ffd500' };
 
 export default async function RootLayout({ children }) {
-  const catalog = await getCatalog();
+  const lang = getLang();
+  const catalog = await getCatalog(lang);
   return (
-    <html lang="id">
+    <html lang={lang}>
       <body>
-        <Shell catalog={catalog} footer={<Footer catalog={catalog} />}>{children}</Shell>
+        <Shell lang={lang} catalog={catalog} footer={<Footer catalog={catalog} lang={lang} />}>{children}</Shell>
       </body>
     </html>
   );
