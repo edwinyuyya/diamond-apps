@@ -58,7 +58,7 @@ export async function POST(req) {
     age: int(f.age) || 3,
     badge: ['Baru', 'Terlaris', 'Eksklusif'].includes(f.badge) ? f.badge : '',
     emoji: style.emoji, color: style.color,
-    images: (Array.isArray(f.images) ? f.images : []).filter((u) => typeof u === 'string' && /^\/(img|produk)\//.test(u)).slice(0, 12),
+    images: (Array.isArray(f.images) ? f.images : []).filter((u) => typeof u === 'string' && /^\/(img\/|produk\/|\.netlify\/functions\/data\?media=)/.test(u)).slice(0, 12),
     description: String(f.description || '').trim().slice(0, 3000),
     specs,
     visible: f.visible !== false,

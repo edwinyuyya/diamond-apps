@@ -3,6 +3,9 @@ import { requireAdmin } from '../../../../../lib/admin-auth';
 import { getAllProducts, saveAllProducts } from '../../../../../lib/catalog';
 import { remove } from '../../../../../lib/blobs';
 
+// Kunci file foto hasil unggahan admin (foto bawaan di /produk/ tidak dihapus)
+const mediaKey = (u) => (u.startsWith('/img/') ? u.slice(5) : u.includes('?media=') ? decodeURIComponent(u.split('?media=')[1]) : null);
+
 // Ubah cepat (tampil/sembunyi, stok) dari daftar produk
 export async function PATCH(req, { params }) {
   const deny = await requireAdmin(req);
@@ -26,6 +29,6 @@ export async function DELETE(req, { params }) {
   if (!p) return NextResponse.json({ error: 'Produk tidak ditemukan' }, { status: 404 });
   await saveAllProducts(all.filter((x) => x.id !== params.id));
   // hapus foto hasil unggahan admin
-  await Promise.all(p.images.filter((u) => u.startsWith('/img/')).map((u) => remove('toyzone-images', u.slice(5)).catch(() => {})));
+  await Promise.all(p.images.map(mediaKey).filter(Boolean).map((k) => remove('toyzone-images', k).catch(() => {})));
   return NextResponse.json({ ok: true });
 }

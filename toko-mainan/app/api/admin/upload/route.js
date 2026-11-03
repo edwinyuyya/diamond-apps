@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { requireAdmin } from '../../../../lib/admin-auth';
 import sharp from 'sharp';
-import { setBinary } from '../../../../lib/blobs';
+import { setBinary, mediaUrl } from '../../../../lib/blobs';
 
 export const runtime = 'nodejs';
 
@@ -18,7 +18,7 @@ export async function POST(req) {
     const webp = await sharp(input).rotate().resize(1400, 1400, { fit: 'inside', withoutEnlargement: true }).webp({ quality: 82 }).toBuffer();
     const key = `p/${crypto.randomUUID()}.webp`;
     await setBinary('toyzone-images', key, webp);
-    return NextResponse.json({ url: `/img/${key}` });
+    return NextResponse.json({ url: mediaUrl(key) });
   } catch {
     return NextResponse.json({ error: 'File bukan foto yang valid' }, { status: 400 });
   }
