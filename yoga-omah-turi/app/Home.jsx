@@ -10,6 +10,7 @@ const addDays = (str, n) => { const d = new Date(str + 'T00:00:00Z'); d.setUTCDa
 const mondayOf = (str) => addDays(str, -((new Date(str + 'T00:00:00Z').getUTCDay() + 6) % 7));
 const DOW = ['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'];
 const MONTH = (str) => new Date(str + 'T00:00:00Z').toLocaleDateString('id-ID', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+const fmtAcc = (a) => String(a || '').replace(/(\d{3})(\d{3})(\d+)/, '$1 $2 $3');
 const QUICK = [25000, 50000, 100000, 200000];
 
 function MediaItem({ m, className = '' }) {
@@ -35,7 +36,7 @@ const NAV = [['venue', 'Omah Turi'], ['online', 'Online Live Yoga'], ['record', 
 function Copy({ text }) {
   const [ok, setOk] = useState(false);
   return (
-    <button className="btn sm ghost" type="button" onClick={() => { navigator.clipboard?.writeText(String(text)); setOk(true); setTimeout(() => setOk(false), 1500); }}>
+    <button className="btn sm ghost" type="button" onClick={() => { try { navigator.clipboard?.writeText(String(text))?.catch?.(() => {}); } catch {} setOk(true); setTimeout(() => setOk(false), 1500); }}>
       {ok ? 'Tersalin ✓' : 'Salin'}
     </button>
   );
@@ -111,9 +112,9 @@ export default function Home({ slides = [], media = {} }) {
                 {data?.bank?.account && (
                   <div className="bankbox">
                     <small>Transfer ke</small>
-                    <div className="bk-line"><b>{data.bank.name}</b> <span>{data.bank.account}</span> <Copy text={data.bank.account} /></div>
+                    <div className="bk-line"><b>{data.bank.name}</b> <span>{fmtAcc(data.bank.account)}</span> <Copy text={data.bank.account} /></div>
                     <div className="bk-holder">a.n. {data.bank.holder}</div>
-                    <small>Nominal pasti (dengan kode unik) muncul setelah kamu menekan tombol di bawah.</small>
+                    <small>{sel.price ? 'Nominal pasti (dengan kode unik) muncul setelah kamu menekan tombol di bawah.' : 'Donasi sukarela: transfer sesuai keikhlasanmu ke rekening ini.'}</small>
                   </div>
                 )}
                 <label htmlFor="n">Nama lengkap</label>
@@ -123,18 +124,10 @@ export default function Home({ slides = [], media = {} }) {
                 {sel.price ? (
                   <div className="note" style={{ marginTop: 14 }}><b>{rp(sel.price)}</b>{tab === 'record' ? ' — link rekaman dikirim lewat WhatsApp setelah pembayaran kami konfirmasi.' : tab === 'online' ? ' per orang — link kelas online dikirim lewat WhatsApp setelah pembayaran kami konfirmasi.' : ' per orang (harga tetap).'}</div>
                 ) : (
-                  <>
-                    <label htmlFor="d">Donasi sukarela (Rp)</label>
-                    <input id="d" required type="number" min={min} step="1000" inputMode="numeric" placeholder={`Minimal ${min}`} value={donation} onChange={(e) => setDonation(e.target.value)} />
-                    <div className="quick">
-                      {QUICK.filter((q) => q >= min).map((q) => (
-                        <button key={q} type="button" className={'chip' + (Number(donation) === q ? ' sel' : '')} onClick={() => setDonation(String(q))}>{rp(q)}</button>
-                      ))}
-                    </div>
-                  </>
+                  <div className="note" style={{ marginTop: 14 }}>Donasi sukarela: tidak ada nominal tetap dan tidak ada kode unik. Setelah mendaftar, transfer ke rekening di atas sesuai keikhlasanmu, lalu kirim bukti lewat WhatsApp.</div>
                 )}
                 {err && <div className="err">{err}</div>}
-                <button className="btn" disabled={busy}>{busy ? 'Memproses…' : 'Daftar & lihat nominal transfer'}</button>
+                <button className="btn" disabled={busy}>{busy ? 'Memproses…' : sel.price ? 'Daftar & lihat nominal transfer' : 'Daftar'}</button>
               </div>
             </form>
   ) : null;
@@ -256,19 +249,23 @@ export default function Home({ slides = [], media = {} }) {
     <div className={'wrap' + (CONTENT[tab] && !result ? ' wide' : '')}>
       {result ? (
         <div className="card pay">
-          <div className="eyebrow">Pembayaran</div>
-          <h2 style={{ marginTop: 0 }}>Silakan <em>transfer</em></h2>
-          <p className="muted" style={{ marginTop: 0 }}>Pesanan <b>{result.label}</b> atas nama <b>{fullName}</b> sudah kami catat{result.date ? ', kursi ditahan untukmu' : ''}.</p>
+          <div className="eyebrow">{result.free ? 'Terima kasih' : 'Pembayaran'}</div>
+          <h2 style={{ marginTop: 0 }}>{result.free ? <>Pendaftaran <em>berhasil</em></> : <>Silakan <em>transfer</em></>}</h2>
+          <p className="muted" style={{ marginTop: 0 }}>Pesanan <b>{result.label}</b> atas nama <b>{fullName}</b> sudah kami catat{result.free ? ', kursimu sudah terdaftar' : result.date ? ', kursi ditahan untukmu' : ''}.</p>
           <dl>
             <div className="row"><dt>Bank</dt><dd>{result.bank.name}</dd></div>
-            <div className="row"><dt>No. Rekening</dt><dd>{result.bank.account} <Copy text={result.bank.account} /></dd></div>
+            <div className="row"><dt>No. Rekening</dt><dd>{fmtAcc(result.bank.account)} <Copy text={result.bank.account} /></dd></div>
             <div className="row"><dt>Atas Nama</dt><dd>{result.bank.holder}</dd></div>
+            {!result.free && <>
             <div className="row"><dt>{result.isTicket ? 'Tiket' : 'Donasi'}</dt><dd>{rp(result.donation)}</dd></div>
             <div className="row"><dt>Kode unik</dt><dd>+ {result.uniqueCode}</dd></div>
             <div className="row"><dt>Total transfer</dt><dd><span className="total">{rp(result.total)}</span> <Copy text={result.total} /></dd></div>
+            </>}
           </dl>
-          <div className="note">Transfer <b>tepat <span className="hl">{rp(result.total)}</span></b> (termasuk kode unik) agar pembayaran mudah kami cocokkan. Mohon transfer sebelum {new Date(result.expiresAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB.</div>
-          <a className="btn wa" href={result.waUrl} target="_blank" rel="noopener noreferrer">Kirim bukti transfer via WhatsApp</a>
+          {result.free
+            ? <div className="note">Donasi sukarela: transfer sesuai keikhlasanmu ke rekening di atas. Tidak ada nominal tetap dan tidak ada kode unik.</div>
+            : <div className="note">Transfer <b>tepat <span className="hl">{rp(result.total)}</span></b> (termasuk kode unik) agar pembayaran mudah kami cocokkan. Mohon transfer sebelum {new Date(result.expiresAt).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })} WIB.</div>}
+          <a className="btn wa" href={result.waUrl} target="_blank" rel="noopener noreferrer">{result.free ? 'Konfirmasi & kirim bukti transfer via WhatsApp' : 'Kirim bukti transfer via WhatsApp'}</a>
           <p className="muted" style={{ textAlign: 'center' }}>Setelah transfer, tekan tombol di atas lalu lampirkan bukti transfer di chat WhatsApp.</p>
         </div>
       ) : CONTENT[tab] ? (

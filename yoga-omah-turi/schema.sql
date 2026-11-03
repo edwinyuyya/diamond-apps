@@ -92,3 +92,24 @@ begin
   return r;
 end $$;
 revoke execute on function create_recording_order from public, anon, authenticated;
+
+-- Pendaftaran donasi sukarela (Kamis): tanpa nominal/kode unik, langsung terdaftar & memotong kuota
+create or replace function create_free_registration(
+  p_session uuid, p_name text, p_wa text
+) returns registrations language plpgsql security definer as $$
+declare s sessions; used int; r registrations;
+begin
+  select * into s from sessions where id = p_session for update;
+  if not found or not s.is_open or s.price is not null
+     or s.date < (now() at time zone 'Asia/Jakarta')::date then
+    raise exception 'SESSION_CLOSED';
+  end if;
+  select count(*) into used from registrations
+    where session_id = p_session and (status = 'paid' or (status = 'pending' and expires_at > now()));
+  if used >= s.quota then raise exception 'FULL'; end if;
+  insert into registrations (session_id, full_name, whatsapp, donation, unique_code, total, status, expires_at, paid_at)
+  values (p_session, p_name, p_wa, 0, 0, 0, 'paid', now(), now())
+  returning * into r;
+  return r;
+end $$;
+revoke execute on function create_free_registration from public, anon, authenticated;

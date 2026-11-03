@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db, todayWIB, countUsed } from '@/lib/db';
+import { BANK, WA } from '@/lib/config';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,7 +26,7 @@ async function ensureSchedule(sb) {
 export async function GET() {
   // Belum ada database: tetap tampilkan halaman (jadwal kosong) agar website bisa dilihat
   if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-    return NextResponse.json({ sessions: [], recordings: [], wa: process.env.WA_NUMBER || null, bank: { name: process.env.BANK_NAME, account: process.env.BANK_ACCOUNT, holder: process.env.BANK_HOLDER }, minDonation: Number(process.env.MIN_DONATION || 1000) });
+    return NextResponse.json({ sessions: [], recordings: [], wa: WA, bank: BANK, minDonation: Number(process.env.MIN_DONATION || 1000) });
   }
   const sb = db();
   await ensureSchedule(sb);
@@ -40,7 +41,8 @@ export async function GET() {
   const used = countUsed(regs || []);
   return NextResponse.json({
     recordings: recordings || [],
-    wa: process.env.WA_NUMBER || null,
+    wa: WA,
+    bank: BANK,
     minDonation: Number(process.env.MIN_DONATION || 1000),
     sessions: sessions.map((s) => ({
       id: s.id, kind: s.kind, date: s.date, note: s.note, quota: s.quota, price: s.price,
