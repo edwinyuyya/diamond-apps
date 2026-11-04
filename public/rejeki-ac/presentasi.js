@@ -2,8 +2,8 @@
  * Pengalaman AR Rejeki Utama AC.
  *
  *  - PANEL   : presentasi yang "keluar" dari kartu (1000 x 1100 px)
- *  - OVERLAY : animasi yang menempel PERSIS di atas gambar AC di kartu
- *              (1000 x 611 px = ukuran kartu). AC di kartu jadi hidup.
+ *  - OVERLAY : animasi yang menempel PERSIS di atas gambar AC di kartu tegak
+ *              (1000 x 1636 px = ukuran kartu 550 x 900). AC di kartu jadi hidup.
  *
  * Alur: AC hidup → "tapi di dalamnya?" → x-ray (filter, evaporator, blower,
  * kondensor makin kotor) → indikator → teknisi: Preventive Maintenance →
@@ -136,23 +136,24 @@
     var band = '<g clip-path="url(#ovclip)"><rect class="band" x="-160" y="-20" width="160" height="' + (h + 40) + '" fill="url(#shine)"/></g>';
 
     // --- koordinat kartu ---
-    var cx = 478, cy = 196, cg = "";
+    var cx = 216, cy = 422, cg = "";
     for (i = 0; i < 6; i++) cg += '<line x1="' + (cx + 86) + '" y1="' + (cy + 14 + i * 12) + '" x2="' + (cx + 110) + '" y2="' + (cy + 14 + i * 12) + '"/>';
     var cond = '<rect x="' + cx + '" y="' + cy + '" width="118" height="92" rx="10" fill="#e8eef5"/>' +
       '<circle cx="' + (cx + 44) + '" cy="' + (cy + 46) + '" r="36" fill="#33475f"/>' +
       '<g class="spin"><ellipse cx="' + (cx + 44) + '" cy="' + (cy + 30) + '" rx="9" ry="16" fill="#9fb3c8"/><ellipse cx="' + (cx + 44) + '" cy="' + (cy + 62) + '" rx="9" ry="16" fill="#9fb3c8"/><ellipse cx="' + (cx + 28) + '" cy="' + (cy + 46) + '" rx="16" ry="9" fill="#9fb3c8"/><ellipse cx="' + (cx + 60) + '" cy="' + (cy + 46) + '" rx="16" ry="9" fill="#9fb3c8"/></g>' +
       '<g stroke="#9fb3c8" stroke-width="3">' + cg + "</g>" +
       '<rect class="dirt" style="--t:8s" x="' + cx + '" y="' + cy + '" width="118" height="92" rx="10" fill="url(#dust)" opacity=".85"/>';
+    // label di atas AC (satu baris), garis turun ke komponennya
     function pill(px, py, pw, text, t, pt) {
-      return '<g style="--t:' + t + '"><line x1="' + px + '" y1="' + (py + 15) + '" x2="' + pt[0] + '" y2="' + pt[1] + '" stroke="' + BLUE + '" stroke-width="2.5"/>' +
+      return '<g style="--t:' + t + '"><line x1="' + (px + pw / 2) + '" y1="' + (py + 30) + '" x2="' + pt[0] + '" y2="' + pt[1] + '" stroke="' + BLUE + '" stroke-width="2.5"/>' +
         '<circle cx="' + pt[0] + '" cy="' + pt[1] + '" r="5" fill="' + BLUE + '"/>' +
         '<rect x="' + px + '" y="' + py + '" width="' + pw + '" height="30" rx="15" fill="' + BLUE + '"/>' +
-        '<text x="' + (px + pw / 2) + '" y="' + (py + 20) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="13.5" fill="#fff">' + text + "</text></g>";
+        '<text x="' + (px + pw / 2) + '" y="' + (py + 20) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="13" fill="#fff">' + text + "</text></g>";
     }
-    var lbl = pill(318, 62, 150, "1 · FILTER", ".6s", C(470, 25)) +
-      pill(318, 104, 150, "2 · EVAPORATOR", "3s", C(470, 69)) +
-      pill(318, 146, 150, "3 · BLOWER", "5.4s", C(470, 119)) +
-      '<g style="--t:7.8s"><rect x="' + (cx - 16) + '" y="' + (cy - 38) + '" width="150" height="30" rx="15" fill="' + BLUE + '"/><text x="' + (cx + 59) + '" y="' + (cy - 18) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="13.5" fill="#fff">4 · KONDENSOR</text></g>';
+    var lbl = pill(30, 268, 160, "1 · FILTER", ".6s", C(150, 25)) +
+      pill(195, 268, 160, "2 · EVAPORATOR", "3s", C(280, 69)) +
+      pill(360, 268, 160, "3 · BLOWER", "5.4s", C(410, 119)) +
+      '<g style="--t:7.8s"><rect x="' + (cx + 128) + '" y="' + (cy + 31) + '" width="160" height="30" rx="15" fill="' + BLUE + '"/><text x="' + (cx + 208) + '" y="' + (cy + 51) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="13" fill="#fff">4 · KONDENSOR</text></g>';
     var ac0 = C(0, 0), ac1 = C(w, h);
     var shine = '<g class="tw">' + RUCard.sparkle(ac0[0] - 4, ac0[1] + 2, 15, BLUE) + '</g>' +
       '<g class="tw" style="animation-delay:.3s">' + RUCard.sparkle(ac1[0] + 4, ac0[1] + 16, 12, "#fff") + '</g>' +
@@ -162,8 +163,8 @@
       '<text x="' + ((ac0[0] + ac1[0]) / 2) + '" y="' + (ac1[1] + 38) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="17" fill="' + DARK + '">✓ BERSIH</text></g>';
 
     var T = '<g transform="translate(' + A.x + "," + A.y + ") scale(" + A.s + ')">';
-    return uniqueIds('<svg viewBox="0 0 900 550">' + defs +
-      '<g class="g o-dim"><rect x="-40" y="-40" width="980" height="630" rx="20" fill="#F2FAFE" opacity=".88"/></g>' +
+    return uniqueIds('<svg viewBox="0 0 ' + RUCard.CARD.w + " " + RUCard.CARD.h + '">' + defs +
+      '<g class="g o-dim"><rect x="-40" y="-40" width="630" height="980" rx="20" fill="#F2FAFE" opacity=".88"/></g>' +
       T +
       '<g class="g o-cold">' + cold + "</g>" +
       '<g class="g o-weak">' + weak + "</g>" +

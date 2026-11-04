@@ -14,88 +14,67 @@
   header h1{font-family:Montserrat;font-weight:900;font-size:clamp(20px,4vw,28px);letter-spacing:.5px}
   header p{opacity:.75;font-size:14px;margin-top:4px}
   main{max-width:1000px;margin:0 auto;padding:28px 16px 60px}
-  .stage{perspective:1600px;display:flex;justify-content:center;margin:10px 0 22px}
-  .flip{width:min(640px,100%);aspect-ratio:90/55;position:relative;transform-style:preserve-3d;transition:transform .9s cubic-bezier(.2,.8,.2,1);cursor:pointer}
-  .flip.back{transform:rotateY(180deg)}
-  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(7,26,51,.55),0 8px 18px rgba(7,26,51,.18)}
-  .face svg{display:block;width:100%;height:100%}
-  .face.b{transform:rotateY(180deg)}
+  .stage{display:flex;justify-content:center;margin:10px 0 22px}
+  .card{width:min(330px,80vw);aspect-ratio:55/90;border-radius:14px;overflow:hidden;box-shadow:0 30px 60px -20px rgba(7,26,51,.45),0 8px 18px rgba(7,26,51,.15)}
+  .card svg{display:block;width:100%;height:100%}
   .hint{text-align:center;color:var(--muted);font-size:13px;margin-bottom:18px}
   .btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
   button svg,a.btn svg{width:17px;height:17px;flex:none}
   button,a.btn{font:600 14px Poppins;border:0;border-radius:999px;padding:12px 20px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
   .pri{background:var(--blued);color:#fff}.sec{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 2px #C9D8E8}.accent{background:var(--blue);color:#fff}
-  .both{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:34px}
-  .both figure{background:#fff;border-radius:16px;padding:14px}
-  .both figure div{border-radius:8px;overflow:hidden;box-shadow:0 4px 14px rgba(7,26,51,.15)}
-  .both svg{display:block;width:100%;height:auto}
-  figcaption{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
   .tips{background:#fff;border-radius:16px;padding:20px 22px;margin-top:22px;font-size:14px;line-height:1.7}
   .tips h2{font:800 17px Montserrat;margin-bottom:8px}
   .tips li{margin-left:18px}
   .tips code{background:#EEF4FA;padding:1px 6px;border-radius:5px;font-size:13px}
-  @media (max-width:640px){.both{grid-template-columns:1fr}}
   #print{display:none}
   @media print{
-    @page{size:96mm 61mm;margin:0}
+    @page{size:61mm 96mm;margin:0}
     body{background:#fff}
     header,main{display:none}
     #print{display:block}
-    #print .pg{width:96mm;height:61mm;page-break-after:always;break-after:page;overflow:hidden}
-    #print svg{width:96mm;height:61mm;display:block}
+    #print .pg{width:61mm;height:96mm;overflow:hidden}
+    #print svg{width:61mm;height:96mm;display:block}
   }
 </style>
 </head>
 <body>
 <header>
   <h1>Kartu Nama — Rejeki Utama AC</h1>
-  <p>Ukuran 90 × 55 mm • siap cetak • sisi belakang bisa "hidup" lewat AR</p>
+  <p>1 sisi • tegak 55 × 90 mm • siap cetak • kartunya bisa "hidup" lewat kamera HP</p>
 </header>
 <main>
-  <div class="stage"><div class="flip" id="flip"><div class="face f" id="pvFront"></div><div class="face b" id="pvBack"></div></div></div>
-  <p class="hint">Ketuk kartu untuk membalik</p>
+  <div class="stage"><div class="card" id="pvCard"></div></div>
   <div class="btns">
     <button class="pri" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M7 9V3h10v6M7 17H4v-7h16v7h-3M7 14h10v7H7z"/></svg>Cetak / Simpan PDF (siap percetakan)</button>
-    <button class="sec" onclick="dl('front')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>SVG Depan</button>
-    <button class="sec" onclick="dl('back')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>SVG Belakang</button>
+    <button class="sec" onclick="dl()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>Unduh SVG</button>
     <a class="btn accent" href="ar.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.8l1.6-2.2h6.2L16.7 7h2.8A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="12.8" r="3.6"/></svg>Coba AR-nya</a>
-  </div>
-
-  <div class="both">
-    <figure><div id="sFront"></div><figcaption>DEPAN — Minimal: logo, tagline, nama, WhatsApp, layanan</figcaption></figure>
-    <figure><div id="sBack"></div><figcaption>BELAKANG — QR & AR: AC rutin dirawat VS tidak dirawat (target AR)</figcaption></figure>
   </div>
 
   <div class="tips">
     <h2>Cara cetak</h2>
     <ol>
-      <li>Klik <b>Cetak / Simpan PDF</b> → pilih <b>Save as PDF</b>. Hasilnya 2 halaman (depan & belakang) ukuran 96 × 61 mm (sudah termasuk bleed 3 mm).</li>
-      <li>Kirim PDF ke percetakan. Minta: <b>art carton 310 gsm, laminasi doff</b> (doff = tidak silau, kamera lebih gampang mengenali gambar AC untuk AR). Kalau mau lebih premium: <b>spot UV / hot print emas</b> di logo depan.</li>
-      <li>Sebelum cetak banyak, cetak 1 dulu dan tes scan QR + AR-nya.</li>
+      <li>Klik <b>Cetak / Simpan PDF</b> → pilih <b>Save as PDF</b>. Hasilnya 1 halaman tegak 61 × 96 mm (sudah termasuk bleed 3 mm).</li>
+      <li>Kirim PDF ke percetakan: <b>cetak 1 sisi</b>, art carton 310 gsm, <b>laminasi doff</b> (tidak silau, kamera lebih gampang mengenali kartu).</li>
+      <li>Sebelum cetak banyak, cetak 1 dulu: buka kamera HP, arahkan ke kotak kode, ketuk tautannya, lalu coba AR-nya.</li>
     </ol>
-    <p style="margin-top:10px">QR mengarah ke: <code id="qrUrl"></code></p>
+    <p style="margin-top:10px">Kode di kartu mengarah ke: <code id="qrUrl"></code></p>
   </div>
 </main>
 <div id="print"></div>
 
 <script src="config.js"></script>
 <script src="vendor/qrcode.js"></script>
+<script src="logo-data.js"></script>
 <script src="card.js"></script>
 <script>
   var cfg = window.RU, url = RUCard.arUrl(cfg), qr = RUCard.qrInner(url, 112);
-  var svgs = { front: RUCard.front(cfg), back: RUCard.back(cfg, qr) };
-  // tiap salinan digambar ulang supaya id gradien tetap unik di halaman
-  pvFront.innerHTML = svgs.front; sFront.innerHTML = RUCard.front(cfg);
-  pvBack.innerHTML = svgs.back; sBack.innerHTML = RUCard.back(cfg, qr);
-  document.getElementById("print").innerHTML =
-    '<div class="pg">' + RUCard.front(cfg, { bleed: true }) + '</div><div class="pg">' + RUCard.back(cfg, qr, { bleed: true }) + "</div>";
+  document.getElementById("pvCard").innerHTML = RUCard.front(cfg, qr);
+  document.getElementById("print").innerHTML = '<div class="pg">' + RUCard.front(cfg, qr, { bleed: true }) + "</div>";
   qrUrl.textContent = url;
-  flip.onclick = function () { flip.classList.toggle("back"); };
-  function dl(side) {
-    var s = side === "front" ? RUCard.front(cfg, { bleed: true }) : RUCard.back(cfg, qr, { bleed: true });
+  function dl() {
     var a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([s], { type: "image/svg+xml" }));
-    a.download = "kartu-rejeki-utama-ac-" + (side === "front" ? "depan" : "belakang") + ".svg";
+    a.href = URL.createObjectURL(new Blob([RUCard.front(cfg, qr, { bleed: true })], { type: "image/svg+xml" }));
+    a.download = "kartu-rejeki-utama-ac.svg";
     a.click();
   }
 </script>

@@ -181,11 +181,11 @@
 .s-end .btn-wa,.s-end .row2{align-self:stretch}
 .s-end h2{font-size:72px}
 .s-end .lg-wrap{margin-top:48px;display:flex;align-items:center;gap:24px}
-.s-end .brand{font:900 50px/1 Montserrat;text-align:left}
+.s-end .brand{font:900 50px/1 Montserrat;text-align:left;color:#0DAEF1}
 .s-end .lg-wrap svg{width:150px;height:150px}
-.s-end .brand small{display:block;font:600 24px Poppins;color:var(--blue);margin-top:10px}
+.s-end .brand small{display:block;font:600 24px Poppins;color:#0DAEF1;margin-top:10px}
 .s-end .brand em{display:block;font:italic 900 30px Montserrat;margin-top:8px}
-.s-end .brand em span{color:var(--blue);letter-spacing:4px;font-style:normal;margin-left:8px}
+.s-end .brand em span{color:#FEDE04;letter-spacing:4px;font-style:normal;margin-left:8px}
 .s-end .promo{margin-top:34px;border:4px dashed var(--blue);border-radius:24px;padding:14px 28px;font:800 28px Montserrat;color:var(--blue)}
 .s-end .promo b{background:var(--blue);color:#fff;padding:2px 14px;border-radius:10px;margin-left:10px;letter-spacing:3px}
 .s-end.on .promo{animation:ruPop .7s cubic-bezier(.3,1.6,.5,1) 1.2s both,ruGlow 2s ease-in-out 2s infinite}
@@ -195,7 +195,7 @@
 /* =========================================================
    OVERLAY DI ATAS KARTU (koordinat SVG = koordinat kartu 900x550)
    ========================================================= */
-.ru-ov{position:relative;width:1000px;height:611px;pointer-events:none}
+.ru-ov{position:relative;width:1000px;height:1636px;pointer-events:none}
 .ru-ov svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .ru-ov .g{opacity:0;transition:opacity .6s}
 /* AC: mati -> nyala */
