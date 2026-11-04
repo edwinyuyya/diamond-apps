@@ -11,11 +11,12 @@
 window.RU = {
   perusahaan: "Rejeki Utama AC",
   subjudul: "Penjualan, Instalasi & Perawatan AC",
-  tagline: "AC Sehat. Ruangan Nyaman. Bisnis Lancar.",
+  tagline: "Solusi Lengkap untuk Kenyamanan & Keamanan Anda",  // dari brosur
+  slogan: "Pelayanan Profesional",
 
   // ---------- KONTAK ----------
-  nama: "Nama Anda",                       // ✏️ GANTI
-  jabatan: "Founder & Lead Technician",    // ✏️ GANTI
+  nama: "Edwin",
+  jabatan: "Business Development",
   telepon: "0813-2766-0660",               // tampil di kartu (dari brosur)
   whatsapp: "6281327660660",               // format 62..., tanpa + / spasi
   email: "halo@rejekiutama-ac.com",        // ✏️ GANTI
@@ -27,49 +28,52 @@ window.RU = {
   urlAR: "",
 
   // Promo di akhir presentasi (kosongkan judul "" kalau tidak mau ada promo)
-  promo: { judul: "Diskon 15% service pertama", kode: "KARTU15" },  // ✏️ GANTI
+  // Kosong = tidak ditampilkan. Isi kalau memang ada promo, mis. { judul: "Diskon 15% service pertama", kode: "KARTU15" }
+  promo: { judul: "", kode: "" },
 
   // ---------- COMPANY PROFILE ----------
-  tahunBerdiri: 2015,                      // ✏️ GANTI
+  tahunBerdiri: 1996,                      // "SEJAK 1996" (brosur)
 
-  sejarah: [                               // ✏️ GANTI semua
-    { tahun: "2015", teks: "Berdiri — 1 teknisi, 1 motor, 1 set alat" },
-    { tahun: "2018", teks: "Mulai pegang kontrak maintenance kantor" },
-    { tahun: "2021", teks: "Masuk proyek komersial: ruko, klinik, sekolah" },
-    { tahun: "2024", teks: "Tim teknisi tetap, 1.000+ unit dirawat per tahun" },
+  // Jaminan dari brosur — tampil di slide "Kenapa kami" & penutup
+  garansi: "Kami tidak bisa memberi solusi untuk masalah Anda? Kami kembalikan uang Anda 100%.",
+
+  // Segmen pelanggan (brosur: "Layanan profesional untuk semua kebutuhan")
+  segmen: ["Rumah Tinggal", "Gedung", "Hotel", "Rumah Sakit", "Kantor", "Pabrik", "Kampus", "Instansi Pemerintah", "BUMN / BUMD", "Perusahaan"],
+
+  // Perjalanan. Tambahkan tahun-tahun penting lain bila ada (mis. { tahun: "2010", teks: "..." }).
+  sejarah: [
+    { tahun: "1996", teks: "Berdiri — penjualan, instalasi & perawatan AC" },
+    { tahun: "Berkembang", teks: "Melayani rumah, gedung, hotel, rumah sakit, pabrik hingga BUMN/BUMD" },
+    { tahun: "Kini", teks: "7 layanan: AC, CCTV, APAR, solar water heater, water torn, jet cleaner & pembersihan hunian" },
   ],
 
   layanan: [
-    { ikon: "rumah", judul: "Residential", teks: "Rumah & apartemen" },
-    { ikon: "gedung", judul: "Commercial", teks: "Kantor, toko, resto, hotel" },
-    { ikon: "kontrak", judul: "Maintenance", teks: "Kontrak berkala, terjadwal" },
+    { ikon: "jual", judul: "Penjualan Unit AC", teks: "Berbagai merek, harga kompetitif, garansi resmi" },
+    { ikon: "pasang", judul: "Instalasi", teks: "Pasang baru & bongkar pasang" },
+    { ikon: "kontrak", judul: "Perawatan Rutin", teks: "Performa optimal, hemat listrik, udara lebih sehat" },
     { ikon: "tameng", judul: "Preventive Maintenance", teks: "Cegah rusak sebelum terjadi" },
     { ikon: "perbaikan", judul: "Troubleshooting", teks: "Tidak dingin, bocor, berisik" },
-    { ikon: "pasang", judul: "Installation", teks: "Pasang baru & bongkar pasang" },
+    { ikon: "gedung", judul: "Rumah & Gedung", teks: "Rumah tinggal, kantor, hotel, pabrik" },
   ],
 
   // Layanan lain di luar AC (slide "Bukan cuma AC" + pita layanan di kartu depan).
   // ikon: cctv, apar, solar, toren, jet, hunian. "pita" = teks singkat di kartu.
   layananLain: [
-    { ikon: "cctv", pita: "CCTV", judul: "CCTV", teks: "Penjualan, pemasangan & perbaikan unit CCTV" },
+    { ikon: "cctv", pita: "CCTV", judul: "CCTV", teks: "Paket CCTV lengkap & perbaikan untuk rumah, kantor, gedung & area bisnis" },
     { ikon: "apar", pita: "APAR", judul: "Tabung APAR", teks: "Penjualan & perawatan / isi ulang alat pemadam api" },
-    { ikon: "solar", pita: "SOLAR WATER HEATER", judul: "Solar Water Heater", teks: "Perawatan agar pemanas air bekerja maksimal & awet" },
-    { ikon: "toren", pita: "WATER TORN", judul: "Pembersihan Water Torn", teks: "Kuras & bersihkan toren air dari endapan kotoran" },
-    { ikon: "jet", pita: "JET CLEANER", judul: "High Pressure Jet Cleaner", teks: "Semprot tekanan tinggi: lantai, paving, dinding" },
-    { ikon: "hunian", pita: "PEMBERSIHAN HUNIAN KOSONG", judul: "Pembersihan Hunian Kosong", teks: "Rumah kosong & terbengkalai: rumput liar, sampah, debu" },
+    { ikon: "solar", pita: "SOLAR WATER HEATER", judul: "Solar Water Heater", teks: "Perawatan rutin agar pemanas air bekerja maksimal, efisien & awet" },
+    { ikon: "toren", pita: "WATER TORN", judul: "Pembersihan Water Torn", teks: "Bersihkan toren agar air bersih, sehat & bebas endapan kotoran" },
+    { ikon: "jet", pita: "JET CLEANER", judul: "High Pressure Jet Cleaner", teks: "Tekanan tinggi untuk lantai, paving, dinding & area industri" },
+    { ikon: "hunian", pita: "PEMBERSIHAN HUNIAN KOSONG", judul: "Pembersihan Hunian Kosong", teks: "Rumput liar, sampah & debu dibersihkan — rapi & siap digunakan" },
   ],
 
-  proyek: [                                // ✏️ GANTI dengan proyek asli
-    { judul: "Maintenance 40 unit AC", detail: "Kantor 4 lantai — kontrak tahunan" },
-    { judul: "Instalasi 12 unit split", detail: "Restoran & dapur komersial" },
-    { judul: "Overhaul AC cassette", detail: "Klinik kesehatan" },
-  ],
+  // Proyek, nama klien & testimoni ASLI (dengan izin). Kosong = slide/bagiannya disembunyikan.
+  // Contoh: proyek: [{ judul: "Maintenance 40 unit AC", detail: "Kantor 4 lantai" }]
+  proyek: [],
 
   // Klien yang BOLEH ditampilkan. Bisa teks saja, atau { nama, logo: "foto/logo-x.png" }
-  klien: [                                 // ✏️ GANTI dengan klien asli
-    "PT Klien Satu", "Bank Contoh", "Klinik Sehat", "Hotel Nusantara",
-    "Kafe Kopi Kita", "Sekolah Harapan",
-  ],
+  // klien: ["PT ...", { nama: "Hotel ...", logo: "foto/logo-hotel.png" }]
+  klien: [],
 
   // Foto before/after. Taruh foto di folder foto/ lalu isi path-nya.
   // Kosong = tampil ilustrasi.
@@ -77,19 +81,15 @@ window.RU = {
     // { before: "foto/before-1.jpg", after: "foto/after-1.jpg", caption: "Evaporator AC kantor, 2 tahun tidak dicuci" },
   ],
 
-  testimoni: [                             // ✏️ GANTI dengan testimoni asli (dengan izin)
-    { nama: "Bu Rina", peran: "Pemilik kafe", teks: "Teknisinya rapi, kirim foto sebelum-sesudah. AC kafe sekarang dingin lagi." },
-    { nama: "Pak Andi", peran: "Office manager", teks: "Sudah 3 tahun kontrak maintenance, belum pernah ada AC mati pas jam kerja." },
-  ],
+  // testimoni: [{ nama: "Bu ...", peran: "Pemilik kafe", teks: "..." }]
+  testimoni: [],
 
   // Kenapa Rejeki Utama AC? (ikon: shield, pro, tools, gear, clock, smile, bolt, drop)
-  keunggulan: [                            // ✏️ sesuaikan dengan janji yang benar-benar Anda berikan
-    { ikon: "shield", judul: "Berpengalaman", teks: "Menangani beragam kebutuhan AC" },
-    { ikon: "pro", judul: "Tim Profesional", teks: "Teknisi terlatih & berpengalaman" },
-    { ikon: "tools", judul: "Pengerjaan Rapi", teks: "Standar kerja bersih, aman & efisien" },
-    { ikon: "gear", judul: "Solusi Tepat", teks: "Analisa masalah, solusi yang pas" },
-    { ikon: "clock", judul: "Respons Cepat", teks: "Siap membantu sesuai kebutuhan" },
-    { ikon: "smile", judul: "Fokus Kepuasan", teks: "Kepuasan pelanggan prioritas kami" },
+  keunggulan: [                            // dari brosur (ikon: shield, gear, clock, tag, pro, tools, smile)
+    { ikon: "pro", judul: "Teknisi Berpengalaman", teks: "Ditangani teknisi yang paham pekerjaannya" },
+    { ikon: "gear", judul: "Pekerjaan Rapi & Berkualitas", teks: "Hasil kerja bersih, rapi & tahan lama" },
+    { ikon: "clock", judul: "Layanan Cepat & Tepat Waktu", teks: "Datang sesuai jadwal, kerja cepat" },
+    { ikon: "tag", judul: "Harga Terbaik & Transparan", teks: "Harga jelas di depan, tanpa biaya tersembunyi" },
   ],
 
   tim: { jumlah: "Tim teknisi tetap", foto: "" },  // ✏️ foto: "foto/tim.jpg" kalau ada
@@ -99,6 +99,6 @@ window.RU = {
     "Cek tekanan freon & kebocoran",
     "Foto sebelum & sesudah dikirim ke WA",
     "Area kerja dibersihkan kembali",
-    "Garansi pekerjaan 30 hari",
+    "Garansi uang kembali 100%",
   ],
 };

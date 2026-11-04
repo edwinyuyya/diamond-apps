@@ -19,6 +19,7 @@
   var DARK = "#0B4A6B", BLUE_M = "#0A86BD", ICE = "#19C6F0", ICE2 = "#8FE6FF", BLUE = "#0AA0D2";
 
   var ICONS = {
+    jual: '<path d="M6 30V8h22l30 30-22 22z" fill="#0B4A6B"/><circle cx="17" cy="19" r="5" fill="#8FE6FF"/>',
     cctv: '<path d="M8 18 44 10l4 16-36 8z" fill="#0B4A6B"/><circle cx="40" cy="19" r="4.5" fill="#8FE6FF"/><path d="M24 32v12H12" stroke="#0B4A6B" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="5" y="38" width="8" height="18" rx="2" fill="#0B4A6B"/>',
     apar: '<rect x="22" y="20" width="20" height="38" rx="9" fill="#0B4A6B"/><rect x="27" y="11" width="10" height="10" rx="2" fill="#0B4A6B"/><path d="M37 14h9l7 7" stroke="#0B4A6B" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="26" y="32" width="12" height="11" rx="2" fill="#8FE6FF"/>',
     solar: '<circle cx="15" cy="15" r="7" fill="#fff"/><path d="M10 52 20 30h36L46 52z" fill="#0B4A6B"/><path d="M29 30l-7 22M42 30l-7 22M15 41h37" stroke="#8FE6FF" stroke-width="2.5"/>',
@@ -244,14 +245,14 @@
     s.push({ cls: "s-est", ov: "calm", dur: 9000, html:
       '<div class="ru-kicker in">Kenapa Rejeki Utama AC?</div>' +
       '<div class="est in" style="--d:200"><b>' + esc(cfg.tahunBerdiri) + '</b><span>ESTA-<br>BLISHED</span></div>' +
-      '<p class="ru-lead in" style="--d:400;margin-top:6px">' + umur + " tahun menjaga AC tetap sejuk.</p>" +
+      '<p class="ru-lead in" style="--d:400;margin-top:6px">' + umur + " tahun " + esc((cfg.slogan || "melayani").toLowerCase()) + ".</p>" +
       '<div class="tl">' + cfg.sejarah.map(function (x, i) {
         return '<div class="it in" style="--d:' + (700 + i * 450) + '"><div class="yr">' + esc(x.tahun) + '</div><div class="tx">' + esc(x.teks) + "</div></div>";
       }).join("") + "</div>" });
 
     s.push({ cls: "s-lay", ov: "calm", dur: 9000, html:
       '<div class="ru-kicker in">Yang kami kerjakan</div><h2 class="in" style="--d:150">Satu tim untuk<br><span class="ru-gold">semua kebutuhan AC</span></h2>' +
-      '<div class="lg">' + cfg.layanan.map(function (x, i) {
+      '<div class="lg lg-lain">' + cfg.layanan.map(function (x, i) {
         return '<div class="c pop" style="--d:' + (400 + i * 170) + '"><div class="ic"><svg viewBox="0 0 64 64">' + (ICONS[x.ikon] || ICONS.perbaikan) + "</svg></div><h3>" + esc(x.judul) + "</h3><p>" + esc(x.teks) + "</p></div>";
       }).join("") + "</div>" });
 
@@ -261,16 +262,21 @@
         return '<div class="c pop" style="--d:' + (400 + i * 170) + '"><div class="ic"><svg viewBox="0 0 64 64">' + (ICONS[x.ikon] || ICONS.perbaikan) + "</svg></div><h3>" + esc(x.judul) + "</h3><p>" + esc(x.teks) + "</p></div>";
       }).join("") + "</div>" });
 
-    s.push({ cls: "s-pj", ov: "calm", dur: 9500, html:
-      '<div class="ru-kicker in">Proyek & klien</div><h2 class="in" style="--d:150">Sudah dipercaya<br><span class="ru-ice">rumah & bisnis</span></h2>' +
-      '<div class="pj">' + cfg.proyek.map(function (x, i) {
+    // Proyek & klien asli bila ada; selalu tampilkan segmen pelanggan dari brosur
+    var klienHtml = (cfg.klien || []).slice(0, 6).map(function (k, i) {
+      var nama = typeof k === "string" ? k : k.nama, logo = typeof k === "string" ? "" : k.logo;
+      if (logo) return '<div class="c pop" style="--d:' + (1350 + i * 120) + '"><img src="' + esc(logo) + '" alt="' + esc(nama) + '"></div>';
+      var ini = nama.replace(/^(PT|CV)\s+/i, "").split(/\s+/).map(function (w) { return w[0]; }).join("").slice(0, 2).toUpperCase();
+      return '<div class="c pop" style="--d:' + (1350 + i * 120) + '"><i style="background:' + CHIP_COLORS[i % CHIP_COLORS.length] + '">' + esc(ini) + "</i>" + esc(nama) + "</div>";
+    }).join("");
+    s.push({ cls: "s-pj", ov: "calm", dur: 9000, html:
+      '<div class="ru-kicker in">Dipercaya sejak ' + esc(cfg.tahunBerdiri) + '</div><h2 class="in" style="--d:150">Layanan profesional<br><span class="ru-gold">untuk semua kebutuhan</span></h2>' +
+      ((cfg.proyek || []).length ? '<div class="pj">' + cfg.proyek.map(function (x, i) {
         return '<div class="c in" style="--d:' + (400 + i * 250) + '"><div><b>' + esc(x.judul) + "</b><span>" + esc(x.detail) + "</span></div></div>";
-      }).join("") + "</div>" +
-      '<div class="kl-h in" style="--d:1200">KLIEN KAMI</div><div class="kl">' + cfg.klien.slice(0, 6).map(function (k, i) {
-        var nama = typeof k === "string" ? k : k.nama, logo = typeof k === "string" ? "" : k.logo;
-        if (logo) return '<div class="c pop" style="--d:' + (1350 + i * 120) + '"><img src="' + esc(logo) + '" alt="' + esc(nama) + '"></div>';
-        var ini = nama.replace(/^(PT|CV)\s+/i, "").split(/\s+/).map(function (w) { return w[0]; }).join("").slice(0, 2).toUpperCase();
-        return '<div class="c pop" style="--d:' + (1350 + i * 120) + '"><i style="background:' + CHIP_COLORS[i % CHIP_COLORS.length] + '">' + esc(ini) + "</i>" + esc(nama) + "</div>";
+      }).join("") + "</div>" : "") +
+      (klienHtml ? '<div class="kl-h in" style="--d:1200">KLIEN KAMI</div><div class="kl">' + klienHtml + "</div>" : "") +
+      '<div class="seg">' + (cfg.segmen || []).map(function (x, i) {
+        return '<span class="pop" style="--d:' + (450 + i * 110) + '">' + esc(x) + "</span>";
       }).join("") + "</div>" });
 
     var ba = cfg.beforeAfter && cfg.beforeAfter[0];
@@ -282,7 +288,7 @@
       '<span class="tag b">SEBELUM</span><span class="tag a">SESUDAH</span></div>' +
       '<p class="ba-cap in" style="--d:700">' + esc(ba ? ba.caption : "Evaporator yang kami cuci — fotonya dikirim ke WA Anda setiap selesai service.") + "</p>" });
 
-    s.push({ cls: "s-tm", ov: "calm", dur: 9000, html:
+    if ((cfg.testimoni || []).length) s.push({ cls: "s-tm", ov: "calm", dur: 9000, html:
       '<div class="ru-kicker in">Kata pelanggan</div><h2 class="in" style="--d:150">Mereka sudah<br><span class="ru-ice">merasakan bedanya</span></h2>' +
       '<div class="tm">' + cfg.testimoni.slice(0, 2).map(function (t, i) {
         return '<div class="c in" style="--d:' + (450 + i * 500) + '"><div class="st">★★★★★</div><p>' + esc(t.teks) + '</p><div class="who">' + esc(t.nama) + " <span>— " + esc(t.peran) + "</span></div></div>";
@@ -292,7 +298,8 @@
       '<div class="ru-kicker in">Kenapa Rejeki Utama AC?</div><h2 class="in" style="--d:150">Kepercayaan dibangun<br><span class="ru-gold">dari layanan</span></h2>' +
       '<div class="why6">' + cfg.keunggulan.slice(0, 6).map(function (k, i) {
         return '<div class="c pop" style="--d:' + (400 + i * 160) + '"><svg viewBox="0 0 24 24">' + RUCard.lineIcon(k.ikon, 0, 0, 24, BLUE, 1.6) + "</svg><div><b>" + esc(k.judul) + "</b><span>" + esc(k.teks) + "</span></div></div>";
-      }).join("") + '</div><p class="why-foot in" style="--d:1500">Cocok untuk restoran & kafe • hotel • kantor • rumah</p>' });
+      }).join("") + "</div>" +
+      (cfg.garansi ? '<div class="garansi in" style="--d:1300"><b>100%</b><span>' + esc(cfg.garansi) + "</span></div>" : "") });
 
     s.push({ cls: "s-team", ov: "calm", dur: 9000, html:
       '<div class="ru-kicker in">Tim & standar kerja</div><h2 class="in" style="--d:150">Profesional, dari<br><span class="ru-gold">datang sampai pulang</span></h2>' +
@@ -310,7 +317,8 @@
       '<h2 class="in" style="--d:150">Jangan tunggu AC rusak untuk <span class="ru-gold">mulai peduli.</span></h2>' +
       '<div class="lg-wrap in" style="--d:600"><svg viewBox="0 0 100 100">' + RUCard.logo(0, 0, 100) + '</svg><div class="brand">REJEKI UTAMA AC<small>' + esc(cfg.subjudul) + '</small><em>SERVICE EXCELLENT <span>★★★★★</span></em></div></div>' +
       (cfg.promo && cfg.promo.judul ? '<div class="promo">' + esc(cfg.promo.judul) + "<b>" + esc(cfg.promo.kode) + "</b></div>" : "") +
-      '<a class="btn-wa in" style="--d:900" target="_blank" rel="noopener" href="' + waLink(cfg, "Halo " + cfg.perusahaan + ", saya dapat kartu nama Anda dan mau konsultasi/booking service AC." + (cfg.promo && cfg.promo.kode ? " (kode " + cfg.promo.kode + ")" : "")) + '">' + WA_ICON + "WhatsApp Service</a>" +
+      (cfg.garansi ? '<div class="end-g in" style="--d:800">Garansi uang kembali 100% • Sejak ' + esc(cfg.tahunBerdiri) + "</div>" : "") +
+      '<a class="btn-wa in" style="--d:900" target="_blank" rel="noopener" href="' + waLink(cfg, "Halo " + cfg.perusahaan + ", saya dapat kartu nama Anda dan mau konsultasi/booking layanan." + (cfg.promo && cfg.promo.kode ? " (kode " + cfg.promo.kode + ")" : "")) + '">' + WA_ICON + "WhatsApp Service</a>" +
       '<div class="row2"><a class="btn-w in" style="--d:1050" href="tel:' + esc(cfg.telepon.replace(/[^0-9+]/g, "")) + '">' + PHONE_ICON + 'Telepon</a><a class="btn-w in vcard" style="--d:1200" href="#">' + USER_ICON + "Simpan Kontak</a></div>" +
       '<button class="again">↺ Putar ulang</button>' });
     return s;

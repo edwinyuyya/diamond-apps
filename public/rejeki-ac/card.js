@@ -149,6 +149,7 @@
     smile: "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM8 14q4 4 8 0M9 9h.01M15 9h.01",
     frown: "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zM8 16q4-4 8 0M9 9h.01M15 9h.01",
     warn: "M12 3 2 20h20zM12 10v4M12 17h.01",
+    tag: "M3 12V3h9l9 9-9 9zM7.5 7.5h.01",
   };
   function lineIcon(name, x, y, size, color, sw) {
     return '<g transform="translate(' + x + "," + y + ") scale(" + size / 24 + ')"><path d="' + LINE_ICONS[name] + '" fill="none" stroke="' + color + '" stroke-width="' + (sw || 2) + '" stroke-linecap="round" stroke-linejoin="round"/></g>';
@@ -191,7 +192,9 @@
       logo(60, 46, 152) +
       wordmark(238, 102, cfg, true) +
       // tagline rata kiri, sejajar logo
-      '<text x="62" y="262" font-family="Poppins" font-weight="500" font-size="24" fill="' + INK + '">' + esc(cfg.tagline) + "</text>" +
+      '<text x="62" y="262" font-family="Poppins" font-weight="500" font-size="' + fitSize(cfg.tagline, 24, 590, 0.56) + '" fill="' + INK + '">' + esc(cfg.tagline) + "</text>" +
+      '<rect x="706" y="235" width="136" height="38" rx="19" fill="' + BLUE + '"/>' +
+      '<text x="774" y="261" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="18" letter-spacing="1" fill="#fff">SEJAK ' + esc(cfg.tahunBerdiri) + "</text>" +
       '<rect x="62" y="288" width="778" height="2" fill="url(#fline' + u + ')"/>' +
       // nama & jabatan
       '<text x="60" y="360" font-family="Montserrat" font-weight="800" font-size="' + nSize + '" letter-spacing=".5" fill="' + DARK + '">' + esc(nama) + "</text>" +
