@@ -6,3 +6,28 @@
   for = "/media/*"
   [headers.values]
     Cache-Control = "public, max-age=604800"
+
+# Domain tambahan diarahkan permanen (301) ke domain utama muasolo.com
+[[redirects]]
+  from = "https://muasolo.site/*"
+  to = "https://muasolo.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.muasolo.site/*"
+  to = "https://muasolo.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://muasolo.it.com/*"
+  to = "https://muasolo.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.muasolo.it.com/*"
+  to = "https://muasolo.com/:splat"
+  status = 301
+  force = true
