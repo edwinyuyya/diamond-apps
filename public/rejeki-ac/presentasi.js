@@ -35,6 +35,8 @@
   };
   var WA_ICON = '<svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm0 23.6a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.6zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>';
   var PHONE_ICON = '<svg viewBox="0 0 26 26" fill="currentColor"><path d="M5 2h5l2 6-3 2a13 13 0 0 0 6 6l2-3 6 2v5a2 2 0 0 1-2 2A20 20 0 0 1 3 4a2 2 0 0 1 2-2z"/></svg>';
+  var IG_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>';
+  var MAIL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg>';
   var USER_ICON = '<svg viewBox="0 0 26 26" fill="currentColor"><circle cx="13" cy="8" r="6"/><path d="M1 25a12 10 0 0 1 24 0z"/></svg>';
   var SEARCH_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>';
   var RES_OK = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>';
@@ -323,6 +325,11 @@
       (cfg.garansi ? '<div class="end-g in" style="--d:800">Garansi uang kembali 100% • Sejak ' + esc(cfg.tahunBerdiri) + "</div>" : "") +
       '<a class="btn-wa in" style="--d:900" target="_blank" rel="noopener" href="' + waLink(cfg, "Halo " + cfg.perusahaan + ", saya dapat kartu nama Anda dan mau konsultasi/booking layanan." + (cfg.promo && cfg.promo.kode ? " (kode " + cfg.promo.kode + ")" : "")) + '">' + WA_ICON + "WhatsApp Service</a>" +
       '<div class="row2"><a class="btn-w in" style="--d:1050" href="tel:' + esc(cfg.telepon.replace(/[^0-9+]/g, "")) + '">' + PHONE_ICON + 'Telepon</a><a class="btn-w in vcard" style="--d:1200" href="#">' + USER_ICON + "Simpan Kontak</a></div>" +
+      // Instagram & email (bisa diketuk)
+      '<div class="end-soc in" style="--d:1300">' +
+        (cfg.instagram ? '<a target="_blank" rel="noopener" href="https://instagram.com/' + esc(cfg.instagram.replace(/^@/, "")) + '">' + IG_ICON + esc(cfg.instagram) + "</a>" : "") +
+        (cfg.email ? '<a href="mailto:' + esc(cfg.email) + '">' + MAIL_ICON + esc(cfg.email) + "</a>" : "") +
+      "</div>" +
       '<button class="again">↺ Putar ulang</button>' });
 
     // promosi pembuat kartu: "mau kartu nama seperti ini?" -> WhatsApp pembuat
@@ -376,7 +383,8 @@
 
   function vcard(cfg) {
     return ["BEGIN:VCARD", "VERSION:3.0", "N:;" + cfg.nama + ";;;", "FN:" + cfg.nama, "ORG:" + cfg.perusahaan, "TITLE:" + cfg.jabatan,
-      "TEL;TYPE=CELL:" + cfg.telepon, "EMAIL:" + cfg.email, "NOTE:" + cfg.subjudul + " — " + cfg.tagline, "END:VCARD"].join("\r\n");
+      "TEL;TYPE=CELL:" + cfg.telepon, "EMAIL:" + cfg.email,
+      "URL:https://instagram.com/" + String(cfg.instagram || "").replace(/^@/, ""), "NOTE:" + cfg.subjudul + " — " + cfg.tagline, "END:VCARD"].join("\r\n");
   }
 
   // ---------------- Mesin presentasi ----------------

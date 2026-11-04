@@ -19,8 +19,8 @@ window.RU = {
   jabatan: "Business Development",
   telepon: "0813-2766-0660",               // tampil di kartu (dari brosur)
   whatsapp: "6281327660660",               // format 62..., tanpa + / spasi
-  email: "halo@rejekiutama-ac.com",        // ✏️ GANTI
-  instagram: "@rejekiutama.ac",            // ✏️ GANTI
+  email: "rejekiutamaac@gmail.com",
+  instagram: "@rejekiutama.ac",
   areaLayanan: "Jabodetabek",              // ✏️ GANTI
 
   // Pembuat kartu (promosi di slide terakhir & "Powered by" di kartu cetak)
@@ -28,7 +28,7 @@ window.RU = {
     nama: "Nexora",
     whatsapp: "628131888116",          // format 62..., tanpa + / spasi
     telepon: "+628131888116",          // tampil di kartu
-    ajakan: "Anda mau membuat kartu nama keren seperti ini untuk perusahaan / usaha Anda?",
+    ajakan: "Anda mau membuat kartu nama informatif dan terpercaya seperti ini untuk perusahaan / usaha Anda?",
   },
 
   // Link halaman AR (isi QR code). Kosong = otomatis pakai alamat

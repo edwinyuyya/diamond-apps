@@ -299,3 +299,7 @@
 @keyframes mkPulse{50%{box-shadow:0 0 0 18px rgba(37,211,102,.18),0 16px 40px rgba(37,211,102,.35)}}
 .s-mk .mk-num{margin-top:22px;font:700 30px Montserrat;color:var(--ink);letter-spacing:1px}
 .s-mk .again{all:unset;margin-top:30px;font:600 24px Poppins;opacity:.65;text-decoration:underline;cursor:pointer;position:relative;z-index:6}
+/* Instagram & email di slide penutup */
+.end-soc{display:flex;flex-wrap:wrap;justify-content:center;gap:14px 30px;margin-top:22px;position:relative;z-index:6}
+.end-soc a{display:inline-flex;align-items:center;gap:10px;font:700 25px Montserrat;color:var(--ink);text-decoration:none}
+.end-soc svg{width:30px;height:30px;color:var(--blue)}
