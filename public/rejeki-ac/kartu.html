@@ -62,7 +62,7 @@
   </div>
 
   <div class="both">
-    <figure><div id="sFront"></div><figcaption>DEPAN — Minimal: logo, tagline, nama, WhatsApp, layanan</figcaption></figure>
+    <figure><div id="sFront"></div><figcaption>DEPAN — kartu teka-teki: nomor disensor, QR di dalam HP, 3 langkah scan</figcaption></figure>
     <figure><div id="sBack"></div><figcaption>BELAKANG — QR & AR: AC rutin dirawat VS tidak dirawat (target AR)</figcaption></figure>
   </div>
 
@@ -83,16 +83,16 @@
 <script src="card.js"></script>
 <script>
   var cfg = window.RU, url = RUCard.arUrl(cfg), qr = RUCard.qrInner(url, 112);
-  var svgs = { front: RUCard.front(cfg), back: RUCard.back(cfg, qr) };
+  var svgs = { front: RUCard.front(cfg, qr), back: RUCard.back(cfg, qr) };
   // tiap salinan digambar ulang supaya id gradien tetap unik di halaman
-  pvFront.innerHTML = svgs.front; sFront.innerHTML = RUCard.front(cfg);
+  pvFront.innerHTML = svgs.front; sFront.innerHTML = RUCard.front(cfg, qr);
   pvBack.innerHTML = svgs.back; sBack.innerHTML = RUCard.back(cfg, qr);
   document.getElementById("print").innerHTML =
-    '<div class="pg">' + RUCard.front(cfg, { bleed: true }) + '</div><div class="pg">' + RUCard.back(cfg, qr, { bleed: true }) + "</div>";
+    '<div class="pg">' + RUCard.front(cfg, qr, { bleed: true }) + '</div><div class="pg">' + RUCard.back(cfg, qr, { bleed: true }) + "</div>";
   qrUrl.textContent = url;
   flip.onclick = function () { flip.classList.toggle("back"); };
   function dl(side) {
-    var s = side === "front" ? RUCard.front(cfg, { bleed: true }) : RUCard.back(cfg, qr, { bleed: true });
+    var s = side === "front" ? RUCard.front(cfg, qr, { bleed: true }) : RUCard.back(cfg, qr, { bleed: true });
     var a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([s], { type: "image/svg+xml" }));
     a.download = "kartu-rejeki-utama-ac-" + (side === "front" ? "depan" : "belakang") + ".svg";
