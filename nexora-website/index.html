@@ -138,6 +138,179 @@
   .cta .row{justify-content:center}
   .cta small{display:block;margin-top:22px;opacity:.8;font-size:14px}
 
+
+  /* ---------- CASE STUDIES ---------- */
+  .idx{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px}
+  .idx a{display:inline-flex;gap:8px;align-items:center;padding:9px 15px;border-radius:99px;border:1px solid var(--line);font-size:14px;font-weight:700;color:var(--ink2);background:#fff;transition:.15s}
+  .idx a:hover{border-color:var(--p3);background:var(--soft)}
+  .idx a b{font-size:12px;color:var(--p)}
+  .case{display:grid;grid-template-columns:1fr 1.08fr;gap:52px;align-items:center;padding:56px 0;border-top:1px solid var(--line)}
+  .case:first-of-type{border-top:0;padding-top:8px}
+  .case.rev .ct{order:2}
+  .no{font-size:13px;font-weight:800;color:var(--p);letter-spacing:.08em}
+  .case h3{font-size:clamp(25px,3vw,34px);line-height:1.15;letter-spacing:-.025em;margin:8px 0 6px}
+  .who{font-size:13.5px;color:var(--dim);font-weight:600;margin-bottom:14px}
+  .hook{font-size:16.5px;color:var(--ink2);margin-bottom:20px}
+  .feats{display:grid;grid-template-columns:1fr 1fr;gap:10px;list-style:none;margin-bottom:22px}
+  .feats li{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border-radius:12px;background:var(--soft);border:1px solid var(--line);font-size:13.5px;line-height:1.4;font-weight:600}
+  .feats li span{font-size:17px;line-height:1.2}
+  .case .tags{margin:0 0 20px;padding:0}
+  .tags{display:flex;flex-wrap:wrap;gap:6px}
+  .tags span{font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;background:var(--soft2);color:var(--ink2)}
+  .note{font-size:12px;color:var(--dim);margin-top:12px}
+  @media(max-width:920px){.case{grid-template-columns:1fr;gap:28px;padding:44px 0}.case.rev .ct{order:0}}
+  @media(max-width:480px){.feats{grid-template-columns:1fr}}
+
+  /* stage = latar tempat cuplikan */
+  .stg{position:relative;border-radius:28px;padding:30px 24px;min-height:380px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(150deg,var(--s1),var(--s2))}
+  .stg::before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.5),transparent 65%);top:-110px;right:-80px}
+  .stg>*{position:relative}
+  .stg .cap{position:absolute;left:16px;bottom:10px;font-size:11px;font-weight:700;color:rgba(20,17,43,.45)}
+  .stg.dk .cap{color:rgba(255,255,255,.5)}
+  .fx{width:100%;max-width:520px;background:#fff;border-radius:14px;box-shadow:0 30px 60px -28px rgba(20,17,43,.45);overflow:hidden;border:1px solid rgba(20,17,43,.08);font-size:12px}
+  .fxb{display:flex;gap:6px;align-items:center;padding:9px 12px;background:#f3f1fa;border-bottom:1px solid #e8e6f4}
+  .fxb i{width:9px;height:9px;border-radius:50%;background:#dcd6ef}
+  .fxb u{margin-left:8px;text-decoration:none;font:10.5px ui-monospace,Menlo,monospace;color:#7a7794;background:#fff;border-radius:6px;padding:3px 10px;flex:1;max-width:240px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .ph{width:208px;border:7px solid #14112b;border-radius:30px;background:#fff;overflow:hidden;box-shadow:0 30px 50px -22px rgba(20,17,43,.6);font-size:11px;position:relative;flex:none}
+  .ph::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:62px;height:14px;background:#14112b;border-radius:0 0 10px 10px;z-index:3}
+  .ph .scr{padding:24px 12px 14px;min-height:340px}
+  .duo{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .duo .ph:nth-child(2){margin-top:34px}
+
+  /* mock: toyzone */
+  .tz{background:#fffaf0}
+  .tzh{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border-bottom:1px solid #f5e6c8}
+  .tzh b{font-size:16px;font-weight:800;color:#f97316;letter-spacing:-.02em}
+  .tzh .s{flex:1;background:#fff7e6;border:1px solid #f5e6c8;border-radius:99px;padding:6px 12px;color:#a8a29e}
+  .tzh .c{background:#f97316;color:#fff;border-radius:99px;padding:5px 11px;font-weight:800}
+  .tzb{margin:12px;border-radius:14px;padding:16px 18px;background:linear-gradient(120deg,#fde047,#fb923c);color:#7c2d12;display:flex;justify-content:space-between;align-items:center}
+  .tzb strong{display:block;font-size:17px;line-height:1.15}
+  .tzb span{font-size:34px}
+  .pills{display:flex;gap:6px;padding:0 12px 10px;flex-wrap:wrap}
+  .pills span{background:#fff;border:1px solid #f5e6c8;padding:4px 10px;border-radius:99px;font-weight:700;color:#9a3412}
+  .tzg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 12px 14px}
+  .tzc{background:#fff;border:1px solid #f5e6c8;border-radius:12px;padding:8px;text-align:center}
+  .tzc i{display:block;font-style:normal;font-size:28px;background:#fff7e6;border-radius:9px;padding:8px 0;margin-bottom:6px}
+  .tzc b{display:block;font-size:10.5px;line-height:1.25;color:#431407}
+  .tzc em{display:block;font-style:normal;color:#ea580c;font-weight:800;margin:2px 0 5px}
+  .tzc u{text-decoration:none;display:block;background:#f97316;color:#fff;border-radius:7px;padding:3px 0;font-size:10px;font-weight:700}
+  @media(max-width:520px){.tzg{grid-template-columns:repeat(2,1fr)}}
+
+  /* mock: harmony */
+  .hm{display:flex;gap:14px;align-items:flex-end;justify-content:center;flex-wrap:wrap}
+  .hm .pics{display:flex;gap:12px}
+  .hm .pics img{width:150px;height:240px;object-fit:cover;border-radius:20px;box-shadow:0 20px 36px -18px rgba(40,30,10,.55)}
+  .hm .pics img:nth-child(2){margin-top:40px}
+  .hs h6{font-size:12px;margin-bottom:2px;color:#3f3a2e}
+  .hs .sm{color:#7c7560;font-size:10.5px;margin-bottom:8px}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:9px;text-align:center}
+  .week span{border-radius:7px;padding:4px 0;background:#f4efe2;color:#7c7560;font-weight:700;font-size:9.5px}
+  .week span.on{background:#3f6212;color:#fff}
+  .sess{border:1.5px solid #3f6212;border-radius:12px;padding:9px;background:#f7fbe9;margin-bottom:8px}
+  .sess b{display:block;font-size:11.5px;color:#365314}
+  .sess small{color:#5f6b3f;font-size:10px}
+  .meter{height:6px;border-radius:9px;background:#e7e5d5;margin:6px 0 2px;overflow:hidden}
+  .meter i{display:block;height:100%;width:60%;background:#65a30d}
+  .btnm{display:block;text-align:center;background:#3f6212;color:#fff;border-radius:10px;padding:8px;font-weight:800;margin-top:8px}
+  .code{background:#14112b;color:#fff;border-radius:10px;padding:8px 10px;margin-top:8px;font-size:10px}
+  .code b{display:block;font-size:13px;letter-spacing:.03em}
+
+  /* mock: erp */
+  .erp{display:grid;grid-template-columns:96px 1fr 190px;min-height:290px;background:#f8fafc}
+  .erp .sb{background:#0b3a53;color:#bfe6f5;padding:12px 8px;display:grid;gap:5px;align-content:start;font-size:10.5px;font-weight:600}
+  .erp .sb b{color:#fff;font-size:12px;margin-bottom:6px}
+  .erp .sb span{padding:5px 7px;border-radius:7px}
+  .erp .sb span.on{background:#0aa0d2;color:#fff}
+  .erp .mn{padding:12px;display:grid;gap:10px;align-content:start}
+  .kp{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .kp div{background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:7px 8px}
+  .kp b{display:block;font-size:13.5px;color:#0b4a6b}
+  .kp span{font-size:9.5px;color:#64748b}
+  .bars{display:flex;align-items:flex-end;gap:5px;height:72px;background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:8px}
+  .bars i{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(180deg,#19c6f0,#0aa0d2)}
+  .agents{display:grid;gap:5px}
+  .agents div{background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:6px 8px;font-size:10px;color:#334155;display:flex;gap:6px}
+  .agents div b{color:#0a86bd}
+  .chat{background:#fff;border-left:1px solid #e2e8f0;padding:10px;display:grid;gap:7px;align-content:start;font-size:10.5px}
+  .chat h6{font-size:11.5px;color:#0b4a6b;display:flex;gap:6px;align-items:center}
+  .chat h6::before{content:"";width:8px;height:8px;border-radius:50%;background:#22c55e}
+  .m{padding:7px 9px;border-radius:11px;line-height:1.4}
+  .m.u{background:#e0f2fe;color:#0b4a6b;justify-self:end;border-bottom-right-radius:3px}
+  .m.b{background:#f1f5f9;color:#334155;border-bottom-left-radius:3px}
+  .m.b strong{color:#0a86bd}
+  .act{display:flex;gap:5px}.act span{background:#0aa0d2;color:#fff;border-radius:7px;padding:3px 8px;font-weight:700;font-size:10px}.act span.o{background:#fff;color:#0a86bd;border:1px solid #bae6fd}
+  @media(max-width:560px){.erp{grid-template-columns:1fr}.erp .sb,.erp .chat{display:none}}
+
+  /* mock: bbqiu */
+  .bq{--o:#f97316}
+  .bq .ph .scr{background:#1c1410;color:#fff}
+  .bq h6{font-size:12.5px;color:#fff;margin-bottom:2px}
+  .bq .sm{color:#d6c3b5;font-size:10px;margin-bottom:8px}
+  .mi{display:flex;gap:8px;align-items:center;background:#2a1f18;border-radius:11px;padding:7px;margin-bottom:6px}
+  .mi i{font-style:normal;font-size:22px;background:#3a2b21;border-radius:8px;width:38px;height:38px;display:grid;place-items:center}
+  .mi b{display:block;font-size:11px}
+  .mi small{color:#fdba74}
+  .mi u{margin-left:auto;text-decoration:none;background:var(--o);border-radius:7px;width:22px;height:22px;display:grid;place-items:center;font-weight:800}
+  .bq .btnm{background:var(--o);color:#fff}
+  .kds{display:grid;gap:8px;width:210px}
+  .kds .t{background:#fff;border-radius:12px;padding:10px 11px;box-shadow:0 14px 26px -14px rgba(0,0,0,.6)}
+  .kds .t b{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:4px}
+  .kds .t b em{font-style:normal;font-size:9.5px;padding:2px 7px;border-radius:99px;background:#ffedd5;color:#c2410c}
+  .kds .t b em.g{background:#dcfce7;color:#15803d}
+  .kds .t p{color:#57534e;font-size:10.5px;margin:1px 0}
+  .kds .al{background:#14112b;color:#fff;border-radius:12px;padding:9px 11px;font-size:10.5px;line-height:1.4}
+
+  /* mock: checklist */
+  .ck h6{font-size:12px;margin-bottom:2px}
+  .ck .sm{color:#64748b;font-size:10px;margin-bottom:8px}
+  .tabs{display:flex;gap:4px;margin-bottom:8px}.tabs span{font-size:9.5px;font-weight:700;padding:4px 8px;border-radius:99px;background:#f1f5f9;color:#64748b}.tabs span.on{background:#14112b;color:#fff}
+  .it{display:flex;gap:7px;align-items:center;padding:7px 8px;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:5px;font-weight:600;font-size:10.5px}
+  .it::before{content:"✓";width:16px;height:16px;border-radius:5px;background:#16a34a;color:#fff;display:grid;place-items:center;font-size:10px;flex:none}
+  .it.todo::before{content:"";background:#fff;border:1.5px solid #cbd5e1}
+  .shot{height:84px;border-radius:10px;margin:6px 0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.72)),linear-gradient(135deg,#94a3b8,#475569);position:relative;color:#fff;font:600 8.5px/1.4 ui-monospace,Menlo,monospace}
+  .shot span{position:absolute;left:7px;bottom:5px}
+  .shot::after{content:"📷";position:absolute;inset:0;display:grid;place-items:center;font-size:26px;opacity:.5}
+  .dash{width:230px;background:#fff;border-radius:16px;padding:14px;box-shadow:0 30px 50px -24px rgba(20,17,43,.5);font-size:11px}
+  .dash h6{font-size:12.5px;margin-bottom:8px}
+  .rw{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid #eef0f4}
+  .rw small{color:#64748b;display:block;font-size:9.5px}
+  .ok{background:#dcfce7;color:#15803d;font-weight:800;padding:3px 9px;border-radius:7px;font-size:10px}
+  .no2{background:#fee2e2;color:#b91c1c;font-weight:800;padding:3px 9px;border-radius:7px;font-size:10px}
+
+  /* mock: diamond mua */
+  .dm{background:#0f0d12;color:#fff}
+  .dmh{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;font-size:10.5px;color:#d4c9b8}
+  .dmh b{font:700 13px Georgia,serif;letter-spacing:.14em;color:#e9c987}
+  .dmh span{display:flex;gap:12px}
+  .dmv{padding:26px 20px 22px;text-align:center;background:radial-gradient(260px 140px at 50% 0%,rgba(233,201,135,.28),transparent 70%)}
+  .dmv small{letter-spacing:.2em;color:#e9c987;font-size:9px}
+  .dmv strong{display:block;font:italic 400 24px/1.15 Georgia,serif;margin:6px 0 10px}
+  .dmv u{text-decoration:none;display:inline-block;background:#e9c987;color:#1b1407;border-radius:99px;padding:6px 14px;font-weight:800;font-size:10.5px}
+  .gal{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 14px 14px}
+  .gal i{aspect-ratio:3/4;border-radius:9px;display:block}
+  .gal i:nth-child(1){background:linear-gradient(160deg,#f5d0c5,#b9788a)}
+  .gal i:nth-child(2){background:linear-gradient(160deg,#e9c987,#8a6a2a)}
+  .gal i:nth-child(3){background:linear-gradient(160deg,#d8b4fe,#7e4aa8)}
+  .gal i:nth-child(4){background:linear-gradient(160deg,#fecdd3,#be5a74)}
+  .dsv{display:flex;gap:6px;padding:0 14px 14px;flex-wrap:wrap}
+  .dsv span{border:1px solid #4b4252;border-radius:99px;padding:4px 10px;color:#e9dcc6;font-size:10px}
+
+  /* mock: AR card */
+  .arw{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .card{width:230px;height:140px;border-radius:14px;background:linear-gradient(135deg,#0aa0d2,#19c6f0);color:#fff;padding:16px;box-shadow:0 24px 40px -18px rgba(10,110,160,.7);display:flex;flex-direction:column;justify-content:space-between;transform:rotate(-5deg)}
+  .card b{font:900 16px/1.1 Montserrat,'Plus Jakarta Sans',sans-serif}
+  .card b em{display:block;font-style:normal;color:#fede04;font-size:10px;letter-spacing:.16em;margin-top:4px}
+  .card small{font-size:10px;opacity:.95}
+  .card .qr{align-self:flex-end;width:34px;height:34px;background:#fff;border-radius:6px;display:grid;place-items:center;color:#0a86bd;font-weight:900}
+  .ar .scr{background:linear-gradient(180deg,#0b4a6b,#0a86bd);color:#fff;padding:24px 10px 12px;min-height:350px;display:flex;flex-direction:column;gap:8px}
+  .ar .bars2{display:flex;gap:3px}.ar .bars2 i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.35)}.ar .bars2 i:first-child{background:#fff}
+  .ar .flake{margin:auto;text-align:center}
+  .ar .flake div{font-size:54px;filter:drop-shadow(0 0 14px #19c6f0)}
+  .ar .flake b{display:block;font-size:30px;font-weight:800}
+  .ar .flake small{opacity:.85}
+  .ar .q{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:11px;padding:8px;font-size:10.5px;line-height:1.4}
+  .ar .wa{background:#fede04;color:#0b4a6b;text-align:center;border-radius:10px;padding:8px;font-weight:800}
+
   /* FOOTER */
   footer{border-top:1px solid var(--line);padding:40px 0 28px;margin-top:30px}
   .fr{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
@@ -175,7 +348,7 @@
         <a class="btn btn-g" href="#layanan">Apa yang Bisa Dikerjakan</a>
       </div>
       <div class="facts">
-        <div><b id="countProj">6</b><span>Proyek dikerjakan</span></div>
+        <div><b>7</b><span>Proyek dikerjakan</span></div>
         <div><b>100%</b><span>Berbasis browser, tanpa instalasi</span></div>
         <div><b>Real</b><span>Diuji langsung di operasional harian</span></div>
       </div>
@@ -187,11 +360,262 @@
     <div class="wrap">
       <div class="head">
         <div class="eyebrow">Karya</div>
-        <h2>Apa saja yang sudah dikerjakan</h2>
-        <p>Setiap proyek dibuat untuk masalah bisnis yang nyata, bukan sekadar contoh.</p>
+        <h2>7 proyek yang sudah dikerjakan</h2>
+        <p>Dari toko online sampai ERP yang dibantu agen AI. Berikut cuplikan tampilan dan fitur tiap proyek.</p>
       </div>
-      <div class="filters" id="filters" role="group" aria-label="Filter karya"></div>
-      <div class="grid" id="projects"></div>
+      <nav class="idx" aria-label="Daftar karya">
+        <a href="#toyzone"><b>01</b> Toyzone</a>
+        <a href="#harmony"><b>02</b> Harmony of Life</a>
+        <a href="#erp"><b>03</b> ERP Rejeki Utama AC</a>
+        <a href="#pos"><b>04</b> POS BBQIU</a>
+        <a href="#sop"><b>05</b> Checklist SOP</a>
+        <a href="#diamond"><b>06</b> Diamond MUA</a>
+        <a href="#ar"><b>07</b> Kartu Nama AR</a>
+      </nav>
+
+      <!-- 01 TOYZONE -->
+      <article class="case" id="toyzone">
+        <div class="ct">
+          <div class="no">01 · E-COMMERCE</div>
+          <h3>Toyzone — toko mainan online</h3>
+          <div class="who">Website e-commerce mainan</div>
+          <p class="hook">Etalase mainan yang ceria dan mudah dijelajah: orang tua menemukan mainan yang pas, memasukkannya ke keranjang, dan checkout tanpa bingung.</p>
+          <ul class="feats">
+            <li><span>🧸</span>Katalog mainan lengkap dengan kategori</li>
+            <li><span>🔎</span>Pencarian &amp; filter produk</li>
+            <li><span>🛒</span>Keranjang &amp; checkout</li>
+            <li><span>🏷️</span>Promo &amp; produk terbaru</li>
+            <li><span>📱</span>Nyaman dibuka dari ponsel</li>
+            <li><span>🧾</span>Pengelolaan produk &amp; pesanan</li>
+          </ul>
+          <div class="tags"><span>E-commerce</span><span>Katalog</span><span>Checkout</span></div>
+        </div>
+        <div class="stg" style="--s1:#fff3cf;--s2:#ffd59e">
+          <div class="fx tz">
+            <div class="fxb"><i></i><i></i><i></i><u>toyzone</u></div>
+            <div class="tzh"><b>toyzone</b><div class="s">Cari mainan…</div><div class="c">🛒 3</div></div>
+            <div class="tzb"><div><strong>Mainan baru<br>sudah datang!</strong><small>Temukan favorit si kecil</small></div><span>🚀</span></div>
+            <div class="pills"><span>Action Figure</span><span>Puzzle</span><span>Boneka</span><span>RC Car</span></div>
+            <div class="tzg">
+              <div class="tzc"><i>🤖</i><b>Robot Transformer</b><em>Rp 149.000</em><u>+ Keranjang</u></div>
+              <div class="tzc"><i>🧩</i><b>Puzzle Kota 100pc</b><em>Rp 65.000</em><u>+ Keranjang</u></div>
+              <div class="tzc"><i>🧸</i><b>Boneka Beruang</b><em>Rp 89.000</em><u>+ Keranjang</u></div>
+              <div class="tzc"><i>🏎️</i><b>Mobil Remote</b><em>Rp 199.000</em><u>+ Keranjang</u></div>
+            </div>
+          </div>
+          <span class="cap">Ilustrasi tampilan · nama produk &amp; harga contoh</span>
+        </div>
+      </article>
+
+      <!-- 02 HARMONY -->
+      <article class="case rev" id="harmony">
+        <div class="ct">
+          <div class="no">02 · COMPANY PROFILE + RESERVASI</div>
+          <h3>Harmony of Life — profil &amp; reservasi online</h3>
+          <div class="who">Studio yoga di venue Omah Turi</div>
+          <p class="hook">Satu website untuk memperkenalkan studio sekaligus menerima pendaftaran kelas. Kursi dipesan sendiri oleh peserta, pembayaran dicek dengan kode unik, dan admin tinggal tandai lunas.</p>
+          <ul class="feats">
+            <li><span>📸</span>Galeri kelas, workshop &amp; event</li>
+            <li><span>📅</span>Jadwal otomatis 8 minggu ke depan</li>
+            <li><span>🪑</span>Kuota kursi, ditahan sementara lalu lepas otomatis</li>
+            <li><span>💳</span>Nominal + kode unik, bukti via WhatsApp</li>
+            <li><span>🎥</span>Kelas offline, online live &amp; rekaman</li>
+            <li><span>🛠️</span>Panel admin: kuota, lunas, batalkan</li>
+          </ul>
+          <div class="tags"><span>Next.js</span><span>Supabase</span><span>Reservasi</span><span>Admin</span></div>
+        </div>
+        <div class="stg" style="--s1:#eef3dc;--s2:#cfe0a8">
+          <div class="hm">
+            <div class="pics"><img src="img/harmony-1.jpg" alt="Peserta kelas yoga Harmony of Life" loading="lazy"><img src="img/harmony-2.jpg" alt="Kelas yoga di Omah Turi" loading="lazy"></div>
+            <div class="ph hs"><div class="scr">
+              <h6>Omah Turi · Jumat</h6><div class="sm">Pilih sesi untuk mendaftar</div>
+              <div class="week"><span>SEN</span><span>SEL</span><span>RAB</span><span>KAM</span><span class="on">JUM</span><span>SAB</span><span>MIN</span></div>
+              <div class="sess"><b>Jumat · 19.00</b><small>Tiket Rp 50.000 / orang</small><div class="meter"><i></i></div><small>Sisa 8 dari 20 kursi</small></div>
+              <div class="btnm">Daftar sekarang</div>
+              <div class="code">Transfer tepat<b>Rp 50.347</b>kode unik memudahkan verifikasi</div>
+            </div></div>
+          </div>
+          <span class="cap">Foto asli kelas · layar pendaftaran ilustrasi</span>
+        </div>
+      </article>
+
+      <!-- 03 ERP -->
+      <article class="case" id="erp">
+        <div class="ct">
+          <div class="no">03 · ERP + ASISTEN &amp; AGEN AI</div>
+          <h3>ERP Rejeki Utama AC — kantor digital yang tidak pernah tidur</h3>
+          <div class="who">Penjualan, instalasi &amp; perawatan AC · berdiri sejak 1996</div>
+          <p class="hook"><b>Bukan sekadar ERP.</b> Tinggal tanya dalam bahasa sehari-hari, “piutang minggu ini berapa?”, dan asisten pintar langsung menjawab. Di belakangnya, agen-agen AI ikut bekerja: menjadwalkan teknisi, mengawasi stok, dan mengejar penagihan. Anda fokus bertumbuh, sistem yang mengurus rutinitasnya.</p>
+          <ul class="feats">
+            <li><span>💬</span>Asisten pintar: tanya data bisnis seperti ngobrol</li>
+            <li><span>🤖</span>Agen AI bekerja otomatis di setiap alur kerja</li>
+            <li><span>📋</span>Surat tugas &amp; nota service sampai penagihan</li>
+            <li><span>🛍️</span>Sales order, surat jalan &amp; approval owner</li>
+            <li><span>💰</span>Keuangan, piutang &amp; verifikasi mutasi bank</li>
+            <li><span>📦</span>Stok real-time &amp; cetak dokumen A5 otomatis</li>
+            <li><span>👥</span>Akses Owner, Admin &amp; Teknisi</li>
+            <li><span>⚡</span>Satu sistem terintegrasi, tanpa input ganda</li>
+          </ul>
+          <div class="row"><a class="btn btn-p btn-sm" href="https://nexora-demo-ru.netlify.app" target="_blank" rel="noopener">Coba demo →</a></div>
+        </div>
+        <div class="stg" style="--s1:#dff4fc;--s2:#a8def2">
+          <div class="fx">
+            <div class="fxb"><i></i><i></i><i></i><u>erp.rejekiutama · dashboard</u></div>
+            <div class="erp">
+              <div class="sb"><b>RU ERP</b><span class="on">Dashboard</span><span>Surat Tugas</span><span>Penjualan</span><span>Stok</span><span>Keuangan</span><span>Piutang</span></div>
+              <div class="mn">
+                <div class="kp"><div><b>Rp 86 jt</b><span>Omzet bulan ini</span></div><div><b>42</b><span>Servis berjalan</span></div><div><b>Rp 8,4 jt</b><span>Piutang jatuh tempo</span></div></div>
+                <div class="bars"><i style="height:38%"></i><i style="height:55%"></i><i style="height:46%"></i><i style="height:72%"></i><i style="height:64%"></i><i style="height:88%"></i><i style="height:76%"></i></div>
+                <div class="agents">
+                  <div>🤖 <span><b>Agen Jadwal</b> menugaskan teknisi ke 3 lokasi</span></div>
+                  <div>🤖 <span><b>Agen Stok</b> membuat draf pembelian freon</span></div>
+                  <div>🤖 <span><b>Agen Tagih</b> menyiapkan 4 pengingat</span></div>
+                </div>
+              </div>
+              <div class="chat">
+                <h6>Asisten RU</h6>
+                <div class="m u">Piutang servis yang jatuh tempo minggu ini?</div>
+                <div class="m b">Ada <strong>4 nota</strong> senilai <strong>Rp 8,4 jt</strong>. Mau saya kirim pengingat penagihan?</div>
+                <div class="act"><span>Kirim</span><span class="o">Lihat daftar</span></div>
+              </div>
+            </div>
+          </div>
+          <span class="cap">Ilustrasi tampilan · data contoh</span>
+        </div>
+      </article>
+
+      <!-- 04 POS -->
+      <article class="case rev" id="pos">
+        <div class="ct">
+          <div class="no">04 · POS F&amp;B</div>
+          <h3>POS BBQIU — dari meja sampai dapur</h3>
+          <div class="who">BBQIU Fusion Grill House · dipakai di operasional harian</div>
+          <p class="hook">Tamu scan barcode di meja, memesan sendiri, dan pesanan langsung muncul di layar dapur. Pembayaran QRIS tanpa potongan payment gateway, stok bahan baku terjaga otomatis.</p>
+          <ul class="feats">
+            <li><span>📱</span>Order meja via scan barcode</li>
+            <li><span>🍳</span>Kitchen Display System real-time</li>
+            <li><span>💳</span>QRIS tanpa biaya payment gateway</li>
+            <li><span>🧾</span>Kasir digital &amp; rekap penjualan</li>
+            <li><span>♻️</span>Stok FIFO otomatis via scan barcode</li>
+            <li><span>⏰</span>Alert kadaluarsa H-7 ke WhatsApp/Telegram</li>
+          </ul>
+          <div class="tags"><span>POS</span><span>QRIS</span><span>KDS</span><span>Inventori</span></div>
+        </div>
+        <div class="stg dk bq" style="--s1:#3a2418;--s2:#1c1410">
+          <div class="duo">
+            <div class="ph"><div class="scr">
+              <h6>Meja 07</h6><div class="sm">BBQIU Fusion Grill House</div>
+              <div class="mi"><i>🥩</i><div><b>Menu A</b><small>Rp 58.000</small></div><u>+</u></div>
+              <div class="mi"><i>🍜</i><div><b>Menu B</b><small>Rp 32.000</small></div><u>+</u></div>
+              <div class="mi"><i>🥤</i><div><b>Menu C</b><small>Rp 18.000</small></div><u>+</u></div>
+              <div class="btnm">Pesan · Rp 108.000</div>
+            </div></div>
+            <div class="kds">
+              <div class="t"><b>Meja 07 <em>Baru</em></b><p>1× Menu A</p><p>1× Menu B · 1× Menu C</p></div>
+              <div class="t"><b>Meja 03 <em class="g">Siap</em></b><p>2× Menu A</p></div>
+              <div class="al">⏰ Bahan baku mendekati kadaluarsa (H-7). Peringatan terkirim ke SPV &amp; Owner.</div>
+            </div>
+          </div>
+          <span class="cap">Ilustrasi tampilan · nama menu &amp; harga contoh</span>
+        </div>
+      </article>
+
+      <!-- 05 SOP -->
+      <article class="case" id="sop">
+        <div class="ct">
+          <div class="no">05 · CHECKLIST SOP</div>
+          <h3>Checklist SOP BBQIU — disiplin yang terbukti foto</h3>
+          <div class="who">BBQIU Fusion Grill House · dipakai di operasional harian</div>
+          <p class="hook">Setiap tugas harian harus dibuktikan dengan foto ber-watermark lokasi GPS dan waktu. Owner atau SPV meninjau dari dashboard, lalu menyetujui atau meminta diulang.</p>
+          <ul class="feats">
+            <li><span>📸</span>Foto bukti ber-watermark GPS &amp; waktu</li>
+            <li><span>🌅</span>Preopening, operasional &amp; closing</li>
+            <li><span>🏪</span>Per cabang, area, shift &amp; penanggung jawab</li>
+            <li><span>✅</span>Setujui atau tolak, minta ulangi</li>
+            <li><span>🔐</span>Dashboard Owner/SPV dengan PIN</li>
+            <li><span>🔍</span>Jejak audit: reviewer tercatat di tiap keputusan</li>
+          </ul>
+          <div class="tags"><span>Checklist</span><span>GPS</span><span>Dashboard</span></div>
+        </div>
+        <div class="stg" style="--s1:#e8ecf7;--s2:#c4cdea">
+          <div class="duo ck">
+            <div class="ph"><div class="scr">
+              <h6>Checklist Area Dapur</h6><div class="sm">Preopening Resto · Shift pagi</div>
+              <div class="tabs"><span class="on">Preopening</span><span>Operasional</span><span>Closing</span></div>
+              <div class="it">Lantai &amp; meja bersih</div>
+              <div class="it">Peralatan siap pakai</div>
+              <div class="shot"><span>📍 Lokasi GPS tercatat<br>04 Nov 2026 · 09:12</span></div>
+              <div class="it todo">Stok bahan dicek</div>
+              <div class="btnm" style="background:#14112b">Kirim Checklist Area</div>
+            </div></div>
+            <div class="dash">
+              <h6>Dashboard Owner/SPV</h6>
+              <div class="rw"><div>Area Dapur<small>Shift pagi · 09:12</small></div><span class="ok">Setujui</span></div>
+              <div class="rw"><div>Area Bar<small>Shift pagi · 09:30</small></div><span class="ok">Setujui</span></div>
+              <div class="rw"><div>Area Kasir<small>Foto kurang jelas</small></div><span class="no2">Ulangi</span></div>
+            </div>
+          </div>
+          <span class="cap">Ilustrasi tampilan · data contoh</span>
+        </div>
+      </article>
+
+      <!-- 06 DIAMOND -->
+      <article class="case rev" id="diamond">
+        <div class="ct">
+          <div class="no">06 · COMPANY PROFILE</div>
+          <h3>Diamond Makeup Artist — profil yang bikin percaya</h3>
+          <div class="who">Website company profile make-up artist</div>
+          <p class="hook">Etalase digital yang elegan: calon klien melihat hasil kerja, mengenal layanan, lalu langsung menghubungi untuk booking.</p>
+          <ul class="feats">
+            <li><span>🖼️</span>Galeri hasil riasan</li>
+            <li><span>💄</span>Daftar layanan</li>
+            <li><span>💬</span>Booking langsung via WhatsApp</li>
+            <li><span>📱</span>Tampil rapi di ponsel</li>
+          </ul>
+          <div class="tags"><span>Company Profile</span><span>Galeri</span><span>Booking</span></div>
+        </div>
+        <div class="stg dk" style="--s1:#2a2230;--s2:#0f0d12">
+          <div class="fx dm">
+            <div class="fxb"><i></i><i></i><i></i><u>diamond-mua</u></div>
+            <div class="dmh"><b>DIAMOND</b><span><i style="font-style:normal">Layanan</i><i style="font-style:normal">Galeri</i><i style="font-style:normal">Kontak</i></span></div>
+            <div class="dmv"><small>MAKEUP ARTIST</small><strong>Tampil memukau<br>di hari istimewamu</strong><u>Booking via WhatsApp</u></div>
+            <div class="gal"><i></i><i></i><i></i><i></i></div>
+            <div class="dsv"><span>Layanan A</span><span>Layanan B</span><span>Layanan C</span></div>
+          </div>
+          <span class="cap">Ilustrasi tampilan</span>
+        </div>
+      </article>
+
+      <!-- 07 AR -->
+      <article class="case" id="ar">
+        <div class="ct">
+          <div class="no">07 · AUGMENTED REALITY</div>
+          <h3>Kartu Nama AR — kartu nama yang “hidup”</h3>
+          <div class="who">Rejeki Utama AC</div>
+          <p class="hook">Arahkan kamera ponsel ke kartu nama, lalu presentasi perusahaan muncul seperti story interaktif. Calon pelanggan melihat apa yang terjadi di dalam AC mereka, dan menghubungi tim tanpa mengetik satu nomor pun.</p>
+          <ul class="feats">
+            <li><span>📷</span>Scan kartu, langsung tampil lewat browser</li>
+            <li><span>✨</span>Presentasi interaktif bergaya story</li>
+            <li><span>❄️</span>Layanan, sejarah sejak 1996 &amp; jaminan</li>
+            <li><span>🎯</span>Kuis singkat untuk menarik perhatian</li>
+            <li><span>📲</span>Tombol WhatsApp langsung</li>
+            <li><span>⚙️</span>Semua teks diatur dari satu file</li>
+          </ul>
+          <div class="tags"><span>AR</span><span>Presentasi</span><span>Branding</span></div>
+        </div>
+        <div class="stg" style="--s1:#e6f7fd;--s2:#a8def2">
+          <div class="arw">
+            <div class="card"><b>REJEKI UTAMA AC<em>SEJAK 1996</em></b><small>Penjualan, Instalasi &amp; Perawatan AC</small><div class="qr">◪</div></div>
+            <div class="ph ar"><div class="scr">
+              <div class="bars2"><i></i><i></i><i></i><i></i></div>
+              <div class="flake"><div>❄️</div><b>24°C</b><small>Apa yang terjadi di dalam AC Anda?</small></div>
+              <div class="q">Arahkan kamera, lihat perjalanan udara dingin di dalam AC.</div>
+              <div class="wa">Chat WhatsApp</div>
+            </div></div>
+          </div>
+          <span class="cap">Ilustrasi tampilan</span>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -201,7 +625,7 @@
       <div class="head">
         <div class="eyebrow">Layanan</div>
         <h2>Apa saja yang bisa dikerjakan</h2>
-        <p>Enam jenis pekerjaan yang paling sering kami tangani. Kebutuhan Anda tidak persis di daftar ini? Tetap ceritakan, alur kerja bisa disesuaikan.</p>
+        <p>Enam jenis pekerjaan yang bisa kami tangani. Kebutuhan Anda tidak persis di daftar ini? Tetap ceritakan, alur kerja bisa disesuaikan.</p>
       </div>
       <div class="svc" id="services"></div>
     </div>
@@ -220,17 +644,6 @@
         <div class="st"><b>Bangun &amp; uji</b><span>Sistem dibuat lalu dicoba langsung di operasional, bukan hanya di meja rapat.</span></div>
         <div class="st"><b>Rilis &amp; berkembang</b><span>Dipakai lewat browser, lalu fitur disesuaikan seiring bisnis Anda tumbuh.</span></div>
       </div>
-    </div>
-  </section>
-
-  <!-- SEGERA -->
-  <section class="alt" style="padding:64px 0">
-    <div class="wrap">
-      <div class="head" style="margin-bottom:24px">
-        <div class="eyebrow">Sedang Disiapkan</div>
-        <h2 style="font-size:28px">Produk berikutnya</h2>
-      </div>
-      <div class="soon" id="soon"></div>
     </div>
   </section>
 
@@ -261,96 +674,23 @@
 // ============================================================================
 // EDIT DI SINI — tambah/ubah karya & layanan, halaman otomatis ikut berubah
 // ============================================================================
-const PROJECTS = [
-  {
-    kat:"Kasir & F&B", ikon:"🍽️", warna:["#ede9fe","#c4b5fd"], nama:"Nexora POS",
-    klien:"Dipakai di operasional harian BBQIU",
-    ringkas:"Sistem kasir F&B lengkap dari meja sampai dapur, tanpa potongan payment gateway.",
-    hasil:["QRIS langsung, biaya payment gateway 0%","Order meja via scan barcode + layar dapur (KDS)","Stok FIFO otomatis & alert kadaluarsa H-7 ke WhatsApp/Telegram"],
-    tags:["POS","QRIS","KDS","Inventori"]
-  },
-  {
-    kat:"SDM & SOP", ikon:"✅", warna:["#dcfce7","#86efac"], nama:"Nexora HR — Checklist & Kepatuhan SOP",
-    klien:"Dipakai di operasional harian BBQIU",
-    ringkas:"Checklist harian staf yang dikonfirmasi dengan foto ber-watermark GPS & waktu, lengkap dengan dashboard Owner/SPV.",
-    hasil:["Bukti foto ber-GPS, jejak audit rapi","Tugas terjadwal per staf, shift, atau outlet","Pantau kepatuhan SOP dari dashboard"],
-    tags:["Checklist","GPS","Dashboard"]
-  },
-  {
-    kat:"Servis & Penjualan", ikon:"🏢", warna:["#dbeafe","#93c5fd"], nama:"Nexora Business Suite",
-    klien:"Untuk perusahaan jasa & dagang · Demo tersedia",
-    ringkas:"Surat tugas, nota service, sales order, stok, keuangan, dan piutang dalam satu dashboard.",
-    hasil:["Cetak Nota, Surat Jalan & Surat Tugas A5 otomatis","Approval owner & verifikasi mutasi bank","Akses berbeda untuk Owner, Admin, Teknisi"],
-    tags:["Keuangan","Stok","Multi-role"], demo:"https://nexora-demo-ru.netlify.app"
-  },
-  {
-    kat:"Pendaftaran Online", ikon:"🧘", warna:["#fef3c7","#fcd34d"], nama:"Harmony of Life — Pendaftaran Online",
-    klien:"Venue Omah Turi",
-    ringkas:"Pendaftaran kelas dengan kuota, jadwal otomatis, dan konfirmasi pembayaran lewat admin.",
-    hasil:["Jadwal dibuat otomatis 8 minggu ke depan","Kursi ditahan sementara, lepas otomatis jika tidak dibayar","Panel admin: atur kuota, tandai lunas, batalkan"],
-    tags:["Next.js","Supabase","Admin"]
-  },
-  {
-    kat:"Website & Digital", ikon:"❄️", warna:["#cffafe","#67e8f9"], nama:"Rejeki Utama AC — Kartu Nama AR",
-    klien:"Penjualan, instalasi & perawatan AC",
-    ringkas:"Kartu nama interaktif dengan pengalaman augmented reality dan presentasi perusahaan yang bisa dibuka dari ponsel.",
-    hasil:["Kartu nama yang memancing orang untuk scan","Pengalaman AR + presentasi perusahaan","Semua data diatur dari satu file konfigurasi"],
-    tags:["AR","Presentasi","Branding"]
-  },
-  {
-    kat:"Otomasi", ikon:"💄", warna:["#fce7f3","#f9a8d4"], nama:"MUA Poster — Jadwal Posting Instagram",
-    klien:"Untuk akun make-up artist",
-    ringkas:"Antrian posting yang dijadwalkan dan terbit otomatis ke Instagram, termasuk banyak akun sekaligus.",
-    hasil:["Antrian per akun dengan caption & jadwal","Posting berjalan otomatis lewat penjadwal","Status tiap posting: pending, posting, selesai, gagal"],
-    tags:["Instagram","Penjadwal","Supabase"]
-  }
-];
-
 const SERVICES = [
-  {ikon:"🧾", judul:"Kasir & operasional F&B", isi:"Kasir digital, QRIS, order meja via barcode, layar dapur, dan kontrol stok bahan baku.", contoh:"Contoh: <b>Nexora POS</b>"},
-  {ikon:"📋", judul:"Manajemen SDM & SOP", isi:"Checklist harian dengan bukti foto ber-GPS, penjadwalan tugas, dan pemantauan kepatuhan staf.", contoh:"Contoh: <b>Nexora HR</b>"},
-  {ikon:"🛠️", judul:"Servis, penjualan & keuangan", isi:"Surat tugas, nota, stok, piutang, dan cetak dokumen otomatis untuk perusahaan jasa & dagang.", contoh:"Contoh: <b>Business Suite</b>"},
+  {ikon:"🧾", judul:"Kasir & operasional F&B", isi:"Kasir digital, QRIS, order meja via barcode, layar dapur, dan kontrol stok bahan baku.", contoh:"Contoh: <b>POS BBQIU</b>"},
+  {ikon:"📋", judul:"Manajemen SDM & SOP", isi:"Checklist harian dengan bukti foto ber-GPS, penjadwalan tugas, dan pemantauan kepatuhan staf.", contoh:"Contoh: <b>Checklist SOP BBQIU</b>"},
+  {ikon:"🛠️", judul:"Servis, penjualan & keuangan", isi:"Surat tugas, nota, stok, piutang, dan cetak dokumen otomatis untuk perusahaan jasa & dagang.", contoh:"Contoh: <b>ERP Rejeki Utama AC</b>"},
   {ikon:"📅", judul:"Pendaftaran & booking online", isi:"Kuota, jadwal otomatis, pembayaran dengan konfirmasi, dan panel admin untuk pengelola.", contoh:"Contoh: <b>Harmony of Life</b>"},
-  {ikon:"⚙️", judul:"Otomasi & notifikasi", isi:"Peringatan ke WhatsApp/Telegram, penjadwalan posting media sosial, dan tugas rutin yang berjalan sendiri.", contoh:"Contoh: <b>Alert H-7, MUA Poster</b>"},
-  {ikon:"✨", judul:"Website & pengalaman digital", isi:"Halaman profil bisnis, kartu nama digital, dan presentasi interaktif, termasuk AR.", contoh:"Contoh: <b>Rejeki Utama AC</b>"}
-];
-
-const SOON = [
-  ["📲","Nexora QuickOrder","bagian dari POS"],["🖥️","Nexora SelfServe",""],["📅","Nexora Reserve",""],
-  ["📚","Nexora Central","bagian dari POS"],["📈","Nexora Forecast",""],["🎁","Nexora Rewards",""],
-  ["🤖","Nexora AI Assistant",""],["📊","Nexora Analytics",""]
+  {ikon:"🤖", judul:"Asisten pintar & agen AI", isi:"Asisten yang menjawab pertanyaan bisnis, agen AI yang menjalankan tugas rutin, plus peringatan otomatis ke WhatsApp/Telegram.", contoh:"Contoh: <b>Asisten &amp; agen AI, alert H-7</b>"},
+  {ikon:"🛒", judul:"Website, toko online & AR", isi:"Company profile, toko online (e-commerce), kartu nama digital, dan presentasi interaktif berbasis AR.", contoh:"Contoh: <b>Toyzone, Diamond MUA, Kartu Nama AR</b>"}
 ];
 
 // ---------------------------------------------------------------------------
 const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const $ = id => document.getElementById(id);
 
-$('countProj').textContent = PROJECTS.length;
-
-$('projects').innerHTML = PROJECTS.map(p=>`
-  <article class="proj" data-kat="${esc(p.kat)}">
-    <div class="thumb" style="--c1:${p.warna[0]};--c2:${p.warna[1]}" aria-hidden="true"><em>${esc(p.kat)}</em>${p.ikon}</div>
-    <div class="pb">
-      <div><h3>${esc(p.nama)}</h3><div class="cl">${esc(p.klien)}</div></div>
-      <p>${esc(p.ringkas)}</p>
-      <ul>${p.hasil.map(h=>`<li>${esc(h)}</li>`).join('')}</ul>
-      <div class="tags">${p.tags.map(t=>`<span>${esc(t)}</span>`).join('')}</div>
-      ${p.demo?`<a class="plink" href="${esc(p.demo)}" target="_blank" rel="noopener">Coba demo →</a>`:`<span class="plink muted">Demo publik segera hadir</span>`}
-    </div>
-  </article>`).join('');
-
-const cats = ['Semua', ...new Set(PROJECTS.map(p=>p.kat))];
-$('filters').innerHTML = cats.map((c,i)=>`<button class="fbtn" aria-pressed="${i===0}" data-k="${esc(c)}">${esc(c)}</button>`).join('');
-$('filters').addEventListener('click',e=>{
-  const b = e.target.closest('.fbtn'); if(!b) return;
-  document.querySelectorAll('.fbtn').forEach(x=>x.setAttribute('aria-pressed', x===b));
-  document.querySelectorAll('.proj').forEach(el=>{ el.hidden = !(b.dataset.k==='Semua' || el.dataset.kat===b.dataset.k); });
-});
 
 $('services').innerHTML = SERVICES.map(s=>`
   <div class="sv"><div class="ic">${s.ikon}</div><h3>${esc(s.judul)}</h3><p>${esc(s.isi)}</p><small>${s.contoh}</small></div>`).join('');
 
-$('soon').innerHTML = SOON.map(([i,n,k])=>`<span>${i} ${esc(n)}${k?` <em>· ${esc(k)}</em>`:''}</span>`).join('');
 
 $('burger').addEventListener('click',()=>{
   const o = $('links').classList.toggle('open'); $('burger').setAttribute('aria-expanded', o);
