@@ -177,6 +177,28 @@
         footer .wordmark { align-items: center; color: var(--ink); }
         footer p { font-size: 0.66rem; letter-spacing: 0.14em; color: var(--muted); margin-top: 1.2rem; }
 
+        /* Booking form */
+        .booking { max-width: 34rem; margin: 0 auto 2.6rem; text-align: left; }
+        .ftabs { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); margin-bottom: 1.8rem; }
+        .ftabs button { padding: 0.95rem 0.5rem; font-size: 0.64rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); transition: background 0.3s, color 0.3s; }
+        .ftabs button.on { background: var(--mocha); color: var(--ivory); }
+        .booking form { display: grid; gap: 1.15rem; }
+        .booking [hidden] { display: none !important; }
+        .booking .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .f { display: block; }
+        .f span { display: block; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--champagne); margin-bottom: 0.35rem; }
+        .f input, .f select, .f textarea { width: 100%; font: inherit; font-size: 1rem; color: var(--ink); background: transparent; border: 0; border-bottom: 1px solid rgba(47, 37, 34, 0.28); border-radius: 0; padding: 0.45rem 0 0.55rem; outline: none; -webkit-appearance: none; appearance: none; transition: border-color 0.3s; }
+        .f select { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23B89A7E'/%3E%3C/svg%3E") no-repeat right 0.2rem center; padding-right: 1.4rem; }
+        .f textarea { resize: vertical; min-height: 4.5rem; }
+        .f input:focus, .f select:focus, .f textarea:focus { border-bottom-color: var(--mocha); }
+        .f input::placeholder, .f textarea::placeholder { color: rgba(133, 118, 111, 0.6); }
+        .booking form .btn { width: 100%; margin-top: 0.6rem; }
+        .booking form .btn[disabled] { opacity: 0.6; }
+        .hp { position: absolute; left: -9999px; }
+        .done { text-align: center; border: 1px solid var(--line); padding: 2.2rem 1.4rem; }
+        .done b { display: block; font-family: var(--serif); font-weight: 400; font-size: 2rem; }
+        .done p { margin: 0.6rem auto 1.6rem; }
+        .done .again { display: block; margin: 1.2rem auto 0; font-size: 0.64rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid var(--line); }
         /* Floating WhatsApp */
         .wa { position: fixed; right: 1.1rem; bottom: calc(1.1rem + env(safe-area-inset-bottom)); z-index: 40; width: 52px; height: 52px; border-radius: 50%; background: var(--mocha); color: var(--ivory); display: grid; place-items: center; box-shadow: 0 10px 30px rgba(47, 37, 34, 0.28); opacity: 0; transform: translateY(20px); transition: opacity 0.4s, transform 0.4s; pointer-events: none; }
         .wa.show { opacity: 1; transform: none; pointer-events: auto; }
@@ -382,7 +404,84 @@
         <div class="wrap reveal">
             <div class="eyebrow">Reservasi</div>
             <h2 class="h2">Siap untuk hari <em>istimewamu?</em></h2>
-            <p>Ceritakan tanggal dan acaramu. Tim kami akan membantu memilih look terbaik dan mengamankan jadwalmu.</p>
+            <p>Isi form singkat di bawah, atau langsung chat WhatsApp. Tim kami akan membantu memilih look terbaik dan mengamankan jadwalmu.</p>
+            <div class="booking" id="booking">
+                <div class="ftabs" role="tablist">
+                    <button type="button" class="on" data-f="reservasi">Reservasi Makeup</button>
+                    <button type="button" data-f="kelas">Daftar Makeup Course</button>
+                </div>
+
+                <form name="reservasi" method="POST" data-netlify="true" netlify-honeypot="website" data-f="reservasi">
+                    <input type="hidden" name="form-name" value="reservasi">
+                    <p class="hp"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></p>
+                    <label class="f"><span>Nama lengkap</span><input name="nama" required autocomplete="name"></label>
+                    <label class="f"><span>No. WhatsApp</span><input name="whatsapp" type="tel" inputmode="tel" required placeholder="08xx xxxx xxxx" autocomplete="tel"></label>
+                    <label class="f"><span>Jenis makeup</span>
+                        <select name="layanan" required>
+                            <option value="" disabled selected>Pilih layanan</option>
+                            <option>Wedding Bride (akad/resepsi)</option>
+                            <option>Engagement / Lamaran</option>
+                            <option>Prewedding</option>
+                            <option>Sweet Seventeen</option>
+                            <option>Pre Sweet 17</option>
+                            <option>Party / Wisuda / Kondangan</option>
+                            <option>Maternity</option>
+                            <option>Mature Makeup</option>
+                            <option>Photoshoot</option>
+                            <option>Kids Makeup</option>
+                            <option>Hair &amp; Hijab Do saja</option>
+                            <option>Lainnya</option>
+                        </select></label>
+                    <div class="row">
+                        <label class="f"><span>Tanggal acara</span><input name="tanggal" type="date" required></label>
+                        <label class="f"><span>Jam siap</span><input name="jam" type="time"></label>
+                    </div>
+                    <div class="row">
+                        <label class="f"><span>Jumlah orang dirias</span><input name="jumlah_orang" type="number" min="1" value="1" required></label>
+                        <label class="f"><span>MUA pilihan</span>
+                            <select name="mua">
+                                <option>Ing2</option><option>Tim Diamond</option><option selected>Bebas / disarankan</option>
+                            </select></label>
+                    </div>
+                    <label class="f"><span>Lokasi rias / acara</span><input name="lokasi" required placeholder="Nama gedung / alamat, kota"></label>
+                    <label class="f"><span>Catatan (opsional)</span><textarea name="catatan" rows="3" placeholder="Tema, warna baju, referensi look, dll."></textarea></label>
+                    <button class="btn dark" type="submit">Kirim Reservasi</button>
+                </form>
+
+                <form name="kelas" method="POST" data-netlify="true" netlify-honeypot="website" data-f="kelas" hidden>
+                    <input type="hidden" name="form-name" value="kelas">
+                    <p class="hp"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></p>
+                    <label class="f"><span>Nama lengkap</span><input name="nama" required autocomplete="name"></label>
+                    <label class="f"><span>No. WhatsApp</span><input name="whatsapp" type="tel" inputmode="tel" required placeholder="08xx xxxx xxxx" autocomplete="tel"></label>
+                    <label class="f"><span>Kelas yang diminati</span>
+                        <select name="kelas" required>
+                            <option value="" disabled selected>Pilih kelas</option>
+                            <option>Basic MUA (3 Hari)</option>
+                            <option>Wedding Advance (Privat)</option>
+                            <option>Monolid Technique (1 Sesi)</option>
+                            <option>Mature &amp; Facelift (1 Sesi)</option>
+                            <option>Belum tahu, ingin konsultasi</option>
+                        </select></label>
+                    <label class="f"><span>Pengalaman makeup</span>
+                        <select name="pengalaman" required>
+                            <option value="" disabled selected>Pilih</option>
+                            <option>Pemula, belum pernah</option><option>Bisa makeup diri sendiri</option><option>Sudah menerima klien / MUA</option>
+                        </select></label>
+                    <div class="row">
+                        <label class="f"><span>Rencana mulai</span><input name="rencana_mulai" type="month"></label>
+                        <label class="f"><span>Domisili</span><input name="domisili" placeholder="Kota"></label>
+                    </div>
+                    <label class="f"><span>Catatan (opsional)</span><textarea name="catatan" rows="3" placeholder="Tujuan ikut kelas, jadwal yang diinginkan, dll."></textarea></label>
+                    <button class="btn dark" type="submit">Kirim Pendaftaran</button>
+                </form>
+
+                <div class="done" id="done" hidden>
+                    <b>Terima kasih!</b>
+                    <p id="doneMsg">Data kamu sudah kami terima.</p>
+                    <a class="btn dark" id="doneWa" target="_blank" rel="noopener">Lanjutkan ke WhatsApp</a>
+                    <button type="button" class="again" id="again">Isi form lagi</button>
+                </div>
+            </div>
             <div class="links">
                 <a class="btn dark" id="ctaWa" target="_blank" rel="noopener">
                     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>
@@ -430,7 +529,6 @@
 
 
         // Course
-        document.getElementById('courseCta').href = wa('Halo Ing2, saya ingin daftar Makeup Course Diamond.');
         const course = MEDIA.course || [];
         if (course[0]) {
             const f = document.getElementById('courseFeature');
@@ -443,6 +541,42 @@
         });
 
         document.getElementById('ctaWa').href = wa('Halo Diamond Make Up Artist, saya ingin reservasi makeup.');
+        // Form reservasi & pendaftaran kelas (Netlify Forms), lalu lanjut ke WhatsApp
+        const booking = document.getElementById('booking');
+        const done = document.getElementById('done');
+        const showForm = name => {
+            done.hidden = true;
+            booking.querySelectorAll('form').forEach(f => f.hidden = f.dataset.f !== name);
+            booking.querySelectorAll('.ftabs button').forEach(b => b.classList.toggle('on', b.dataset.f === name));
+        };
+        booking.querySelectorAll('.ftabs button').forEach(b => b.onclick = () => showForm(b.dataset.f));
+        const today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+        booking.querySelector('input[name=tanggal]').min = today;
+        const LABEL = { nama: 'Nama', whatsapp: 'WhatsApp', layanan: 'Layanan', tanggal: 'Tanggal acara', jam: 'Jam siap', jumlah_orang: 'Jumlah orang', mua: 'MUA pilihan', lokasi: 'Lokasi', kelas: 'Kelas', pengalaman: 'Pengalaman', rencana_mulai: 'Rencana mulai', domisili: 'Domisili', catatan: 'Catatan' };
+        booking.querySelectorAll('form').forEach(form => form.addEventListener('submit', async e => {
+            e.preventDefault();
+            const btn = form.querySelector('button[type=submit]'); btn.disabled = true;
+            const data = new FormData(form);
+            try {
+                await fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() });
+            } catch (err) { /* tetap lanjut ke WhatsApp */ }
+            const isKelas = form.dataset.f === 'kelas';
+            const lines = [...data.entries()].filter(([k, v]) => LABEL[k] && String(v).trim()).map(([k, v]) => `${LABEL[k]}: ${v}`);
+            const head = isKelas ? 'Halo Ing2, saya ingin daftar Makeup Course Diamond.' : 'Halo Diamond Make Up Artist, saya ingin reservasi makeup.';
+            document.getElementById('doneWa').href = wa(head + '\n\n' + lines.join('\n'));
+            document.getElementById('doneMsg').textContent = isKelas
+                ? 'Pendaftaran kelas sudah kami terima. Lanjutkan ke WhatsApp agar Ing2 bisa langsung membalas.'
+                : 'Data reservasi sudah kami terima. Lanjutkan ke WhatsApp untuk cek ketersediaan jadwal.';
+            form.reset(); btn.disabled = false;
+            booking.querySelectorAll('form').forEach(f => f.hidden = true);
+            done.hidden = false;
+            done.scrollIntoView({ block: 'center' });
+        }));
+        document.getElementById('again').onclick = () => showForm(booking.querySelector('.ftabs .on').dataset.f);
+        document.getElementById('courseCta').href = '#reservasi';
+        document.getElementById('courseCta').removeAttribute('target');
+        document.getElementById('courseCta').addEventListener('click', () => showForm('kelas'));
+
         document.getElementById('wa').href = wa('Halo Diamond Make Up Artist, saya ingin bertanya.');
 
         // Portofolio
