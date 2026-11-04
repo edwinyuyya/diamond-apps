@@ -28,7 +28,7 @@ window.RU = {
     nama: "Nexora",
     whatsapp: "628131888116",          // format 62..., tanpa + / spasi
     telepon: "+628131888116",          // tampil di kartu
-    ajakan: "Anda mau membuat kartu nama keren seperti ini untuk perusahaan / usaha Anda?",
+    ajakan: "Anda mau membuat kartu nama informatif dan terpercaya seperti ini untuk perusahaan / usaha Anda?",
   },
 
   // Link halaman AR (isi QR code). Kosong = otomatis pakai alamat
