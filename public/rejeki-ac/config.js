@@ -23,6 +23,14 @@ window.RU = {
   instagram: "@rejekiutama.ac",            // ✏️ GANTI
   areaLayanan: "Jabodetabek",              // ✏️ GANTI
 
+  // Pembuat kartu (promosi di slide terakhir & "Powered by" di kartu cetak)
+  pembuat: {
+    nama: "Nexora",
+    whatsapp: "628131888116",          // format 62..., tanpa + / spasi
+    telepon: "+628131888116",          // tampil di kartu
+    ajakan: "Anda mau membuat kartu nama keren seperti ini untuk perusahaan / usaha Anda?",
+  },
+
   // Link halaman AR (isi QR code). Kosong = otomatis pakai alamat
   // website tempat file ini di-hosting.
   urlAR: "",

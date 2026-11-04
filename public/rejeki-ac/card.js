@@ -18,7 +18,7 @@
   // Kartu 1 sisi, tegak 55 x 90 mm (550 x 900 unit). AC = posisi gambar AC di kartu;
   // overlay AR (presentasi.js) menempel tepat di sini.
   var CARD = { w: 550, h: 900 };
-  var AC = { x: 135, y: 334, s: 0.5, w: 560, h: 150 };
+  var AC = { x: 135, y: 392, s: 0.5, w: 560, h: 150 };
 
   function esc(s) {
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -115,7 +115,7 @@
       sparkle(AC.x - 8, AC.y + 4, 11, BLUE) + sparkle(AC.x + AC.w * AC.s + 10, AC.y + 50, 8, BLUE);
 
     // HP dengan kode di layarnya
-    var px = 180, py = 432, pw = 190, ph = 240, qs = 138, qx = cx - qs / 2, qy = 476;
+    var px = 180, py = 490, pw = 190, ph = 240, qs = 138, qx = cx - qs / 2, qy = 534;
     var phone =
       '<rect x="' + px + '" y="' + py + '" width="' + pw + '" height="' + ph + '" rx="30" fill="' + WHITE + '" stroke="' + DARK + '" stroke-width="6.5"/>' +
       '<rect x="' + (cx - 20) + '" y="' + (py + 12) + '" width="40" height="6" rx="3" fill="' + DARK + '"/>' +
@@ -126,6 +126,17 @@
 
     var waGlyph = '<path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3z" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M12 10.5c.3-.6.6-.6.9-.6h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6-.6 1.1-1.2 1-.9 1.5a7.6 7.6 0 0 0 3.8 3.3c.3.1.4 0 .6-.2s.6-.8.8-1 .4-.2.7-.1 1.6.8 1.9.9.4.2.5.3a2.4 2.4 0 0 1-.2 1.3 2.9 2.9 0 0 1-1.8 1.3c-.9.2-1.7.1-3.4-.7a12.6 12.6 0 0 1-4.8-4.3 5.5 5.5 0 0 1-1.1-2.9 3.2 3.2 0 0 1 1-2.4z" fill="#fff"/>';
     var camGlyph = '<path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.8l1.6-2.2h6.2L16.7 7h2.8A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="12.8" r="3.6" fill="none" stroke="#fff" stroke-width="2.2"/>';
+
+    // "Powered by [Nexora] +62..." di dasar kartu
+    var mk = cfg.pembuat || {}, poweredBy = "";
+    if (mk.nama) {
+      var lh = 13, lw = window.NX_MARK ? lh * 487 / 88 : 0, numW = String(mk.telepon || "").length * 11 * 0.62;
+      var px0 = cx - (60 + 7 + lw + 9 + numW) / 2;
+      poweredBy = '<text x="' + px0.toFixed(1) + '" y="864" font-family="Poppins" font-weight="500" font-size="11" fill="' + INK + '" fill-opacity=".75">Powered by</text>' +
+        (window.NX_MARK ? '<image x="' + (px0 + 67).toFixed(1) + '" y="852.5" width="' + lw.toFixed(1) + '" height="' + lh + '" href="' + window.NX_MARK + '"/>'
+                        : '<text x="' + (px0 + 67).toFixed(1) + '" y="864" font-family="Montserrat" font-weight="800" font-size="11" fill="' + DARK + '">' + esc(mk.nama) + "</text>") +
+        '<text x="' + (px0 + 67 + lw + 9).toFixed(1) + '" y="864" font-family="Montserrat" font-weight="700" font-size="11" fill="' + INK + '">' + esc(mk.telepon || "") + "</text>";
+    }
 
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + vb + '" font-family="Poppins">' +
       '<defs><radialGradient id="fbg' + u + '" cx=".75" cy="0" r="1.1"><stop offset="0" stop-color="#D8F1FC"/><stop offset=".45" stop-color="#F4FBFE"/><stop offset="1" stop-color="#FFFFFF"/></radialGradient>' +
@@ -141,19 +152,21 @@
       '<text x="' + cx + '" y="236" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="33" fill="' + DARK + '">Ingin tahu apa yang</text>' +
       '<text x="' + cx + '" y="276" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="33" fill="' + DARK + '">sebenarnya terjadi</text>' +
       '<text x="' + cx + '" y="316" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="33" fill="' + BLUE + '">di dalam AC Anda?</text>' +
+      // ajakan langsung di bawah judul
+      '<rect x="40" y="332" width="470" height="44" rx="15" fill="url(#fbtn' + u + ')"/>' +
+      '<g transform="translate(152,341) scale(1.05)">' + camGlyph + "</g>" +
+      '<text x="186" y="361" font-family="Montserrat" font-weight="800" font-size="18" fill="#fff">Buka kamera HP Anda</text>' +
       acArt + phone +
       // penenang: tanpa aplikasi
-      '<text x="' + cx + '" y="698" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="14" fill="' + BLUE + '">Tanpa aplikasi \u2022 tanpa daftar \u2022 gratis</text>' +
+      '<text x="' + cx + '" y="752" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="14" fill="' + BLUE + '">Tanpa aplikasi \u2022 tanpa daftar \u2022 gratis</text>' +
       // kotak WhatsApp
-      '<rect x="40" y="714" width="470" height="90" rx="22" fill="' + WHITE + '" stroke="#CDEBF7" stroke-width="2"/>' +
-      '<rect x="60" y="731" width="56" height="56" rx="16" fill="#25D366"/>' +
-      '<g transform="translate(70,741) scale(1.12)">' + waGlyph + "</g>" +
-      '<text x="134" y="751" font-family="Montserrat" font-weight="800" font-size="13" letter-spacing="1.8" fill="' + BLUE + '">WHATSAPP KAMI</text>' +
-      '<text x="133" y="790" font-family="Montserrat" font-weight="800" font-size="' + fitSize(cfg.telepon, 32, 350, 0.66) + '" fill="' + DARK + '">' + esc(cfg.telepon) + "</text>" +
-      // "tombol" ajakan
-      '<rect x="40" y="816" width="470" height="50" rx="16" fill="url(#fbtn' + u + ')"/>' +
-      '<g transform="translate(150,828) scale(1.1)">' + camGlyph + "</g>" +
-      '<text x="186" y="850" font-family="Montserrat" font-weight="800" font-size="19" fill="#fff">Buka kamera HP Anda</text>' +
+      '<rect x="40" y="764" width="470" height="80" rx="22" fill="' + WHITE + '" stroke="#CDEBF7" stroke-width="2"/>' +
+      '<rect x="60" y="778" width="52" height="52" rx="15" fill="#25D366"/>' +
+      '<g transform="translate(68.5,786.5) scale(1.09)">' + waGlyph + "</g>" +
+      '<text x="130" y="796" font-family="Montserrat" font-weight="800" font-size="13" letter-spacing="1.8" fill="' + BLUE + '">WHATSAPP KAMI</text>' +
+      '<text x="129" y="830" font-family="Montserrat" font-weight="800" font-size="' + fitSize(cfg.telepon, 30, 350, 0.66) + '" fill="' + DARK + '">' + esc(cfg.telepon) + "</text>" +
+      // "Powered by" pembuat kartu
+      poweredBy +
       "</svg>";
   }
 
