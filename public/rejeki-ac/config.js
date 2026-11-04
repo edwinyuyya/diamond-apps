@@ -43,7 +43,7 @@ window.RU = {
   // Perjalanan. Tambahkan tahun-tahun penting lain bila ada (mis. { tahun: "2010", teks: "..." }).
   sejarah: [
     { tahun: "1996", teks: "Berdiri — penjualan, instalasi & perawatan AC" },
-    { tahun: "Berkembang", teks: "Melayani rumah, gedung, hotel, rumah sakit, pabrik hingga BUMN/BUMD" },
+    { tahun: "Berkembang", teks: "Melayani lebih dari 1.000 pelanggan per bulan" },
     { tahun: "Kini", teks: "7 layanan: AC, CCTV, APAR, solar water heater, water torn, jet cleaner & pembersihan hunian" },
   ],
 

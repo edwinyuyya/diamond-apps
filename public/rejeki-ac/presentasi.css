@@ -195,7 +195,7 @@
 /* =========================================================
    OVERLAY DI ATAS KARTU (koordinat SVG = koordinat kartu 900x550)
    ========================================================= */
-.ru-ov{position:relative;width:1000px;height:611px;pointer-events:none}
+.ru-ov{position:relative;width:1000px;height:1636px;pointer-events:none}
 .ru-ov svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .ru-ov .g{opacity:0;transition:opacity .6s}
 /* AC: mati -> nyala */

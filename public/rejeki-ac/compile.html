@@ -14,10 +14,10 @@
 </head>
 <body>
 <h1>Buat ulang target AR (kartu-ac.mind)</h1>
-<p>Hanya perlu dipakai kalau <b>desain sisi BELAKANG kartu (yang bergambar AC) diubah</b>. Halaman ini menggambar sisi itu dari <code>card.js</code>
+<p>Hanya perlu dipakai kalau <b>desain kartu diubah</b>. Halaman ini menggambar sisi itu dari <code>card.js</code>
 (area QR sengaja dikosongkan, jadi ganti link QR tidak perlu compile ulang), lalu membuat file <code>kartu-ac.mind</code> yang dipakai kamera
 untuk mengenali kartu. Simpan kedua file hasilnya ke folder <code>targets/</code>.</p>
-<img id="preview" alt="Sisi belakang kartu">
+<img id="preview" alt="Kartu nama">
 <p><button id="go" disabled>Buat target AR</button><a class="b" id="dlPng" download="kartu-ac.png">⬇️ kartu-ac.png</a><a class="b" id="dlMind" download="kartu-ac.mind" style="display:none">⬇️ kartu-ac.mind</a></p>
 <div id="log">Menyiapkan…</div>
 
@@ -26,7 +26,7 @@ untuk mengenali kartu. Simpan kedua file hasilnya ke folder <code>targets/</code
 <script type="module">
   import "./vendor/mindar/mindar-image.prod.js";
   const log = (m) => (document.getElementById("log").textContent = m);
-  const W = 1200, H = Math.round(W * 550 / 900);
+  const W = 760, H = Math.round(W * 900 / 550);
 
   async function fontCss() {
     const list = [["Montserrat", 500], ["Montserrat", 700], ["Montserrat", 800], ["Montserrat", 900], ["Poppins", 400], ["Poppins", 500], ["Poppins", 600]];
@@ -40,7 +40,7 @@ untuk mengenali kartu. Simpan kedua file hasilnya ke folder <code>targets/</code
   }
 
   async function renderFront() {
-    let svg = RUCard.back(window.RU, "", { noQr: true });
+    let svg = RUCard.front(window.RU, "", { noQr: true });
     svg = svg.replace(/(<svg[^>]*>)/, '$1<style>' + await fontCss() + "</style>").replace("<svg ", '<svg width="' + W + '" height="' + H + '" ');
     const img = new Image();
     img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);

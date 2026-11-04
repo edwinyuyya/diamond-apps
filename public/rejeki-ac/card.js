@@ -1,13 +1,11 @@
 /*
- * Desain kartu nama Rejeki Utama AC (ukuran standar 90 x 55 mm), gaya putih + biru dingin.
- * Kedua sisi digambar sebagai SVG 900 x 550 (1 unit = 0,1 mm) dengan
- * bleed 3 mm (30 unit) di tiap sisi untuk percetakan.
+ * Desain kartu nama Rejeki Utama AC — 1 SISI, TEGAK 55 x 90 mm, gaya putih + biru dingin.
+ * Digambar sebagai SVG 550 x 900 (1 unit = 0,1 mm) dengan bleed 3 mm (30 unit) untuk percetakan.
  *
- *  - DEPAN    : "kartu teka-teki" — tanpa nama, nomor disensor, QR di dalam gambar HP,
- *               3 langkah scan. Tujuannya memancing penerima mengeluarkan HP.
- *  - BELAKANG : layout "QR & AR dominan" — AC rutin dirawat VS tidak dirawat + QR.
- *               Sisi ini adalah TARGET AR: kalau desainnya diubah, buat ulang
- *               targets/kartu-ac.mind lewat compile.html.
+ * Isi: "Ingin tahu apa yang sebenarnya terjadi di dalam AC Anda?", gambar AC, kode di dalam
+ * gambar HP ("arahkan kamera ke sini"), nomor WhatsApp, dan ajakan "Buka kamera HP Anda".
+ * Sisi ini adalah TARGET AR: kalau desainnya diubah, buat ulang targets/kartu-ac.mind
+ * lewat compile.html (area kode dikosongkan, jadi ganti link tidak perlu compile ulang).
  */
 (function () {
   // Palet putih + biru dingin (diambil dari biru logo #0AA0D2):
@@ -17,8 +15,10 @@
   var BLEED = 30;
   // Unit AC digambar di koordinat aslinya 560 x 150, lalu diperkecil.
   // AC = posisi AC "rutin dirawat" di sisi belakang — overlay AR menempel tepat di sini.
-  var AC = { x: 48, y: 86, s: 0.42, w: 560, h: 150 };
-  var AC_DIRTY = { x: 355, y: 86, s: 0.42 };
+  // Kartu 1 sisi, tegak 55 x 90 mm (550 x 900 unit). AC = posisi gambar AC di kartu;
+  // overlay AR (presentasi.js) menempel tepat di sini.
+  var CARD = { w: 550, h: 900 };
+  var AC = { x: 135, y: 334, s: 0.5, w: 560, h: 150 };
 
   function esc(s) {
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -95,15 +95,6 @@
     return '<polygon points="' + p.join(" ") + '" fill="' + fill + '"/>';
   }
 
-  // Tulisan merek sesuai logo resmi: nama, bidang usaha, SERVICE EXCELLENT + 5 bintang.
-  function wordmark(x, y, cfg, light) {
-    var main = light ? DARK : WHITE, sub = light ? BRAND : "#5CC8F0", stars = "";
-    for (var k = 0; k < 5; k++) stars += star(x + 316 + k * 32, y + 75, 12.5, light ? BLUE : BLUE2);
-    return '<text x="' + x + '" y="' + y + '" font-family="Montserrat" font-weight="900" font-size="50" letter-spacing=".5" fill="' + main + '">REJEKI UTAMA AC</text>' +
-      '<text x="' + (x + 2) + '" y="' + (y + 37) + '" font-family="Poppins" font-weight="600" font-size="23" fill="' + sub + '">' + esc(cfg.subjudul) + "</text>" +
-      '<text transform="translate(' + (x + 2) + "," + (y + 84) + ') skewX(-12)" font-family="Montserrat" font-weight="900" font-size="26" fill="' + main + '">SERVICE EXCELLENT</text>' +
-      stars;
-  }
 
   // Unit AC split indoor, koordinat asli 560 x 150 (titik 0,0)
   function acUnit(opt) {
@@ -129,10 +120,6 @@
     return '<g transform="translate(' + g.x + "," + g.y + ") scale(" + g.s + ')">' + acUnit(opt) + "</g>";
   }
 
-  function svgOpen(withBleed) {
-    var vb = withBleed ? (-BLEED + " " + -BLEED + " " + (900 + 2 * BLEED) + " " + (550 + 2 * BLEED)) : "0 0 900 550";
-    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + vb + '" font-family="Poppins">';
-  }
 
   // Ikon garis kecil (kotak 24 x 24)
   var LINE_ICONS = {
@@ -156,10 +143,11 @@
     return '<g transform="translate(' + x + "," + y + ") scale(" + size / 24 + ')"><path d="' + LINE_ICONS[name] + '" fill="none" stroke="' + color + '" stroke-width="' + (sw || 2) + '" stroke-linecap="round" stroke-linejoin="round"/></g>';
   }
 
-  // ---------------- DEPAN: "kartu teka-teki" ----------------
-  // Sengaja TIDAK lengkap: tanpa nama, nomor WhatsApp disensor. Satu-satunya cara
-  // membuka isinya adalah scan QR (di dalam gambar HP) lalu mengarahkan kamera ke kartu.
-  // Kisi: margin kiri 48, area aman 30 unit dari tepi potong.
+  // ---------------- DEPAN: tegak (55 x 90 mm), meniru layar pembuka AR ----------------
+  // Judul utama berupa pertanyaan yang memancing rasa ingin tahu. Sengaja TIDAK memakai
+  // kata "scan"/"QR" (banyak orang curiga datanya disedot): kodenya ada di dalam gambar
+  // layar HP dan ditulis "arahkan kamera ke sini" — kamera HP modern mengenalinya otomatis.
+  // Koordinat 550 x 900, area aman 30 unit dari tepi potong.
   function fitSize(text, max, width, em) {
     // perkiraan lebar huruf kapital Montserrat tebal ≈ em × ukuran per karakter
     return Math.min(max, +(width / (String(text).length * em)).toFixed(1));
@@ -167,138 +155,54 @@
   function front(cfg, qrSvgInner, opts) {
     opts = opts || {};
     var u = "_" + (logoSeq++); // id unik: beberapa kartu bisa tampil di satu halaman
-    var b = BLEED, tex = "";
-    for (var i = 0; i < 14; i++) tex += '<line x1="' + (i * 80 - 300) + '" y1="' + (-b) + '" x2="' + (i * 80 + 100) + '" y2="' + (550 + b) + '"/>';
+    var b = BLEED, W = 550, H = 900, cx = W / 2, k;
+    var vb = opts.bleed ? (-b + " " + -b + " " + (W + 2 * b) + " " + (H + 2 * b)) : "0 0 " + W + " " + H;
+    var stars = "";
+    for (k = 0; k < 5; k++) stars += star(402 + k * 19, 121, 8.5, BLUE);
 
-    // HP berisi QR: instruksi yang terbaca tanpa perlu membaca
-    var px = 620, py = 34, pw = 222, ph = 386, qx = 656, qy = 118, qs = 150;
-    function corner(x, y, dx, dy) {
-      return '<path d="M' + x + " " + (y + dy * 22) + "V" + y + "H" + (x + dx * 22) + '" fill="none" stroke="' + BLUE + '" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>';
-    }
+    // gambar AC yang "hidup" saat disorot kamera
+    var acArt = acAt(AC, {}) +
+      sparkle(AC.x - 8, AC.y + 4, 11, BLUE) + sparkle(AC.x + AC.w * AC.s + 10, AC.y + 50, 8, BLUE);
+
+    // HP dengan kode di layarnya
+    var px = 180, py = 432, pw = 190, ph = 240, qs = 138, qx = cx - qs / 2, qy = 476;
     var phone =
-      '<rect x="' + (px + 6) + '" y="' + (py + 10) + '" width="' + pw + '" height="' + ph + '" rx="36" fill="' + DARK + '" opacity=".18"/>' +
-      '<rect x="' + px + '" y="' + py + '" width="' + pw + '" height="' + ph + '" rx="36" fill="' + DARK + '"/>' +
-      '<rect x="' + (px + 11) + '" y="' + (py + 34) + '" width="' + (pw - 22) + '" height="' + (ph - 48) + '" rx="24" fill="' + WHITE + '"/>' +
-      '<rect x="' + (px + pw / 2 - 26) + '" y="' + (py + 14) + '" width="52" height="9" rx="4.5" fill="#1F6587"/>' +
-      '<text x="' + (px + pw / 2) + '" y="' + (qy - 16) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="19" letter-spacing="2" fill="' + BLUE + '">SCAN SAYA</text>' +
+      '<rect x="' + px + '" y="' + py + '" width="' + pw + '" height="' + ph + '" rx="30" fill="' + WHITE + '" stroke="' + DARK + '" stroke-width="6.5"/>' +
+      '<rect x="' + (cx - 20) + '" y="' + (py + 12) + '" width="40" height="6" rx="3" fill="' + DARK + '"/>' +
+      '<text x="' + cx + '" y="' + (qy - 14) + '" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="10.5" letter-spacing="1" fill="' + BLUE + '">ARAHKAN KAMERA KE SINI</text>' +
+      '<rect x="' + (qx - 7) + '" y="' + (qy - 7) + '" width="' + (qs + 14) + '" height="' + (qs + 14) + '" rx="9" fill="none" stroke="' + BLUE + '" stroke-width="3" stroke-dasharray="10 6"/>' +
       (opts.noQr ? "" : '<g transform="translate(' + qx + "," + qy + ") scale(" + (qs / 112) + ')">' + qrSvgInner + "</g>") +
-      corner(qx - 10, qy - 10, 1, 1) + corner(qx + qs + 10, qy - 10, -1, 1) + corner(qx - 10, qy + qs + 10, 1, -1) + corner(qx + qs + 10, qy + qs + 10, -1, -1) +
-      '<rect x="' + (qx - 4) + '" y="' + (qy + qs / 2 - 1.5) + '" width="' + (qs + 8) + '" height="3" rx="1.5" fill="' + ICE + '" opacity=".85"/>' +
-      '<text x="' + (px + pw / 2) + '" y="' + (qy + qs + 46) + '" text-anchor="middle" font-family="Poppins" font-weight="500" font-size="14" fill="' + INK + '">lalu balik kartu &amp; arahkan</text>' +
-      '<text x="' + (px + pw / 2) + '" y="' + (qy + qs + 66) + '" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="14.5" fill="' + DARK + '">kamera ke gambar AC</text>' +
-      // ikon putar balik
-      '<g transform="translate(' + (px + pw / 2) + "," + (qy + qs + 96) + ')" fill="none" stroke="' + BLUE + '" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">' +
-      '<path d="M-13 -3A13 13 0 0 1 11 -7M13 3A13 13 0 0 1 -11 7"/><path d="M5 -12 11 -7 6 -1M-5 12 -11 7 -6 1"/></g>';
+      '<text x="' + cx + '" y="' + (qy + qs + 30) + '" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="10.5" fill="' + INK + '">lalu ketuk tautan yang muncul</text>';
 
-    // baris terkunci: nomor WhatsApp disensor
-    var lock = '<g transform="translate(70,316)" fill="none" stroke="' + DARK + '" stroke-width="3" stroke-linejoin="round"><rect x="0" y="12" width="26" height="20" rx="4" fill="' + DARK + '"/><path d="M5 12V7a8 8 0 0 1 16 0v5"/></g>';
-    var bars = [[112, 64], [184, 64], [256, 84]].map(function (r) {
-      return '<rect x="' + r[0] + '" y="336" width="' + r[1] + '" height="16" rx="4" fill="' + DARK + '"/>';
-    }).join("");
-    var locked =
-      '<rect x="48" y="296" width="520" height="76" rx="18" fill="' + WHITE + '" stroke="#BFE3F2" stroke-width="2"/>' + lock +
-      '<text x="112" y="326" font-family="Montserrat" font-weight="800" font-size="14" letter-spacing="1.5" fill="' + BLUE + '">WHATSAPP</text>' + bars +
-      '<text x="356" y="349" font-family="Poppins" font-weight="600" font-size="15" fill="' + BLUE + '">terbuka setelah scan</text>';
+    var waGlyph = '<path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3z" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/><path d="M12 10.5c.3-.6.6-.6.9-.6h.5c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6-.6 1.1-1.2 1-.9 1.5a7.6 7.6 0 0 0 3.8 3.3c.3.1.4 0 .6-.2s.6-.8.8-1 .4-.2.7-.1 1.6.8 1.9.9.4.2.5.3a2.4 2.4 0 0 1-.2 1.3 2.9 2.9 0 0 1-1.8 1.3c-.9.2-1.7.1-3.4-.7a12.6 12.6 0 0 1-4.8-4.3 5.5 5.5 0 0 1-1.1-2.9 3.2 3.2 0 0 1 1-2.4z" fill="#fff"/>';
+    var camGlyph = '<path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.8l1.6-2.2h6.2L16.7 7h2.8A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="12.8" r="3.6" fill="none" stroke="#fff" stroke-width="2.2"/>';
 
-    // pita 3 langkah
-    var steps = [["1", "SCAN QR"], ["2", "TEKAN MULAI AR"], ["3", "ARAHKAN KE KARTU"]], sx = 0, band = "";
-    var widths = steps.map(function (st) { return 30 + 10 + st[1].length * 15 * 0.74; }), GAP = 58;
-    sx = 450 - (widths.reduce(function (t, w) { return t + w; }, 0) + GAP * (steps.length - 1)) / 2;
-    steps.forEach(function (st, k) {
-      if (k) band += '<path d="M' + (sx - GAP / 2 - 5).toFixed(1) + ' 479l8 8-8 8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".8"/>';
-      band += '<circle cx="' + (sx + 15).toFixed(1) + '" cy="487" r="15" fill="#fff"/>' +
-        '<text x="' + (sx + 15).toFixed(1) + '" y="493" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="17" fill="' + BLUE_M + '">' + st[0] + "</text>" +
-        '<text x="' + (sx + 40).toFixed(1) + '" y="493" font-family="Montserrat" font-weight="800" font-size="15" letter-spacing=".4" fill="#fff">' + st[1] + "</text>";
-      sx += widths[k] + GAP;
-    });
-    band += '<text x="450" y="516" text-anchor="middle" font-family="Poppins" font-weight="500" font-size="13.5" fill="#fff" fill-opacity=".9">Gratis \u2022 tanpa install aplikasi \u2022 cuma 30 detik</text>';
-
-    return svgOpen(opts.bleed) +
-      '<defs><radialGradient id="fbg' + u + '" cx=".2" cy=".05" r="1.1"><stop offset="0" stop-color="#DDF3FC"/><stop offset=".45" stop-color="#F5FBFE"/><stop offset="1" stop-color="#FFFFFF"/></radialGradient>' +
-      '<linearGradient id="fband' + u + '" x1="0" y1="0" x2="1" y2=".25"><stop offset="0" stop-color="#0A86BD"/><stop offset=".5" stop-color="#19B5E8"/><stop offset="1" stop-color="#0A86BD"/></linearGradient></defs>' +
-      '<rect x="' + -b + '" y="' + -b + '" width="' + (900 + 2 * b) + '" height="' + (550 + 2 * b) + '" fill="url(#fbg' + u + ')"/>' +
-      '<g stroke="' + BLUE + '" stroke-opacity=".035" stroke-width="26">' + tex + "</g>" +
-      '<g opacity=".07">' + snowflake(560, 60, 120, BLUE, 8) + "</g>" +
-      // merek (kecil)
-      logo(46, 38, 62) +
-      '<text x="122" y="68" font-family="Montserrat" font-weight="900" font-size="24" fill="' + DARK + '">REJEKI UTAMA AC</text>' +
-      '<text x="123" y="92" font-family="Poppins" font-weight="500" font-size="14.5" fill="' + BLUE + '">' + esc(cfg.subjudul) + " \u2022 Sejak " + esc(cfg.tahunBerdiri) + "</text>" +
-      // pengait rasa penasaran
-      '<text x="46" y="178" font-family="Montserrat" font-weight="900" font-size="38" fill="' + DARK + '">Ada yang tersembunyi</text>' +
-      '<text x="46" y="222" font-family="Montserrat" font-weight="900" font-size="38" fill="' + BLUE + '">di kartu ini.</text>' +
-      '<text x="48" y="262" font-family="Poppins" font-weight="500" font-size="19" fill="' + INK + '">Hanya terlihat lewat kamera HP Anda.</text>' +
-      locked + phone +
-      '<rect x="' + -b + '" y="446" width="' + (900 + 2 * b) + '" height="' + (104 + b) + '" fill="url(#fband' + u + ')"/>' +
-      band +
-      "</svg>";
-  }
-
-  // ---------------- BELAKANG: QR & AR dominan (target AR) ----------------
-  function back(cfg, qrSvgInner, opts) {
-    opts = opts || {};
-    var u = "_" + (logoSeq++);
-    var b = BLEED, i;
-    // aliran udara bersih vs udara kotor (tercetak)
-    var cleanAir = "", dirtyAir = "";
-    for (i = 0; i < 5; i++) {
-      var x0 = 78 + i * 44;
-      cleanAir += '<path d="M' + x0 + " 154 c -10 18, 14 30, 2 " + (52 + (i % 2) * 8) + '" stroke="' + (i % 2 ? ICE2 : "#5FC8EE") + '" stroke-width="4" fill="none" stroke-linecap="round" opacity=".8"/>';
-      var x1 = 385 + i * 44;
-      dirtyAir += '<path d="M' + x1 + " 154 q 6 12 -2 22 q -8 10 2 " + (18 + (i % 3) * 6) + '" stroke="#8a8170" stroke-width="3" fill="none" stroke-linecap="round" opacity=".75"/>';
-    }
-    dirtyAir += '<path d="M420 156 q -5 9 0 13 q 5 -4 0 -13z" fill="#8a8170"/><path d="M540 156 q -5 9 0 13 q 5 -4 0 -13z" fill="#8a8170"/>';
-    var good = [["wind", "Udara bersih & sehat"], ["snow", "Dingin optimal"], ["bolt", "Hemat energi"], ["shield", "AC lebih awet"], ["smile", "Nyaman setiap saat"]];
-    var bad = [["wind", "Udara kotor & berbau"], ["snow", "Kurang dingin"], ["bolt", "Boros listrik"], ["warn", "Berisiko kerusakan"], ["frown", "Tidak nyaman"]];
-    var lists = "";
-    good.forEach(function (g, k) {
-      lists += lineIcon(g[0], 56, 268 + k * 34, 20, INK, 2) + '<text x="86" y="284" transform="translate(0,' + k * 34 + ')" font-family="Poppins" font-weight="500" font-size="16.5" fill="' + INK + '">' + esc(g[1]) + "</text>";
-    });
-    bad.forEach(function (g, k) {
-      lists += lineIcon(g[0], 360, 268 + k * 34, 20, INK, 2) + '<text x="390" y="284" transform="translate(0,' + k * 34 + ')" font-family="Poppins" font-weight="500" font-size="16.5" fill="' + INK + '">' + esc(g[1]) + "</text>";
-    });
-    var feats = [["gear", "PREVENTIVE", "MAINTENANCE"], ["drop", "INDOOR AIR", "QUALITY"], ["bolt", "ENERGY", "EFFICIENCY"], ["clock", "FAST", "RESPONSE"], ["pro", "PROFESSIONAL", "SERVICE"]];
-    var band = "";
-    feats.forEach(function (f, k) {
-      var cx = 28 + k * 172;
-      band += lineIcon(f[0], cx, 482, 32, BLUE, 2) +
-        '<text x="' + (cx + 42) + '" y="495" font-family="Montserrat" font-weight="700" font-size="12.5" letter-spacing=".8" fill="' + DARK + '">' + f[1] + "</text>" +
-        '<text x="' + (cx + 42) + '" y="512" font-family="Montserrat" font-weight="700" font-size="12.5" letter-spacing=".8" fill="' + DARK + '">' + f[2] + "</text>";
-    });
-    var qr = opts.noQr ? "" : qrSvgInner;
-    return svgOpen(opts.bleed) +
-      '<defs><linearGradient id="bcr' + u + '" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#EAF7FD"/></linearGradient></defs>' +
-      '<rect x="' + -b + '" y="' + -b + '" width="' + (900 + 2 * b) + '" height="' + (550 + 2 * b) + '" fill="' + DEEP + '"/>' +
-      '<rect x="' + -b + '" y="' + -b + '" width="' + (668 + b) + '" height="' + (484 + b) + '" fill="url(#bcr' + u + ')"/>' +
-      // judul kolom
-      '<text x="165" y="58" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="18" letter-spacing=".5" fill="' + INK + '">AC RUTIN DIRAWAT</text>' +
-      '<text x="474" y="58" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="18" letter-spacing=".5" fill="' + INK + '">AC TIDAK DIRAWAT</text>' +
-      '<line x1="318" y1="36" x2="318" y2="158" stroke="#BFE3F2" stroke-width="2"/><line x1="318" y1="222" x2="318" y2="452" stroke="#BFE3F2" stroke-width="2"/>' +
-      acAt(AC, {}) + acAt(AC_DIRTY, { dirty: true }) +
-      cleanAir + dirtyAir +
-      '<circle cx="318" cy="190" r="30" fill="' + BLUE + '"/><text x="318" y="199" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="24" fill="' + WHITE + '">VS</text>' +
-      '<circle cx="70" cy="236" r="17" fill="none" stroke="' + INK + '" stroke-width="2.6"/><path d="M62 236l6 6 11-12" fill="none" stroke="' + INK + '" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>' +
-      '<circle cx="602" cy="236" r="17" fill="none" stroke="' + INK + '" stroke-width="2.6"/><path d="M595 229l14 14M609 229l-14 14" stroke="' + INK + '" stroke-width="3" stroke-linecap="round"/>' +
-      lists +
-      // kolom kanan
-      '<text x="784" y="56" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="19" fill="' + WHITE + '">Jangan tunggu</text>' +
-      '<text x="784" y="81" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="19" fill="' + WHITE + '">AC rusak untuk</text>' +
-      '<text x="784" y="106" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="19" fill="' + WHITE + '">mulai peduli.</text>' +
-      '<rect x="700" y="124" width="168" height="70" rx="6" fill="' + WHITE + '"/>' +
-      '<text x="784" y="150" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="17" fill="' + DARK + '">SCAN —</text>' +
-      '<text x="784" y="168" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="13" fill="' + DARK + '">LIHAT KONDISI</text>' +
-      '<text x="784" y="185" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="13" fill="' + DARK + '">AC ANDA</text>' +
-      '<rect x="716" y="208" width="136" height="136" rx="8" fill="' + WHITE + '"/>' +
-      '<g transform="translate(728,220)">' + qr + "</g>" +
-      '<rect x="704" y="360" width="160" height="46" rx="6" fill="none" stroke="' + WHITE + '" stroke-width="2"/>' +
-      '<rect x="712" y="367" width="40" height="32" rx="4" fill="none" stroke="' + WHITE + '" stroke-width="2"/>' +
-      '<text x="732" y="390" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="18" fill="' + WHITE + '">AR</text>' +
-      '<text x="762" y="381" font-family="Montserrat" font-weight="800" font-size="12.5" letter-spacing="1" fill="' + WHITE + '">COMPANY</text>' +
-      '<text x="762" y="397" font-family="Montserrat" font-weight="800" font-size="12.5" letter-spacing="1" fill="' + WHITE + '">PROFILE</text>' +
-      '<text x="784" y="432" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="12" fill="' + WHITE + '">Simpan kartu ini. Suatu hari</text>' +
-      '<text x="784" y="449" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="12" fill="' + WHITE + '">AC Anda akan membutuhkannya.</text>' +
-      // pita bawah
-      '<rect x="' + -b + '" y="466" width="' + (900 + 2 * b) + '" height="' + (84 + b) + '" fill="' + FROST + '"/>' +
-      '<rect x="' + -b + '" y="466" width="' + (900 + 2 * b) + '" height="2" fill="' + BLUE + '" opacity=".5"/>' + band +
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + vb + '" font-family="Poppins">' +
+      '<defs><radialGradient id="fbg' + u + '" cx=".75" cy="0" r="1.1"><stop offset="0" stop-color="#D8F1FC"/><stop offset=".45" stop-color="#F4FBFE"/><stop offset="1" stop-color="#FFFFFF"/></radialGradient>' +
+      '<linearGradient id="fbtn' + u + '" x1="0" x2="1"><stop offset="0" stop-color="#0A86BD"/><stop offset=".5" stop-color="#19B5E8"/><stop offset="1" stop-color="#0A86BD"/></linearGradient></defs>' +
+      '<rect x="' + -b + '" y="' + -b + '" width="' + (W + 2 * b) + '" height="' + (H + 2 * b) + '" fill="url(#fbg' + u + ')"/>' +
+      // merek
+      logo(44, 44, 104) +
+      '<text x="162" y="94" font-family="Montserrat" font-weight="900" font-size="29" fill="' + DARK + '">REJEKI UTAMA AC</text>' +
+      '<text transform="translate(163,127) skewX(-12)" font-family="Montserrat" font-weight="900" font-size="17" fill="' + DARK + '">SERVICE EXCELLENT</text>' + stars +
+      '<rect x="' + (cx - 30) + '" y="176" width="60" height="4" rx="2" fill="' + BLUE + '" opacity=".6"/>' +
+      // judul utama: pertanyaan pemancing rasa ingin tahu
+      '<text x="' + cx + '" y="236" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="33" fill="' + DARK + '">Ingin tahu apa yang</text>' +
+      '<text x="' + cx + '" y="276" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="33" fill="' + DARK + '">sebenarnya terjadi</text>' +
+      '<text x="' + cx + '" y="316" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="33" fill="' + BLUE + '">di dalam AC Anda?</text>' +
+      acArt + phone +
+      // penenang: tanpa aplikasi
+      '<text x="' + cx + '" y="698" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="14" fill="' + BLUE + '">Tanpa aplikasi \u2022 tanpa daftar \u2022 gratis</text>' +
+      // kotak WhatsApp
+      '<rect x="40" y="714" width="470" height="90" rx="22" fill="' + WHITE + '" stroke="#CDEBF7" stroke-width="2"/>' +
+      '<rect x="60" y="731" width="56" height="56" rx="16" fill="#25D366"/>' +
+      '<g transform="translate(70,741) scale(1.12)">' + waGlyph + "</g>" +
+      '<text x="134" y="751" font-family="Montserrat" font-weight="800" font-size="13" letter-spacing="1.8" fill="' + BLUE + '">WHATSAPP KAMI</text>' +
+      '<text x="133" y="790" font-family="Montserrat" font-weight="800" font-size="' + fitSize(cfg.telepon, 32, 350, 0.66) + '" fill="' + DARK + '">' + esc(cfg.telepon) + "</text>" +
+      // "tombol" ajakan
+      '<rect x="40" y="816" width="470" height="50" rx="16" fill="url(#fbtn' + u + ')"/>' +
+      '<g transform="translate(150,828) scale(1.1)">' + camGlyph + "</g>" +
+      '<text x="186" y="850" font-family="Montserrat" font-weight="800" font-size="19" fill="#fff">Buka kamera HP Anda</text>' +
       "</svg>";
   }
 
@@ -319,6 +223,6 @@
     return here.replace(/[^/]*$/, "") + "ar.html";
   }
 
-  window.RUCard = { front: front, back: back, qrInner: qrInner, arUrl: arUrl, logo: logo, wordmark: wordmark, star: star, BRAND: BRAND, snowflake: snowflake, sparkle: sparkle,
-    acUnit: acUnit, lineIcon: lineIcon, AC: AC, BLEED: BLEED };
+  window.RUCard = { front: front, qrInner: qrInner, arUrl: arUrl, logo: logo, star: star, BRAND: BRAND, snowflake: snowflake, sparkle: sparkle,
+    acUnit: acUnit, lineIcon: lineIcon, AC: AC, CARD: CARD, BLEED: BLEED };
 })();

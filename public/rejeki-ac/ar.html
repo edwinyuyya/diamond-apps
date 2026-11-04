@@ -16,7 +16,7 @@
   button{font-family:inherit;cursor:pointer;border:0}
 
   /* layar awal */
-  #intro{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 20px calc(20px + env(safe-area-inset-bottom));overflow-y:auto;
+  #intro{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:safe center;text-align:center;padding:20px 20px calc(20px + env(safe-area-inset-bottom));overflow-y:auto;
     background:radial-gradient(120% 70% at 75% 0%,#D8F1FC,#F4FBFE 45%,#FFFFFF 85%)}
   #intro .brand{display:flex;align-items:center;gap:12px;animation:rise .9s cubic-bezier(.2,.9,.2,1) both}
   #intro .brand > svg{width:72px;height:72px;flex:none;filter:drop-shadow(0 6px 14px rgba(10,110,160,.2))}
@@ -26,18 +26,17 @@
   @keyframes rise{from{opacity:0;transform:translateY(20px)}}
   #intro p.s{color:var(--deep);margin-top:16px;font-size:15px;font-weight:600;max-width:300px;text-wrap:balance;animation:rise .9s .1s cubic-bezier(.2,.9,.2,1) both}
   #intro .rule{width:56px;height:2px;background:var(--blue);opacity:.6;margin-top:16px;border-radius:2px}
-  /* hadiah setelah scan: nomor yang disensor di kartu kini terbuka */
+  /* kontak langsung: nomor WhatsApp + tombol chat */
   .unlock{margin-top:16px;width:min(340px,100%);display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;text-align:left;box-shadow:0 8px 22px rgba(10,110,160,.12);animation:rise .9s .2s cubic-bezier(.2,.9,.2,1) both}
-  .unlock .ic{flex:none;width:40px;height:40px;border-radius:12px;background:var(--blue);display:grid;place-items:center;animation:pop .6s .9s cubic-bezier(.3,1.6,.5,1) both}
+  .unlock .ic{flex:none;width:40px;height:40px;border-radius:12px;background:#25D366;display:grid;place-items:center}
   .unlock .ic svg{width:22px;height:22px}
-  @keyframes pop{from{transform:scale(.3) rotate(-30deg)}}
   .unlock small{display:block;font:800 11px Montserrat;letter-spacing:1.5px;color:var(--blue)}
   .unlock b{display:block;font:800 19px Montserrat;color:var(--ink);letter-spacing:.3px}
   .unlock a{margin-left:auto;flex:none;background:#25D366;color:#fff;text-decoration:none;font:800 13px Montserrat;padding:10px 12px;border-radius:12px}
-  .demo{position:relative;width:min(300px,78vw);aspect-ratio:90/55;margin:64px 0 20px;perspective:700px}
-  .demo .card{position:absolute;inset:0;border-radius:10px;overflow:hidden;transform:rotateX(38deg);box-shadow:0 18px 30px rgba(10,90,140,.25)}
+  .demo{position:relative;width:min(170px,44vw);aspect-ratio:55/90;margin:30px 0 18px;perspective:700px}
+  .demo .card{position:absolute;inset:0;border-radius:10px;overflow:hidden;transform:rotateX(28deg);box-shadow:0 18px 30px rgba(10,90,140,.25)}
   .demo .card svg{width:100%;height:100%;display:block}
-  .demo .phone{position:absolute;left:50%;top:-30%;width:40%;aspect-ratio:9/17;border:4px solid var(--ink);border-radius:16px;transform:translateX(-50%);animation:hover 2.4s ease-in-out infinite;background:rgba(10,160,210,.08)}
+  .demo .phone{position:absolute;left:50%;top:-6%;width:70%;aspect-ratio:9/17;border:4px solid var(--ink);border-radius:16px;transform:translateX(-50%);animation:hover 2.4s ease-in-out infinite;background:rgba(10,160,210,.08)}
   .demo .phone:after{content:"";position:absolute;inset:18% 10%;border:3px dashed var(--blue);border-radius:6px}
   @keyframes hover{50%{transform:translate(-50%,-10px)}}
   .steps{font-size:14px;line-height:1.6;max-width:330px;color:var(--muted);text-wrap:balance}
@@ -58,7 +57,7 @@
   .pw.pop .ru-stage{animation:arPop .8s cubic-bezier(.3,1.5,.5,1) .2s both}
   @keyframes arPop{from{transform:scale(.15) translateY(500px);opacity:0}}
   #scan{position:fixed;inset:0;z-index:10;display:none;align-items:center;justify-content:center;flex-direction:column;pointer-events:none}
-  #scan .frame{width:min(80vw,420px);aspect-ratio:90/55;border-radius:16px;position:relative;box-shadow:0 0 0 200vmax rgba(230,246,252,.35)}
+  #scan .frame{width:min(56vw,280px);aspect-ratio:55/90;border-radius:16px;position:relative;box-shadow:0 0 0 200vmax rgba(230,246,252,.35)}
   #scan .frame i{position:absolute;width:34px;height:34px;border:5px solid #fff;filter:drop-shadow(0 0 4px rgba(10,110,160,.6))}
   #scan .frame i:nth-child(1){left:-4px;top:-4px;border-right:0;border-bottom:0;border-radius:14px 0 0 0}
   #scan .frame i:nth-child(2){right:-4px;top:-4px;border-left:0;border-bottom:0;border-radius:0 14px 0 0}
@@ -81,9 +80,11 @@
   #holder{flex:none;transform-origin:center center}
   .scene{display:flex;flex-direction:column;align-items:center;gap:50px}
   .scene.row{flex-direction:row}
-  .cardbox{position:relative;flex:none;width:1000px;height:611px}
-  .cardbox > svg{position:absolute;inset:0;width:100%;height:100%;border-radius:30px;box-shadow:0 40px 80px rgba(10,90,140,.22)}
-  .cardbox .ru-ov{position:absolute;left:0;top:0}
+  /* potongan kartu tegak (bagian judul + AC); .cardin = kartu utuh 1000 x 1636 */
+  .cardbox{position:relative;flex:none;width:1000px;height:745px;overflow:hidden;border-radius:30px;box-shadow:0 40px 80px rgba(10,90,140,.22)}
+  .cardin{position:absolute;left:0;top:-273px;width:1000px;height:1636px}
+  .cardin > svg{position:absolute;inset:0;width:100%;height:100%}
+  .cardin .ru-ov{position:absolute;left:0;top:0}
   #toast{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top));transform:translateX(-50%);z-index:50;background:rgba(255,255,255,.96);color:var(--ink);border:1px solid var(--line);padding:10px 16px;border-radius:99px;font-size:13px;display:none;max-width:92vw;text-align:center;box-shadow:0 6px 18px rgba(10,90,140,.15)}
 </style>
 <script type="importmap">
@@ -98,10 +99,10 @@
 <div id="intro">
   <div class="brand"><svg id="introLogo" viewBox="0 0 100 100"></svg><div><b>REJEKI UTAMA AC</b><small>SERVICE EXCELLENT <span>★★★★★</span></small></div></div>
   <div class="rule"></div>
-  <div class="unlock"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/></svg></span><span><small>NOMOR WHATSAPP TERBUKA</small><b id="unlockNum"></b></span><a id="unlockWa" target="_blank" rel="noopener">Chat</a></div>
+  <div class="unlock"><span class="ic"><svg viewBox="0 0 32 32" fill="#fff"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm5.8 15.7c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg></span><span><small>WHATSAPP KAMI</small><b id="unlockNum"></b></span><a id="unlockWa" target="_blank" rel="noopener">Chat</a></div>
   <p class="s">Lihat apa yang sebenarnya terjadi di dalam AC Anda.</p>
   <div class="demo"><div class="card" id="demoCard"></div><div class="phone"></div></div>
-  <div class="steps">Tekan <b>Mulai AR</b>, izinkan kamera, lalu arahkan ke <b>sisi kartu bergambar AC</b> (yang ada QR-nya). Pegang HP tepat di atas kartu.</div>
+  <div class="steps">Tekan <b>Mulai AR</b>, izinkan kamera, lalu arahkan ke <b>kartu nama</b> kami. Pegang HP tepat di atas kartu, sampai seluruh kartu terlihat.</div>
   <div class="go">
     <button id="btnAR"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.8l1.6-2.2h6.2L16.7 7h2.8A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="12.8" r="3.6"/></svg><span>Mulai AR</span></button>
     <button id="btnScreen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4a.8.8 0 0 0 1.2.7l11.3-7.2a.8.8 0 0 0 0-1.4L8.2 4.1A.8.8 0 0 0 7 4.8z"/></svg>Lihat tanpa kamera</button>
@@ -111,7 +112,7 @@
 </div>
 
 <div id="ar"></div>
-<div id="scan"><div class="frame"><i></i><i></i><i></i><i></i></div><p>Arahkan ke <b>sisi bergambar AC</b> • pegang HP tepat di atas kartu</p></div>
+<div id="scan"><div class="frame"><i></i><i></i><i></i><i></i></div><p>Arahkan ke <b>kartu nama</b> • seluruh kartu masuk bingkai</p></div>
 <div id="screen"><div id="holder"></div></div>
 <div id="toast"></div>
 
@@ -134,7 +135,7 @@
   const arLabel = (t) => ($("btnAR").querySelector("span").textContent = t);
   $("introLogo").innerHTML = RUCard.logo(0, 0, 100);
   $("unlockNum").textContent = cfg.telepon;
-  $("demoCard").innerHTML = RUCard.back(cfg, RUCard.qrInner(location.href, 112));
+  $("demoCard").innerHTML = RUCard.front(cfg, RUCard.qrInner(location.href, 112));
   $("dockWa").href = "https://wa.me/" + cfg.whatsapp + "?text=" +
     encodeURIComponent("Halo " + cfg.perusahaan + ", saya dapat kartu nama Anda dan mau konsultasi/booking layanan.");
   $("unlockWa").href = $("dockWa").href;
@@ -154,15 +155,18 @@
     const panel = document.createElement("div");
     const card = document.createElement("div");
     card.className = "cardbox";
-    card.innerHTML = RUCard.back(cfg, RUCard.qrInner(RUCard.arUrl(cfg), 112));
+    const cardIn = document.createElement("div");
+    cardIn.className = "cardin";
+    cardIn.innerHTML = RUCard.front(cfg, RUCard.qrInner(RUCard.arUrl(cfg), 112));
+    card.appendChild(cardIn);
     scene.append(panel, card);
     $("holder").appendChild(scene);
-    screenShow = RUShow.mount(panel, card);
+    screenShow = RUShow.mount(panel, cardIn);
   }
   function fitScreen() {
     const row = innerWidth > innerHeight * 1.1;
     scene.classList.toggle("row", row);
-    const W = row ? 2050 : 1000, H = row ? 1100 : 1761;
+    const W = row ? 2050 : 1000, H = row ? 1100 : 1895;
     const k = Math.min((innerWidth - 24) / W, (innerHeight - 96) / H);
     const h = $("holder");
     h.style.width = W + "px"; h.style.height = H + "px";
@@ -203,9 +207,9 @@
           filterMinCF: 0.0001, filterBeta: 0.001, // gerakan lebih halus
         });
         const anchor = mindar.addCSSAnchor(0);
-        // Lapisan 1: animasi yang menempel tepat di atas gambar AC di kartu (1000 x 611 px = kartu)
+        // Lapisan 1: animasi yang menempel tepat di atas gambar AC di kartu (1000 x 1636 px = kartu tegak)
         const ovWrap = document.createElement("div");
-        ovWrap.style.cssText = "width:1000px;height:611px;visibility:hidden";
+        ovWrap.style.cssText = "width:1000px;height:1636px;visibility:hidden";
         // Lapisan 2: panel presentasi yang muncul di atas kartu
         const pWrap = document.createElement("div");
         pWrap.className = "pw";
@@ -214,9 +218,9 @@
         const ovObj = new CSS3DObject(ovWrap);
         ovObj.position.set(0, 0, 2);
         const pObj = new CSS3DObject(pWrap);
-        pObj.scale.setScalar(0.68);
-        pObj.position.set(0, 700, 40);
-        pObj.rotation.x = 0.15;
+        // panel menutup separuh bawah kartu (kode & nomor WA), judul + AC tetap terlihat
+        pObj.scale.setScalar(0.8);
+        pObj.position.set(0, -560, 40);
         anchor.group.add(ovObj, pObj);
         let started = false;
         anchor.onTargetFound = () => {
