@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexora — Portofolio Sistem Digital untuk Bisnis</title>
+<meta name="description" content="Portofolio Nexora: kasir F&B, manajemen SDM, sistem servis & penjualan, pendaftaran online, dan otomasi untuk UKM Indonesia. Lihat karya dan layanan yang bisa dikerjakan.">
+<meta property="og:title" content="Nexora — Engineering the Future of Business">
+<meta property="og:description" content="Portofolio sistem digital untuk UKM Indonesia: apa yang sudah dibangun dan apa yang bisa dikerjakan.">
+<meta property="og:image" content="nexora_logo.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#6d28d9">
+<link rel="icon" type="image/png" href="nexora_favicon.png">
+<link rel="apple-touch-icon" href="nexora_favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14112b; --ink2:#2b2650; --dim:#625f7a; --line:#e8e6f4;
+    --soft:#f7f5fe; --soft2:#efebfc;
+    --p:#6d28d9; --p2:#7c3aed; --p3:#a78bfa; --pl:#ede9fe;
+    --ok:#16a34a;
+    --shadow:0 1px 2px rgba(20,17,43,.04),0 14px 34px -14px rgba(60,30,140,.2);
+    --font:'Plus Jakarta Sans',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:84px}
+  body{font-family:var(--font);color:var(--ink);background:#fff;line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  img{max-width:100%;display:block}
+  :focus-visible{outline:3px solid var(--p3);outline-offset:3px;border-radius:8px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important;transition:none!important}}
+
+  /* NAV */
+  header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px;gap:16px}
+  .logo img{height:28px;width:auto}
+  .links{display:flex;gap:2px}
+  .links a{padding:9px 15px;border-radius:10px;font-size:14.5px;font-weight:600;color:var(--dim);transition:.15s}
+  .links a:hover{color:var(--ink);background:var(--soft)}
+  .burger{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:12px;align-items:center;justify-content:center;font-size:20px}
+  .navR{display:flex;gap:10px;align-items:center}
+  @media(max-width:820px){
+    .links{display:none;position:absolute;top:72px;left:0;right:0;flex-direction:column;background:#fff;padding:10px 24px 18px;border-bottom:1px solid var(--line)}
+    .links.open{display:flex}.links a{padding:13px 12px}
+    .burger{display:inline-flex}.navR .btn{display:none}
+  }
+
+  /* BUTTONS */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 22px;border-radius:12px;font-weight:700;font-size:15px;transition:.18s;white-space:nowrap}
+  .btn-p{background:linear-gradient(135deg,var(--p2),var(--p));color:#fff;box-shadow:0 10px 24px -8px rgba(109,40,217,.55)}
+  .btn-p:hover{transform:translateY(-2px)}
+  .btn-g{background:#fff;border:1px solid var(--line)}
+  .btn-g:hover{border-color:var(--p3);background:var(--soft)}
+  .btn-w{background:#fff;color:var(--p)}
+  .btn-o{border:1px solid rgba(255,255,255,.4);color:#fff}
+  .btn-o:hover{background:rgba(255,255,255,.12)}
+  .btn-sm{padding:10px 18px;font-size:14px}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+
+  /* HERO */
+  .hero{position:relative;overflow:hidden;padding:84px 0 72px;background:
+    radial-gradient(800px 380px at 85% -10%,rgba(124,58,237,.15),transparent 60%),
+    radial-gradient(600px 320px at 0% 0%,rgba(167,139,250,.18),transparent 60%)}
+  .hero::after{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;opacity:.4;-webkit-mask-image:radial-gradient(ellipse at 75% 20%,#000,transparent 65%);mask-image:radial-gradient(ellipse at 75% 20%,#000,transparent 65%);pointer-events:none}
+  .hero .wrap{position:relative;z-index:1}
+  .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:700;color:var(--ink2);box-shadow:var(--shadow);margin-bottom:24px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(22,163,74,.15)}
+  h1{font-size:clamp(36px,5.6vw,66px);line-height:1.06;letter-spacing:-.035em;font-weight:800;max-width:860px;margin-bottom:22px}
+  .grad{background:linear-gradient(120deg,var(--p),var(--p2) 55%,#a855f7);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{font-size:18px;color:var(--dim);max-width:600px;margin-bottom:32px}
+  .facts{display:flex;flex-wrap:wrap;gap:36px;margin-top:56px;padding-top:28px;border-top:1px solid var(--line)}
+  .facts b{display:block;font-size:30px;font-weight:800;letter-spacing:-.03em}
+  .facts span{font-size:13.5px;color:var(--dim)}
+
+  /* SECTIONS */
+  section{padding:88px 0}
+  .head{max-width:640px;margin-bottom:44px}
+  .eyebrow{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--p);margin-bottom:12px}
+  h2{font-size:clamp(28px,3.6vw,40px);line-height:1.15;letter-spacing:-.025em;font-weight:800;margin-bottom:12px}
+  .head p{color:var(--dim);font-size:16.5px}
+  .alt{background:var(--soft);border-block:1px solid var(--line)}
+  @media(max-width:700px){section{padding:60px 0}.hero{padding:52px 0 52px}}
+
+  /* PROJECTS */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+  .fbtn{padding:9px 16px;border-radius:99px;border:1px solid var(--line);font-size:14px;font-weight:700;color:var(--dim);background:#fff;transition:.15s}
+  .fbtn:hover{border-color:var(--p3);color:var(--ink)}
+  .fbtn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:22px}
+  .proj{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);transition:.2s}
+  .proj:hover{transform:translateY(-4px);border-color:var(--p3)}
+  .proj[hidden]{display:none}
+  .thumb{height:150px;display:grid;place-items:center;font-size:54px;position:relative;background:linear-gradient(135deg,var(--c1),var(--c2))}
+  .thumb em{position:absolute;top:14px;left:14px;font-style:normal;font-size:12px;font-weight:800;background:rgba(255,255,255,.92);color:var(--ink);padding:4px 11px;border-radius:99px}
+  .pb{padding:24px;display:flex;flex-direction:column;gap:12px;flex:1}
+  .pb h3{font-size:20px;letter-spacing:-.015em;line-height:1.25}
+  .pb .cl{font-size:13px;color:var(--dim);font-weight:600}
+  .pb p{color:var(--dim);font-size:14.5px}
+  .pb ul{list-style:none;display:grid;gap:7px;font-size:14px}
+  .pb li{display:flex;gap:9px}
+  .pb li::before{content:"✓";color:var(--p);font-weight:800}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+  .tags span{font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;background:var(--soft2);color:var(--ink2)}
+  .plink{font-weight:800;font-size:14.5px;color:var(--p);margin-top:4px}
+  .plink.muted{color:var(--dim);font-weight:600}
+
+  /* SERVICES */
+  .svc{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:20px}
+  .sv{padding:28px;border-radius:20px;background:#fff;border:1px solid var(--line)}
+  .sv .ic{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;font-size:23px;background:var(--pl);margin-bottom:16px}
+  .sv h3{font-size:18.5px;letter-spacing:-.01em;margin-bottom:8px}
+  .sv p{color:var(--dim);font-size:14.5px;margin-bottom:14px}
+  .sv small{display:block;font-size:13px;color:var(--ink2);font-weight:600;padding-top:12px;border-top:1px dashed #d8d2f0}
+  .sv small b{color:var(--p)}
+
+  /* PROCESS */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;counter-reset:s}
+  .st{position:relative;padding:26px 24px;border-radius:20px;background:#fff;border:1px solid var(--line);counter-increment:s}
+  .st::before{content:counter(s);display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--ink);color:#fff;font-weight:800;margin-bottom:16px}
+  .st b{display:block;font-size:17px;margin-bottom:6px}
+  .st span{color:var(--dim);font-size:14.5px}
+
+  /* SOON */
+  .soon{display:flex;flex-wrap:wrap;gap:10px}
+  .soon span{padding:10px 16px;border:1px dashed #cfc8ee;border-radius:99px;font-size:14px;font-weight:600;background:#fff}
+  .soon em{font-style:normal;color:var(--dim);font-weight:500}
+
+  /* CTA */
+  .cta{background:linear-gradient(135deg,#2a1066,var(--p) 60%,var(--p2));color:#fff;border-radius:32px;padding:64px 32px;text-align:center;position:relative;overflow:hidden}
+  .cta::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.2),transparent 65%);top:-180px;left:-100px}
+  .cta>*{position:relative}
+  .cta h2{margin-bottom:12px}
+  .cta p{opacity:.88;max-width:520px;margin:0 auto 28px}
+  .cta .row{justify-content:center}
+  .cta small{display:block;margin-top:22px;opacity:.8;font-size:14px}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:40px 0 28px;margin-top:30px}
+  .fr{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+  .fr img{height:26px;width:auto}
+  .fr p{font-size:13.5px;color:var(--dim)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Nexora — ke atas"><img src="nexora_logo_navbar.png" alt="Nexora"></a>
+    <nav class="links" id="links" aria-label="Menu utama">
+      <a href="#karya">Karya</a>
+      <a href="#layanan">Layanan</a>
+      <a href="#proses">Cara Kerja</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+    <div class="navR">
+      <a class="btn btn-p btn-sm" href="#kontak">Diskusi Proyek</a>
+      <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false" aria-controls="links">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap">
+      <div class="pill"><span class="dot"></span> Terbuka untuk proyek baru</div>
+      <h1>Sistem digital yang <span class="grad">benar-benar dipakai</span> di lapangan.</h1>
+      <p class="lead">Nexora membangun aplikasi bisnis untuk UKM Indonesia: kasir, manajemen tim, pendaftaran online, sampai otomasi. Di bawah ini karya yang sudah dikerjakan, dan hal-hal yang bisa kami bantu.</p>
+      <div class="row">
+        <a class="btn btn-p" href="#karya">Lihat Karya →</a>
+        <a class="btn btn-g" href="#layanan">Apa yang Bisa Dikerjakan</a>
+      </div>
+      <div class="facts">
+        <div><b id="countProj">6</b><span>Proyek dikerjakan</span></div>
+        <div><b>100%</b><span>Berbasis browser, tanpa instalasi</span></div>
+        <div><b>Real</b><span>Diuji langsung di operasional harian</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KARYA -->
+  <section id="karya">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow">Karya</div>
+        <h2>Apa saja yang sudah dikerjakan</h2>
+        <p>Setiap proyek dibuat untuk masalah bisnis yang nyata, bukan sekadar contoh.</p>
+      </div>
+      <div class="filters" id="filters" role="group" aria-label="Filter karya"></div>
+      <div class="grid" id="projects"></div>
+    </div>
+  </section>
+
+  <!-- LAYANAN -->
+  <section id="layanan" class="alt">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow">Layanan</div>
+        <h2>Apa saja yang bisa dikerjakan</h2>
+        <p>Enam jenis pekerjaan yang paling sering kami tangani. Kebutuhan Anda tidak persis di daftar ini? Tetap ceritakan, alur kerja bisa disesuaikan.</p>
+      </div>
+      <div class="svc" id="services"></div>
+    </div>
+  </section>
+
+  <!-- PROSES -->
+  <section id="proses">
+    <div class="wrap">
+      <div class="head">
+        <div class="eyebrow">Cara Kerja</div>
+        <h2>Empat langkah, tanpa ribet</h2>
+      </div>
+      <div class="steps">
+        <div class="st"><b>Ngobrol dulu</b><span>Konsultasi gratis untuk memahami alur bisnis dan masalah Anda.</span></div>
+        <div class="st"><b>Petakan alur</b><span>Kami rangkum apa yang akan dibuat, supaya sama-sama jelas sebelum mulai.</span></div>
+        <div class="st"><b>Bangun &amp; uji</b><span>Sistem dibuat lalu dicoba langsung di operasional, bukan hanya di meja rapat.</span></div>
+        <div class="st"><b>Rilis &amp; berkembang</b><span>Dipakai lewat browser, lalu fitur disesuaikan seiring bisnis Anda tumbuh.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEGERA -->
+  <section class="alt" style="padding:64px 0">
+    <div class="wrap">
+      <div class="head" style="margin-bottom:24px">
+        <div class="eyebrow">Sedang Disiapkan</div>
+        <h2 style="font-size:28px">Produk berikutnya</h2>
+      </div>
+      <div class="soon" id="soon"></div>
+    </div>
+  </section>
+
+  <!-- KONTAK -->
+  <section id="kontak">
+    <div class="wrap">
+      <div class="cta">
+        <h2>Punya ide atau masalah operasional?</h2>
+        <p>Ceritakan singkat saja. Konsultasi gratis, tanpa komitmen.</p>
+        <div class="row">
+          <a class="btn btn-w" href="https://wa.me/628131888116" target="_blank" rel="noopener">Chat via WhatsApp →</a>
+          <a class="btn btn-o" href="mailto:halo@nexora.id">halo@nexora.id</a>
+        </div>
+        <small>WhatsApp / Telepon: 08131888116</small>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap fr">
+    <img src="nexora_logo_navbar.png" alt="Nexora">
+    <p>© 2026 Nexora · Engineering the future of business · Dibuat untuk bisnis Indonesia 🇮🇩</p>
+  </div>
+</footer>
+
+<script>
+// ============================================================================
+// EDIT DI SINI — tambah/ubah karya & layanan, halaman otomatis ikut berubah
+// ============================================================================
+const PROJECTS = [
+  {
+    kat:"Kasir & F&B", ikon:"🍽️", warna:["#ede9fe","#c4b5fd"], nama:"Nexora POS",
+    klien:"Dipakai di operasional harian BBQIU",
+    ringkas:"Sistem kasir F&B lengkap dari meja sampai dapur, tanpa potongan payment gateway.",
+    hasil:["QRIS langsung, biaya payment gateway 0%","Order meja via scan barcode + layar dapur (KDS)","Stok FIFO otomatis & alert kadaluarsa H-7 ke WhatsApp/Telegram"],
+    tags:["POS","QRIS","KDS","Inventori"]
+  },
+  {
+    kat:"SDM & SOP", ikon:"✅", warna:["#dcfce7","#86efac"], nama:"Nexora HR — Checklist & Kepatuhan SOP",
+    klien:"Dipakai di operasional harian BBQIU",
+    ringkas:"Checklist harian staf yang dikonfirmasi dengan foto ber-watermark GPS & waktu, lengkap dengan dashboard Owner/SPV.",
+    hasil:["Bukti foto ber-GPS, jejak audit rapi","Tugas terjadwal per staf, shift, atau outlet","Pantau kepatuhan SOP dari dashboard"],
+    tags:["Checklist","GPS","Dashboard"]
+  },
+  {
+    kat:"Servis & Penjualan", ikon:"🏢", warna:["#dbeafe","#93c5fd"], nama:"Nexora Business Suite",
+    klien:"Untuk perusahaan jasa & dagang · Demo tersedia",
+    ringkas:"Surat tugas, nota service, sales order, stok, keuangan, dan piutang dalam satu dashboard.",
+    hasil:["Cetak Nota, Surat Jalan & Surat Tugas A5 otomatis","Approval owner & verifikasi mutasi bank","Akses berbeda untuk Owner, Admin, Teknisi"],
+    tags:["Keuangan","Stok","Multi-role"], demo:"https://nexora-demo-ru.netlify.app"
+  },
+  {
+    kat:"Pendaftaran Online", ikon:"🧘", warna:["#fef3c7","#fcd34d"], nama:"Harmony of Life — Pendaftaran Online",
+    klien:"Venue Omah Turi",
+    ringkas:"Pendaftaran kelas dengan kuota, jadwal otomatis, dan konfirmasi pembayaran lewat admin.",
+    hasil:["Jadwal dibuat otomatis 8 minggu ke depan","Kursi ditahan sementara, lepas otomatis jika tidak dibayar","Panel admin: atur kuota, tandai lunas, batalkan"],
+    tags:["Next.js","Supabase","Admin"]
+  },
+  {
+    kat:"Website & Digital", ikon:"❄️", warna:["#cffafe","#67e8f9"], nama:"Rejeki Utama AC — Kartu Nama AR",
+    klien:"Penjualan, instalasi & perawatan AC",
+    ringkas:"Kartu nama interaktif dengan pengalaman augmented reality dan presentasi perusahaan yang bisa dibuka dari ponsel.",
+    hasil:["Kartu nama yang memancing orang untuk scan","Pengalaman AR + presentasi perusahaan","Semua data diatur dari satu file konfigurasi"],
+    tags:["AR","Presentasi","Branding"]
+  },
+  {
+    kat:"Otomasi", ikon:"💄", warna:["#fce7f3","#f9a8d4"], nama:"MUA Poster — Jadwal Posting Instagram",
+    klien:"Untuk akun make-up artist",
+    ringkas:"Antrian posting yang dijadwalkan dan terbit otomatis ke Instagram, termasuk banyak akun sekaligus.",
+    hasil:["Antrian per akun dengan caption & jadwal","Posting berjalan otomatis lewat penjadwal","Status tiap posting: pending, posting, selesai, gagal"],
+    tags:["Instagram","Penjadwal","Supabase"]
+  }
+];
+
+const SERVICES = [
+  {ikon:"🧾", judul:"Kasir & operasional F&B", isi:"Kasir digital, QRIS, order meja via barcode, layar dapur, dan kontrol stok bahan baku.", contoh:"Contoh: <b>Nexora POS</b>"},
+  {ikon:"📋", judul:"Manajemen SDM & SOP", isi:"Checklist harian dengan bukti foto ber-GPS, penjadwalan tugas, dan pemantauan kepatuhan staf.", contoh:"Contoh: <b>Nexora HR</b>"},
+  {ikon:"🛠️", judul:"Servis, penjualan & keuangan", isi:"Surat tugas, nota, stok, piutang, dan cetak dokumen otomatis untuk perusahaan jasa & dagang.", contoh:"Contoh: <b>Business Suite</b>"},
+  {ikon:"📅", judul:"Pendaftaran & booking online", isi:"Kuota, jadwal otomatis, pembayaran dengan konfirmasi, dan panel admin untuk pengelola.", contoh:"Contoh: <b>Harmony of Life</b>"},
+  {ikon:"⚙️", judul:"Otomasi & notifikasi", isi:"Peringatan ke WhatsApp/Telegram, penjadwalan posting media sosial, dan tugas rutin yang berjalan sendiri.", contoh:"Contoh: <b>Alert H-7, MUA Poster</b>"},
+  {ikon:"✨", judul:"Website & pengalaman digital", isi:"Halaman profil bisnis, kartu nama digital, dan presentasi interaktif, termasuk AR.", contoh:"Contoh: <b>Rejeki Utama AC</b>"}
+];
+
+const SOON = [
+  ["📲","Nexora QuickOrder","bagian dari POS"],["🖥️","Nexora SelfServe",""],["📅","Nexora Reserve",""],
+  ["📚","Nexora Central","bagian dari POS"],["📈","Nexora Forecast",""],["🎁","Nexora Rewards",""],
+  ["🤖","Nexora AI Assistant",""],["📊","Nexora Analytics",""]
+];
+
+// ---------------------------------------------------------------------------
+const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = id => document.getElementById(id);
+
+$('countProj').textContent = PROJECTS.length;
+
+$('projects').innerHTML = PROJECTS.map(p=>`
+  <article class="proj" data-kat="${esc(p.kat)}">
+    <div class="thumb" style="--c1:${p.warna[0]};--c2:${p.warna[1]}" aria-hidden="true"><em>${esc(p.kat)}</em>${p.ikon}</div>
+    <div class="pb">
+      <div><h3>${esc(p.nama)}</h3><div class="cl">${esc(p.klien)}</div></div>
+      <p>${esc(p.ringkas)}</p>
+      <ul>${p.hasil.map(h=>`<li>${esc(h)}</li>`).join('')}</ul>
+      <div class="tags">${p.tags.map(t=>`<span>${esc(t)}</span>`).join('')}</div>
+      ${p.demo?`<a class="plink" href="${esc(p.demo)}" target="_blank" rel="noopener">Coba demo →</a>`:`<span class="plink muted">Demo publik segera hadir</span>`}
+    </div>
+  </article>`).join('');
+
+const cats = ['Semua', ...new Set(PROJECTS.map(p=>p.kat))];
+$('filters').innerHTML = cats.map((c,i)=>`<button class="fbtn" aria-pressed="${i===0}" data-k="${esc(c)}">${esc(c)}</button>`).join('');
+$('filters').addEventListener('click',e=>{
+  const b = e.target.closest('.fbtn'); if(!b) return;
+  document.querySelectorAll('.fbtn').forEach(x=>x.setAttribute('aria-pressed', x===b));
+  document.querySelectorAll('.proj').forEach(el=>{ el.hidden = !(b.dataset.k==='Semua' || el.dataset.kat===b.dataset.k); });
+});
+
+$('services').innerHTML = SERVICES.map(s=>`
+  <div class="sv"><div class="ic">${s.ikon}</div><h3>${esc(s.judul)}</h3><p>${esc(s.isi)}</p><small>${s.contoh}</small></div>`).join('');
+
+$('soon').innerHTML = SOON.map(([i,n,k])=>`<span>${i} ${esc(n)}${k?` <em>· ${esc(k)}</em>`:''}</span>`).join('');
+
+$('burger').addEventListener('click',()=>{
+  const o = $('links').classList.toggle('open'); $('burger').setAttribute('aria-expanded', o);
+});
+$('links').addEventListener('click',()=>{ $('links').classList.remove('open'); $('burger').setAttribute('aria-expanded','false'); });
+</script>
+</body>
+</html>
