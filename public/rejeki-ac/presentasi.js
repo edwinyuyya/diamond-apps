@@ -314,13 +314,27 @@
       '<div class="ru-kicker in">Cek 30 detik</div><h2 class="in" style="--d:150">Seberapa sehat<br><span class="ru-ice">AC Anda?</span></h2>' +
       '<div class="qz"></div>' });
 
-    s.push({ cls: "s-end", ov: "calm", dur: 0, interactive: true, html:
+    // penutup Rejeki Utama AC; lanjut otomatis ke slide promosi pembuat kartu (bila ada)
+    var mk = cfg.pembuat || {};
+    s.push({ cls: "s-end", ov: "calm", dur: mk.nama ? 14000 : 0, interactive: true, html:
       '<h2 class="in" style="--d:150">Jangan tunggu AC rusak untuk <span class="ru-gold">mulai peduli.</span></h2>' +
       '<div class="lg-wrap in" style="--d:600"><svg viewBox="0 0 100 100">' + RUCard.logo(0, 0, 100) + '</svg><div class="brand">REJEKI UTAMA AC<small>' + esc(cfg.subjudul) + '</small><em>SERVICE EXCELLENT <span>★★★★★</span></em></div></div>' +
       (cfg.promo && cfg.promo.judul ? '<div class="promo">' + esc(cfg.promo.judul) + "<b>" + esc(cfg.promo.kode) + "</b></div>" : "") +
       (cfg.garansi ? '<div class="end-g in" style="--d:800">Garansi uang kembali 100% • Sejak ' + esc(cfg.tahunBerdiri) + "</div>" : "") +
       '<a class="btn-wa in" style="--d:900" target="_blank" rel="noopener" href="' + waLink(cfg, "Halo " + cfg.perusahaan + ", saya dapat kartu nama Anda dan mau konsultasi/booking layanan." + (cfg.promo && cfg.promo.kode ? " (kode " + cfg.promo.kode + ")" : "")) + '">' + WA_ICON + "WhatsApp Service</a>" +
       '<div class="row2"><a class="btn-w in" style="--d:1050" href="tel:' + esc(cfg.telepon.replace(/[^0-9+]/g, "")) + '">' + PHONE_ICON + 'Telepon</a><a class="btn-w in vcard" style="--d:1200" href="#">' + USER_ICON + "Simpan Kontak</a></div>" +
+      '<button class="again">↺ Putar ulang</button>' });
+
+    // promosi pembuat kartu: "mau kartu nama seperti ini?" -> WhatsApp pembuat
+    if (mk.nama) s.push({ cls: "s-mk", ov: "calm", dur: 0, interactive: true, html:
+      '<div class="ru-kicker in">Kartu nama AR ini</div>' +
+      '<h2 class="in" style="--d:150">' + esc(mk.ajakan) + "</h2>" +
+      '<p class="mk-h in" style="--d:600">Hubungi</p>' +
+      '<div class="mk-logo pop" style="--d:800">' + (window.NX_LOGO ? '<img src="' + window.NX_LOGO + '" alt="' + esc(mk.nama) + '">' : "<b>" + esc(mk.nama) + "</b>") + "</div>" +
+      '<a class="mk-wa pop" style="--d:1100" target="_blank" rel="noopener" href="https://wa.me/' + esc(mk.whatsapp) + "?text=" +
+        encodeURIComponent("Halo " + mk.nama + ", saya lihat kartu nama AR " + cfg.perusahaan + " dan mau dibuatkan kartu nama seperti ini untuk usaha saya.") + '">' +
+        WA_ICON + "<span>Klik untuk chat WhatsApp</span></a>" +
+      '<p class="mk-num in" style="--d:1300">' + esc(mk.telepon) + "</p>" +
       '<button class="again">↺ Putar ulang</button>' });
     return s;
   }
@@ -393,7 +407,7 @@
       a.download = "Rejeki-Utama-AC.vcf";
       document.body.appendChild(a); a.click(); a.remove();
     });
-    stage.querySelector(".again").addEventListener("click", function () { go(0); });
+    stage.querySelectorAll(".again").forEach(function (b) { b.addEventListener("click", function () { go(0); }); });
 
     function setTemp(t) {
       var v = Math.round(t) + "°C";

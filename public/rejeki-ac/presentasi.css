@@ -287,3 +287,15 @@
 .garansi span{font:600 26px/1.35 Poppins}
 .end-g{margin-top:22px;font:700 24px Montserrat;color:var(--deep);letter-spacing:.5px}
 .why6{grid-template-columns:1fr 1fr}
+/* promosi pembuat kartu (Nexora) */
+.s-mk{align-items:center;text-align:center}
+.s-mk h2{font-size:52px;line-height:1.15}
+.s-mk .mk-h{font:700 30px Montserrat;color:#2F5F7A;margin-top:50px;letter-spacing:2px;text-transform:uppercase}
+.mk-logo{margin-top:22px;background:#fff;border:2px solid var(--line);border-radius:30px;padding:30px 44px;box-shadow:0 12px 30px rgba(80,60,160,.12)}
+.mk-logo img{display:block;width:560px;max-width:100%;height:auto}
+.mk-wa{all:unset;box-sizing:border-box;margin-top:40px;display:flex;align-items:center;gap:20px;background:#25D366;color:#fff;border-radius:999px;padding:22px 40px 22px 26px;cursor:pointer;position:relative;z-index:6;box-shadow:0 16px 40px rgba(37,211,102,.35);font:800 32px Montserrat}
+.mk-wa svg{width:76px;height:76px}
+.s-mk.on .mk-wa{animation:ruPop .65s cubic-bezier(.34,1.45,.64,1) 1.1s both,mkPulse 1.8s ease-in-out 2s infinite}
+@keyframes mkPulse{50%{box-shadow:0 0 0 18px rgba(37,211,102,.18),0 16px 40px rgba(37,211,102,.35)}}
+.s-mk .mk-num{margin-top:22px;font:700 30px Montserrat;color:var(--ink);letter-spacing:1px}
+.s-mk .again{all:unset;margin-top:30px;font:600 24px Poppins;opacity:.65;text-decoration:underline;cursor:pointer;position:relative;z-index:6}
