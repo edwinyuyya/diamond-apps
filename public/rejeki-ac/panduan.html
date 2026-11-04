@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rejeki Utama AC — Kartu Nama AR</title>
+<link rel="stylesheet" href="fonts.css">
+<style>
+  :root{--blued:#0A86BD;--ice:#19C6F0;--blue:#0AA0D2;--ink:#0B4A6B;--muted:#3F6D86}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Poppins,system-ui,sans-serif;background:#EAF2FA;color:var(--ink);line-height:1.6}
+  header{background:linear-gradient(135deg,#0A86BD,#19B5E8);color:#fff;padding:40px 16px;text-align:center}
+  header h1{font:900 clamp(24px,5vw,34px)/1.15 Montserrat}
+  header p{opacity:.8;margin-top:8px}
+  main{max-width:760px;margin:0 auto;padding:24px 16px 60px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+  a.c{display:block;background:#fff;border-radius:18px;padding:20px;text-decoration:none;color:inherit;box-shadow:0 4px 14px rgba(7,26,51,.08);transition:transform .2s}
+  a.c:hover{transform:translateY(-3px)}
+  a.c b{display:block;font:800 18px Montserrat;margin:6px 0 4px}
+  a.c span{font-size:14px;color:var(--muted)}
+  a.c i{font-style:normal;font-size:28px}
+  section{background:#fff;border-radius:18px;padding:22px;margin-top:18px}
+  h2{font:800 19px Montserrat;margin-bottom:8px}
+  ol,ul{margin-left:20px;font-size:15px}
+  li{margin:4px 0}
+  code{background:#EEF4FA;padding:1px 6px;border-radius:5px;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Rejeki Utama AC<br>Kartu Nama + AR</h1>
+  <p>Mini business card + AR sales presentation — biar orang mikir dua kali sebelum membuangnya.</p>
+</header>
+<main>
+  <div class="grid">
+    <a class="c" href="kartu.html"><i>🪪</i><b>Desain Kartu</b><span>Lihat, balik, dan cetak / simpan PDF untuk percetakan.</span></a>
+    <a class="c" href="./"><i>📷</i><b>Pengalaman AR</b><span>Halaman yang terbuka saat kamera HP diarahkan ke kode di kartu.</span></a>
+    <a class="c" href="./#layar"><i>🎬</i><b>Presentasi saja</b><span>Tanpa kamera — bisa dikirim lewat WA.</span></a>
+    <a class="c" href="./#kuis"><i>🩺</i><b>Kuis kesehatan AC</b><span>3 pertanyaan → hasil → konsultasi gratis via WA.</span></a>
+  </div>
+
+  <section>
+    <h2>Cara kerjanya</h2>
+    <ol>
+      <li>Kartu 1 sisi bertanya: <b>"Ingin tahu apa yang sebenarnya terjadi di dalam AC Anda?"</b> Orang membuka kamera HP, mengarahkannya ke kotak kode di kartu, lalu mengetuk tautan yang muncul (tanpa aplikasi).</li>
+      <li>Tekan <b>Mulai AR</b> → arahkan kamera ke kartu nama yang sama.</li>
+      <li><b>Wow moment:</b> AC di kartu menyala, udara dingin keluar → "Tapi bagaimana kondisi di dalamnya?" → x-ray: filter, evaporator, blower, kondensor makin kotor → AIRFLOW ↓ COOLING ↓ ENERGY USE ↑ RISIKO ↑ → teknisi muncul: <b>Preventive Maintenance</b>.</li>
+      <li>Lalu company profile: established, perjalanan, layanan AC, layanan lain (CCTV, APAR, solar water heater, water torn, jet cleaner, pembersihan hunian kosong), proyek & klien, before/after, testimoni, kenapa Rejeki Utama AC, tim & standar kerja.</li>
+      <li>Kuis "Seberapa sehat AC Anda?" → GOOD / NEEDS ATTENTION / SERVICE RECOMMENDED → <b>Konsultasi Gratis</b> via WhatsApp (jawaban ikut terkirim).</li>
+      <li>Penutup: "Jangan tunggu AC rusak untuk mulai peduli." + WhatsApp, telepon, simpan kontak.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Sebelum dicetak — wajib</h2>
+    <ul>
+      <li>Ganti semua data bertanda <code>✏️ GANTI</code> di file <code>config.js</code> (nama, nomor WA, tahun berdiri, proyek, klien, testimoni, promo). Tampilkan hanya klien & testimoni yang sudah memberi izin.</li>
+      <li>Foto before/after & foto tim asli: taruh di folder <code>foto/</code> lalu isi path-nya di <code>config.js</code>.</li>
+      <li>Buka <code>kartu.html</code> dari alamat website yang asli — kode di kartu otomatis mengarah ke alamat itu.</li>
+      <li>Cetak 1 kartu dulu (1 sisi, tegak), tes kamera & AR-nya, baru cetak banyak. Pilih <b>laminasi doff</b> agar tidak silau di kamera.</li>
+      <li>Kalau desain kartu diubah, buat ulang target AR lewat <a href="compile.html">compile.html</a>. Ganti link kode saja tidak perlu.</li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>
