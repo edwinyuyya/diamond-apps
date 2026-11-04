@@ -136,7 +136,7 @@
     var band = '<g clip-path="url(#ovclip)"><rect class="band" x="-160" y="-20" width="160" height="' + (h + 40) + '" fill="url(#shine)"/></g>';
 
     // --- koordinat kartu ---
-    var cx = 216, cy = 422, cg = "";
+    var cx = 216, cy = A.y + 88, cg = "";  // kondensor tepat di bawah AC
     for (i = 0; i < 6; i++) cg += '<line x1="' + (cx + 86) + '" y1="' + (cy + 14 + i * 12) + '" x2="' + (cx + 110) + '" y2="' + (cy + 14 + i * 12) + '"/>';
     var cond = '<rect x="' + cx + '" y="' + cy + '" width="118" height="92" rx="10" fill="#e8eef5"/>' +
       '<circle cx="' + (cx + 44) + '" cy="' + (cy + 46) + '" r="36" fill="#33475f"/>' +
@@ -150,9 +150,9 @@
         '<rect x="' + px + '" y="' + py + '" width="' + pw + '" height="30" rx="15" fill="' + BLUE + '"/>' +
         '<text x="' + (px + pw / 2) + '" y="' + (py + 20) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="13" fill="#fff">' + text + "</text></g>";
     }
-    var lbl = pill(30, 268, 160, "1 · FILTER", ".6s", C(150, 25)) +
-      pill(195, 268, 160, "2 · EVAPORATOR", "3s", C(280, 69)) +
-      pill(360, 268, 160, "3 · BLOWER", "5.4s", C(410, 119)) +
+    var lbl = pill(30, A.y - 66, 160, "1 · FILTER", ".6s", C(150, 25)) +
+      pill(195, A.y - 66, 160, "2 · EVAPORATOR", "3s", C(280, 69)) +
+      pill(360, A.y - 66, 160, "3 · BLOWER", "5.4s", C(410, 119)) +
       '<g style="--t:7.8s"><rect x="' + (cx + 128) + '" y="' + (cy + 31) + '" width="160" height="30" rx="15" fill="' + BLUE + '"/><text x="' + (cx + 208) + '" y="' + (cy + 51) + '" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="13" fill="#fff">4 · KONDENSOR</text></g>';
     var ac0 = C(0, 0), ac1 = C(w, h);
     var shine = '<g class="tw">' + RUCard.sparkle(ac0[0] - 4, ac0[1] + 2, 15, BLUE) + '</g>' +

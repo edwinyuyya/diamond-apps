@@ -18,7 +18,7 @@
   // Kartu 1 sisi, tegak 55 x 90 mm (550 x 900 unit). AC = posisi gambar AC di kartu;
   // overlay AR (presentasi.js) menempel tepat di sini.
   var CARD = { w: 550, h: 900 };
-  var AC = { x: 135, y: 334, s: 0.5, w: 560, h: 150 };
+  var AC = { x: 135, y: 392, s: 0.5, w: 560, h: 150 };
 
   function esc(s) {
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -115,7 +115,7 @@
       sparkle(AC.x - 8, AC.y + 4, 11, BLUE) + sparkle(AC.x + AC.w * AC.s + 10, AC.y + 50, 8, BLUE);
 
     // HP dengan kode di layarnya
-    var px = 180, py = 432, pw = 190, ph = 240, qs = 138, qx = cx - qs / 2, qy = 476;
+    var px = 180, py = 490, pw = 190, ph = 240, qs = 138, qx = cx - qs / 2, qy = 534;
     var phone =
       '<rect x="' + px + '" y="' + py + '" width="' + pw + '" height="' + ph + '" rx="30" fill="' + WHITE + '" stroke="' + DARK + '" stroke-width="6.5"/>' +
       '<rect x="' + (cx - 20) + '" y="' + (py + 12) + '" width="40" height="6" rx="3" fill="' + DARK + '"/>' +
@@ -132,10 +132,10 @@
     if (mk.nama) {
       var lh = 13, lw = window.NX_MARK ? lh * 487 / 88 : 0, numW = String(mk.telepon || "").length * 11 * 0.62;
       var px0 = cx - (60 + 7 + lw + 9 + numW) / 2;
-      poweredBy = '<text x="' + px0.toFixed(1) + '" y="860" font-family="Poppins" font-weight="500" font-size="11" fill="' + INK + '" fill-opacity=".75">Powered by</text>' +
-        (window.NX_MARK ? '<image x="' + (px0 + 67).toFixed(1) + '" y="848.5" width="' + lw.toFixed(1) + '" height="' + lh + '" href="' + window.NX_MARK + '"/>'
-                        : '<text x="' + (px0 + 67).toFixed(1) + '" y="860" font-family="Montserrat" font-weight="800" font-size="11" fill="' + DARK + '">' + esc(mk.nama) + "</text>") +
-        '<text x="' + (px0 + 67 + lw + 9).toFixed(1) + '" y="860" font-family="Montserrat" font-weight="700" font-size="11" fill="' + INK + '">' + esc(mk.telepon || "") + "</text>";
+      poweredBy = '<text x="' + px0.toFixed(1) + '" y="864" font-family="Poppins" font-weight="500" font-size="11" fill="' + INK + '" fill-opacity=".75">Powered by</text>' +
+        (window.NX_MARK ? '<image x="' + (px0 + 67).toFixed(1) + '" y="852.5" width="' + lw.toFixed(1) + '" height="' + lh + '" href="' + window.NX_MARK + '"/>'
+                        : '<text x="' + (px0 + 67).toFixed(1) + '" y="864" font-family="Montserrat" font-weight="800" font-size="11" fill="' + DARK + '">' + esc(mk.nama) + "</text>") +
+        '<text x="' + (px0 + 67 + lw + 9).toFixed(1) + '" y="864" font-family="Montserrat" font-weight="700" font-size="11" fill="' + INK + '">' + esc(mk.telepon || "") + "</text>";
     }
 
     return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + vb + '" font-family="Poppins">' +
@@ -152,19 +152,20 @@
       '<text x="' + cx + '" y="236" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="33" fill="' + DARK + '">Ingin tahu apa yang</text>' +
       '<text x="' + cx + '" y="276" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="33" fill="' + DARK + '">sebenarnya terjadi</text>' +
       '<text x="' + cx + '" y="316" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="33" fill="' + BLUE + '">di dalam AC Anda?</text>' +
+      // ajakan langsung di bawah judul
+      '<rect x="40" y="332" width="470" height="44" rx="15" fill="url(#fbtn' + u + ')"/>' +
+      '<g transform="translate(152,341) scale(1.05)">' + camGlyph + "</g>" +
+      '<text x="186" y="361" font-family="Montserrat" font-weight="800" font-size="18" fill="#fff">Buka kamera HP Anda</text>' +
       acArt + phone +
       // penenang: tanpa aplikasi
-      '<text x="' + cx + '" y="692" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="14" fill="' + BLUE + '">Tanpa aplikasi \u2022 tanpa daftar \u2022 gratis</text>' +
+      '<text x="' + cx + '" y="752" text-anchor="middle" font-family="Poppins" font-weight="600" font-size="14" fill="' + BLUE + '">Tanpa aplikasi \u2022 tanpa daftar \u2022 gratis</text>' +
       // kotak WhatsApp
-      '<rect x="40" y="702" width="470" height="80" rx="22" fill="' + WHITE + '" stroke="#CDEBF7" stroke-width="2"/>' +
-      '<rect x="60" y="716" width="52" height="52" rx="15" fill="#25D366"/>' +
-      '<g transform="translate(68.5,724.5) scale(1.09)">' + waGlyph + "</g>" +
-      '<text x="130" y="734" font-family="Montserrat" font-weight="800" font-size="13" letter-spacing="1.8" fill="' + BLUE + '">WHATSAPP KAMI</text>' +
-      '<text x="129" y="768" font-family="Montserrat" font-weight="800" font-size="' + fitSize(cfg.telepon, 30, 350, 0.66) + '" fill="' + DARK + '">' + esc(cfg.telepon) + "</text>" +
-      // "tombol" ajakan
-      '<rect x="40" y="792" width="470" height="46" rx="15" fill="url(#fbtn' + u + ')"/>' +
-      '<g transform="translate(152,802) scale(1.05)">' + camGlyph + "</g>" +
-      '<text x="186" y="822" font-family="Montserrat" font-weight="800" font-size="18" fill="#fff">Buka kamera HP Anda</text>' +
+      '<rect x="40" y="764" width="470" height="80" rx="22" fill="' + WHITE + '" stroke="#CDEBF7" stroke-width="2"/>' +
+      '<rect x="60" y="778" width="52" height="52" rx="15" fill="#25D366"/>' +
+      '<g transform="translate(68.5,786.5) scale(1.09)">' + waGlyph + "</g>" +
+      '<text x="130" y="796" font-family="Montserrat" font-weight="800" font-size="13" letter-spacing="1.8" fill="' + BLUE + '">WHATSAPP KAMI</text>' +
+      '<text x="129" y="830" font-family="Montserrat" font-weight="800" font-size="' + fitSize(cfg.telepon, 30, 350, 0.66) + '" fill="' + DARK + '">' + esc(cfg.telepon) + "</text>" +
+      // "Powered by" pembuat kartu
       poweredBy +
       "</svg>";
   }
