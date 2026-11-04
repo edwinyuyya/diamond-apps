@@ -270,3 +270,10 @@
 .ru-bar i{background:#D3ECF7}
 .s-end .lg-wrap svg{filter:drop-shadow(0 8px 18px rgba(10,110,160,.2))}
 .qz .btn-w{background:#fff;border:2px solid var(--line);box-shadow:0 8px 20px rgba(10,110,160,.08)}
+/* layanan lain: kartu lebih rapat karena teksnya lebih panjang */
+.lg-lain{margin-top:36px;gap:18px}
+.lg-lain .c{min-height:0;padding:22px 24px}
+.lg-lain .ic{width:70px;height:70px;margin-bottom:10px}
+.lg-lain .ic svg{width:46px;height:46px}
+.lg-lain h3{font-size:27px}
+.lg-lain p{font-size:21px}

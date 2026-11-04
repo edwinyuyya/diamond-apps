@@ -165,13 +165,17 @@
     var u = "_" + (logoSeq++); // id unik: beberapa kartu bisa tampil di satu halaman
     var b = BLEED, tex = "";
     for (var i = 0; i < 14; i++) tex += '<line x1="' + (i * 80 - 300) + '" y1="' + (-b) + '" x2="' + (i * 80 + 100) + '" y2="' + (550 + b) + '"/>';
-    // pita layanan: satu baris rata tengah, dipisah belah ketupat kecil (lebar teks diukur untuk Montserrat 800 / 19)
-    var svc = [["SERVICE AC", 129.6], ["MAINTENANCE", 161.8], ["INSTALLATION", 158.5], ["TROUBLESHOOTING", 217.6]], band = "", GAP = 40;
-    var bx = 450 - (svc.reduce(function (t, s) { return t + s[1]; }, 0) + GAP * (svc.length - 1)) / 2;
-    svc.forEach(function (s, k) {
-      if (k) band += '<rect x="' + (bx - GAP / 2 - 4).toFixed(1) + '" y="495" width="8" height="8" transform="rotate(45 ' + (bx - GAP / 2).toFixed(1) + ' 499)" fill="#fff" fill-opacity=".7"/>';
-      band += '<text x="' + bx.toFixed(1) + '" y="506" font-family="Montserrat" font-weight="800" font-size="19" letter-spacing=".9" fill="#fff">' + s[0] + "</text>";
-      bx += s[1] + GAP;
+    // pita layanan: semua layanan (AC + layanan lain dari config), dua baris rata tengah
+    var items = ["AC RUANGAN"].concat((cfg.layananLain || []).map(function (x) { return x.pita; }));
+    var total = items.join("").length, acc = 0, split = items.length;
+    for (var k = 0; k < items.length; k++) { acc += items[k].length; if (acc >= total / 2) { split = k + 1; break; } }
+    var rows = [items.slice(0, split), items.slice(split)].filter(function (r) { return r.length; });
+    var band = "", fs = 19;
+    rows.forEach(function (r) { fs = Math.min(fs, fitSize(r.join("  \u2022  "), 19, 780, 0.74)); });
+    rows.forEach(function (r, k) {
+      var txt = r.join("  \u2022  ");
+      var y = rows.length > 1 ? (k ? 511 : 482) : 499;
+      band += '<text x="450" y="' + y + '" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="' + fs + '" letter-spacing=".6" fill="#fff">' + esc(txt) + "</text>";
     });
     var nama = cfg.nama.toUpperCase(), jab = cfg.jabatan.toUpperCase();
     var nSize = fitSize(nama, 34, 410, 0.78), jSize = fitSize(jab, 18.5, 410, 0.74);

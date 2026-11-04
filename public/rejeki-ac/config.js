@@ -16,8 +16,8 @@ window.RU = {
   // ---------- KONTAK ----------
   nama: "Nama Anda",                       // ✏️ GANTI
   jabatan: "Founder & Lead Technician",    // ✏️ GANTI
-  telepon: "0812-3456-7890",               // ✏️ GANTI (tampil di kartu)
-  whatsapp: "6281234567890",               // ✏️ GANTI (format 62..., tanpa + / spasi)
+  telepon: "0813-2766-0660",               // tampil di kartu (dari brosur)
+  whatsapp: "6281327660660",               // format 62..., tanpa + / spasi
   email: "halo@rejekiutama-ac.com",        // ✏️ GANTI
   instagram: "@rejekiutama.ac",            // ✏️ GANTI
   areaLayanan: "Jabodetabek",              // ✏️ GANTI
@@ -46,6 +46,17 @@ window.RU = {
     { ikon: "tameng", judul: "Preventive Maintenance", teks: "Cegah rusak sebelum terjadi" },
     { ikon: "perbaikan", judul: "Troubleshooting", teks: "Tidak dingin, bocor, berisik" },
     { ikon: "pasang", judul: "Installation", teks: "Pasang baru & bongkar pasang" },
+  ],
+
+  // Layanan lain di luar AC (slide "Bukan cuma AC" + pita layanan di kartu depan).
+  // ikon: cctv, apar, solar, toren, jet, hunian. "pita" = teks singkat di kartu.
+  layananLain: [
+    { ikon: "cctv", pita: "CCTV", judul: "CCTV", teks: "Penjualan, pemasangan & perbaikan unit CCTV" },
+    { ikon: "apar", pita: "APAR", judul: "Tabung APAR", teks: "Penjualan & perawatan / isi ulang alat pemadam api" },
+    { ikon: "solar", pita: "SOLAR WATER HEATER", judul: "Solar Water Heater", teks: "Perawatan agar pemanas air bekerja maksimal & awet" },
+    { ikon: "toren", pita: "WATER TORN", judul: "Pembersihan Water Torn", teks: "Kuras & bersihkan toren air dari endapan kotoran" },
+    { ikon: "jet", pita: "JET CLEANER", judul: "High Pressure Jet Cleaner", teks: "Semprot tekanan tinggi: lantai, paving, dinding" },
+    { ikon: "hunian", pita: "PEMBERSIHAN HUNIAN KOSONG", judul: "Pembersihan Hunian Kosong", teks: "Rumah kosong & terbengkalai: rumput liar, sampah, debu" },
   ],
 
   proyek: [                                // ✏️ GANTI dengan proyek asli

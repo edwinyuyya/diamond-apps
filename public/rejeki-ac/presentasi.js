@@ -19,6 +19,12 @@
   var DARK = "#0B4A6B", BLUE_M = "#0A86BD", ICE = "#19C6F0", ICE2 = "#8FE6FF", BLUE = "#0AA0D2";
 
   var ICONS = {
+    cctv: '<path d="M8 18 44 10l4 16-36 8z" fill="#0B4A6B"/><circle cx="40" cy="19" r="4.5" fill="#8FE6FF"/><path d="M24 32v12H12" stroke="#0B4A6B" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="5" y="38" width="8" height="18" rx="2" fill="#0B4A6B"/>',
+    apar: '<rect x="22" y="20" width="20" height="38" rx="9" fill="#0B4A6B"/><rect x="27" y="11" width="10" height="10" rx="2" fill="#0B4A6B"/><path d="M37 14h9l7 7" stroke="#0B4A6B" stroke-width="4" fill="none" stroke-linecap="round"/><rect x="26" y="32" width="12" height="11" rx="2" fill="#8FE6FF"/>',
+    solar: '<circle cx="15" cy="15" r="7" fill="#fff"/><path d="M10 52 20 30h36L46 52z" fill="#0B4A6B"/><path d="M29 30l-7 22M42 30l-7 22M15 41h37" stroke="#8FE6FF" stroke-width="2.5"/>',
+    toren: '<path d="M12 20h36v32a6 6 0 0 1-6 6H18a6 6 0 0 1-6-6z" fill="#0B4A6B"/><ellipse cx="30" cy="20" rx="18" ry="6" fill="#0B4A6B"/><path d="M16 35h28M16 45h28" stroke="#8FE6FF" stroke-width="3"/><path d="M54 4c4 5 5 7 5 9a5 5 0 0 1-10 0c0-2 1-4 5-9z" fill="#fff"/>',
+    jet: '<path d="M6 28h22l6-6h6v14h-6l-4 4v14h-8V40H6z" fill="#0B4A6B"/><path d="M44 26l14-8M44 29h16M44 32l14 8" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>',
+    hunian: '<path d="M4 30 26 12l22 18v24a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3z" fill="#0B4A6B"/><rect x="20" y="38" width="12" height="19" rx="2" fill="#8FE6FF"/><path d="M52 6l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5z" fill="#fff"/>',
     rumah: '<path d="M8 30 32 10l24 20v24a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4z" fill="#0B4A6B"/><rect x="26" y="38" width="12" height="20" rx="2" fill="#8FE6FF"/>',
     gedung: '<rect x="12" y="8" width="28" height="50" rx="3" fill="#0B4A6B"/><rect x="40" y="24" width="14" height="34" rx="2" fill="#0B4A6B"/><path d="M19 17h5m5 0h5M19 27h5m5 0h5M19 37h5m5 0h5" stroke="#8FE6FF" stroke-width="4" stroke-linecap="round"/>',
     kontrak: '<rect x="14" y="8" width="36" height="48" rx="6" fill="#0B4A6B"/><path d="M22 22h20M22 31h20M22 40h12" stroke="#8FE6FF" stroke-width="4" stroke-linecap="round"/>',
@@ -246,6 +252,12 @@
     s.push({ cls: "s-lay", ov: "calm", dur: 9000, html:
       '<div class="ru-kicker in">Yang kami kerjakan</div><h2 class="in" style="--d:150">Satu tim untuk<br><span class="ru-gold">semua kebutuhan AC</span></h2>' +
       '<div class="lg">' + cfg.layanan.map(function (x, i) {
+        return '<div class="c pop" style="--d:' + (400 + i * 170) + '"><div class="ic"><svg viewBox="0 0 64 64">' + (ICONS[x.ikon] || ICONS.perbaikan) + "</svg></div><h3>" + esc(x.judul) + "</h3><p>" + esc(x.teks) + "</p></div>";
+      }).join("") + "</div>" });
+
+    if (cfg.layananLain && cfg.layananLain.length) s.push({ cls: "s-lain", ov: "calm", dur: 10000, html:
+      '<div class="ru-kicker in">Bukan cuma AC</div><h2 class="in" style="--d:150">Satu nomor untuk<br><span class="ru-gold">banyak kebutuhan</span></h2>' +
+      '<div class="lg lg-lain">' + cfg.layananLain.map(function (x, i) {
         return '<div class="c pop" style="--d:' + (400 + i * 170) + '"><div class="ic"><svg viewBox="0 0 64 64">' + (ICONS[x.ikon] || ICONS.perbaikan) + "</svg></div><h3>" + esc(x.judul) + "</h3><p>" + esc(x.teks) + "</p></div>";
       }).join("") + "</div>" });
 
