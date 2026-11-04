@@ -24,66 +24,16 @@
     return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
 
-  function snowflake(cx, cy, r, stroke, w) {
-    var out = "";
-    for (var i = 0; i < 6; i++) {
-      var a = (Math.PI / 3) * i;
-      out += '<line x1="' + cx + '" y1="' + cy + '" x2="' + (cx + Math.cos(a) * r).toFixed(1) + '" y2="' + (cy + Math.sin(a) * r).toFixed(1) + '"/>';
-      [0.55, 0.8].forEach(function (t, k) {
-        var bx = cx + Math.cos(a) * r * t, by = cy + Math.sin(a) * r * t, bl = r * (k ? 0.18 : 0.26);
-        [-1, 1].forEach(function (s) {
-          var ba = a + s * Math.PI / 4;
-          out += '<line x1="' + bx.toFixed(1) + '" y1="' + by.toFixed(1) + '" x2="' + (bx + Math.cos(ba) * bl).toFixed(1) + '" y2="' + (by + Math.sin(ba) * bl).toFixed(1) + '"/>';
-        });
-      });
-    }
-    return '<g stroke="' + stroke + '" stroke-width="' + w + '" stroke-linecap="round" fill="none">' + out + "</g>";
-  }
-
   function sparkle(x, y, r, fill) {
     return '<path transform="translate(' + x + "," + y + ')" d="M0 ' + -r + " Q" + r * 0.18 + " " + -r * 0.18 + " " + r + " 0 Q" + r * 0.18 + " " + r * 0.18 + " 0 " + r + " Q" + -r * 0.18 + " " + r * 0.18 + " " + -r + " 0 Q" + -r * 0.18 + " " + -r * 0.18 + " 0 " + -r + 'Z" fill="' + fill + '"/>';
   }
 
-  // Logo resmi Rejeki Utama AC (digambar ulang sebagai vektor, kotak 100 x 100):
-  // lingkaran biru, kepingan salju 8 cabang, dua tangan menjaga mur heksagon.
-  var BRAND = "#0AA0D2";
-  var logoSeq = 0;
+  // Logo resmi Rejeki Utama AC: emblem asli (PNG di logo-data.js, dimuat sebelum card.js).
+  // Warna merek diambil dari file logo asli: biru #0DAEF1, bintang kuning #FEDE04.
+  var BRAND = "#0DAEF1", STAR = "#FEDE04";
+  var logoSeq = 0; // dipakai untuk id unik di front()
   function logo(x, y, s) {
-    var arms = "", i;
-    for (i = 0; i < 8; i++) {
-      var a = (Math.PI / 4) * i, ca = Math.cos(a), sa = Math.sin(a);
-      arms += '<line x1="50" y1="50" x2="' + (50 + ca * 38).toFixed(1) + '" y2="' + (50 + sa * 38).toFixed(1) + '"/>';
-      [[19, 9.5], [29.5, 7.5]].forEach(function (c) {
-        var bx = 50 + ca * c[0], by = 50 + sa * c[0];
-        [-1, 1].forEach(function (k) {
-          var ba = a + k * 0.72;
-          arms += '<line x1="' + bx.toFixed(1) + '" y1="' + by.toFixed(1) + '" x2="' + (bx + Math.cos(ba) * c[1]).toFixed(1) + '" y2="' + (by + Math.sin(ba) * c[1]).toFixed(1) + '"/>';
-        });
-      });
-    }
-    function hex(r) {
-      var p = [];
-      for (var k = 0; k < 6; k++) { var t = (Math.PI / 3) * k; p.push((50 + Math.cos(t) * r).toFixed(1) + "," + (50 + Math.sin(t) * r).toFixed(1)); }
-      return p.join(" ");
-    }
-    // tangan atas: pergelangan di kiri, jari melengkung turun menjaga mur dari atas.
-    // Tangan bawah = tangan atas diputar 180°.
-    var hand = "M17 38.5C29 30.5 44 26.2 56.5 29.6C62 31.2 66 34.8 67.6 39.2C67.9 40.9 66.6 41.7 65.4 40.9C63.2 38.9 60.7 37.4 57.8 36.7" +
-      "C59.6 38.3 60.9 40.2 61.3 42.1C61.5 43.6 60.1 44.2 58.9 43.4C55.8 40.3 51 37.9 45 37.6C36 37.4 27 40.4 18.5 44Z";
-    function handG(rot) {
-      return '<g transform="rotate(' + rot + ' 50 50)">' +
-        '<path d="' + hand + '" fill="#fff" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>' +
-        '<path d="' + hand + '" fill="#fff" stroke="' + BRAND + '" stroke-width="1.8" stroke-linejoin="round"/>' +
-        '<path d="M50 31.6C54 31.6 57.6 32.6 60.6 34.6M47 33.9C51 33.8 54.6 34.6 57.6 36" stroke="' + BRAND + '" stroke-width="1.1" fill="none" stroke-linecap="round"/></g>';
-    }
-    return '<g transform="translate(' + x + "," + y + ") scale(" + s / 100 + ')">' +
-      '<circle cx="50" cy="50" r="48" fill="#fff"/>' +
-      '<circle cx="50" cy="50" r="45.5" fill="none" stroke="' + BRAND + '" stroke-width="3.6"/>' +
-      '<g stroke="' + BRAND + '" stroke-width="5.4" stroke-linecap="round">' + arms + "</g>" +
-      handG(0) + handG(180) +
-      '<polygon points="' + hex(12) + '" fill="' + BRAND + '" stroke="#fff" stroke-width="2.4"/>' +
-      '<polygon points="' + hex(6) + '" fill="#fff"/>' +
-      "</g>";
+    return '<image x="' + x + '" y="' + y + '" width="' + s + '" height="' + s + '" href="' + (window.RU_LOGO || "") + '"/>';
   }
 
   function star(cx, cy, r, fill) {
@@ -158,7 +108,7 @@
     var b = BLEED, W = 550, H = 900, cx = W / 2, k;
     var vb = opts.bleed ? (-b + " " + -b + " " + (W + 2 * b) + " " + (H + 2 * b)) : "0 0 " + W + " " + H;
     var stars = "";
-    for (k = 0; k < 5; k++) stars += star(402 + k * 19, 121, 8.5, BLUE);
+    for (k = 0; k < 5; k++) stars += star(410 + k * 20, 127, 9, STAR);
 
     // gambar AC yang "hidup" saat disorot kamera
     var acArt = acAt(AC, {}) +
@@ -182,9 +132,10 @@
       '<linearGradient id="fbtn' + u + '" x1="0" x2="1"><stop offset="0" stop-color="#0A86BD"/><stop offset=".5" stop-color="#19B5E8"/><stop offset="1" stop-color="#0A86BD"/></linearGradient></defs>' +
       '<rect x="' + -b + '" y="' + -b + '" width="' + (W + 2 * b) + '" height="' + (H + 2 * b) + '" fill="url(#fbg' + u + ')"/>' +
       // merek
-      logo(44, 44, 104) +
-      '<text x="162" y="94" font-family="Montserrat" font-weight="900" font-size="29" fill="' + DARK + '">REJEKI UTAMA AC</text>' +
-      '<text transform="translate(163,127) skewX(-12)" font-family="Montserrat" font-weight="900" font-size="17" fill="' + DARK + '">SERVICE EXCELLENT</text>' + stars +
+      logo(40, 40, 112) +
+      '<text x="164" y="80" font-family="Montserrat" font-weight="900" font-size="29" fill="' + BRAND + '">REJEKI UTAMA AC</text>' +
+      '<text x="165" y="104" font-family="Poppins" font-weight="600" font-size="14.5" fill="' + BRAND + '">' + esc(cfg.subjudul) + "</text>" +
+      '<text transform="translate(165,134) skewX(-12)" font-family="Montserrat" font-weight="900" font-size="18" fill="' + BRAND + '">SERVICE EXCELLENT</text>' + stars +
       '<rect x="' + (cx - 30) + '" y="176" width="60" height="4" rx="2" fill="' + BLUE + '" opacity=".6"/>' +
       // judul utama: pertanyaan pemancing rasa ingin tahu
       '<text x="' + cx + '" y="236" text-anchor="middle" font-family="Montserrat" font-weight="900" font-size="33" fill="' + DARK + '">Ingin tahu apa yang</text>' +
@@ -223,6 +174,6 @@
     return here.replace(/[^/]*$/, "") + "ar.html";
   }
 
-  window.RUCard = { front: front, qrInner: qrInner, arUrl: arUrl, logo: logo, star: star, BRAND: BRAND, snowflake: snowflake, sparkle: sparkle,
+  window.RUCard = { front: front, qrInner: qrInner, arUrl: arUrl, logo: logo, star: star, BRAND: BRAND, STAR: STAR, sparkle: sparkle,
     acUnit: acUnit, lineIcon: lineIcon, AC: AC, CARD: CARD, BLEED: BLEED };
 })();
