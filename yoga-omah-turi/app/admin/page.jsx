@@ -114,8 +114,8 @@ export default function Admin() {
             <tr key={r.id}>
               <td><b>{r.full_name}</b><div className="muted"><a href={`https://wa.me/${r.whatsapp}`} target="_blank" rel="noopener noreferrer">{r.whatsapp}</a></div></td>
               <td>{r.recording_id ? <>Rekaman<div className="muted">{recById[r.recording_id]?.title}</div></> : <>{fmtDate(byId[r.session_id]?.date || '1970-01-01')}<div className="muted">{byId[r.session_id]?.kind === 'online' ? 'Online Live' : 'Omah Turi'}</div></>}</td>
-              <td>{rp(r.total)}<div className="muted">donasi {rp(r.donation)} + {r.unique_code}</div></td>
-              <td><span className={'tag ' + r.status}>{expired ? 'kedaluwarsa' : r.status}</span></td>
+              <td>{r.total === 0 ? <>Donasi sukarela<div className="muted">tanpa nominal</div></> : <>{rp(r.total)}<div className="muted">donasi {rp(r.donation)} + {r.unique_code}</div></>}</td>
+              <td><span className={'tag ' + r.status}>{expired ? 'kedaluwarsa' : r.status === 'paid' && r.total === 0 ? 'terdaftar' : r.status}</span></td>
               <td style={{ whiteSpace: 'nowrap' }}>
                 {r.status !== 'paid' && <button className="btn sm" onClick={() => act({ action: 'setStatus', id: r.id, status: 'paid' })}>Tandai lunas</button>}{' '}
                 {r.status !== 'cancelled' && <button className="btn sm ghost" onClick={() => confirm('Batalkan pendaftaran ini? Kuota akan kembali.') && act({ action: 'setStatus', id: r.id, status: 'cancelled' })}>Batalkan</button>}

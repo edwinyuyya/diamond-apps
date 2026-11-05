@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 
-export default function Carousel({ slides }) {
+export default function Carousel({ slides, onCta }) {
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
   const n = slides.length;
@@ -36,8 +36,11 @@ export default function Carousel({ slides }) {
       })}
       <div className="car-shade" />
       <div className="car-text">
-        <h1>HARMONY OF LIFE</h1>
-        <p>yoga di Omah Turi · online live · rekaman</p>
+        <div className="container">
+          <h1>Harmony of <em>Life</em></h1>
+          <p>Yoga di Omah Turi, online live, dan rekaman.</p>
+          {onCta && <button type="button" className="pill light" onClick={onCta}>Lihat jadwal <span aria-hidden>→</span></button>}
+        </div>
       </div>
       {n > 1 && (
         <div className="car-dots">
