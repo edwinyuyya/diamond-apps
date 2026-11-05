@@ -127,6 +127,7 @@
         /* Portfolio */
         .tabs { display: flex; gap: 1.6rem; overflow-x: auto; margin: 2.2rem -1.5rem 1.6rem; padding: 0 1.5rem; scrollbar-width: none; border-bottom: 1px solid var(--line); }
         .tabs::-webkit-scrollbar { display: none; }
+        .tabs.more { -webkit-mask-image: linear-gradient(90deg, #000 78%, transparent); mask-image: linear-gradient(90deg, #000 78%, transparent); }
         .tabs button { flex: none; padding: 0.8rem 0; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); border-bottom: 1px solid transparent; margin-bottom: -1px; transition: color 0.3s, border-color 0.3s; }
         .tabs button.on { color: var(--ink); border-color: var(--ink); }
         .tabs .sep { flex: none; width: 1px; background: var(--line); margin: 0.7rem 0; }
@@ -243,7 +244,8 @@
             header.top, header.top.solid { padding-left: 3rem; padding-right: 3rem; }
             .hero-inner { padding: 0 3rem 4.5rem; }
             .grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-            .tabs { margin-left: 0; margin-right: 0; padding: 0; }
+            .tabs { margin-left: 0; margin-right: 0; padding: 0; flex-wrap: wrap; column-gap: 1.6rem; row-gap: 0; overflow: visible; }
+            .tabs.more { -webkit-mask-image: none; mask-image: none; }
             .course .inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
             .course .thumbs { grid-template-columns: repeat(2, 1fr); }
             .feature { margin-top: 0; }
@@ -673,9 +675,19 @@
         });
         if (tabs.lastElementChild && tabs.lastElementChild.classList.contains('sep')) tabs.lastElementChild.remove();
 
+        // Tanda "masih ada tab" di kanan, dan scroll mouse ikut menggeser tab ke samping
+        const markMore = () => tabs.classList.toggle('more', tabs.scrollLeft + tabs.clientWidth < tabs.scrollWidth - 8);
+        tabs.addEventListener('scroll', markMore, { passive: true });
+        window.addEventListener('resize', markMore);
+        tabs.addEventListener('wheel', e => {
+            if (tabs.scrollWidth > tabs.clientWidth && Math.abs(e.deltaY) > Math.abs(e.deltaX)) { tabs.scrollLeft += e.deltaY; e.preventDefault(); }
+        }, { passive: false });
+
         function show(key) {
             current = key;
             tabs.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.key === key));
+            const on = tabs.querySelector('button.on');
+            if (on && tabs.scrollWidth > tabs.clientWidth) tabs.scrollTo({ left: on.offsetLeft - (tabs.clientWidth - on.offsetWidth) / 2, behavior: 'smooth' });
             const items = MEDIA[key];
             const label = CATS.find(c => c[0] === key)[1];
             count.textContent = `${label} — ${items.length} karya`;
@@ -689,6 +701,7 @@
             const fig = e.target.closest('figure'); if (fig) openLb(current, +fig.dataset.i);
         });
         const first = tabs.querySelector('button'); if (first) show(first.dataset.key);
+        markMore();
 
         // Lightbox
         const lb = document.getElementById('lb'), stage = document.getElementById('lbStage');
