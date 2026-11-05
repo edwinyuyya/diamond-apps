@@ -748,7 +748,7 @@
   <div class="cmsgs" id="cmsgs" aria-live="polite"></div>
   <div class="csug" id="csug"></div>
   <form class="cform" id="cform" autocomplete="off"><input id="cin" type="text" maxlength="200" placeholder="Tulis pertanyaan Anda…" aria-label="Pertanyaan Anda"><button type="submit">Kirim</button></form>
-  <div class="cnote">Ini demo singkat. AI di bisnis Anda terhubung ke data sistem Anda sendiri.</div>
+  <div class="cnote">Dijawab oleh AI, bisa keliru. AI di bisnis Anda terhubung ke data sistem Anda sendiri.</div>
 </div>
 
 <script>
@@ -838,9 +838,9 @@
 
 <script>
 (function(){
-  // Kosongkan untuk mode demo (jawaban contoh). Isi dengan alamat endpoint AI sungguhan
-  // (POST {message, history} -> {reply}) agar chat dijawab model AI.
-  var CHAT_ENDPOINT='';
+  // Endpoint AI sungguhan (Vercel function di api/chat.js). Jika tidak tersedia
+  // (mis. file dibuka langsung), chat otomatis memakai jawaban contoh di bawah.
+  var CHAT_ENDPOINT='/api/chat';
   var $=function(s){return document.querySelector(s)};
   var box=$('#cbox'), fab=$('#cfab'), msgs=$('#cmsgs'), sug=$('#csug'), form=$('#cform'), inp=$('#cin');
   var WA='https://wa.me/628131888116', history=[], opened=false, busy=false;
@@ -889,7 +889,12 @@
     };
     if(CHAT_ENDPOINT){
       fetch(CHAT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:q,history:history.slice(-8)})})
-        .then(function(r){return r.ok?r.json():Promise.reject()}).then(function(j){done(j.reply?{a:j.reply,wa:false}:local(q))}).catch(function(){done(local(q))});
+        .then(function(r){return r.json().catch(function(){return {}}).then(function(j){return {ok:r.ok,status:r.status,j:j}})})
+        .then(function(x){
+          if(x.ok&&x.j.reply) return done({a:x.j.reply,wa:/whatsapp|konsultasi|hubungi/i.test(x.j.reply)});
+          if(x.status===429&&x.j.error) return done({a:x.j.error,wa:true});
+          done(local(q));
+        }).catch(function(){done(local(q))});
     } else done(local(q));
   }
   SUGGEST.forEach(function(s){var b=document.createElement('button');b.type='button';b.textContent=s;b.addEventListener('click',function(){ask(s)});sug.appendChild(b)});
