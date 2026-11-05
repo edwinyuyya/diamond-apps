@@ -228,6 +228,16 @@
         .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.9s ease, transform 0.9s ease; }
         .reveal.in { opacity: 1; transform: none; }
 
+        /* Desktop: video tegak dalam bingkai di kanan, teks di kiri */
+        @media (min-width: 900px) and (min-aspect-ratio: 1/1) {
+            .hero { background: var(--mocha); }
+            .hero::before { content: ""; position: absolute; inset: -60px; background: url(media/hero-poster.jpg) center / cover; filter: blur(50px) saturate(0.8); opacity: 0.32; }
+            .hero video { inset: auto; top: 13svh; right: 8vw; height: 78svh; width: calc(78svh * 0.5625); z-index: 1; outline: 1px solid rgba(221, 191, 181, 0.45); outline-offset: 12px; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35); }
+            .hero::after { z-index: 0; background: linear-gradient(90deg, rgba(31, 24, 22, 0.7) 0%, rgba(31, 24, 22, 0.25) 60%, rgba(31, 24, 22, 0.1) 100%); }
+            .hero-inner { top: 50%; bottom: auto; transform: translateY(-46%); right: calc(16vw + 78svh * 0.5625); padding-bottom: 0; }
+            .hero h1 { font-size: clamp(5rem, 9vw, 9rem); }
+            .hero p.sub { max-width: 28rem; font-size: 1rem; }
+        }
         @media (min-width: 760px) {
             .section { padding: 8rem 3rem; }
             header.top, header.top.solid { padding-left: 3rem; padding-right: 3rem; }
