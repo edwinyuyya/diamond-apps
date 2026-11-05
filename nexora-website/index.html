@@ -145,6 +145,38 @@
   @media(max-width:980px){.ai{grid-template-columns:1fr;padding:34px 24px}.perks{grid-template-columns:1fr 1fr}}
   @media(max-width:520px){.perks{grid-template-columns:1fr}}
 
+
+  .fr u.tm{background:#ede9fe;color:#6d28d9}
+  .team{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;margin-top:78px}
+  .tabs2{display:grid;gap:10px;margin-top:22px}
+  .tab2{position:relative;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;text-align:left;padding:16px 18px;border-radius:18px;border:1px solid var(--line);background:#fff;overflow:hidden;transition:border-color .25s,box-shadow .25s,transform .25s var(--ease)}
+  .tab2:hover{border-color:var(--p3);transform:translateX(3px)}
+  .tab2 .e{width:44px;height:44px;border-radius:13px;background:var(--soft2);display:grid;place-items:center;font-size:22px;transition:.25s}
+  .tab2 b{display:block;font-size:16px;letter-spacing:-.01em;margin-bottom:2px}
+  .tab2 span{font-size:13.5px;color:var(--dim);line-height:1.5;display:block;max-height:0;opacity:0;overflow:hidden;transition:max-height .45s var(--ease),opacity .35s}
+  .tab2 small{font-size:13px;color:var(--dim);display:block}
+  .tab2.on{border-color:var(--p2);box-shadow:0 18px 36px -22px rgba(109,40,217,.6)}
+  .tab2.on .e{background:linear-gradient(135deg,var(--p2),var(--p));transform:scale(1.05)}
+  .tab2.on span{max-height:130px;opacity:1;margin-top:4px}
+  .tab2.on small{display:none}
+  .tab2 i{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--p2)}
+  .tab2.on i{animation:fill var(--dur,9s) linear forwards}
+  .team.paused .tab2.on i{animation:none;width:100%;opacity:.35}
+  @keyframes fill{to{width:100%}}
+  .tphone{width:min(360px,100%);justify-self:center;border:9px solid var(--ink);border-radius:38px;background:#fff;box-shadow:0 40px 70px -28px rgba(20,17,43,.55);overflow:hidden;display:flex;flex-direction:column;height:520px}
+  .tph-h{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,#1c0b4d,#5b21b6);color:#fff}
+  .tph-h b{display:block;font-size:14.5px;line-height:1.2}.tph-h small{font-size:11.5px;opacity:.8}
+  .tph-av{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:19px}
+  .tph-m{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;background:#faf9ff;scrollbar-width:none}
+  .tph-m::-webkit-scrollbar{display:none}
+  .tb{max-width:90%;padding:9px 12px;border-radius:15px;font-size:13px;line-height:1.5;white-space:pre-line;animation:pop .4s var(--ease) both}
+  .tb-b{background:#fff;border:1px solid var(--line);border-bottom-left-radius:5px;align-self:flex-start}
+  .tb-u{background:var(--p);color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
+  .tb-s{align-self:center;background:var(--soft2);color:var(--ink2);font-size:11.5px;font-weight:700;border-radius:99px;padding:4px 11px}
+  .tb-ok{background:#ecfdf3;border:1px solid #bbf7d0;color:#166534;font-weight:600}
+  .tph-f{font-size:10.5px;color:var(--dim);text-align:center;padding:7px;background:#fff;border-top:1px solid var(--line)}
+  @media(max-width:900px){.team{grid-template-columns:1fr;gap:28px;margin-top:56px}.tphone{height:480px}}
+
   /* ---------- WORK ---------- */
   .work{display:grid;grid-template-columns:210px 1fr;gap:44px;align-items:start}
   .sn{position:sticky;top:104px;display:grid;gap:2px;--ac:var(--p)}
@@ -203,6 +235,15 @@
     .pc.B .pc-mock{padding:28px 12px 0}
   }
 
+
+  .fx.ss{max-width:720px}
+  .fx.ss img{width:100%;display:block}
+  .arw.ss2{flex-wrap:nowrap;gap:20px;align-items:center;justify-content:center}
+  .arw.ss2 img{height:420px;width:auto;max-width:48%;object-fit:contain;border-radius:20px;box-shadow:0 30px 50px -22px rgba(10,60,100,.55);background:#fff}
+  .arw.ss2 img:first-child{transform:rotate(-2.5deg)}
+  .arw.ss2 img:last-child{transform:rotate(2deg);margin-top:30px}
+  @media(max-width:700px){.arw.ss2 img{height:300px}}
+
   /* ---------- BENTO ---------- */
   .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
   .sv{position:relative;border-radius:26px;padding:30px;display:flex;flex-direction:column;justify-content:space-between;gap:34px;min-height:260px;overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s}
@@ -258,39 +299,6 @@
   .fb{margin-top:36px;font-size:13px;color:var(--dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
   @media(max-width:700px){.fcols{grid-template-columns:1fr 1fr}.cta{padding:28px 24px}}
 
-
-  /* ---------- CHAT DEMO ---------- */
-  .cfab{position:fixed;right:20px;bottom:20px;z-index:80;display:flex;align-items:center;gap:10px;background:var(--ink);color:#fff;border-radius:99px;padding:13px 20px 13px 16px;font-weight:700;font-size:14.5px;box-shadow:0 18px 36px -12px rgba(20,17,43,.6);transition:transform .25s var(--ease),opacity .25s}
-  .cfab:hover{transform:translateY(-3px)}
-  .cfab i{font-style:normal;font-size:19px}
-  .cfab.hide{opacity:0;pointer-events:none;transform:translateY(10px)}
-  .cfab::after{content:"";position:absolute;top:-2px;right:-2px;width:12px;height:12px;border-radius:50%;background:#4ade80;border:2px solid #fff}
-  .cbox{position:fixed;right:20px;bottom:20px;z-index:90;width:380px;max-width:calc(100vw - 24px);height:min(600px,calc(100vh - 40px));background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 40px 80px -20px rgba(20,17,43,.5);display:flex;flex-direction:column;overflow:hidden;opacity:0;transform:translateY(20px) scale(.97);pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease)}
-  .cbox.open{opacity:1;transform:none;pointer-events:auto}
-  .chd{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,#1c0b4d,#5b21b6);color:#fff}
-  .cav{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:18px}
-  .chd b{display:block;font-size:15px;line-height:1.2}
-  .chd small{font-size:11.5px;opacity:.8}
-  .cx{margin-left:auto;width:34px;height:34px;border-radius:10px;font-size:18px;color:#fff;background:rgba(255,255,255,.14)}
-  .cmsgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#faf9ff;scroll-behavior:smooth}
-  .cm{max-width:86%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.5;animation:pop .35s var(--ease) both;white-space:pre-line}
-  .cm-b{background:#fff;border:1px solid var(--line);border-bottom-left-radius:5px;align-self:flex-start}
-  .cm-u{background:var(--ink);color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
-  .cm a{color:var(--p);font-weight:700;text-decoration:underline}
-  .cty{display:inline-flex;gap:4px;padding:14px 16px}
-  .cty i{width:7px;height:7px;border-radius:50%;background:#b8b2d6;animation:bnc 1s infinite}
-  .cty i:nth-child(2){animation-delay:.15s}.cty i:nth-child(3){animation-delay:.3s}
-  @keyframes bnc{50%{transform:translateY(-5px);background:var(--p2)}}
-  .csug{display:flex;gap:8px;overflow-x:auto;padding:10px 14px;border-top:1px solid var(--line);scrollbar-width:none;background:#fff}
-  .csug::-webkit-scrollbar{display:none}
-  .csug button{flex:none;border:1px solid var(--line);border-radius:99px;padding:7px 13px;font-size:12.5px;font-weight:600;color:var(--ink2);background:#fff;transition:.15s}
-  .csug button:hover{border-color:var(--p3);background:var(--soft)}
-  .cform{display:flex;gap:8px;padding:10px 14px 6px;background:#fff}
-  .cform input{flex:1;border:1px solid var(--line);border-radius:12px;padding:11px 13px;font:inherit;font-size:14px;outline:none;min-width:0}
-  .cform input:focus{border-color:var(--p3);box-shadow:0 0 0 3px var(--pl)}
-  .cform button{background:var(--p);color:#fff;border-radius:12px;padding:0 16px;font-weight:700;font-size:14px}
-  .cnote{font-size:11px;color:var(--dim);text-align:center;padding:2px 14px 10px;background:#fff}
-  @media(max-width:520px){.cbox{right:12px;bottom:12px;left:12px;width:auto;max-width:none;height:min(640px,calc(100vh - 24px))}.cfab span{display:none}.cfab{padding:14px}}
 
   @media(prefers-reduced-motion:reduce){
     *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
@@ -477,9 +485,9 @@
   <div class="hero">
     <div class="wrap">
       <div class="hero-in">
-        <a class="pill" href="#ai"><span class="pdot"></span> Baru: sistem AI Agent, hingga 40% lebih hemat waktu &amp; anggaran →</a>
+        <a class="pill" href="#ai"><span class="pdot"></span> Baru: tim virtual AI, hingga 40% lebih hemat waktu &amp; anggaran →</a>
         <h1>Sistem digital &amp; AI agent yang <span class="grad">benar-benar dipakai</span> di lapangan.</h1>
-        <p class="lead">Nexora membangun aplikasi bisnis untuk UKM Indonesia: kasir, ERP, toko online, hingga agen AI yang mengerjakan tugas rutin tim Anda.</p>
+        <p class="lead">Nexora membangun aplikasi bisnis untuk UKM Indonesia: kasir, ERP, toko online, hingga tim virtual AI yang bekerja mendampingi staf Anda, bahkan saat Anda tidur.</p>
         <div class="row">
           <a class="btn btn-d btn-lg" href="#kontak">Konsultasi Gratis</a>
           <a class="btn btn-o btn-lg" href="#karya">Lihat 7 Karya</a>
@@ -504,27 +512,41 @@
     <div class="wrap">
       <div class="ai reveal" id="aiBox">
         <div>
-          <div class="eyebrow">Sistem AI Agent</div>
-          <h2>Agen AI yang bekerja di dalam bisnis Anda, bukan sekadar chatbot.</h2>
-          <p class="d">Kami membangun dan memasang sistem AI agent yang mengambil alih tugas rutin: menjadwalkan, mengawasi stok, mengingatkan penagihan, sampai menjawab pertanyaan bisnis. Tim Anda fokus ke hal yang butuh keputusan manusia.</p>
+          <div class="eyebrow">Tim Virtual AI</div>
+          <h2>Bangun tim virtual yang bekerja bersama staf manusia Anda.</h2>
+          <p class="d">Bukan sekadar chatbot. Tim virtual mengerjakan tugas rutin yang berulang, siang dan malam, lalu melapor ke Anda. Staf manusia Anda fokus ke hal yang butuh sentuhan manusia: melayani pelanggan dan mengambil keputusan.</p>
           <div class="big40"><b><span id="cnt" data-to="40">40</span><sup>%</sup></b><span>potensi efisiensi waktu &amp; anggaran operasional*</span></div>
-          <div class="row"><a class="btn btn-w btn-lg" href="#" data-chat>💬 Coba ngobrol dengan AI kami</a><a class="btn btn-o btn-lg" style="color:#fff;border-color:rgba(255,255,255,.5);background:transparent" href="#kontak">Konsultasikan AI Agent</a></div>
+          <div class="row"><a class="btn btn-w btn-lg" href="#kontak">Bangun tim virtual saya →</a><a class="btn btn-o btn-lg" style="color:#fff;border-color:rgba(255,255,255,.5);background:transparent" href="#tim">Lihat contohnya ↓</a></div>
           <small class="ai-note">*Hingga 40%, tergantung proses bisnis dan jumlah tugas rutin yang diotomasi.</small>
         </div>
         <div class="feed stagger">
-          <h6>Agen aktif hari ini</h6>
-          <div class="fr"><i>📅</i><div><b>Agen Jadwal</b><span>Teknisi ditugaskan ke 3 lokasi</span></div><u>Selesai</u></div>
-          <div class="fr"><i>📦</i><div><b>Agen Stok</b><span>Draf pembelian freon dibuat otomatis</span></div><u>Selesai</u></div>
-          <div class="fr"><i>💸</i><div><b>Agen Tagih</b><span>4 pengingat piutang disiapkan</span></div><u>Menunggu OK</u></div>
-          <div class="fr"><i>💬</i><div><b>Asisten Bisnis</b><span>“Omzet minggu ini?” dijawab dalam hitungan detik</span></div><u>Siaga</u></div>
-          <small>Ilustrasi tampilan · data contoh</small>
+          <h6>Sehari bersama tim virtual Anda</h6>
+          <div class="fr"><i>🎨</i><div><b>Desainer Konten</b><span>Feed Instagram didesain &amp; diposting saat Anda tidur</span></div><u class="tm">02:00</u></div>
+          <div class="fr"><i>☀️</i><div><b>Laporan Pagi</b><span>Omzet, piutang, tagihan supplier &amp; kas menunggu Anda</span></div><u class="tm">06:30</u></div>
+          <div class="fr"><i>🌇</i><div><b>Laporan Sore</b><span>Kinerja staf, bonus &amp; komisi dihitung otomatis</span></div><u class="tm">17:00</u></div>
+          <div class="fr"><i>🧠</i><div><b>SPV Pintar</b><span>Melatih &amp; menjawab staf lewat chat, kapan saja</span></div><u class="tm">24 jam</u></div>
+          <small>Ilustrasi alur harian · contoh</small>
         </div>
       </div>
+
+      <div class="team" id="tim">
+        <div class="team-l reveal">
+          <div class="eyebrow">Kenalan dengan tim virtual Anda</div>
+          <h3 class="sh" style="font-size:clamp(24px,3vw,34px)">Empat anggota tim yang tidak pernah lelah.</h3>
+          <div class="tabs2" id="tabs2" role="tablist" aria-label="Anggota tim virtual"></div>
+        </div>
+        <div class="tphone reveal" style="--d:.12s" aria-live="polite">
+          <div class="tph-h"><div class="tph-av" id="tavatar">🎨</div><div><b id="tname">Desainer Konten</b><small>Tim virtual · online</small></div></div>
+          <div class="tph-m" id="tmsgs"></div>
+          <div class="tph-f">Contoh ilustrasi · nama dan angka fiktif</div>
+        </div>
+      </div>
+
       <div class="perks">
-        <div class="perk reveal"><i>⏱️</i><b>Hemat waktu</b><span>Tugas rutin dikerjakan agen, tim fokus pada hal penting.</span></div>
-        <div class="perk reveal" style="--d:.08s"><i>💸</i><b>Hemat anggaran</b><span>Kurangi kerja manual berulang dan kesalahan input.</span></div>
-        <div class="perk reveal" style="--d:.16s"><i>🌙</i><b>Bekerja 24 jam</b><span>Penjadwalan, pengingat, dan follow-up berjalan terus.</span></div>
-        <div class="perk reveal" style="--d:.24s"><i>🔗</i><b>Terintegrasi</b><span>Tersambung ke ERP, kasir, dan WhatsApp/Telegram.</span></div>
+        <div class="perk reveal"><i>🌙</i><b>Bekerja saat Anda tidur</b><span>Posting, pengingat, dan follow-up berjalan 24 jam.</span></div>
+        <div class="perk reveal" style="--d:.08s"><i>📊</i><b>Laporan tanpa diminta</b><span>Pagi dan sore, langsung ke ponsel Anda.</span></div>
+        <div class="perk reveal" style="--d:.16s"><i>💸</i><b>Hemat waktu &amp; anggaran</b><span>Kurangi kerja manual berulang dan salah hitung.</span></div>
+        <div class="perk reveal" style="--d:.24s"><i>🔗</i><b>Terhubung ke sistem Anda</b><span>ERP, kasir, WhatsApp/Telegram, dan media sosial.</span></div>
       </div>
     </div>
   </section>
@@ -541,22 +563,8 @@
         <nav class="sn" id="sn" aria-label="Daftar karya"><a href="#toyzone"><span>01</span> Toyzone</a><a href="#harmony"><span>02</span> Harmony of Life</a><a href="#erp"><span>03</span> ERP Rejeki Utama AC</a><a href="#pos"><span>04</span> POS BBQIU</a><a href="#sop"><span>05</span> Checklist SOP BBQIU</a><a href="#diamond"><span>06</span> Diamond Makeup Artist</a><a href="#ar"><span>07</span> Kartu Nama AR</a></nav>
         <div class="pcs">
       <article class="pc B" id="toyzone" data-ac="#ea580c" data-fr="#ffd9a8" data-name="Toyzone" data-n="01" style="--bg:#ffd9a8;--fg:var(--ink)">
-        <div class="pc-mock"><i class="blob b1"></i><div class="mk">
-          <div class="fx tz">
-            <div class="fxb"><i></i><i></i><i></i><u>toyzone</u></div>
-            <div class="tzh"><b>toyzone</b><div class="s">Cari mainan…</div><div class="c">🛒 3</div></div>
-            <div class="tzb"><div><strong>Mainan baru<br>sudah datang!</strong><small>Temukan favorit si kecil</small></div><span>🚀</span></div>
-            <div class="pills"><span>Action Figure</span><span>Puzzle</span><span>Boneka</span><span>RC Car</span></div>
-            <div class="tzg">
-              <div class="tzc"><i>🤖</i><b>Robot Transformer</b><em>Rp 149.000</em><u>+ Keranjang</u></div>
-              <div class="tzc"><i>🧩</i><b>Puzzle Kota 100pc</b><em>Rp 65.000</em><u>+ Keranjang</u></div>
-              <div class="tzc"><i>🧸</i><b>Boneka Beruang</b><em>Rp 89.000</em><u>+ Keranjang</u></div>
-              <div class="tzc"><i>🏎️</i><b>Mobil Remote</b><em>Rp 199.000</em><u>+ Keranjang</u></div>
-            </div>
-          </div>
-          <span class="cap">Ilustrasi tampilan · nama produk &amp; harga contoh</span>
-        </div></div>
-        <div class="pc-bot"><div><div class="pc-who">01 · E-commerce</div><h3>Toyzone</h3><div class="pc-sub">Website toko mainan online</div><p>Etalase mainan yang ceria dan mudah dijelajah. Orang tua menemukan mainan yang pas, memasukkannya ke keranjang, dan checkout tanpa bingung.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Katalog mainan lengkap dengan kategori</li><li>Pencarian &amp; filter produk</li><li>Keranjang &amp; checkout</li><li>Promo &amp; produk terbaru</li><li>Nyaman dibuka dari ponsel</li><li>Pengelolaan produk &amp; pesanan</li></ul></div>
+        <div class="pc-mock"><i class="blob b1"></i><div class="mk"><div class="fx ss"><div class="fxb"><i></i><i></i><i></i><u>Toyzone</u></div><img src="img/toyzone.webp" alt="Tampilan website Toyzone: banner gratis ongkir, kategori, dan katalog" loading="lazy"></div><span class="cap">Tampilan asli website</span></div></div>
+        <div class="pc-bot"><div><div class="pc-who">01 · E-commerce</div><h3>Toyzone</h3><div class="pc-sub">Website toko mainan online</div><p>Toko online mainan dengan tampilan ceria dan penuh warna. Banner promo yang berganti otomatis, kategori yang mudah dijelajah, hingga keranjang dan pelacakan pesanan, semuanya terasa seperti belanja di toko besar.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Banner promo berganti otomatis (gratis ongkir, produk baru)</li><li>Kategori berwarna: Produk Baru, Stok Terbatas, Terlaris, Eksklusif, Sale</li><li>Tab Terbaru, Minat &amp; Kategori untuk menemukan mainan</li><li>Pencarian, wishlist &amp; keranjang belanja</li><li>Menu Cara Belanja, Pesanan Saya &amp; Bantuan</li><li>Dua bahasa (ID/EN) &amp; tombol WhatsApp langsung</li></ul></div>
       </article>
       <article class="pc B" id="harmony" data-ac="#4d7c0f" data-fr="#d6e8ae" data-name="Harmony of Life" data-n="02" style="--bg:#d6e8ae;--fg:var(--ink)">
         <div class="pc-mock"><i class="blob b1"></i><div class="mk">
@@ -650,33 +658,13 @@
       </article>
       <article class="pc A" id="diamond" data-ac="#e9c987" data-fr="#e6d3ad" data-name="Diamond Makeup Artist" data-n="06" style="--bg:#1f1726;--fg:#fff">
         <i class="blob b1"></i><i class="blob b2"></i>
-        <div class="pc-top"><div><div class="pc-who">06 · Company profile</div><h3>Diamond Makeup Artist</h3><div class="pc-sub">Website company profile make-up artist</div><p>Etalase digital yang elegan: calon klien melihat hasil kerja, mengenal layanan, lalu langsung menghubungi untuk booking.</p></div><a class="btn btn-w" href="#kontak">Buat yang serupa</a></div>
-        <ul class="ft"><li>Galeri hasil riasan</li><li>Daftar layanan</li><li>Booking langsung via WhatsApp</li><li>Tampil rapi di ponsel</li></ul>
-        <div class="pc-mock"><div class="mk dk">
-          <div class="fx dm">
-            <div class="fxb"><i></i><i></i><i></i><u>diamond-mua</u></div>
-            <div class="dmh"><b>DIAMOND</b><span><i style="font-style:normal">Layanan</i><i style="font-style:normal">Galeri</i><i style="font-style:normal">Kontak</i></span></div>
-            <div class="dmv"><small>MAKEUP ARTIST</small><strong>Tampil memukau<br>di hari istimewamu</strong><u>Booking via WhatsApp</u></div>
-            <div class="gal"><i></i><i></i><i></i><i></i></div>
-            <div class="dsv"><span>Layanan A</span><span>Layanan B</span><span>Layanan C</span></div>
-          </div>
-          <span class="cap">Ilustrasi tampilan</span>
-        </div></div>
+        <div class="pc-top"><div><div class="pc-who">06 · Company profile</div><h3>Diamond Makeup Artist</h3><div class="pc-sub">Website company profile make-up artist</div><p>Website company profile yang elegan untuk MUA di Solo. Foto/video layar penuh, kata-kata yang menenangkan, dan tombol reservasi yang selalu terlihat, sehingga calon pengantin langsung merasakan gaya Diamond.</p></div><a class="btn btn-w" href="#kontak">Buat yang serupa</a></div>
+        <ul class="ft"><li>Hero layar penuh dengan foto/video suasana</li><li>Tombol Reservasi &amp; Portofolio langsung di halaman depan</li><li>Layanan: pengantin, lamaran, wisuda, sweet seventeen, photoshoot</li><li>Bagian Tentang Kami dengan cerita founder &amp; lead artist</li><li>Tipografi serif elegan dengan nuansa hangat</li><li>Menu ringkas ala hamburger yang bersih</li></ul>
+        <div class="pc-mock"><div class="mk dk"><div class="fx ss"><div class="fxb"><i></i><i></i><i></i><u>Diamond Make Up Artist</u></div><img src="img/diamond.webp" alt="Tampilan website Diamond Make Up Artist" loading="lazy"></div><span class="cap">Tampilan asli website</span></div></div>
       </article>
       <article class="pc B" id="ar" data-ac="#0a86bd" data-fr="#bfe9f7" data-name="Kartu Nama AR" data-n="07" style="--bg:#bfe9f7;--fg:var(--ink)">
-        <div class="pc-mock"><i class="blob b1"></i><div class="mk">
-          <div class="arw">
-            <div class="card"><b>REJEKI UTAMA AC<em>SEJAK 1996</em></b><small>Penjualan, Instalasi &amp; Perawatan AC</small><div class="qr">◪</div></div>
-            <div class="ph ar"><div class="scr">
-              <div class="bars2"><i></i><i></i><i></i><i></i></div>
-              <div class="flake"><div>❄️</div><b>24°C</b><small>Apa yang terjadi di dalam AC Anda?</small></div>
-              <div class="q">Arahkan kamera, lihat perjalanan udara dingin di dalam AC.</div>
-              <div class="wa">Chat WhatsApp</div>
-            </div></div>
-          </div>
-          <span class="cap">Ilustrasi tampilan</span>
-        </div></div>
-        <div class="pc-bot"><div><div class="pc-who">07 · Augmented reality</div><h3>Kartu Nama AR</h3><div class="pc-sub">Rejeki Utama AC</div><p>Arahkan kamera ponsel ke kartu nama, lalu presentasi perusahaan muncul seperti story interaktif. Calon pelanggan melihat apa yang terjadi di dalam AC mereka, dan menghubungi tim tanpa mengetik satu nomor pun.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Scan kartu, langsung tampil lewat browser</li><li>Presentasi interaktif bergaya story</li><li>Layanan, sejarah sejak 1996 &amp; jaminan</li><li>Kuis singkat untuk menarik perhatian</li><li>Tombol WhatsApp langsung</li><li>Semua teks diatur dari satu file</li></ul></div>
+        <div class="pc-mock"><i class="blob b1"></i><div class="mk"><div class="arw ss2"><img src="img/ar-poster.webp" alt="Poster kartu nama Rejeki Utama AC dengan QR untuk membuka AR" loading="lazy"><img src="img/ar-app.webp" alt="Halaman Kartu AR: Mulai AR, Lihat tanpa kamera, Cek kesehatan AC" loading="lazy"></div><span class="cap">Tampilan asli</span></div></div>
+        <div class="pc-bot"><div><div class="pc-who">07 · Augmented reality</div><h3>Kartu Nama AR</h3><div class="pc-sub">Rejeki Utama AC</div><p>Kartu nama dengan QR: arahkan kamera ponsel, lalu halaman AR terbuka tanpa aplikasi. Pelanggan bisa melihat perbandingan AC yang rutin dirawat dan yang tidak, mengecek kesehatan AC, lalu langsung chat WhatsApp.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Kartu cetak dengan QR: “Ingin tahu apa yang sebenarnya terjadi di dalam AC Anda?”</li><li>Tanpa aplikasi, tanpa daftar, gratis</li><li>Tombol Mulai AR yang membuka kamera</li><li>Pilihan Lihat tanpa kamera untuk ponsel tanpa AR</li><li>Cek kesehatan AC Anda dalam 30 detik</li><li>Tombol Chat WhatsApp langsung di halaman</li></ul></div>
       </article>
         </div>
       </div>
@@ -691,7 +679,7 @@
         <h2 class="sh">Apa saja yang bisa dikerjakan.</h2>
         <p class="sub">Kebutuhan Anda tidak persis di daftar ini? Tetap ceritakan, alur kerja bisa disesuaikan.</p>
       </div>
-      <div class="bento"><div class="sv sv1 w reveal"><div class="sv-ic">🧾</div><div><h3>Kasir &amp; operasional F&amp;B</h3><p>Kasir digital, QRIS, order meja via barcode, layar dapur, dan kontrol stok bahan baku.</p></div><small>Contoh: <b>POS BBQIU</b></small></div><div class="sv sv2 reveal"><div class="sv-ic">📋</div><div><h3>Manajemen SDM &amp; SOP</h3><p>Checklist harian dengan bukti foto ber-GPS dan pemantauan kepatuhan staf.</p></div><small>Contoh: <b>Checklist SOP BBQIU</b></small></div><div class="sv sv3 reveal"><div class="sv-ic">🛠️</div><div><h3>Servis, penjualan &amp; keuangan</h3><p>Surat tugas, nota, stok, piutang, dan cetak dokumen otomatis untuk perusahaan jasa &amp; dagang.</p></div><small>Contoh: <b>ERP Rejeki Utama AC</b></small></div><div class="sv sv4 reveal"><div class="sv-ic">📅</div><div><h3>Pendaftaran &amp; booking online</h3><p>Kuota, jadwal otomatis, pembayaran dengan konfirmasi, dan panel admin untuk pengelola.</p></div><small>Contoh: <b>Harmony of Life</b></small></div><div class="sv sv5 reveal"><div class="sv-ic">🤖</div><div><h3>Asisten pintar &amp; agen AI</h3><p>Asisten yang menjawab pertanyaan bisnis, agen AI yang menjalankan tugas rutin, plus peringatan otomatis ke WhatsApp/Telegram.</p></div><small>Contoh: <b>Asisten &amp; agen di ERP RU</b></small></div><div class="sv sv6 w reveal"><div class="sv-ic">🛒</div><div><h3>Website, toko online &amp; AR</h3><p>Company profile, toko online (e-commerce), kartu nama digital, dan presentasi interaktif berbasis AR.</p></div><small>Contoh: <b>Toyzone, Diamond MUA, Kartu Nama AR</b></small></div></div>
+      <div class="bento"><div class="sv sv1 w reveal"><div class="sv-ic">🧾</div><div><h3>Kasir &amp; operasional F&amp;B</h3><p>Kasir digital, QRIS, order meja via barcode, layar dapur, dan kontrol stok bahan baku.</p></div><small>Contoh: <b>POS BBQIU</b></small></div><div class="sv sv2 reveal"><div class="sv-ic">📋</div><div><h3>Manajemen SDM &amp; SOP</h3><p>Checklist harian dengan bukti foto ber-GPS dan pemantauan kepatuhan staf.</p></div><small>Contoh: <b>Checklist SOP BBQIU</b></small></div><div class="sv sv3 reveal"><div class="sv-ic">🛠️</div><div><h3>Servis, penjualan &amp; keuangan</h3><p>Surat tugas, nota, stok, piutang, dan cetak dokumen otomatis untuk perusahaan jasa &amp; dagang.</p></div><small>Contoh: <b>ERP Rejeki Utama AC</b></small></div><div class="sv sv4 reveal"><div class="sv-ic">📅</div><div><h3>Pendaftaran &amp; booking online</h3><p>Kuota, jadwal otomatis, pembayaran dengan konfirmasi, dan panel admin untuk pengelola.</p></div><small>Contoh: <b>Harmony of Life</b></small></div><div class="sv sv5 reveal"><div class="sv-ic">🤖</div><div><h3>Asisten pintar &amp; agen AI</h3><p>Bangun tim virtual: desainer konten, laporan pagi dan sore, bonus &amp; komisi staf, dan SPV pintar yang melatih tim lewat chat.</p></div><small>Contoh: <b>Tim virtual di ERP Rejeki Utama AC</b></small></div><div class="sv sv6 w reveal"><div class="sv-ic">🛒</div><div><h3>Website, toko online &amp; AR</h3><p>Company profile, toko online (e-commerce), kartu nama digital, dan presentasi interaktif berbasis AR.</p></div><small>Contoh: <b>Toyzone, Diamond MUA, Kartu Nama AR</b></small></div></div>
     </div>
   </section>
 
@@ -741,15 +729,6 @@
   </div>
 </footer>
 
-
-<button class="cfab" id="cfab" aria-label="Buka demo chat AI Nexora"><i>💬</i><span>Coba ngobrol dengan AI kami</span></button>
-<div class="cbox" id="cbox" role="dialog" aria-label="Demo chat Asisten Nexora" aria-hidden="true">
-  <div class="chd"><div class="cav">✦</div><div><b>Asisten Nexora</b><small>Demo gratis · coba tanya apa saja</small></div><button class="cx" id="cx" aria-label="Tutup chat">×</button></div>
-  <div class="cmsgs" id="cmsgs" aria-live="polite"></div>
-  <div class="csug" id="csug"></div>
-  <form class="cform" id="cform" autocomplete="off"><input id="cin" type="text" maxlength="200" placeholder="Tulis pertanyaan Anda…" aria-label="Pertanyaan Anda"><button type="submit">Kirim</button></form>
-  <div class="cnote">Dijawab oleh AI, bisa keliru. AI di bisnis Anda terhubung ke data sistem Anda sendiri.</div>
-</div>
 
 <script>
 (function(){
@@ -836,79 +815,57 @@
 })();
 </script>
 
+
+
 <script>
 (function(){
-  // Endpoint AI sungguhan (Vercel function di api/chat.js). Jika tidak tersedia
-  // (mis. file dibuka langsung), chat otomatis memakai jawaban contoh di bawah.
-  var CHAT_ENDPOINT='/api/chat';
   var $=function(s){return document.querySelector(s)};
-  var box=$('#cbox'), fab=$('#cfab'), msgs=$('#cmsgs'), sug=$('#csug'), form=$('#cform'), inp=$('#cin');
-  var WA='https://wa.me/628131888116', history=[], opened=false, busy=false;
-
-  var SUGGEST=['Apa saja yang bisa kamu lakukan?','Bagaimana AI agent menghemat waktu & anggaran?','Apa saja karya Nexora?','Cocok untuk bisnis saya?','Bagaimana cara mulai?'];
-
-  var KB=[
-    {k:/(halo|hai|hi\b|hello|selamat)/, a:'Halo! Saya Asisten Nexora versi demo. Coba tanya apa yang bisa saya lakukan, atau ceritakan jenis bisnis Anda.'},
-    {k:/(bisa kamu lakukan|bisa lakukan|bisa apa|fungsi|kemampuan|apa saja yang bisa)/, a:'Sebagai demo, saya bisa:\n• Menjelaskan layanan dan karya Nexora\n• Memberi gambaran bagaimana AI agent membantu bisnis (penjadwalan, stok, penagihan, jawab pertanyaan data)\n• Membantu memilih sistem yang cocok untuk bisnis Anda\n• Mengarahkan Anda ke tim untuk konsultasi gratis\n\nVersi yang dipasang di bisnis Anda terhubung langsung ke data sistem Anda, jadi bisa menjawab hal seperti “piutang minggu ini berapa?”.'},
-    {k:/(40|hemat|efisien|waktu|anggaran|biaya operasional|agent|agen)/, a:'AI agent mengambil alih tugas rutin yang berulang: menjadwalkan teknisi, mengawasi stok, menyiapkan pengingat penagihan, dan menjawab pertanyaan data bisnis. Hasilnya, tim fokus ke pekerjaan yang butuh keputusan manusia.\n\nPotensi efisiensi waktu dan anggaran operasional hingga 40%, tergantung proses bisnis dan jumlah tugas rutin yang diotomasi.'},
-    {k:/(karya|portofolio|portfolio|proyek|project|contoh)/, a:'Karya Nexora:\n1. Toyzone (toko online mainan)\n2. Harmony of Life (profil + reservasi online)\n3. ERP Rejeki Utama AC (dengan asisten & agen AI)\n4. POS BBQIU Fusion Grill House\n5. Checklist SOP BBQIU\n6. Diamond Makeup Artist (company profile)\n7. Kartu Nama AR Rejeki Utama AC\n\nLihat cuplikannya di bagian Karya.'},
-    {k:/(resto|restoran|cafe|kafe|kedai|kasir|pos|makan|fnb|f&b|bar\b|coffee)/, a:'Untuk resto, cafe, atau F&B, cocoknya Nexora POS: order meja via scan barcode, layar dapur (KDS), QRIS tanpa biaya payment gateway, stok FIFO, dan alert kadaluarsa. Ditambah checklist SOP berfoto GPS untuk menjaga disiplin tim.'},
-    {k:/(ac\b|bengkel|servis|service|teknisi|montir|perawatan|instalasi|piutang|nota)/, a:'Untuk bisnis servis dan dagang seperti AC atau bengkel, cocoknya ERP: surat tugas, nota service, sales order, stok, keuangan, dan piutang, ditambah asisten pintar dan agen AI yang membantu menjadwalkan teknisi dan menagih piutang.'},
-    {k:/(yoga|kelas|booking|reservasi|daftar|pendaftaran|kuota|workshop|studio)/, a:'Untuk kelas, studio, atau layanan yang butuh pendaftaran, kami membuat website profil sekaligus reservasi online: jadwal otomatis, kuota kursi, pembayaran dengan kode unik, dan panel admin.'},
-    {k:/(toko online|ecommerce|e-commerce|jual online|produk|marketplace|mainan)/, a:'Untuk jualan online, kami membangun toko online: katalog dan kategori, pencarian, keranjang, checkout, serta pengelolaan produk dan pesanan, seperti Toyzone.'},
-    {k:/(salon|make ?up|mua|profil|company profile|website|situs|portofolio saya|kartu nama|ar\b)/, a:'Untuk memperkenalkan bisnis, kami membuat website company profile (galeri, layanan, booking via WhatsApp) dan kartu nama digital berbasis AR yang menampilkan presentasi interaktif saat discan.'},
-    {wa:1,k:/(cocok|bisnis saya|usaha saya|untuk saya)/, a:'Ceritakan jenis bisnis Anda, misalnya resto, bengkel AC, studio, atau toko online. Saya bantu arahkan sistem yang paling pas. Atau langsung konsultasi gratis dengan tim kami.'},
-    {wa:1,k:/(harga|biaya|tarif|berapa|bayar|paket|durasi|lama|berapa lama)/, a:'Biaya dan durasi tergantung kebutuhan dan ukuran sistemnya, jadi kami tidak memberi angka sebelum memahami alur bisnis Anda. Konsultasi awalnya gratis.'},
-    {wa:1,k:/(mulai|cara|konsultasi|kontak|hubungi|demo|whatsapp|wa\b)/, a:'Caranya mudah: 1) Ngobrol dulu (gratis), 2) Petakan alur, 3) Bangun & uji di operasional, 4) Rilis dan berkembang.\n\nMulai dari WhatsApp 08131888116 atau halo@nexora.id.'},
-    {k:/(aman|data|privasi|keamanan)/, a:'Setiap client punya database terpisah, jadi data bisnis Anda tidak tercampur dengan client lain.'},
-    {wa:1,k:/(terima kasih|makasih|thanks|thank)/, a:'Sama-sama! Kalau mau lanjut, tim kami siap konsultasi gratis lewat WhatsApp.'}
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var TEAM=[
+    {e:'🎨',n:'Desainer Konten',t:'Desainer & Admin Sosmed',d:'Mendesain konten feed Instagram, menulis caption, lalu memposting sesuai jadwal yang Anda mau, bahkan saat Anda tidur.',
+     m:[['s','Senin · 23:40'],['u','Buat feed promo akhir pekan, posting Sabtu jam 07.00 ya'],['b','Siap! 🎨 Saya buat 3 desain feed dengan warna brand Anda.'],['b','✍️ Caption dan hashtag sudah saya tulis. Mau saya kirim pratinjaunya?'],['u','Boleh, lihat dulu'],['b','Pratinjau terkirim. Jika disetujui, saya jadwalkan otomatis.'],['u','Setuju, jadwalkan'],['s','Sabtu · 07:00 (Anda masih tidur 😴)'],['ok','✅ Terposting di Instagram. Jangkauan pertama akan saya laporkan di laporan pagi.']]},
+    {e:'☀️',n:'Laporan Pagi',t:'Laporan Pagi',d:'Begitu Anda bangun, ringkasan bisnis kemarin sudah menunggu: omzet, piutang, tagihan supplier, dan pengeluaran kas.',
+     m:[['s','Setiap hari · 06:30'],['b','Selamat pagi, Bu Sari ☀️ Ringkasan kemarin:\n💰 Omzet Rp 12,4 jt (naik 8%)\n🧾 Piutang jatuh tempo Rp 3,2 jt\n📦 Tagihan supplier minggu ini Rp 5,6 jt\n💸 Pengeluaran kas Rp 1,1 jt'],['u','Piutang yang jatuh tempo siapa saja?'],['b','3 pelanggan: Toko A (Rp 1,5 jt), Pak B (Rp 1,0 jt), CV C (Rp 0,7 jt). Mau saya kirim pengingat sopan ke ketiganya?'],['u','Kirim'],['ok','✅ 3 pengingat terkirim. Saya kabari saat ada yang membayar.']]},
+    {e:'🌇',n:'Laporan Sore',t:'Laporan Sore, Bonus & Komisi',d:'Setiap sore, hasil kerja staf manusia Anda dirangkum: pencapaian hari ini, lalu bonus dan komisi tiap karyawan dihitung otomatis.',
+     m:[['s','Setiap hari · 17:00'],['b','Rekap kerja hari ini 🌇\n• Andi: 14 servis selesai ✓ target tercapai\n• Budi: 9 servis (target 12)\n• Sinta: 6 penjualan ✓'],['b','Komisi hari ini:\nAndi Rp 210.000 · Sinta Rp 180.000\nBonus target Andi: Rp 100.000'],['u','Budi kenapa kurang target?'],['b','2 servis tertunda karena menunggu suku cadang. Selebihnya sesuai jadwal.'],['u','Oke, kirim detailnya ke WhatsApp saya'],['ok','✅ Detail per karyawan sudah terkirim.']]},
+    {e:'🧠',n:'SPV Pintar',t:'SPV Pintar',d:'Staf baru maupun lama bisa bertanya lewat chat kapan saja: cara kerja alat, solusi masalah teknis, sampai preferensi pelanggan.',
+     m:[['u','Bagaimana cara menyetting mesin kopi ini?'],['b','Langkah awalnya: 1) Isi tangki air 2) Nyalakan mesin dan tunggu pemanasan 3) Atur gilingan sesuai resep. Mau saya kirim panduan lengkap sesuai tipe mesinnya?'],['u','Indoor AC kedip 2x, outdoor tidak keluar hawa panas. Apa yang bermasalah?'],['b','Kedip 2x biasanya kode error (tergantung merek). Outdoor tidak keluar hawa panas bisa dari kompresor, kapasitor, atau freon. Cek kabel komunikasi indoor-outdoor dulu. Sebutkan merek dan tipenya agar saya cocokkan dengan manualnya.'],['u','Pelanggan kita Bapak A kesukaannya apa dan biasa ditemui di mana?'],['b','Pak A suka kopi hitam tanpa gula dan biasa ditemui di kantornya Senin–Rabu pagi. Terakhir beli AC 1 PK, servis berikutnya jatuh tempo bulan depan.']]}
   ];
-  var FALLBACK='Pertanyaan bagus! Ini versi demo singkat, jadi jawaban saya terbatas. Coba tanya soal layanan, karya, atau cara kerja AI agent kami. Untuk pertanyaan yang lebih spesifik, tim kami siap membantu.';
-
-  function add(text,who,withWA){
-    var d=document.createElement('div'); d.className='cm '+(who==='u'?'cm-u':'cm-b');
-    d.textContent=text;
-    if(withWA){var a=document.createElement('a');a.href=WA;a.target='_blank';a.rel='noopener';a.textContent=' Chat WhatsApp →';d.appendChild(a)}
+  var tabs=$('#tabs2'), msgs=$('#tmsgs'), box=$('.team'), cur=-1, timers=[], auto=!reduce, started=false;
+  var esc=function(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML};
+  TEAM.forEach(function(x,i){
+    var b=document.createElement('button'); b.type='button'; b.className='tab2'; b.setAttribute('role','tab');
+    b.innerHTML='<div class="e">'+x.e+'</div><div><b>'+esc(x.t)+'</b><small>'+esc(x.d.split('.')[0])+'.</small><span>'+esc(x.d)+'</span></div><i></i>';
+    b.addEventListener('click',function(){auto=false;box.classList.add('paused');play(i)});
+    tabs.appendChild(b);
+  });
+  function clear(){timers.forEach(clearTimeout);timers=[]}
+  function bubble(kind,text){
+    var d=document.createElement('div'); d.className='tb '+(kind==='u'?'tb-u':kind==='s'?'tb-s':kind==='ok'?'tb-b tb-ok':'tb-b'); d.textContent=text;
     msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight; return d;
   }
-  function typing(){var d=document.createElement('div');d.className='cm cm-b cty';d.innerHTML='<i></i><i></i><i></i>';msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;return d}
-  function local(q){
-    var s=q.toLowerCase();
-    for(var i=0;i<KB.length;i++){ if(KB[i].k.test(s)) return {a:KB[i].a,wa:!!KB[i].wa} }
-    return {a:FALLBACK,wa:true};
+  function play(i){
+    clear(); cur=i; var x=TEAM[i];
+    Array.prototype.forEach.call(tabs.children,function(b,k){b.classList.toggle('on',k===i);b.setAttribute('aria-selected',k===i);b.style.setProperty('--dur','0s')});
+    $('#tavatar').textContent=x.e; $('#tname').textContent=x.n; msgs.innerHTML='';
+    if(reduce){x.m.forEach(function(m){bubble(m[0],m[1])}); return}
+    var t=300, total=0;
+    x.m.forEach(function(m){
+      var kind=m[0], text=m[1];
+      if(kind==='b'||kind==='ok'){
+        timers.push(setTimeout(function(){var ty=document.createElement('div');ty.className='cm cm-b cty';ty.style.cssText='align-self:flex-start;max-width:70px;border-radius:15px;background:#fff;border:1px solid var(--line)';ty.innerHTML='<i></i><i></i><i></i>';msgs.appendChild(ty);msgs.scrollTop=msgs.scrollHeight;timers.push(setTimeout(function(){ty.remove();bubble(kind,text)},750))},t));
+        t+=750+Math.min(text.length*14,1500);
+      } else { timers.push(setTimeout(function(){bubble(kind,text)},t)); t+=kind==='s'?600:1000; }
+    });
+    total=t+3200;
+    var active=tabs.children[i]; active.style.setProperty('--dur',(total/1000)+'s');
+    void active.offsetWidth; active.classList.remove('on'); void active.offsetWidth; active.classList.add('on');
+    if(auto) timers.push(setTimeout(function(){if(auto)play((i+1)%TEAM.length)},total));
   }
-  function ask(q){
-    q=q.trim(); if(!q||busy) return;
-    busy=true; add(q,'u'); history.push({role:'user',content:q}); inp.value='';
-    var t=typing();
-    var done=function(r){
-      if(typeof r==='string') r={a:r,wa:false};
-      setTimeout(function(){
-        t.remove(); add(r.a,'b',r.wa); history.push({role:'assistant',content:r.a}); busy=false;
-      }, 650+Math.min(r.a.length*6,900));
-    };
-    if(CHAT_ENDPOINT){
-      fetch(CHAT_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:q,history:history.slice(-8)})})
-        .then(function(r){return r.json().catch(function(){return {}}).then(function(j){return {ok:r.ok,status:r.status,j:j}})})
-        .then(function(x){
-          if(x.ok&&x.j.reply) return done({a:x.j.reply,wa:/whatsapp|konsultasi|hubungi/i.test(x.j.reply)});
-          if(x.status===429&&x.j.error) return done({a:x.j.error,wa:true});
-          done(local(q));
-        }).catch(function(){done(local(q))});
-    } else done(local(q));
-  }
-  SUGGEST.forEach(function(s){var b=document.createElement('button');b.type='button';b.textContent=s;b.addEventListener('click',function(){ask(s)});sug.appendChild(b)});
-  form.addEventListener('submit',function(e){e.preventDefault();ask(inp.value)});
-
-  function open(){
-    box.classList.add('open'); box.setAttribute('aria-hidden','false'); fab.classList.add('hide');
-    if(!opened){opened=true;setTimeout(function(){add('Halo! Saya Asisten Nexora (versi demo). Coba tanyakan apa yang bisa saya lakukan, atau pilih salah satu pertanyaan di bawah.','b')},250)}
-    setTimeout(function(){inp.focus()},350);
-  }
-  function close(){box.classList.remove('open');box.setAttribute('aria-hidden','true');fab.classList.remove('hide')}
-  fab.addEventListener('click',open); $('#cx').addEventListener('click',close);
-  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&box.classList.contains('open'))close()});
-  document.querySelectorAll('[data-chat]').forEach(function(el){el.addEventListener('click',function(e){e.preventDefault();open()})});
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting&&!started){started=true;play(0)}
+  })},{threshold:.3});
+  io.observe($('#tim'));
 })();
 </script>
 </body>
