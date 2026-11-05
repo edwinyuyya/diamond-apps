@@ -275,6 +275,27 @@
   @media(max-width:800px){.steps{grid-template-columns:1fr 1fr;row-gap:30px}}
   @media(max-width:480px){.steps{grid-template-columns:1fr}}
 
+
+  /* ---------- TENTANG ---------- */
+  .ab{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+  .ab-l{position:sticky;top:104px}
+  .ab-places{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+  .ab-places span{padding:9px 15px;border-radius:99px;background:var(--soft);border:1px solid var(--line);font-size:14px;font-weight:600;transition:.2s}
+  .ab-places span:hover{transform:translateY(-3px);border-color:var(--p3);background:var(--soft2)}
+  .ab-r{display:grid;gap:22px}
+  .ab-r p{font-size:17.5px;line-height:1.75;color:var(--ink2);padding-left:22px;border-left:3px solid var(--soft2);transition:border-color .5s}
+  .ab-r p.in{border-left-color:var(--p2)}
+  .ab-r p b{color:var(--ink);font-weight:700}
+  .ab-q{margin:64px 0 40px;padding:64px 48px 44px;border-radius:28px;background:radial-gradient(500px 260px at 100% 0%,rgba(168,85,247,.45),transparent 60%),linear-gradient(135deg,#1c0b4d,#4c1d95);color:#fff;font-size:clamp(22px,3vw,34px);line-height:1.3;letter-spacing:-.025em;font-weight:600;quotes:none;position:relative}
+  .ab-q::before{content:"“";position:absolute;left:30px;top:6px;font-size:90px;line-height:1;opacity:.25;font-family:Georgia,serif}
+  .ab-vals{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .ab-vals div{padding:28px;border-radius:24px;background:var(--soft);border:1px solid var(--line);transition:transform .35s var(--ease),box-shadow .35s}
+  .ab-vals div:hover{transform:translateY(-5px);box-shadow:0 22px 40px -24px rgba(60,30,140,.4)}
+  .ab-vals i{font-style:normal;font-size:34px;display:block;margin-bottom:14px}
+  .ab-vals b{display:block;font-size:19px;letter-spacing:-.015em;margin-bottom:6px}
+  .ab-vals span{font-size:14.5px;color:var(--dim)}
+  @media(max-width:900px){.ab{grid-template-columns:1fr;gap:30px}.ab-l{position:static}.ab-vals{grid-template-columns:1fr}.ab-q{padding:34px 26px}}
+
   /* ---------- DARK BAND ---------- */
   .band{position:relative;border-radius:30px;overflow:hidden;padding:64px 52px;color:#fff;min-height:320px;display:flex;flex-direction:column;justify-content:space-between;gap:40px;
         background:radial-gradient(500px 300px at 80% 100%,rgba(124,58,237,.55),transparent 60%),#0f0c1f}
@@ -470,6 +491,7 @@
       <a href="#karya">Karya</a>
       <a href="#layanan">Layanan</a>
       <a href="#proses">Cara Kerja</a>
+      <a href="#tentang">Tentang Kami</a>
       <a href="#kontak">Kontak</a>
     </nav>
     <div class="navR">
@@ -696,6 +718,32 @@
     </div>
   </section>
 
+  <!-- TENTANG KAMI -->
+  <section id="tentang" style="padding-top:20px">
+    <div class="wrap">
+      <div class="ab">
+        <div class="ab-l reveal">
+          <div class="eyebrow">Tentang Kami</div>
+          <h2 class="sh">Awal mula berdirinya Nexora.</h2>
+          <p class="sub">Berawal dari rasa lelah seorang pebisnis yang ingin tetap hadir untuk bisnisnya, tanpa kehilangan waktu untuk orang-orang tercinta.</p>
+          <div class="ab-places"><span>☕ Coffee shop</span><span>🍜 Warung makan</span><span>🏖️ Holiday trip</span><span>👨‍👩‍👧 Bersama keluarga</span></div>
+        </div>
+        <div class="ab-r">
+          <p class="reveal"><b>Nexora lahir dari rasa lelah.</b> Founder kami, yang juga seorang pebisnis, merasa suntuk dan capai mengawasi bisnis secara tatap muka setiap hari. Harapannya sederhana: dengan kehadiran bos di tempat kerja, karyawan bisa bekerja dengan efisien dan optimal.</p>
+          <p class="reveal">Kenyataannya, hasilnya ternyata sama saja. Sementara itu, founder justru lebih suka bekerja sambil menghabiskan waktu bersama keluarga, teman, dan kerabat, entah di coffee shop, warung makan, atau saat holiday trip.</p>
+          <p class="reveal">Dari situ muncul satu pertanyaan: bagaimana caranya bisnis tidak mengorbankan waktu yang berharga bagi kita, namun sistemnya justru berjalan makin baik? Jawabannya adalah keterhubungan. Pemilik bisnis dan kantor selalu bisa terintegrasi, bahkan di luar jam kerja. <b>Maka founder menciptakan Nexora.</b></p>
+          <p class="reveal">Nexora bukan perusahaan SaaS (software as a service) seperti pada umumnya. Kami lebih seperti wadah bagi para pengusaha, dari UMKM hingga usaha besar, untuk mendapatkan solusi dari permasalahan mereka dan melangkah ke tahap scale up bisnis.</p>
+        </div>
+      </div>
+      <blockquote class="ab-q reveal">Bisnis tidak harus mengorbankan waktu yang berharga. Justru sistemnya makin baik saat Anda hadir untuk hal yang lebih penting.</blockquote>
+      <div class="ab-vals">
+        <div class="reveal"><i>🤝</i><b>Manusia ke manusia, hati ke hati</b><span>Pendekatan kami tidak sekaku pendekatan teknis pada umumnya. Kami mendengar dulu, baru membangun.</span></div>
+        <div class="reveal" style="--d:.1s"><i>🛋️</i><b>Kenyamanan Anda nomor 1</b><span>Kenyamanan customer adalah prioritas dalam setiap keputusan dan setiap baris sistem yang kami buat.</span></div>
+        <div class="reveal" style="--d:.2s"><i>🌏</i><b>Mengembalikan kebaikan semesta</b><span>Tujuan utama Nexora adalah mengembalikan kebaikan alam semesta kepada manusia lainnya.</span></div>
+      </div>
+    </div>
+  </section>
+
   <!-- BAND -->
   <section style="padding-top:20px">
     <div class="wrap">
@@ -719,7 +767,7 @@
 
 <footer>
   <div class="wrap">
-    <div class="fn"><img src="nexora_logo_navbar.png" alt="Nexora"><nav><a href="#ai">AI Agent</a><a href="#karya">Karya</a><a href="#layanan">Layanan</a><a href="#proses">Cara Kerja</a><a href="#kontak">Kontak</a></nav></div>
+    <div class="fn"><img src="nexora_logo_navbar.png" alt="Nexora"><nav><a href="#ai">AI Agent</a><a href="#karya">Karya</a><a href="#layanan">Layanan</a><a href="#proses">Cara Kerja</a><a href="#tentang">Tentang Kami</a><a href="#kontak">Kontak</a></nav></div>
     <div class="fcols">
       <div><h4>Karya</h4><ul><li><a href="#toyzone">Toyzone</a></li><li><a href="#harmony">Harmony of Life</a></li><li><a href="#erp">ERP Rejeki Utama AC</a></li><li><a href="#pos">POS BBQIU</a></li></ul></div>
       <div><h4>&nbsp;</h4><ul><li><a href="#sop">Checklist SOP BBQIU</a></li><li><a href="#diamond">Diamond Makeup Artist</a></li><li><a href="#ar">Kartu Nama AR</a></li></ul></div>
