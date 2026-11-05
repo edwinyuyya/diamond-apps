@@ -52,7 +52,7 @@ Sambil menunggu, lihat karya kami: **[link website]**
 ## 4. Balasan cepat (ketik `/` lalu pintasan di chat)
 | Pintasan | Isi |
 |---|---|
-| `/karya` | `Berikut karya kami: POS & checklist SOP BBQIU, ERP & kartu nama AR Rejeki Utama AC, reservasi Harmony of Life, Toyzone, dan Diamond Makeup Artist. Lengkapnya di **[link website]** 🙌` |
+| `/karya` | `Berikut karya kami: POS F&B, aplikasi checklist SOP, ERP, online booking & reservasi, web e-commerce, web company profile, kartu nama Augmented Reality 3D, virtual office AI agent, dan asisten pribadi Jarvis. Lengkapnya di **[link website]** 🙌`|
 | `/ai` | `Tim virtual AI kami bisa: 🎨 mendesain & memposting konten Instagram otomatis, ☀️ kirim laporan omzet, piutang, tagihan supplier & kas tiap pagi, 🌇 rekap kerja staf + hitung bonus & komisi tiap sore, 🧠 jadi SPV pintar yang menjawab pertanyaan staf lewat chat. Potensi hemat waktu & anggaran hingga 40% (tergantung proses bisnis).` |
 | `/konsul` | `Konsultasi awal GRATIS. Boleh ceritakan jenis bisnis Anda dan alur kerja yang ingin dirapikan? Setelah itu kami usulkan sistem yang paling pas.` |
 | `/harga` | `Biaya tergantung kebutuhan dan ukuran sistemnya, jadi kami pastikan dulu alur bisnis Anda lewat konsultasi gratis. Boleh ceritakan kebutuhannya? 🙏` |

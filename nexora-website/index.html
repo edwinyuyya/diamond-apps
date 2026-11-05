@@ -174,6 +174,7 @@
   .tb-u{background:var(--p);color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
   .tb-s{align-self:center;background:var(--soft2);color:var(--ink2);font-size:11.5px;font-weight:700;border-radius:99px;padding:4px 11px}
   .tb-ok{background:#ecfdf3;border:1px solid #bbf7d0;color:#166534;font-weight:600}
+  .jv .tb{font-size:11px;padding:7px 10px;max-width:92%}
   .tph-f{font-size:10.5px;color:var(--dim);text-align:center;padding:7px;background:#fff;border-top:1px solid var(--line)}
   @media(max-width:900px){.team{grid-template-columns:1fr;gap:28px;margin-top:56px}.tphone{height:480px}}
 
@@ -217,8 +218,8 @@
   .pc-bot{display:grid;grid-template-columns:1fr 1fr;gap:36px;padding:32px 36px;background:#fff;color:var(--ink)}
   .pc-bot .btn{margin-top:20px}
   .pc.B .pc-sub{opacity:.6}
-  .mk{position:relative;width:100%;display:grid;place-items:center;padding:6px 0 52px;--p:1;
-      transform:perspective(1600px) rotateX(calc((1 - var(--p))*9deg)) translateY(calc((1 - var(--p))*40px)) scale(calc(.93 + var(--p)*.07));transform-origin:50% 100%;will-change:transform}
+  .mk{position:relative;width:100%;display:grid;place-items:center;padding:6px 0 52px;--tl:1;
+      transform:perspective(1600px) rotateX(calc((1 - var(--tl))*9deg)) translateY(calc((1 - var(--tl))*40px)) scale(calc(.93 + var(--tl)*.07));transform-origin:50% 100%;will-change:transform}
   .hs-slide .mk{transform:scale(1.08)}
   .mk .cap{position:absolute;left:4px;bottom:14px;font-size:11px;font-weight:700;color:rgba(20,17,43,.45)}
   .mk.dk .cap,.pc.A .mk .cap{color:rgba(255,255,255,.5)}
@@ -408,7 +409,7 @@
   .act{display:flex;gap:5px}.act span{background:#0aa0d2;color:#fff;border-radius:7px;padding:3px 8px;font-weight:700;font-size:10px}.act span.o{background:#fff;color:#0a86bd;border:1px solid #bae6fd}
   @media(max-width:560px){.erp{grid-template-columns:1fr}.erp .sb,.erp .chat{display:none}}
 
-  /* mock: bbqiu */
+  /* mock: pos */
   .bq{--o:#f97316}
   .bq .ph .scr{background:#1c1410;color:#fff}
   .bq h6{font-size:12.5px;color:#fff;margin-bottom:2px}
@@ -512,7 +513,7 @@
         <p class="lead">Nexora bukan hanya developer aplikasi biasa. Nexora adalah tempat Anda menemukan solusi yang bukan sekadar menyelesaikan masalah, tetapi memberi nilai tambah pada bisnis Anda.</p>
         <div class="row">
           <a class="btn btn-d btn-lg" href="#kontak">Konsultasi Gratis</a>
-          <a class="btn btn-o btn-lg" href="#karya">Lihat 7 Karya</a>
+          <a class="btn btn-o btn-lg" href="#karya">Lihat 9 Karya</a>
         </div>
       </div>
       <div class="hframe" id="hframe" aria-label="Cuplikan karya Nexora">
@@ -523,9 +524,9 @@
   </div>
 
   <div class="trust wrap">
-    <p>Dipakai &amp; dipercaya oleh</p>
+    <p>Dirancang untuk berbagai jenis bisnis</p>
     <div class="mq" aria-hidden="true"><div class="mq-track" id="mq">
-      <span>BBQIU Fusion Grill House</span><span>Harmony of Life</span><span>Rejeki Utama AC</span><span>Toyzone</span><span>Diamond Makeup Artist</span>
+      <span>Restoran &amp; Kafe</span><span>Bengkel &amp; Servis AC</span><span>Studio &amp; Kelas</span><span>Toko Online</span><span>Make-up Artist</span>
     </div></div>
   </div>
 
@@ -579,21 +580,21 @@
       <div class="shead reveal">
         <div class="eyebrow">Karya</div>
         <h2 class="sh">Sistem yang dibangun untuk jalan di lapangan, bukan hanya di presentasi.</h2>
-        <p class="sub">7 proyek yang sudah dikerjakan. Gulir untuk melihat cuplikan dan fiturnya.</p>
+        <p class="sub">9 karya yang sudah dikerjakan. Gulir untuk melihat cuplikan dan fiturnya.</p>
       </div>
       <div class="work">
-        <nav class="sn" id="sn" aria-label="Daftar karya"><a href="#toyzone"><span>01</span> Toyzone</a><a href="#harmony"><span>02</span> Harmony of Life</a><a href="#erp"><span>03</span> ERP Rejeki Utama AC</a><a href="#pos"><span>04</span> POS BBQIU</a><a href="#sop"><span>05</span> Checklist SOP BBQIU</a><a href="#diamond"><span>06</span> Diamond Makeup Artist</a><a href="#ar"><span>07</span> Kartu Nama AR</a></nav>
+        <nav class="sn" id="sn" aria-label="Daftar karya"><a href="#toyzone"><span>01</span> Web E-commerce</a><a href="#harmony"><span>02</span> Online Booking &amp; Reservasi</a><a href="#erp"><span>03</span> ERP</a><a href="#pos"><span>04</span> POS F&amp;B</a><a href="#sop"><span>05</span> Aplikasi Checklist SOP</a><a href="#diamond"><span>06</span> Web Company Profile</a><a href="#ar"><span>07</span> Kartu Nama Augmented Reality 3D</a><a href="#vo"><span>08</span> Virtual Office AI Agent</a><a href="#jarvis"><span>09</span> Assistant Pribadi Jarvis</a></nav>
         <div class="pcs">
-      <article class="pc B" id="toyzone" data-ac="#ea580c" data-fr="#ffd9a8" data-name="Toyzone" data-n="01" style="--bg:#ffd9a8;--fg:var(--ink)">
-        <div class="pc-mock"><i class="blob b1"></i><div class="mk"><div class="fx ss"><div class="fxb"><i></i><i></i><i></i><u>Toyzone</u></div><img src="img/toyzone.webp" alt="Tampilan website Toyzone: banner gratis ongkir, kategori, dan katalog" loading="lazy"></div><span class="cap">Tampilan asli website</span></div></div>
-        <div class="pc-bot"><div><div class="pc-who">01 · E-commerce</div><h3>Toyzone</h3><div class="pc-sub">Website toko mainan online</div><p>Toko online mainan dengan tampilan ceria dan penuh warna. Banner promo yang berganti otomatis, kategori yang mudah dijelajah, hingga keranjang dan pelacakan pesanan, semuanya terasa seperti belanja di toko besar.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Banner promo berganti otomatis (gratis ongkir, produk baru)</li><li>Kategori berwarna: Produk Baru, Stok Terbatas, Terlaris, Eksklusif, Sale</li><li>Tab Terbaru, Minat &amp; Kategori untuk menemukan mainan</li><li>Pencarian, wishlist &amp; keranjang belanja</li><li>Menu Cara Belanja, Pesanan Saya &amp; Bantuan</li><li>Dua bahasa (ID/EN) &amp; tombol WhatsApp langsung</li></ul></div>
+      <article class="pc B" id="toyzone" data-ac="#ea580c" data-fr="#ffd9a8" data-name="Web E-commerce" data-n="01" style="--bg:#ffd9a8;--fg:var(--ink)">
+        <div class="pc-mock"><i class="blob b1"></i><div class="mk"><div class="fx ss"><div class="fxb"><i></i><i></i><i></i><u>Toko Online</u></div><img src="img/toyzone.webp" alt="Tampilan website toko online: banner gratis ongkir, kategori, dan katalog" loading="lazy"></div><span class="cap">Tampilan asli website</span></div></div>
+        <div class="pc-bot"><div><div class="pc-who">01 · E-commerce</div><h3>Web E-commerce</h3><div class="pc-sub">Toko online</div><p>Toko online mainan dengan tampilan ceria dan penuh warna. Banner promo yang berganti otomatis, kategori yang mudah dijelajah, hingga keranjang dan pelacakan pesanan, semuanya terasa seperti belanja di toko besar.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Banner promo berganti otomatis (gratis ongkir, produk baru)</li><li>Kategori berwarna: Produk Baru, Stok Terbatas, Terlaris, Eksklusif, Sale</li><li>Tab Terbaru, Minat &amp; Kategori untuk menemukan mainan</li><li>Pencarian, wishlist &amp; keranjang belanja</li><li>Menu Cara Belanja, Pesanan Saya &amp; Bantuan</li><li>Dua bahasa (ID/EN) &amp; tombol WhatsApp langsung</li></ul></div>
       </article>
-      <article class="pc B" id="harmony" data-ac="#4d7c0f" data-fr="#d6e8ae" data-name="Harmony of Life" data-n="02" style="--bg:#d6e8ae;--fg:var(--ink)">
+      <article class="pc B" id="harmony" data-ac="#4d7c0f" data-fr="#d6e8ae" data-name="Online Booking &amp;amp; Reservasi" data-n="02" style="--bg:#d6e8ae;--fg:var(--ink)">
         <div class="pc-mock"><i class="blob b1"></i><div class="mk">
           <div class="hm">
-            <div class="pics"><img src="img/harmony-1.jpg" alt="Peserta kelas yoga Harmony of Life" loading="lazy"><img src="img/harmony-2.jpg" alt="Kelas yoga di Omah Turi" loading="lazy"></div>
+            <div class="pics"><img src="img/harmony-1.jpg" alt="Peserta kelas yoga Harmony of Life" loading="lazy"><img src="img/harmony-2.jpg" alt="Kelas yoga di studio" loading="lazy"></div>
             <div class="ph hs"><div class="scr">
-              <h6>Omah Turi · Jumat</h6><div class="sm">Pilih sesi untuk mendaftar</div>
+              <h6>Kelas Yoga · Jumat</h6><div class="sm">Pilih sesi untuk mendaftar</div>
               <div class="week"><span>SEN</span><span>SEL</span><span>RAB</span><span>KAM</span><span class="on">JUM</span><span>SAB</span><span>MIN</span></div>
               <div class="sess"><b>Jumat · 19.00</b><small>Tiket Rp 50.000 / orang</small><div class="meter"><i></i></div><small>Sisa 8 dari 20 kursi</small></div>
               <div class="btnm">Daftar sekarang</div>
@@ -602,17 +603,17 @@
           </div>
           <span class="cap">Foto asli kelas · layar pendaftaran ilustrasi</span>
         </div></div>
-        <div class="pc-bot"><div><div class="pc-who">02 · Company profile + reservasi</div><h3>Harmony of Life</h3><div class="pc-sub">Studio yoga di venue Omah Turi</div><p>Satu website untuk memperkenalkan studio sekaligus menerima pendaftaran kelas. Kursi dipesan sendiri oleh peserta, pembayaran dicek dengan kode unik, dan admin tinggal tandai lunas.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Galeri kelas, workshop &amp; event</li><li>Jadwal otomatis 8 minggu ke depan</li><li>Kuota kursi, ditahan sementara lalu lepas otomatis</li><li>Nominal + kode unik, bukti via WhatsApp</li><li>Kelas offline, online live &amp; rekaman</li><li>Panel admin: kuota, lunas, batalkan</li></ul></div>
+        <div class="pc-bot"><div><div class="pc-who">02 · Company profile + reservasi</div><h3>Online Booking &amp; Reservasi</h3><div class="pc-sub">Studio, kelas &amp; layanan berjadwal</div><p>Satu website untuk memperkenalkan studio sekaligus menerima pendaftaran kelas. Kursi dipesan sendiri oleh peserta, pembayaran dicek dengan kode unik, dan admin tinggal tandai lunas.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Galeri kelas, workshop &amp; event</li><li>Jadwal otomatis 8 minggu ke depan</li><li>Kuota kursi, ditahan sementara lalu lepas otomatis</li><li>Nominal + kode unik, bukti via WhatsApp</li><li>Kelas offline, online live &amp; rekaman</li><li>Panel admin: kuota, lunas, batalkan</li></ul></div>
       </article>
-      <article class="pc A" id="erp" data-ac="#0aa0d2" data-fr="#a8def2" data-name="ERP Rejeki Utama AC" data-n="03" style="--bg:#0b3a53;--fg:#fff">
+      <article class="pc A" id="erp" data-ac="#0aa0d2" data-fr="#a8def2" data-name="ERP" data-n="03" style="--bg:#0b3a53;--fg:#fff">
         <i class="blob b1"></i><i class="blob b2"></i>
-        <div class="pc-top"><div><div class="pc-who">03 · ERP + asisten &amp; agen AI</div><h3>ERP Rejeki Utama AC</h3><div class="pc-sub">Penjualan, instalasi &amp; perawatan AC · sejak 1996</div><p><b>Bukan sekadar ERP.</b> Tinggal tanya “piutang minggu ini berapa?”, dan asisten pintar langsung menjawab. Di belakangnya, agen-agen AI ikut bekerja: menjadwalkan teknisi, mengawasi stok, dan mengejar penagihan. Anda fokus bertumbuh, sistem yang mengurus rutinitasnya.</p></div><a class="btn btn-w" href="https://nexora-demo-ru.netlify.app" target="_blank" rel="noopener">Coba demo</a></div>
+        <div class="pc-top"><div><div class="pc-who">03 · ERP + asisten &amp; agen AI</div><h3>ERP</h3><div class="pc-sub">Perusahaan jasa &amp; dagang</div><p><b>Bukan sekadar ERP.</b> Tinggal tanya “piutang minggu ini berapa?”, dan asisten pintar langsung menjawab. Di belakangnya, agen-agen AI ikut bekerja: menjadwalkan teknisi, mengawasi stok, dan mengejar penagihan. Anda fokus bertumbuh, sistem yang mengurus rutinitasnya.</p></div><a class="btn btn-w" href="https://nexora-demo-ru.netlify.app" target="_blank" rel="noopener">Coba demo</a></div>
         <ul class="ft"><li>Asisten pintar: tanya data bisnis seperti ngobrol</li><li>Agen AI bekerja otomatis di setiap alur kerja</li><li>Surat tugas &amp; nota service sampai penagihan</li><li>Sales order, surat jalan &amp; approval owner</li><li>Keuangan, piutang &amp; verifikasi mutasi bank</li><li>Stok real-time &amp; cetak dokumen A5 otomatis</li><li>Akses Owner, Admin &amp; Teknisi</li><li>Satu sistem terintegrasi, tanpa input ganda</li></ul>
         <div class="pc-mock"><div class="mk">
           <div class="fx">
-            <div class="fxb"><i></i><i></i><i></i><u>erp.rejekiutama · dashboard</u></div>
+            <div class="fxb"><i></i><i></i><i></i><u>erp · dashboard</u></div>
             <div class="erp">
-              <div class="sb"><b>RU ERP</b><span class="on">Dashboard</span><span>Surat Tugas</span><span>Penjualan</span><span>Stok</span><span>Keuangan</span><span>Piutang</span></div>
+              <div class="sb"><b>ERP</b><span class="on">Dashboard</span><span>Surat Tugas</span><span>Penjualan</span><span>Stok</span><span>Keuangan</span><span>Piutang</span></div>
               <div class="mn">
                 <div class="kp"><div><b>Rp 86 jt</b><span>Omzet bulan ini</span></div><div><b>42</b><span>Servis berjalan</span></div><div><b>Rp 8,4 jt</b><span>Piutang jatuh tempo</span></div></div>
                 <div class="bars"><i style="height:38%"></i><i style="height:55%"></i><i style="height:46%"></i><i style="height:72%"></i><i style="height:64%"></i><i style="height:88%"></i><i style="height:76%"></i></div>
@@ -623,7 +624,7 @@
                 </div>
               </div>
               <div class="chat">
-                <h6>Asisten RU</h6>
+                <h6>Asisten ERP</h6>
                 <div class="m u">Piutang servis yang jatuh tempo minggu ini?</div>
                 <div class="m b">Ada <strong>4 nota</strong> senilai <strong>Rp 8,4 jt</strong>. Mau saya kirim pengingat penagihan?</div>
                 <div class="act"><span>Kirim</span><span class="o">Lihat daftar</span></div>
@@ -633,14 +634,14 @@
           <span class="cap">Ilustrasi tampilan · data contoh</span>
         </div></div>
       </article>
-      <article class="pc A" id="pos" data-ac="#f97316" data-fr="#f2c9a8" data-name="POS BBQIU" data-n="04" style="--bg:#2b1a12;--fg:#fff">
+      <article class="pc A" id="pos" data-ac="#f97316" data-fr="#f2c9a8" data-name="POS F&amp;amp;B" data-n="04" style="--bg:#2b1a12;--fg:#fff">
         <i class="blob b1"></i><i class="blob b2"></i>
-        <div class="pc-top"><div><div class="pc-who">04 · POS F&amp;B</div><h3>POS BBQIU</h3><div class="pc-sub">BBQIU Fusion Grill House · dipakai di operasional harian</div><p>Tamu scan barcode di meja, memesan sendiri, dan pesanan langsung muncul di layar dapur. Pembayaran QRIS tanpa potongan payment gateway, stok bahan baku terjaga otomatis.</p></div><a class="btn btn-w" href="#kontak">Buat yang serupa</a></div>
+        <div class="pc-top"><div><div class="pc-who">04 · POS F&amp;B</div><h3>POS F&amp;B</h3><div class="pc-sub">Restoran &amp; kafe · dipakai di operasional harian</div><p>Tamu scan barcode di meja, memesan sendiri, dan pesanan langsung muncul di layar dapur. Pembayaran QRIS tanpa potongan payment gateway, stok bahan baku terjaga otomatis.</p></div><a class="btn btn-w" href="#kontak">Buat yang serupa</a></div>
         <ul class="ft"><li>Order meja via scan barcode</li><li>Kitchen Display System real-time</li><li>QRIS tanpa biaya payment gateway</li><li>Kasir digital &amp; rekap penjualan</li><li>Stok FIFO otomatis via scan barcode</li><li>Alert kadaluarsa H-7 ke WhatsApp/Telegram</li></ul>
         <div class="pc-mock"><div class="mk dk bq">
           <div class="duo">
             <div class="ph"><div class="scr">
-              <h6>Meja 07</h6><div class="sm">BBQIU Fusion Grill House</div>
+              <h6>Meja 07</h6><div class="sm">Nama Restoran</div>
               <div class="mi"><i>🥩</i><div><b>Menu A</b><small>Rp 58.000</small></div><u>+</u></div>
               <div class="mi"><i>🍜</i><div><b>Menu B</b><small>Rp 32.000</small></div><u>+</u></div>
               <div class="mi"><i>🥤</i><div><b>Menu C</b><small>Rp 18.000</small></div><u>+</u></div>
@@ -655,7 +656,7 @@
           <span class="cap">Ilustrasi tampilan · nama menu &amp; harga contoh</span>
         </div></div>
       </article>
-      <article class="pc B" id="sop" data-ac="#3b4fb8" data-fr="#c8d1f2" data-name="Checklist SOP BBQIU" data-n="05" style="--bg:#c8d1f2;--fg:var(--ink)">
+      <article class="pc B" id="sop" data-ac="#3b4fb8" data-fr="#c8d1f2" data-name="Aplikasi Checklist SOP" data-n="05" style="--bg:#c8d1f2;--fg:var(--ink)">
         <div class="pc-mock"><i class="blob b1"></i><div class="mk">
           <div class="duo ck">
             <div class="ph"><div class="scr">
@@ -676,17 +677,27 @@
           </div>
           <span class="cap">Ilustrasi tampilan · data contoh</span>
         </div></div>
-        <div class="pc-bot"><div><div class="pc-who">05 · Checklist SOP</div><h3>Checklist SOP BBQIU</h3><div class="pc-sub">BBQIU Fusion Grill House · dipakai di operasional harian</div><p>Setiap tugas harian harus dibuktikan dengan foto ber-watermark lokasi GPS dan waktu. Owner atau SPV meninjau dari dashboard, lalu menyetujui atau meminta diulang.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Foto bukti ber-watermark GPS &amp; waktu</li><li>Preopening, operasional &amp; closing</li><li>Per cabang, area, shift &amp; penanggung jawab</li><li>Setujui atau tolak, minta ulangi</li><li>Dashboard Owner/SPV dengan PIN</li><li>Jejak audit: reviewer tercatat di tiap keputusan</li></ul></div>
+        <div class="pc-bot"><div><div class="pc-who">05 · Checklist SOP</div><h3>Aplikasi Checklist SOP</h3><div class="pc-sub">Restoran &amp; outlet · dipakai di operasional harian</div><p>Setiap tugas harian harus dibuktikan dengan foto ber-watermark lokasi GPS dan waktu. Owner atau SPV meninjau dari dashboard, lalu menyetujui atau meminta diulang.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Foto bukti ber-watermark GPS &amp; waktu</li><li>Preopening, operasional &amp; closing</li><li>Per cabang, area, shift &amp; penanggung jawab</li><li>Setujui atau tolak, minta ulangi</li><li>Dashboard Owner/SPV dengan PIN</li><li>Jejak audit: reviewer tercatat di tiap keputusan</li></ul></div>
       </article>
-      <article class="pc A" id="diamond" data-ac="#e9c987" data-fr="#e6d3ad" data-name="Diamond Makeup Artist" data-n="06" style="--bg:#1f1726;--fg:#fff">
+      <article class="pc A" id="diamond" data-ac="#e9c987" data-fr="#e6d3ad" data-name="Web Company Profile" data-n="06" style="--bg:#1f1726;--fg:#fff">
         <i class="blob b1"></i><i class="blob b2"></i>
-        <div class="pc-top"><div><div class="pc-who">06 · Company profile</div><h3>Diamond Makeup Artist</h3><div class="pc-sub">Website company profile make-up artist</div><p>Website company profile yang elegan untuk MUA di Solo. Foto/video layar penuh, kata-kata yang menenangkan, dan tombol reservasi yang selalu terlihat, sehingga calon pengantin langsung merasakan gaya Diamond.</p></div><a class="btn btn-w" href="#kontak">Buat yang serupa</a></div>
+        <div class="pc-top"><div><div class="pc-who">06 · Company profile</div><h3>Web Company Profile</h3><div class="pc-sub">Bisnis jasa kreatif</div><p>Website company profile yang elegan untuk make-up artist. Foto/video layar penuh, kata-kata yang menenangkan, dan tombol reservasi yang selalu terlihat, sehingga calon pengantin langsung merasakan gaya brand Anda.</p></div><a class="btn btn-w" href="#kontak">Buat yang serupa</a></div>
         <ul class="ft"><li>Hero layar penuh dengan foto/video suasana</li><li>Tombol Reservasi &amp; Portofolio langsung di halaman depan</li><li>Layanan: pengantin, lamaran, wisuda, sweet seventeen, photoshoot</li><li>Bagian Tentang Kami dengan cerita founder &amp; lead artist</li><li>Tipografi serif elegan dengan nuansa hangat</li><li>Menu ringkas ala hamburger yang bersih</li></ul>
-        <div class="pc-mock"><div class="mk dk"><div class="fx ss"><div class="fxb"><i></i><i></i><i></i><u>Diamond Make Up Artist</u></div><img src="img/diamond.webp" alt="Tampilan website Diamond Make Up Artist" loading="lazy"></div><span class="cap">Tampilan asli website</span></div></div>
+        <div class="pc-mock"><div class="mk dk"><div class="fx ss"><div class="fxb"><i></i><i></i><i></i><u>Company Profile</u></div><img src="img/diamond.webp" alt="Tampilan website company profile" loading="lazy"></div><span class="cap">Tampilan asli website</span></div></div>
       </article>
-      <article class="pc B" id="ar" data-ac="#0a86bd" data-fr="#bfe9f7" data-name="Kartu Nama AR" data-n="07" style="--bg:#bfe9f7;--fg:var(--ink)">
-        <div class="pc-mock"><i class="blob b1"></i><div class="mk"><div class="arw ss2"><img src="img/ar-poster.webp" alt="Poster kartu nama Rejeki Utama AC dengan QR untuk membuka AR" loading="lazy"><img src="img/ar-app.webp" alt="Halaman Kartu AR: Mulai AR, Lihat tanpa kamera, Cek kesehatan AC" loading="lazy"></div><span class="cap">Tampilan asli</span></div></div>
-        <div class="pc-bot"><div><div class="pc-who">07 · Augmented reality</div><h3>Kartu Nama AR</h3><div class="pc-sub">Rejeki Utama AC</div><p>Kartu nama dengan QR: arahkan kamera ponsel, lalu halaman AR terbuka tanpa aplikasi. Pelanggan bisa melihat perbandingan AC yang rutin dirawat dan yang tidak, mengecek kesehatan AC, lalu langsung chat WhatsApp.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Kartu cetak dengan QR: “Ingin tahu apa yang sebenarnya terjadi di dalam AC Anda?”</li><li>Tanpa aplikasi, tanpa daftar, gratis</li><li>Tombol Mulai AR yang membuka kamera</li><li>Pilihan Lihat tanpa kamera untuk ponsel tanpa AR</li><li>Cek kesehatan AC Anda dalam 30 detik</li><li>Tombol Chat WhatsApp langsung di halaman</li></ul></div>
+      <article class="pc B" id="ar" data-ac="#0a86bd" data-fr="#bfe9f7" data-name="Kartu Nama Augmented Reality 3D" data-n="07" style="--bg:#bfe9f7;--fg:var(--ink)">
+        <div class="pc-mock"><i class="blob b1"></i><div class="mk"><div class="arw ss2"><img src="img/ar-poster.webp" alt="Poster kartu nama dengan QR untuk membuka AR" loading="lazy"><img src="img/ar-app.webp" alt="Halaman Kartu AR: Mulai AR, Lihat tanpa kamera, Cek kesehatan AC" loading="lazy"></div><span class="cap">Tampilan asli</span></div></div>
+        <div class="pc-bot"><div><div class="pc-who">07 · Augmented reality</div><h3>Kartu Nama Augmented Reality 3D</h3><div class="pc-sub">Bisnis penjualan &amp; servis</div><p>Kartu nama dengan QR: arahkan kamera ponsel, lalu pengalaman Augmented Reality 3D terbuka tanpa aplikasi. Pelanggan bisa melihat perbandingan AC yang rutin dirawat dan yang tidak, mengecek kesehatan AC, lalu langsung chat WhatsApp.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Kartu cetak dengan QR: “Ingin tahu apa yang sebenarnya terjadi di dalam AC Anda?”</li><li>Tanpa aplikasi, tanpa daftar, gratis</li><li>Tombol Mulai AR yang membuka kamera</li><li>Pilihan Lihat tanpa kamera untuk ponsel tanpa AR</li><li>Cek kesehatan AC Anda dalam 30 detik</li><li>Tombol Chat WhatsApp langsung di halaman</li></ul></div>
+      </article>
+      <article class="pc A" id="vo" data-ac="#a78bfa" data-fr="#d8ccf7" data-name="Virtual Office AI Agent" data-n="08" style="--bg:#1c0b4d;--fg:#fff">
+        <i class="blob b1"></i><i class="blob b2"></i>
+        <div class="pc-top"><div><div class="pc-who">08 · AI agent</div><h3>Virtual Office AI Agent</h3><div class="pc-sub">Tim virtual untuk staf manusia Anda</div><p>Kantor virtual berisi agen AI yang bekerja mendampingi staf Anda, siang dan malam. Mereka mendesain dan memposting konten, mengirim laporan pagi dan sore, menghitung bonus dan komisi, bahkan melatih staf lewat chat.</p></div><a class="btn btn-w" href="#kontak">Buat yang serupa</a></div>
+        <ul class="ft"><li>Desainer konten: feed Instagram dibuat &amp; diposting otomatis</li><li>Laporan pagi: omzet, piutang, tagihan supplier &amp; kas</li><li>Laporan sore: kinerja staf, bonus &amp; komisi per karyawan</li><li>SPV pintar: jawab pertanyaan produk &amp; masalah teknis</li><li>Pengingat penagihan ke pelanggan</li><li>Bekerja 24 jam, melapor ke Anda</li></ul>
+        <div class="pc-mock"><div class="mk"><div class="fx"><div class="fxb"><i></i><i></i><i></i><u>virtual office</u></div><div class="vo" style="padding:16px;display:grid;gap:10px;background:#faf9ff"><div class="fr"><i>🎨</i><div><b>Desainer Konten</b><span>Feed promo diposting 02:00 saat Anda tidur</span></div><u>Selesai</u></div><div class="fr"><i>☀️</i><div><b>Laporan Pagi</b><span>Omzet, piutang, tagihan supplier &amp; kas terkirim 06:30</span></div><u>Terkirim</u></div><div class="fr"><i>🌇</i><div><b>Laporan Sore</b><span>Kinerja staf, bonus &amp; komisi dihitung</span></div><u class="tm">17:00</u></div><div class="fr"><i>🧠</i><div><b>SPV Pintar</b><span>Menjawab pertanyaan staf lewat chat</span></div><u class="tm">Siaga</u></div></div></div><span class="cap">Ilustrasi tampilan · data contoh</span></div></div>
+      </article>
+      <article class="pc B" id="jarvis" data-ac="#6d28d9" data-fr="#e3d9ff" data-name="Assistant Pribadi Jarvis" data-n="09" style="--bg:#e3d9ff;--fg:var(--ink)">
+        <div class="pc-mock"><i class="blob b1"></i><div class="mk"><div class="duo"><div class="ph"><div class="scr jv" style="background:#faf9ff;display:flex;flex-direction:column;gap:7px;min-height:360px"><div class="tb tb-s">Jarvis · siaga</div><div class="tb tb-u">Jarvis, omzet hari ini berapa?</div><div class="tb tb-b">Rp 12,4 jt, naik 8% dari kemarin. 🎉</div><div class="tb tb-u">Ingatkan saya rapat jam 3 sore</div><div class="tb tb-b tb-ok">✅ Pengingat dibuat untuk 15.00.</div><div class="tb tb-u">Minta tim virtual kirim penagihan</div><div class="tb tb-b tb-ok">✅ 3 pengingat terkirim.</div></div></div></div><span class="cap">Ilustrasi tampilan · data contoh</span></div></div>
+        <div class="pc-bot"><div><div class="pc-who">09 · Asisten AI pribadi</div><h3>Assistant Pribadi Jarvis</h3><div class="pc-sub">Asisten untuk pemilik bisnis</div><p>Asisten pribadi AI untuk pemilik bisnis. Tanya omzet, minta diingatkan jadwal, rangkum laporan, atau perintahkan tim virtual, cukup lewat chat seperti berbincang dengan orang kepercayaan.</p><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div><ul class="ft"><li>Tanya data bisnis seperti ngobrol (omzet, piutang, stok)</li><li>Pengingat jadwal &amp; tugas</li><li>Ringkasan laporan harian</li><li>Memberi perintah ke tim virtual</li><li>Selalu siaga, kapan pun Anda butuh</li><li>Bisa dilatih sesuai gaya &amp; kebutuhan bisnis Anda</li></ul></div>
       </article>
         </div>
       </div>
@@ -701,7 +712,7 @@
         <h2 class="sh">Apa saja yang bisa dikerjakan.</h2>
         <p class="sub">Kebutuhan Anda tidak persis di daftar ini? Tetap ceritakan, alur kerja bisa disesuaikan.</p>
       </div>
-      <div class="bento"><div class="sv sv1 w reveal"><div class="sv-ic">🧾</div><div><h3>Kasir &amp; operasional F&amp;B</h3><p>Kasir digital, QRIS, order meja via barcode, layar dapur, dan kontrol stok bahan baku.</p></div><small>Contoh: <b>POS BBQIU</b></small></div><div class="sv sv2 reveal"><div class="sv-ic">📋</div><div><h3>Manajemen SDM &amp; SOP</h3><p>Checklist harian dengan bukti foto ber-GPS dan pemantauan kepatuhan staf.</p></div><small>Contoh: <b>Checklist SOP BBQIU</b></small></div><div class="sv sv3 reveal"><div class="sv-ic">🛠️</div><div><h3>Servis, penjualan &amp; keuangan</h3><p>Surat tugas, nota, stok, piutang, dan cetak dokumen otomatis untuk perusahaan jasa &amp; dagang.</p></div><small>Contoh: <b>ERP Rejeki Utama AC</b></small></div><div class="sv sv4 reveal"><div class="sv-ic">📅</div><div><h3>Pendaftaran &amp; booking online</h3><p>Kuota, jadwal otomatis, pembayaran dengan konfirmasi, dan panel admin untuk pengelola.</p></div><small>Contoh: <b>Harmony of Life</b></small></div><div class="sv sv5 reveal"><div class="sv-ic">🤖</div><div><h3>Asisten pintar &amp; agen AI</h3><p>Bangun tim virtual: desainer konten, laporan pagi dan sore, bonus &amp; komisi staf, dan SPV pintar yang melatih tim lewat chat.</p></div><small>Contoh: <b>Tim virtual di ERP Rejeki Utama AC</b></small></div><div class="sv sv6 w reveal"><div class="sv-ic">🛒</div><div><h3>Website, toko online &amp; AR</h3><p>Company profile, toko online (e-commerce), kartu nama digital, dan presentasi interaktif berbasis AR.</p></div><small>Contoh: <b>Toyzone, Diamond MUA, Kartu Nama AR</b></small></div></div>
+      <div class="bento"><div class="sv sv1 w reveal"><div class="sv-ic">🧾</div><div><h3>Kasir &amp; operasional F&amp;B</h3><p>Kasir digital, QRIS, order meja via barcode, layar dapur, dan kontrol stok bahan baku.</p></div><small>Contoh: <b>POS F&amp;B</b></small></div><div class="sv sv2 reveal"><div class="sv-ic">📋</div><div><h3>Manajemen SDM &amp; SOP</h3><p>Checklist harian dengan bukti foto ber-GPS dan pemantauan kepatuhan staf.</p></div><small>Contoh: <b>Aplikasi Checklist SOP</b></small></div><div class="sv sv3 reveal"><div class="sv-ic">🛠️</div><div><h3>Servis, penjualan &amp; keuangan</h3><p>Surat tugas, nota, stok, piutang, dan cetak dokumen otomatis untuk perusahaan jasa &amp; dagang.</p></div><small>Contoh: <b>ERP</b></small></div><div class="sv sv4 reveal"><div class="sv-ic">📅</div><div><h3>Pendaftaran &amp; booking online</h3><p>Kuota, jadwal otomatis, pembayaran dengan konfirmasi, dan panel admin untuk pengelola.</p></div><small>Contoh: <b>Online Booking &amp; Reservasi</b></small></div><div class="sv sv5 reveal"><div class="sv-ic">🤖</div><div><h3>Asisten pintar &amp; agen AI</h3><p>Bangun tim virtual: desainer konten, laporan pagi dan sore, bonus &amp; komisi staf, dan SPV pintar yang melatih tim lewat chat.</p></div><small>Contoh: <b>Virtual Office AI Agent &amp; Jarvis</b></small></div><div class="sv sv6 w reveal"><div class="sv-ic">🛒</div><div><h3>Website, toko online &amp; AR</h3><p>Company profile, toko online (e-commerce), kartu nama digital, dan presentasi interaktif berbasis AR.</p></div><small>Contoh: <b>Web E-commerce, Web Company Profile, Kartu Nama AR 3D</b></small></div></div>
     </div>
   </section>
 
@@ -748,7 +759,7 @@
   <section style="padding-top:20px">
     <div class="wrap">
       <div class="band reveal">
-        <q>Bukan demo. Kasir dan checklist SOP kami dipakai setiap hari di operasional BBQIU Fusion Grill House.</q>
+        <q>Bukan demo. Kasir dan checklist SOP kami dipakai setiap hari di operasional sebuah restoran.</q>
         <div class="row"><small>Diuji langsung di lapangan sebelum dirilis.</small><a class="btn btn-w" href="#karya">Lihat karyanya</a></div>
       </div>
     </div>
@@ -769,8 +780,8 @@
   <div class="wrap">
     <div class="fn"><img src="nexora_logo_navbar.png" alt="Nexora"><nav><a href="#ai">AI Agent</a><a href="#karya">Karya</a><a href="#layanan">Layanan</a><a href="#proses">Cara Kerja</a><a href="#tentang">Tentang Kami</a><a href="#kontak">Kontak</a></nav></div>
     <div class="fcols">
-      <div><h4>Karya</h4><ul><li><a href="#toyzone">Toyzone</a></li><li><a href="#harmony">Harmony of Life</a></li><li><a href="#erp">ERP Rejeki Utama AC</a></li><li><a href="#pos">POS BBQIU</a></li></ul></div>
-      <div><h4>&nbsp;</h4><ul><li><a href="#sop">Checklist SOP BBQIU</a></li><li><a href="#diamond">Diamond Makeup Artist</a></li><li><a href="#ar">Kartu Nama AR</a></li></ul></div>
+      <div><h4>Karya</h4><ul><li><a href="#toyzone">Web E-commerce</a></li><li><a href="#harmony">Online Booking &amp; Reservasi</a></li><li><a href="#erp">ERP</a></li><li><a href="#pos">POS F&amp;B</a></li><li><a href="#sop">Aplikasi Checklist SOP</a></li></ul></div>
+      <div><h4>&nbsp;</h4><ul><li><a href="#diamond">Web Company Profile</a></li><li><a href="#ar">Kartu Nama AR 3D</a></li><li><a href="#vo">Virtual Office AI Agent</a></li><li><a href="#jarvis">Assistant Pribadi Jarvis</a></li></ul></div>
       <div><h4>Kontak</h4><ul><li>08131888116</li><li>halo@nexora.id</li></ul></div>
     </div>
     <div class="fb"><div>© 2026 Nexora. Semua hak dilindungi.</div><div>Engineering the future of business · Dibuat untuk bisnis Indonesia 🇮🇩</div></div>
@@ -814,7 +825,7 @@
   go(0); restart(); if(reduce) pauseBtn.textContent='▶';
 
   // ---- stagger: elemen di dalam cuplikan muncul berurutan ----
-  ['.agents','.chat','.kds','.dash','.tzg','.gal','.dsv','.week','.pics'].forEach(function(sel){
+  ['.agents','.chat','.kds','.dash','.tzg','.gal','.dsv','.week','.pics','.vo','.jv'].forEach(function(sel){
     $$('.pc '+sel).forEach(function(c){c.classList.add('stagger');$$(':scope > *',c).forEach(function(ch,i){ch.style.setProperty('--i',i)})});
   });
   $$('.feed .fr').forEach(function(ch,i){ch.style.setProperty('--i',i)});
@@ -841,7 +852,7 @@
       mks.forEach(function(m){
         var r=m.getBoundingClientRect(); if(r.bottom<-80||r.top>vh+80) return;
         var p=1-Math.min(Math.max((r.top-vh*.32)/(vh*.62),0),1);
-        m.style.setProperty('--p',p.toFixed(3));
+        m.style.setProperty('--tl',p.toFixed(3));
       });
       tick=false;
     }
