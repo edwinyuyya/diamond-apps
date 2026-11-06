@@ -210,9 +210,44 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
   .btn:hover,.card:hover{transform:none}
   html{scroll-behavior:auto}
 }
+
+/* Gerakan bagian lain */
+.progress{position:fixed;top:0;left:0;right:0;height:3px;background:#19C6F0;transform-origin:0 50%;transform:scaleX(0);z-index:60}
+.card .ic{transition:transform .5s var(--ease)}
+.card:hover .ic{transform:rotate(-8deg) scale(1.12)}
+.step .num{opacity:0;transform:scale(.4)}
+.step.in .num{animation:pop .7s var(--ease) .25s both}
+@keyframes pop{0%{opacity:0;transform:scale(.4)}100%{opacity:1;transform:none}}
+.tags span{opacity:0;transform:translateY(16px) scale(.96);transition:opacity .6s var(--ease),transform .6s var(--ease),background-color .3s var(--ease)}
+.tags.in span{opacity:1;transform:none;transition-delay:calc(var(--i) * 60ms)}
+.tags span:hover{background:var(--surface)}
+.timeline li{opacity:0;transform:translateX(-24px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.timeline.in li{opacity:1;transform:none;transition-delay:calc(var(--i) * 140ms)}
+.faq details[open] p{animation:up .6s var(--ease) both}
+.guarantee i{animation:beat 2.8s var(--ease) infinite}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.band{position:relative;overflow:hidden;background:#0877A8;color:#fff}
+.band .wrap{position:relative;z-index:3}
+.band .waves{height:96px}
+.band .waves.top{top:-1px;bottom:auto;transform:rotate(180deg)}
+.band .waves.bot{bottom:-1px}
+.tagline.band{padding:var(--s-900) 0 calc(var(--s-900) + var(--s-300))}
+.tagline.band .tagline-text .w{color:rgba(255,255,255,.3)}
+.tagline.band .tagline-text .w.on{color:#fff}
+.final{position:relative;overflow:hidden}
+.final>*:not(.fx){position:relative;z-index:2}
+.final .fx{z-index:1}
+@media(prefers-reduced-motion:reduce){
+  .progress{display:none}
+  .step .num,.tags span,.timeline li{opacity:1;transform:none;animation:none;transition:none}
+  .guarantee i,.faq details[open] p{animation:none}
+  .card:hover .ic{transform:none}
+  .tagline.band .tagline-text .w{color:#fff}
+}
 </style>
 </head>
 <body>
+<div class="progress" id="progress" aria-hidden="true"></div>
 <a class="skip button-sm" href="#utama">Lewati ke konten utama</a>
 
 <header>
@@ -240,7 +275,7 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
   <section class="hero">
     <!-- Slot media: taruh foto/hero.mp4 atau foto/hero.webp, otomatis tampil di belakang animasi -->
     <div class="hero-media" id="heroMedia" aria-hidden="true"></div>
-    <div class="fx" id="fx" aria-hidden="true"></div>
+    <div class="fx" id="fx" data-fx="hero" aria-hidden="true"></div>
     <div class="waves" aria-hidden="true">
       <svg class="w2" viewBox="0 0 2400 160" preserveAspectRatio="none"><path d="M0 70 C200 20 400 120 600 70 S1000 20 1200 70 S1600 120 1800 70 S2200 20 2400 70 V160 H0Z" fill="rgba(255,255,255,.22)"/></svg>
       <svg viewBox="0 0 2400 160" preserveAspectRatio="none"><path d="M0 100 C200 60 400 140 600 100 S1000 60 1200 100 S1600 140 1800 100 S2200 60 2400 100 V160 H0Z" fill="#f5f5f5"/></svg>
@@ -314,13 +349,16 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
       <div class="sec-head reveal" style="margin-top:var(--s-700);margin-bottom:var(--s-300)">
         <h3 class="heading-4">Dipercaya berbagai kebutuhan</h3>
       </div>
-      <div class="tags body-5 reveal">
+      <div class="tags body-5">
         <span>Rumah tinggal</span><span>Gedung</span><span>Hotel</span><span>Rumah sakit</span><span>Kantor</span><span>Pabrik</span><span>Kampus</span><span>Instansi pemerintah</span><span>BUMN dan BUMD</span><span>Perusahaan</span>
       </div>
     </div>
   </section>
 
-  <section class="tagline" id="tagline" aria-label="Pernyataan utama">
+  <section class="tagline band" id="tagline" aria-label="Pernyataan utama">
+    <div class="fx" data-fx="light" aria-hidden="true"></div>
+    <div class="waves top" aria-hidden="true"><svg class="w2" viewBox="0 0 2400 160" preserveAspectRatio="none"><path d="M0 70 C200 20 400 120 600 70 S1000 20 1200 70 S1600 120 1800 70 S2200 20 2400 70 V160 H0Z" fill="rgba(255,255,255,.22)"/></svg><svg viewBox="0 0 2400 160" preserveAspectRatio="none"><path d="M0 100 C200 60 400 140 600 100 S1000 60 1200 100 S1600 140 1800 100 S2200 60 2400 100 V160 H0Z" fill="#ffffff"/></svg></div>
+    <div class="waves bot" aria-hidden="true"><svg class="w2" viewBox="0 0 2400 160" preserveAspectRatio="none"><path d="M0 70 C200 20 400 120 600 70 S1000 20 1200 70 S1600 120 1800 70 S2200 20 2400 70 V160 H0Z" fill="rgba(255,255,255,.22)"/></svg><svg viewBox="0 0 2400 160" preserveAspectRatio="none"><path d="M0 100 C200 60 400 140 600 100 S1000 60 1200 100 S1600 140 1800 100 S2200 60 2400 100 V160 H0Z" fill="#f5f5f5"/></svg></div>
     <div class="wrap">
       <p class="tagline-text heading-2" id="tagline-text">Sejak 1996 kami menjaga udara di rumah dan tempat kerja Anda tetap nyaman. Teknisi berpengalaman, pekerjaan rapi, harga jelas di depan.</p>
     </div>
@@ -346,7 +384,7 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
         <p class="eyebrow caption-1"><i class="ph ph-flag"></i> Perjalanan kami</p>
         <h2 class="heading-3">Dari layanan AC menjadi tujuh layanan</h2>
       </div>
-      <ul class="timeline reveal">
+      <ul class="timeline">
         <li><b class="body-1">1996</b><span class="body-3">Berdiri dengan penjualan, instalasi, dan perawatan AC.</span></li>
         <li><b class="body-1">Berkembang</b><span class="body-3">Melayani lebih dari 1.000 pelanggan setiap bulan.</span></li>
         <li><b class="body-1">Kini</b><span class="body-3">Tujuh layanan: AC, CCTV, APAR, pemanas air tenaga surya, toren air, pembersih bertekanan tinggi, dan pembersihan hunian.</span></li>
@@ -375,6 +413,7 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
   <section id="kontak">
     <div class="wrap">
       <div class="final reveal">
+        <div class="fx" data-fx="light" aria-hidden="true"></div>
         <img src="logo-putih.png" alt="" width="48" height="48" style="width:48px;height:48px;margin:0 auto var(--s-200)">
         <h2 class="heading-3">Ceritakan masalah AC Anda sekarang</h2>
         <p class="body-3">Kirim pesan singkat lewat WhatsApp. Kami balas dengan langkah dan rincian biaya yang jelas.</p>
@@ -417,32 +456,45 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 
 
-  // Hero: efek udara dingin (hanya transform dan opacity)
-  var fx=document.getElementById('fx');
-  if(!reduce){
-    var h='<div class="par" id="p1">';
+  // Efek udara dingin (hanya transform dan opacity), dipakai di hero, tagline, dan penutup
+  function fill(el,big){
+    var h='<div class="par p1">';
     [['#19C6F0',.55,'60vw','-12%','-10%',16],['#ffffff',.22,'45vw','50%','45%',22],['#0A5A82',.5,'55vw','62%','-18%',19]].forEach(function(o){
-      h+='<span class="orb" style="background:'+o[0]+';opacity:'+o[1]+';width:'+o[2]+';height:'+o[2]+';left:'+o[3]+';top:'+o[4]+';--t:'+o[5]+'s"></span>';
+      h+='<span class="orb" style="background:'+o[0]+';opacity:'+o[1]+';width:'+(big?o[2]:'70%')+';aspect-ratio:1;left:'+o[3]+';top:'+o[4]+';--t:'+o[5]+'s"></span>';
     });
-    h+='</div><div class="par" id="p2">';
-    for(var i=0;i<12;i++){
-      h+='<span class="streak" style="top:'+(8+i*7.5)+'%;width:'+(140+(i%4)*90)+'px;--t:'+(6+(i%5)*1.5)+'s;--dl:-'+(i*1.1)+'s"></span>';
-    }
-    for(var j=0;j<22;j++){
+    h+='</div><div class="par p2">';
+    for(var i=0;i<(big?12:6);i++) h+='<span class="streak" style="top:'+(8+i*(big?7.5:15))+'%;width:'+(140+(i%4)*90)+'px;--t:'+(6+(i%5)*1.5)+'s;--dl:-'+(i*1.1)+'s"></span>';
+    for(var j=0;j<(big?22:12);j++){
       var sz=14+(j%5)*7;
-      h+='<i class="ph ph-snowflake flake" style="left:'+(2+j*4.5)+'%;font-size:'+sz+'px;'+(sz<24?'filter:blur(1px);':'')+'--t:'+(12+(j%6)*3)+'s;--dl:-'+(j*1.7)+'s;--x:'+((j%2?1:-1)*(30+j*5))+'px"></i>';
+      h+='<i class="ph ph-snowflake flake" style="left:'+(2+j*(big?4.5:8.2))+'%;font-size:'+sz+'px;'+(sz<24?'filter:blur(1px);':'')+'--t:'+(12+(j%6)*3)+'s;--dl:-'+(j*1.7)+'s;--x:'+((j%2?1:-1)*(30+j*5))+'px"></i>';
     }
-    h+='</div>';
-    fx.innerHTML=h;
-    // parallax mengikuti kursor, dibatasi lewat requestAnimationFrame
-    var p1=document.getElementById('p1'),p2=document.getElementById('p2'),tx=0,ty=0,raf=0;
+    el.innerHTML=h+'</div>';
+  }
+  if(!reduce){
+    document.querySelectorAll('[data-fx]').forEach(function(el){ fill(el, el.dataset.fx==='hero'); });
+    var hero=document.getElementById('fx'),p1=hero.querySelector('.p1'),p2=hero.querySelector('.p2'),tx=0,ty=0,raf=0;
     window.addEventListener('pointermove',function(e){
       tx=(e.clientX/innerWidth-.5); ty=(e.clientY/innerHeight-.5);
       if(!raf) raf=requestAnimationFrame(function(){
         raf=0; p1.style.transform='translate3d('+(tx*-40)+'px,'+(ty*-30)+'px,0)'; p2.style.transform='translate3d('+(tx*24)+'px,'+(ty*18)+'px,0)';
       });
     },{passive:true});
+    // Penunjuk progres scroll, dibatasi lewat requestAnimationFrame
+    var bar=document.getElementById('progress'),sraf=0;
+    window.addEventListener('scroll',function(){
+      if(sraf) return; sraf=requestAnimationFrame(function(){
+        sraf=0; var m=document.documentElement.scrollHeight-innerHeight;
+        bar.style.transform='scaleX('+(m>0?Math.min(scrollY/m,1):0)+')';
+      });
+    },{passive:true});
   }
+  // Jeda bertahap untuk kartu dalam satu grid, dan elemen anak berurutan
+  document.querySelectorAll('.grid').forEach(function(g){
+    g.querySelectorAll(':scope>.reveal').forEach(function(c,i){ c.style.setProperty('--d',(i%3)*.08+'s'); });
+  });
+  document.querySelectorAll('.tags span,.timeline li').forEach(function(el,i,all){ el.style.setProperty('--i',[].indexOf.call(el.parentNode.children,el)); });
+  var seq=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); seq.unobserve(e.target); } }); },{threshold:.2});
+  document.querySelectorAll('.tags,.timeline,.step').forEach(function(el){ seq.observe(el); });
   // Angka statistik menghitung naik sekali saat terlihat
   document.querySelectorAll('[data-count]').forEach(function(el){
     var end=+el.dataset.count, suf=el.dataset.suffix||'';
