@@ -460,6 +460,7 @@
 import * as THREE from 'three';
 const $=(s)=>document.querySelector(s);
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const LIGHT=document.body.classList.contains('light');
 const canvas=$('#gl');
 let renderer;
 try{ renderer=new THREE.WebGLRenderer({canvas,antialias:false,alpha:true,powerPreference:'high-performance'}); }
@@ -487,7 +488,7 @@ if(renderer){
   const rnd=Math.random, gauss=()=>{let u=0,v=0;while(!u)u=rnd();while(!v)v=rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
   const S=[0,1,2,3,4].map(()=>new Float32Array(N*3)), R=new Float32Array(N);
   const golden=Math.PI*(3-Math.sqrt(5));
-  const LW = small ? 3.0 : 5.6;                         // lebar logo di ruang 3D
+  const LW = small ? 2.75 : 5.6;                         // lebar logo di ruang 3D
   for(let i=0;i<N;i++){
     const j=i*3; R[i]=rnd();
     // 0 berserakan
@@ -529,14 +530,14 @@ if(renderer){
   vec4 m=max(.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.);m=m*m;return 42.*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));}`;
 
   const mat=new THREE.ShaderMaterial({
-    transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,
+    transparent:true,depthWrite:false,blending:LIGHT?THREE.NormalBlending:THREE.AdditiveBlending,
     uniforms:{uTime:{value:0},uFrom:{value:4},uTo:{value:4},uMix:{value:0},uIntro:{value:reduce?1:0},uSize:{value:small?26:22},uPR:{value:DPR},
-      uMotion:{value:reduce?0:1},uMouse:{value:new THREE.Vector3(99,99,0)},uPush:{value:0},uAlpha:{value:1},uLogo:{value:0},
+      uMotion:{value:reduce?0:1},uMouse:{value:new THREE.Vector3(99,99,0)},uPush:{value:0},uAlpha:{value:1},uLogo:{value:0},uLight:{value:LIGHT?1:0},
       uC1:{value:new THREE.Color('#7c3aed')},uC2:{value:new THREE.Color('#c4b5fd')},uC3:{value:new THREE.Color('#5eead4')}},
     vertexShader:`
-      uniform float uTime,uFrom,uTo,uMix,uIntro,uSize,uPR,uMotion,uPush,uLogo; uniform vec3 uMouse;
+      uniform float uTime,uFrom,uTo,uMix,uIntro,uSize,uPR,uMotion,uPush,uLogo,uLight; uniform vec3 uMouse;
       attribute vec3 p0; attribute vec3 p1; attribute vec3 p2; attribute vec3 p3; attribute vec3 p4; attribute float aRand;
-      varying float vR; varying float vD; varying float vGlow;
+      varying float vR; varying float vD; varying float vGlow; varying float vX;
       ${noise}
       vec3 shape(float k){ return k<.5?p0:(k<1.5?p1:(k<2.5?p2:(k<3.5?p3:p4))); }
       void main(){
@@ -547,7 +548,7 @@ if(renderer){
         float ii=smoothstep(0.,1.,clamp((uIntro-aRand*.45)/.55,0.,1.));
         pos=mix(p0*1.4,pos,ii); mid=max(mid,sin(ii*3.14159)*.8);
         pos+=normalize(pos+1e-4)*mid*.55*aRand;
-        float t=uTime*uMotion, calm=1.-uLogo*.75;           // logo lebih tenang agar terbaca
+        float t=uTime*uMotion, calm=1.-uLogo*(.75+.22*uLight);           // logo lebih tenang agar terbaca
         float n=snoise(pos*.85+t*.12);
         pos+=normalize(pos+1e-4)*n*(.06+.05*mid)*uMotion*calm;
         pos+=vec3(snoise(pos*1.6+t*.18+3.),snoise(pos*1.6+t*.18+7.),snoise(pos*1.6+t*.18+11.))*.035*uMotion*calm;
@@ -555,15 +556,21 @@ if(renderer){
         vec3 d=wp.xyz-uMouse; float dist=length(d.xy); float push=smoothstep(1.,0.,dist)*uPush;
         wp.xyz+=normalize(d+1e-4)*push*.6;
         vec4 mv=viewMatrix*wp; gl_Position=projectionMatrix*mv;
-        gl_PointSize=uSize*(.45+aRand*.9)*(1.-uLogo*.25)*uPR/(-mv.z);
-        vR=aRand; vD=-mv.z; vGlow=push+mid*.4;
+        gl_PointSize=uSize*(.45+aRand*.9)*(1.-uLogo*.25)*(1.+uLight*.4)*uPR/(-mv.z);
+        vR=aRand; vD=-mv.z; vGlow=push+mid*.4; vX=pos.x;
       }`,
     fragmentShader:`
-      uniform vec3 uC1,uC2,uC3; uniform float uAlpha; varying float vR; varying float vD; varying float vGlow;
+      uniform vec3 uC1,uC2,uC3; uniform float uAlpha,uLight; varying float vR; varying float vD; varying float vGlow; varying float vX;
       void main(){ vec2 c=gl_PointCoord-.5; float d=length(c); if(d>.5) discard;
+        float fade=smoothstep(11.,4.,vD);
+        if(uLight>.5){                                    // mode terang: gradasi biru-ungu-merah muda + titik merah/biru
+          float a=smoothstep(.5,.2,d);
+          float t=clamp(vX/5.6+.5,0.,1.);
+          vec3 col=t<.5?mix(vec3(.23,.36,.86),vec3(.49,.23,.93),t*2.):mix(vec3(.49,.23,.93),vec3(.93,.29,.6),(t-.5)*2.);
+          if(vR>.93) col=vec3(.94,.27,.27); else if(vR<.05) col=vec3(.15,.39,.92);
+          gl_FragColor=vec4(col,a*(.72+.28*fade)*mix(uAlpha,1.,.25)); return; }
         float a=pow(smoothstep(.5,0.,d),1.7);
         vec3 col=mix(uC1,uC2,smoothstep(.15,.9,vR)); col=mix(col,uC3,smoothstep(.9,1.,vR)); col+=vGlow*.35;
-        float fade=smoothstep(11.,4.,vD);
         gl_FragColor=vec4(col,a*(.28+.6*fade)*uAlpha); }`
   });
   const group=new THREE.Group(); group.add(new THREE.Points(geo,mat)); scene.add(group);
@@ -573,7 +580,8 @@ if(renderer){
 
   // ---- bentuk per bagian halaman ----
   const secs=[...document.querySelectorAll('main > section')];
-  const OFF = { d:[[0,0],[-2.0,0],[0,0],[1.9,0],[0,1.5]], m:[[0,0],[0,1.3],[0,0],[0,1.4],[0,2.2]] };
+  const OFF = LIGHT ? { d:[[0,0],[-2.0,0],[0,0],[1.9,0],[0,.05]], m:[[0,0],[0,1.3],[0,0],[0,1.4],[0,.35]] }
+                    : { d:[[0,0],[-2.0,0],[0,0],[1.9,0],[0,1.5]], m:[[0,0],[0,1.3],[0,0],[0,1.4],[0,2.2]] };
   function track(){
     const yMid=scrollY+innerHeight*.5; let i=0;
     for(let k=0;k<secs.length;k++){ if(secs[k].offsetTop<=yMid) i=k; }
