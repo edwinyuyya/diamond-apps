@@ -541,62 +541,74 @@ if(renderer){
   }
   const L=ROBOT?null:await logoPoints();
 
-  // ---------- ROBOT (opsi terang): dibangun dari bentuk dasar, tanpa model berlisensi ----------
-  let RB=null, RS=null;
+  // ---------- ROBOT PARTIKEL (opsi terang): rangka tak terlihat, hanya dipakai sebagai cetakan titik ----------
+  let RB=null, RS=null, RP=null, RT=null, RN=null;
   if(ROBOT){
     const { MeshSurfaceSampler } = await import('three/addons/math/MeshSurfaceSampler.js');
-    const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
-    const body=new THREE.MeshPhysicalMaterial({color:'#2563eb',metalness:.15,roughness:.17,clearcoat:1,clearcoatRoughness:.05,sheen:.45,sheenColor:new THREE.Color('#67e8f9'),envMapIntensity:.75,transparent:true,opacity:0});
-    const joint=body.clone(); joint.color=new THREE.Color('#1e3fae');
-    const visor=new THREE.MeshPhysicalMaterial({color:'#0a0f2a',metalness:.5,roughness:.06,clearcoat:1,transparent:true,opacity:0});
-    const eyeM=new THREE.MeshBasicMaterial({color:'#5eead4',transparent:true,opacity:0});
-    const mats=[body,joint,visor,eyeM], meshes=[];
-    const add=(geo,mat,parent,pos,scl,rot)=>{const m=new THREE.Mesh(geo,mat); if(pos)m.position.set(...pos); if(scl)m.scale.set(...scl); if(rot)m.rotation.set(...rot); parent.add(m); if(mat!==eyeM) meshes.push(m); return m;};
-    const root=new THREE.Group();
-    const chest=new THREE.Group(); root.add(chest);
-    const prof=[[0,-.55],[.4,-.55],[.45,-.42],[.49,-.15],[.58,.15],[.68,.42],[.67,.6],[.52,.74],[.22,.8],[0,.8]].map(p=>new THREE.Vector2(p[0],p[1]));
-    add(new THREE.LatheGeometry(prof,56),body,chest,[0,0,0],[1.08,1,.72]);                             // dada berbentuk V
-    add(new THREE.TorusGeometry(.5,.03,10,56),joint,chest,[0,.28,0],[1.32,1,.95],[Math.PI/2,0,0]);   // garis dada
-    add(new THREE.CylinderGeometry(.34,.4,.28,40),joint,root,[0,-.68,0],[1,1,.72]);                    // perut
-    add(new THREE.CapsuleGeometry(.36,.18,10,28),body,root,[0,-.98,0],[1.25,.85,.78]);                 // panggul
-    add(new THREE.CylinderGeometry(.15,.18,.34,24),joint,root,[0,.78,0]);
-    const head=new THREE.Group(); head.position.set(0,1.18,0); root.add(head);
-    add(new THREE.SphereGeometry(.44,48,32),body,head,[0,0,0],[1,1.12,1.02]);
-    add(new THREE.SphereGeometry(.44,48,32),visor,head,[0,.03,.08],[.86,.46,.9]);
-    add(new THREE.CapsuleGeometry(.035,.09,6,12),eyeM,head,[-.13,.05,.47],null,[0,0,Math.PI/2]);
-    add(new THREE.CapsuleGeometry(.035,.09,6,12),eyeM,head,[.13,.05,.47],null,[0,0,Math.PI/2]);
-    add(new THREE.SphereGeometry(.07,16,12),joint,head,[-.45,0,0],[.6,1,1]);                         // telinga
-    add(new THREE.SphereGeometry(.07,16,12),joint,head,[.45,0,0],[.6,1,1]);
-    function arm(side){
-      const sh=new THREE.Group(); sh.position.set(side*.86,.42,0); root.add(sh);
-      add(new THREE.SphereGeometry(.27,32,24),joint,sh,[0,0,0]);
-      add(new THREE.CapsuleGeometry(.17,.5,8,20),body,sh,[0,-.45,0]);
-      const el=new THREE.Group(); el.position.set(0,-.82,0); sh.add(el);
-      add(new THREE.SphereGeometry(.16,24,16),joint,el,[0,0,0]);
-      add(new THREE.CapsuleGeometry(.145,.45,8,20),body,el,[0,-.38,0]);
-      add(new THREE.SphereGeometry(.17,24,16),joint,el,[0,-.74,0],[1,1.15,.8]);
-      sh.rotation.z=side*.12; return {sh,el};
+    const root=new THREE.Group(), meshes=[];                // {mesh, part}
+    const V2=(a)=>a.map(p=>new THREE.Vector2(p[0],p[1]));
+    const put=(geo,parent,part,pos,scl,rot)=>{const m=new THREE.Mesh(geo); if(pos)m.position.set(...pos); if(scl)m.scale.set(...scl); if(rot)m.rotation.set(...rot); parent.add(m); meshes.push({m,part,w:1}); return m;};
+    // badan: dada berbentuk V, pinggang ramping, panggul
+    const TORSO=[[0,-.6],[.36,-.6],[.4,-.5],[.42,-.25],[.47,0],[.58,.3],[.66,.55],[.66,.7],[.55,.82],[.3,.9],[.14,.93],[0,.93]];
+    put(new THREE.LatheGeometry(V2(TORSO),64),root,0,null,[1,1,.66]);
+    put(new THREE.LatheGeometry(V2([[0,-1.22],[.38,-1.22],[.42,-1.05],[.4,-.85],[.35,-.67],[0,-.67]]),56),root,0,null,[1,1,.68]);
+    put(new THREE.CylinderGeometry(.11,.13,.26,28,1,true),root,0,[0,1.0,0]);
+    // kepala
+    const head=new THREE.Group(); head.position.set(0,1.08,0); root.add(head);
+    put(new THREE.SphereGeometry(1,64,40),head,1,[0,.36,0],[.34,.44,.38]);
+    put(new THREE.CylinderGeometry(.07,.07,.05,20),head,1,[-.345,.36,0],null,[0,0,Math.PI/2]);
+    put(new THREE.CylinderGeometry(.07,.07,.05,20),head,1,[.345,.36,0],null,[0,0,Math.PI/2]);
+    // lengan
+    function arm(side,ps,pe){
+      const sh=new THREE.Group(); sh.position.set(side*.74,.66,0); sh.rotation.set(.04,0,side*.1); root.add(sh);
+      put(new THREE.SphereGeometry(.19,40,28),sh,ps);
+      put(new THREE.CylinderGeometry(.13,.155,.6,32,1,true),sh,ps,[0,-.38,0]);
+      const el=new THREE.Group(); el.position.set(0,-.72,0); el.rotation.set(-.12,0,0); sh.add(el);
+      put(new THREE.SphereGeometry(.12,28,20),el,pe);
+      put(new THREE.CylinderGeometry(.09,.12,.55,32,1,true),el,pe,[0,-.33,0]);
+      put(new THREE.SphereGeometry(1,24,16),el,pe,[0,-.7,0],[.075,.12,.05]);
+      for(let f=0;f<4;f++) put(new THREE.CapsuleGeometry(.017,.09,4,8),el,pe,[(f-1.5)*.034,-.85,.005]);
+      return {sh,el};
     }
-    const armR=arm(-1), armL=arm(1);
-    const RSC = small ? .9 : .92; root.scale.setScalar(RSC);
+    const armR=arm(-1,2,3), armL=arm(1,4,5);
+    const RSC = small ? .88 : .92; root.scale.setScalar(RSC);
     root.updateMatrixWorld(true);
-    // ambil titik dari permukaan robot (pose diam) untuk bentuk partikel ke-4
+    const piv=[root,head,armR.sh,armR.el,armL.sh,armL.el];
+    const restInv=piv.map(p=>p===root?new THREE.Matrix4():p.matrixWorld.clone().invert());
+    const local=(part,v)=>v.applyMatrix4(piv[part]===root?root.matrixWorld:piv[part].matrixWorld);
     const triArea=(g)=>{const p=g.attributes.position,ix=g.index,a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3();let A=0;const n=ix?ix.count:p.count;
       for(let i=0;i<n;i+=3){const i0=ix?ix.getX(i):i,i1=ix?ix.getX(i+1):i+1,i2=ix?ix.getX(i+2):i+2;a.fromBufferAttribute(p,i0);b.fromBufferAttribute(p,i1).sub(a);c.fromBufferAttribute(p,i2).sub(a);A+=b.cross(c).length()*.5;}return A;};
-    const parts=meshes.map(m=>{const g=m.geometry.clone().applyMatrix4(m.matrixWorld); return {s:new MeshSurfaceSampler(new THREE.Mesh(g)).build(), a:triArea(g)};});
-    const tot=parts.reduce((s,p)=>s+p.a,0), tmp=new THREE.Vector3();
-    RS=new Float32Array(N*3); let w=0;
-    parts.forEach((p,pi)=>{ const cnt = pi===parts.length-1 ? N-w : Math.round(N*p.a/tot);
-      for(let q=0;q<cnt&&w<N;q++,w++){ p.s.sample(tmp); RS[w*3]=tmp.x; RS[w*3+1]=tmp.y; RS[w*3+2]=tmp.z; } });
-    for(let i=N-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); for(let c=0;c<3;c++){ const t=RS[i*3+c]; RS[i*3+c]=RS[j*3+c]; RS[j*3+c]=t; } }   // acak urutan
-    // cahaya: kunci putih, pinggir merah muda & biru muda, plus pantulan ruangan
-    const pm=new THREE.PMREMGenerator(renderer); scene.environment=pm.fromScene(new RoomEnvironment(renderer),.04).texture;
-    scene.add(new THREE.HemisphereLight('#eef2ff','#c7d2fe',.45));
-    const key=new THREE.DirectionalLight('#ffffff',1.6); key.position.set(3,4,6); scene.add(key);
-    const rimP=new THREE.DirectionalLight('#f472b6',2.2); rimP.position.set(-5,2,-3); scene.add(rimP);
-    const rimC=new THREE.DirectionalLight('#22d3ee',2.4); rimC.position.set(5,1,-4); scene.add(rimC);
-    renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=.98;
-    RB={root,chest,head,armR,armL,mats,shown:0,wave:-99};
+    RS=new Float32Array(N*3); RP=new Float32Array(N); RT=new Float32Array(N); RN=new Float32Array(N*3);
+    let w=0; const P=new THREE.Vector3(), Nn=new THREE.Vector3();
+    const push=(p,n,part,tone)=>{ if(w>=N) return; RS[w*3]=p.x;RS[w*3+1]=p.y;RS[w*3+2]=p.z; RN[w*3]=n.x;RN[w*3+1]=n.y;RN[w*3+2]=n.z; RP[w]=part; RT[w]=tone; w++; };
+    // 1) permukaan (86%)
+    const parts=meshes.map(o=>{const g=o.m.geometry.clone().applyMatrix4(o.m.matrixWorld); return {s:new MeshSurfaceSampler(new THREE.Mesh(g)).build(), a:triArea(g), part:o.part};});
+    const tot=parts.reduce((s,p)=>s+p.a,0), NS=Math.floor(N*.86);
+    parts.forEach((p,i)=>{ const cnt=i===parts.length-1?NS-w:Math.round(NS*p.a/tot); for(let q=0;q<cnt;q++){ p.s.sample(P,Nn); push(P,Nn,p.part,0); } });
+    // 2) garis panel & cahaya (14%): visor, mata, inti dada, garis dada & perut, cincin sendi
+    const rP=(y)=>{for(let i=0;i<TORSO.length-1;i++){const a=TORSO[i],b=TORSO[i+1]; if(y>=a[1]&&y<=b[1]) return a[0]+(b[0]-a[0])*(y-a[1])/(b[1]-a[1]);} return .4;};
+    const jit=()=>(Math.random()-.5)*.006;
+    const front=(x,y)=>{const r=rP(y); const zz=Math.sqrt(Math.max(0,r*r-x*x))*.66; return new THREE.Vector3(x+jit(),y+jit(),zz+.006);};
+    const tn=(v)=>v.clone().normalize();
+    const budget=N-w, line=(cnt,fn,part,tone)=>{for(let q=0;q<cnt;q++){const r=fn(Math.random()); const v=local(part,r.p.clone()); const n=r.n?r.n.clone().transformDirection(part===0?root.matrixWorld:piv[part].matrixWorld):tn(v); push(v,n,part,tone);}};
+    const ring=(cnt,cx,cy,cz,rx,rz,part,tone)=>line(cnt,u=>{const a=u*Math.PI*2; return {p:new THREE.Vector3(cx+Math.cos(a)*rx+jit(),cy+jit(),cz+Math.sin(a)*rz+jit()), n:new THREE.Vector3(Math.cos(a),0,Math.sin(a))};},part,tone);
+    const head1=(phi,yb,s)=>{const k=Math.sqrt(Math.max(0,1-(yb/.44)**2)); return new THREE.Vector3(.34*k*Math.sin(phi)*s,.36+yb,.38*k*Math.cos(phi)*s);};
+    line(Math.floor(budget*.16),u=>{const phi=(u-.5)*1.9, yb=.03+(Math.random()-.5)*.075; return {p:head1(phi,yb,1.015), n:new THREE.Vector3(Math.sin(phi),0,Math.cos(phi))};},1,3);       // visor gelap
+    for(const sx of [-1,1]) line(Math.floor(budget*.05),()=>{const phi=sx*.34+(Math.random()-.5)*.11, yb=.035+(Math.random()-.5)*.018; return {p:head1(phi,yb,1.03), n:new THREE.Vector3(0,0,1)};},1,2); // mata
+    line(Math.floor(budget*.035),u=>{const x=(u-.5)*1.0, y=.52-.22*(x/.5)**2; return {p:front(x,y), n:new THREE.Vector3(0,0,1)};},0,1);          // garis dada
+    line(Math.floor(budget*.025),u=>{const y=-.55+u*.82; return {p:front(0,y), n:new THREE.Vector3(0,0,1)};},0,1);                              // garis tengah
+    for(const yy of [-.12,-.36]) line(Math.floor(budget*.018),u=>{const x=(u-.5)*.62; return {p:front(x,yy), n:new THREE.Vector3(0,0,1)};},0,1); // garis perut
+    line(Math.floor(budget*.04),u=>{const a=u*Math.PI*2, r=.085+Math.random()*.008; const x=Math.cos(a)*r, y=.34+Math.sin(a)*r; return {p:front(x,y), n:new THREE.Vector3(0,0,1)};},0,2); // inti dada
+    line(Math.floor(budget*.04),()=>{const r=Math.sqrt(Math.random())*.06, a=Math.random()*Math.PI*2; return {p:front(Math.cos(a)*r,.34+Math.sin(a)*r), n:new THREE.Vector3(0,0,1)};},0,2);
+    ring(Math.floor(budget*.035),0,-.64,0,.375,.255,0,1);                                                           // pinggang
+    for(const yy of [.93,1.02,1.1]) ring(Math.floor(budget*.018),0,yy,0,.125,.125,0,1);                          // leher
+    for(const [sh,el] of [[2,3],[4,5]]){ ring(Math.floor(budget*.02),0,0,0,.125,.125,el,1); ring(Math.floor(budget*.018),0,-.6,0,.093,.093,el,1); ring(Math.floor(budget*.02),0,-.08,0,.16,.16,sh,1); }
+    while(w<N){ parts[0].s.sample(P,Nn); push(P,Nn,0,0); }
+    // acak urutan agar perakitan merata
+    for(let i=N-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1));
+      for(let c=0;c<3;c++){ let t=RS[i*3+c]; RS[i*3+c]=RS[j*3+c]; RS[j*3+c]=t; t=RN[i*3+c]; RN[i*3+c]=RN[j*3+c]; RN[j*3+c]=t; }
+      let t=RP[i]; RP[i]=RP[j]; RP[j]=t; t=RT[i]; RT[i]=RT[j]; RT[j]=t; }
+    RB={root,head,armR,armL,piv,restInv,mats:Array.from({length:6},()=>new THREE.Matrix4()),wave:-99,RSC};
   }
   const rnd=Math.random, gauss=()=>{let u=0,v=0;while(!u)u=rnd();while(!v)v=rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
   const S=[0,1,2,3,4].map(()=>new Float32Array(N*3)), R=new Float32Array(N);
@@ -634,6 +646,9 @@ if(renderer){
   geo.setAttribute('position',new THREE.BufferAttribute(S[4],3));
   S.forEach((a,k)=>geo.setAttribute('p'+k,new THREE.BufferAttribute(a,3)));
   geo.setAttribute('aRand',new THREE.BufferAttribute(R,1));
+  geo.setAttribute('aPart',new THREE.BufferAttribute(RP||new Float32Array(N),1));
+  geo.setAttribute('aTone',new THREE.BufferAttribute(RT||new Float32Array(N),1));
+  geo.setAttribute('aN',new THREE.BufferAttribute(RN||new Float32Array(N*3),3));
   geo.boundingSphere=new THREE.Sphere(new THREE.Vector3(),14);
 
   const noise=`vec3 mod289(vec3 x){return x-floor(x*(1./289.))*289.;}vec4 mod289(vec4 x){return x-floor(x*(1./289.))*289.;}vec4 permute(vec4 x){return mod289(((x*34.)+1.)*x);}vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-.85373472095314*r;}
@@ -646,17 +661,19 @@ if(renderer){
   const mat=new THREE.ShaderMaterial({
     transparent:true,depthWrite:false,blending:LIGHT?THREE.NormalBlending:THREE.AdditiveBlending,
     uniforms:{uTime:{value:0},uFrom:{value:4},uTo:{value:4},uMix:{value:0},uIntro:{value:reduce?1:0},uSize:{value:small?26:22},uPR:{value:DPR},
-      uMotion:{value:reduce?0:1},uMouse:{value:new THREE.Vector3(99,99,0)},uPush:{value:0},uAlpha:{value:1},uLogo:{value:0},uLight:{value:LIGHT?1:0},
+      uMotion:{value:reduce?0:1},uMouse:{value:new THREE.Vector3(99,99,0)},uPush:{value:0},uAlpha:{value:1},uLogo:{value:0},uLight:{value:LIGHT?1:0},uPart:{value:Array.from({length:6},()=>new THREE.Matrix4())},uScan:{value:-9},
       uC1:{value:new THREE.Color('#7c3aed')},uC2:{value:new THREE.Color('#c4b5fd')},uC3:{value:new THREE.Color('#5eead4')}},
     vertexShader:`
-      uniform float uTime,uFrom,uTo,uMix,uIntro,uSize,uPR,uMotion,uPush,uLogo,uLight; uniform vec3 uMouse;
-      attribute vec3 p0; attribute vec3 p1; attribute vec3 p2; attribute vec3 p3; attribute vec3 p4; attribute float aRand;
-      varying float vR; varying float vD; varying float vGlow; varying float vX;
+      uniform float uTime,uFrom,uTo,uMix,uIntro,uSize,uPR,uMotion,uPush,uLogo,uLight,uScan; uniform vec3 uMouse; uniform mat4 uPart[6];
+      attribute vec3 p0; attribute vec3 p1; attribute vec3 p2; attribute vec3 p3; attribute vec3 p4; attribute float aRand; attribute float aPart; attribute float aTone; attribute vec3 aN;
+      varying float vR; varying float vD; varying float vGlow; varying float vX; varying float vW4; varying float vShade; varying float vRim; varying float vBack; varying float vTone; varying float vScan;
       ${noise}
-      vec3 shape(float k){ return k<.5?p0:(k<1.5?p1:(k<2.5?p2:(k<3.5?p3:p4))); }
+      mat4 partM(){ int i=int(aPart+.5); return i==1?uPart[1]:(i==2?uPart[2]:(i==3?uPart[3]:(i==4?uPart[4]:(i==5?uPart[5]:uPart[0])))); }
+      vec3 shape(float k){ return k<.5?p0:(k<1.5?p1:(k<2.5?p2:(k<3.5?p3:(partM()*vec4(p4,1.)).xyz))); }
       void main(){
         float fs=smoothstep(0.,1.,clamp((uMix-aRand*.3)/.7,0.,1.));
         vec3 pos=mix(shape(uFrom),shape(uTo),fs);
+        float w4=(uFrom>3.5?1.-fs:0.)+(uTo>3.5?fs:0.);
         float mid=sin(fs*3.14159);
         // perakitan awal: dari awan acak menjadi logo
         float ii=smoothstep(0.,1.,clamp((uIntro-aRand*.45)/.55,0.,1.));
@@ -672,9 +689,15 @@ if(renderer){
         vec4 mv=viewMatrix*wp; gl_Position=projectionMatrix*mv;
         gl_PointSize=uSize*(.45+aRand*.9)*(1.-uLogo*.25)*(1.+uLight*.4)*uPR/(-mv.z);
         vR=aRand; vD=-mv.z; vGlow=push+mid*.4; vX=pos.x;
+        // bayangan cahaya pada robot partikel agar terlihat bervolume
+        vec3 nW=normalize(mat3(modelMatrix)*mat3(partM())*(aN+vec3(0.,0.,1e-4)));
+        vec3 Vw=normalize(cameraPosition-wp.xyz); float nd=dot(nW,Vw);
+        vShade=.25+.75*max(dot(nW,normalize(vec3(-.35,.55,.8))),0.); vRim=pow(1.-abs(nd),2.4); vBack=step(nd,0.);
+        vW4=w4*ii; vTone=aTone; vScan=exp(-pow((pos.y-uScan)/.07,2.))*vW4;
+        gl_PointSize*=mix(1.,aTone>1.5&&aTone<2.5?1.3:1.,vW4);
       }`,
     fragmentShader:`
-      uniform vec3 uC1,uC2,uC3; uniform float uAlpha,uLight; varying float vR; varying float vD; varying float vGlow; varying float vX;
+      uniform vec3 uC1,uC2,uC3; uniform float uAlpha,uLight; varying float vR; varying float vD; varying float vGlow; varying float vX; varying float vW4; varying float vShade; varying float vRim; varying float vBack; varying float vTone; varying float vScan;
       void main(){ vec2 c=gl_PointCoord-.5; float d=length(c); if(d>.5) discard;
         float fade=smoothstep(11.,4.,vD);
         if(uLight>.5){                                    // mode terang: gradasi biru-ungu-merah muda + titik merah/biru
@@ -682,13 +705,18 @@ if(renderer){
           float t=clamp(vX/5.6+.5,0.,1.);
           vec3 col=t<.5?mix(vec3(.23,.36,.86),vec3(.49,.23,.93),t*2.):mix(vec3(.49,.23,.93),vec3(.93,.29,.6),(t-.5)*2.);
           if(vR>.93) col=vec3(.94,.27,.27); else if(vR<.05) col=vec3(.15,.39,.92);
-          gl_FragColor=vec4(col,a*(.72+.28*fade)*mix(uAlpha,1.,.25)); return; }
+          // robot: biru tua pada bayangan, biru terang pada sisi yang kena cahaya, tepi merah muda, garis panel tosca
+          vec3 rc=mix(vec3(.02,.05,.26),vec3(.3,.5,.98),pow(vShade,1.1))+vRim*vec3(.85,.3,.62)*.5;
+          if(vTone>2.5) rc=vec3(.03,.05,.16); else if(vTone>1.5) rc=vec3(.55,1.,.98); else if(vTone>.5) rc=mix(rc,vec3(.02,.68,.82),.55);
+          rc=mix(rc,vec3(.8,.97,1.),vScan*.75);
+          col=mix(col,rc,vW4);
+          float ra=mix(1.,vBack>.5?.1:(.75+.25*vShade+vRim*.3+step(2.5,vTone)*.4),vW4);
+          gl_FragColor=vec4(col,clamp(a*(.72+.28*fade)*mix(uAlpha,1.,.25)*ra,0.,1.)); return; }
         float a=pow(smoothstep(.5,0.,d),1.7);
         vec3 col=mix(uC1,uC2,smoothstep(.15,.9,vR)); col=mix(col,uC3,smoothstep(.9,1.,vR)); col+=vGlow*.35;
         gl_FragColor=vec4(col,a*(.28+.6*fade)*uAlpha); }`
   });
   const group=new THREE.Group(); group.add(new THREE.Points(geo,mat)); scene.add(group);
-  if(RB) group.add(RB.root);
 
   function resize(){ renderer.setSize(innerWidth,innerHeight,false); camera.aspect=innerWidth/innerHeight; camera.position.z=innerWidth<760?9.2:7; camera.updateProjectionMatrix(); }
   addEventListener('resize',resize); resize();
@@ -726,25 +754,25 @@ if(renderer){
     u.uIntro.value=Math.min(1,u.uIntro.value+dt*.55);
     const cur = shown.m<.5?shown.f:shown.t;
     u.uLogo.value += ((cur===4?1:0)-u.uLogo.value)*Math.min(1,dt*3);
-    // robot muncul setelah partikel selesai merakit siluetnya
-    let rv=0;
-    if(RB){
-      const sv=(shown.f===4?1-Math.min(1,shown.m/.6):0)+(shown.t===4?Math.max(0,(shown.m-.4)/.6):0);
-      if(u.uIntro.value>.92) RB.shown=Math.min(1,RB.shown+dt*.8);
-      rv=Math.min(1,sv)*RB.shown;
-      RB.mats.forEach(m=>{ m.opacity=rv; m.transparent=rv<.99; m.depthWrite=rv>.5; });
-      RB.root.visible=rv>.01;
-      if(RB.root.visible && !reduce){
-        RB.chest.scale.y=1+Math.sin(t*1.6)*.012; RB.root.position.y=Math.sin(t*.9)*.04;
-        const kh=Math.min(1,dt*3);
-        RB.head.rotation.y+=(par.x*.55-RB.head.rotation.y)*kh; RB.head.rotation.x+=(-par.y*.3-RB.head.rotation.x)*kh;
-        if(rv>.9 && t-RB.wave>14) RB.wave=t;                 // melambai tiap 14 detik
-        const p=(t-RB.wave)/2.8, up=p>=0&&p<=1 ? Math.min(1,p/.2)*Math.min(1,(1-p)/.2) : 0, ease=up*up*(3-2*up);
-        RB.armR.sh.rotation.z=-(.12+ease*2.35); RB.armR.sh.rotation.x=-ease*.25;
-        RB.armR.el.rotation.z=-ease*(.35+Math.sin(t*9)*.45);
-        RB.armL.sh.rotation.z=.12+Math.sin(t*1.1)*.03;
-      }
+    // robot partikel: bernapas, menoleh mengikuti kursor, melambai, garis pindai naik-turun
+    if(RB && !reduce){
+      const kh=Math.min(1,dt*3);
+      RB.head.rotation.y+=(par.x*.6-RB.head.rotation.y)*kh; RB.head.rotation.x+=(-par.y*.3-RB.head.rotation.x)*kh;
+      RB.head.rotation.z=Math.sin(t*.7)*.03;
+      const vis=(cur===4)&&u.uIntro.value>.95;
+      if(vis && t-RB.wave>12) RB.wave=t+.6;
+      const p=(t-RB.wave)/2.8, up=p>=0&&p<=1?Math.min(1,p/.2)*Math.min(1,(1-p)/.2):0, ease=up*up*(3-2*up);
+      RB.armR.sh.rotation.z=-(.1+ease*2.4); RB.armR.sh.rotation.x=.04-ease*.3;
+      RB.armR.el.rotation.z=-ease*(.3+Math.sin(t*8)*.45); RB.armR.el.rotation.x=-.12*(1-ease);
+      RB.armL.sh.rotation.z=.1+Math.sin(t*1.1)*.025;
+      RB.root.position.y=Math.sin(t*1.4)*.025;
+      RB.root.updateMatrixWorld(true);
+      for(let i=0;i<6;i++) u.uPart.value[i].multiplyMatrices(RB.piv[i]===RB.root?RB.root.matrixWorld:RB.piv[i].matrixWorld, RB.restInv[i]).premultiply(i===0?new THREE.Matrix4():new THREE.Matrix4());
+      // bagian badan diam ikut napas
+      u.uPart.value[0].copy(RB.root.matrixWorld).multiply(new THREE.Matrix4().makeScale(1/RB.RSC,1/RB.RSC,1/RB.RSC));
+      const span=1.95*RB.RSC+1.25*RB.RSC; u.uScan.value=-1.25*RB.RSC+((t*.32)%1.4)/1.4*span*1.25;
     }
+    const rv=0;
     u.uAlpha.value += ((tr.af+(tr.at-tr.af)*tr.m)*(1-.9*rv)-u.uAlpha.value)*Math.min(1,dt*3);
     u.uTime.value=t;
     if(performance.now()-last>900) pushT=0;
