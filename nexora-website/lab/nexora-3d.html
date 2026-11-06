@@ -455,12 +455,13 @@
 })();
 </script>
 
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"}}</script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from 'three';
 const $=(s)=>document.querySelector(s);
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const LIGHT=document.body.classList.contains('light');
+const ROBOT=document.body.dataset.hero==='robot';
 const canvas=$('#gl');
 let renderer;
 try{ renderer=new THREE.WebGLRenderer({canvas,antialias:false,alpha:true,powerPreference:'high-performance'}); }
@@ -483,8 +484,65 @@ if(renderer){
     const px=[]; for(let y=0;y<h;y++) for(let x=0;x<w;x++){ if(d[(y*w+x)*4+3]>110) px.push(x,y); }
     return px.length ? {px,w,h} : null;
   }
-  const L=await logoPoints();
+  const L=ROBOT?null:await logoPoints();
 
+  // ---------- ROBOT (opsi terang): dibangun dari bentuk dasar, tanpa model berlisensi ----------
+  let RB=null, RS=null;
+  if(ROBOT){
+    const { MeshSurfaceSampler } = await import('three/addons/math/MeshSurfaceSampler.js');
+    const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
+    const body=new THREE.MeshPhysicalMaterial({color:'#2563eb',metalness:.15,roughness:.17,clearcoat:1,clearcoatRoughness:.05,sheen:.45,sheenColor:new THREE.Color('#67e8f9'),envMapIntensity:.75,transparent:true,opacity:0});
+    const joint=body.clone(); joint.color=new THREE.Color('#1e3fae');
+    const visor=new THREE.MeshPhysicalMaterial({color:'#0a0f2a',metalness:.5,roughness:.06,clearcoat:1,transparent:true,opacity:0});
+    const eyeM=new THREE.MeshBasicMaterial({color:'#5eead4',transparent:true,opacity:0});
+    const mats=[body,joint,visor,eyeM], meshes=[];
+    const add=(geo,mat,parent,pos,scl,rot)=>{const m=new THREE.Mesh(geo,mat); if(pos)m.position.set(...pos); if(scl)m.scale.set(...scl); if(rot)m.rotation.set(...rot); parent.add(m); if(mat!==eyeM) meshes.push(m); return m;};
+    const root=new THREE.Group();
+    const chest=new THREE.Group(); root.add(chest);
+    const prof=[[0,-.55],[.4,-.55],[.45,-.42],[.49,-.15],[.58,.15],[.68,.42],[.67,.6],[.52,.74],[.22,.8],[0,.8]].map(p=>new THREE.Vector2(p[0],p[1]));
+    add(new THREE.LatheGeometry(prof,56),body,chest,[0,0,0],[1.08,1,.72]);                             // dada berbentuk V
+    add(new THREE.TorusGeometry(.5,.03,10,56),joint,chest,[0,.28,0],[1.32,1,.95],[Math.PI/2,0,0]);   // garis dada
+    add(new THREE.CylinderGeometry(.34,.4,.28,40),joint,root,[0,-.68,0],[1,1,.72]);                    // perut
+    add(new THREE.CapsuleGeometry(.36,.18,10,28),body,root,[0,-.98,0],[1.25,.85,.78]);                 // panggul
+    add(new THREE.CylinderGeometry(.15,.18,.34,24),joint,root,[0,.78,0]);
+    const head=new THREE.Group(); head.position.set(0,1.18,0); root.add(head);
+    add(new THREE.SphereGeometry(.44,48,32),body,head,[0,0,0],[1,1.12,1.02]);
+    add(new THREE.SphereGeometry(.44,48,32),visor,head,[0,.03,.08],[.86,.46,.9]);
+    add(new THREE.CapsuleGeometry(.035,.09,6,12),eyeM,head,[-.13,.05,.47],null,[0,0,Math.PI/2]);
+    add(new THREE.CapsuleGeometry(.035,.09,6,12),eyeM,head,[.13,.05,.47],null,[0,0,Math.PI/2]);
+    add(new THREE.SphereGeometry(.07,16,12),joint,head,[-.45,0,0],[.6,1,1]);                         // telinga
+    add(new THREE.SphereGeometry(.07,16,12),joint,head,[.45,0,0],[.6,1,1]);
+    function arm(side){
+      const sh=new THREE.Group(); sh.position.set(side*.86,.42,0); root.add(sh);
+      add(new THREE.SphereGeometry(.27,32,24),joint,sh,[0,0,0]);
+      add(new THREE.CapsuleGeometry(.17,.5,8,20),body,sh,[0,-.45,0]);
+      const el=new THREE.Group(); el.position.set(0,-.82,0); sh.add(el);
+      add(new THREE.SphereGeometry(.16,24,16),joint,el,[0,0,0]);
+      add(new THREE.CapsuleGeometry(.145,.45,8,20),body,el,[0,-.38,0]);
+      add(new THREE.SphereGeometry(.17,24,16),joint,el,[0,-.74,0],[1,1.15,.8]);
+      sh.rotation.z=side*.12; return {sh,el};
+    }
+    const armR=arm(-1), armL=arm(1);
+    const RSC = small ? .9 : .92; root.scale.setScalar(RSC);
+    root.updateMatrixWorld(true);
+    // ambil titik dari permukaan robot (pose diam) untuk bentuk partikel ke-4
+    const triArea=(g)=>{const p=g.attributes.position,ix=g.index,a=new THREE.Vector3(),b=new THREE.Vector3(),c=new THREE.Vector3();let A=0;const n=ix?ix.count:p.count;
+      for(let i=0;i<n;i+=3){const i0=ix?ix.getX(i):i,i1=ix?ix.getX(i+1):i+1,i2=ix?ix.getX(i+2):i+2;a.fromBufferAttribute(p,i0);b.fromBufferAttribute(p,i1).sub(a);c.fromBufferAttribute(p,i2).sub(a);A+=b.cross(c).length()*.5;}return A;};
+    const parts=meshes.map(m=>{const g=m.geometry.clone().applyMatrix4(m.matrixWorld); return {s:new MeshSurfaceSampler(new THREE.Mesh(g)).build(), a:triArea(g)};});
+    const tot=parts.reduce((s,p)=>s+p.a,0), tmp=new THREE.Vector3();
+    RS=new Float32Array(N*3); let w=0;
+    parts.forEach((p,pi)=>{ const cnt = pi===parts.length-1 ? N-w : Math.round(N*p.a/tot);
+      for(let q=0;q<cnt&&w<N;q++,w++){ p.s.sample(tmp); RS[w*3]=tmp.x; RS[w*3+1]=tmp.y; RS[w*3+2]=tmp.z; } });
+    for(let i=N-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); for(let c=0;c<3;c++){ const t=RS[i*3+c]; RS[i*3+c]=RS[j*3+c]; RS[j*3+c]=t; } }   // acak urutan
+    // cahaya: kunci putih, pinggir merah muda & biru muda, plus pantulan ruangan
+    const pm=new THREE.PMREMGenerator(renderer); scene.environment=pm.fromScene(new RoomEnvironment(renderer),.04).texture;
+    scene.add(new THREE.HemisphereLight('#eef2ff','#c7d2fe',.45));
+    const key=new THREE.DirectionalLight('#ffffff',1.6); key.position.set(3,4,6); scene.add(key);
+    const rimP=new THREE.DirectionalLight('#f472b6',2.2); rimP.position.set(-5,2,-3); scene.add(rimP);
+    const rimC=new THREE.DirectionalLight('#22d3ee',2.4); rimC.position.set(5,1,-4); scene.add(rimC);
+    renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=.98;
+    RB={root,chest,head,armR,armL,mats,shown:0,wave:-99};
+  }
   const rnd=Math.random, gauss=()=>{let u=0,v=0;while(!u)u=rnd();while(!v)v=rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
   const S=[0,1,2,3,4].map(()=>new Float32Array(N*3)), R=new Float32Array(N);
   const golden=Math.PI*(3-Math.sqrt(5));
@@ -512,7 +570,8 @@ if(renderer){
     else { const h=rnd(),t=rnd()*Math.PI*2,rs=.13*Math.sqrt(rnd()); x=Math.cos(t)*rs; yy=-.45-h*.75; z=-.38-h*.25+Math.sin(t)*rs; }
     S[3][j]=x*1.25; S[3][j+1]=yy*1.25; S[3][j+2]=z*1.25;
     // 4 logo NEXORA (dari gambar). Tanpa gambar: pakai bentuk otak.
-    if(L){ const k=(Math.floor(rnd()*(L.px.length/2)))*2, sc=LW/L.w;
+    if(RS){ S[4][j]=RS[j]; S[4][j+1]=RS[j+1]; S[4][j+2]=RS[j+2]; }
+    else if(L){ const k=(Math.floor(rnd()*(L.px.length/2)))*2, sc=LW/L.w;
       S[4][j]=(L.px[k]+rnd()-L.w/2)*sc; S[4][j+1]=-(L.px[k+1]+rnd()-L.h/2)*sc; S[4][j+2]=gauss()*.05; }
     else { S[4][j]=S[3][j]; S[4][j+1]=S[3][j+1]; S[4][j+2]=S[3][j+2]; }
   }
@@ -574,13 +633,15 @@ if(renderer){
         gl_FragColor=vec4(col,a*(.28+.6*fade)*uAlpha); }`
   });
   const group=new THREE.Group(); group.add(new THREE.Points(geo,mat)); scene.add(group);
+  if(RB) group.add(RB.root);
 
   function resize(){ renderer.setSize(innerWidth,innerHeight,false); camera.aspect=innerWidth/innerHeight; camera.position.z=innerWidth<760?9.2:7; camera.updateProjectionMatrix(); }
   addEventListener('resize',resize); resize();
 
   // ---- bentuk per bagian halaman ----
   const secs=[...document.querySelectorAll('main > section')];
-  const OFF = LIGHT ? { d:[[0,0],[-2.0,0],[0,0],[1.9,0],[0,.05]], m:[[0,0],[0,1.3],[0,0],[0,1.4],[0,.35]] }
+  const OFF = ROBOT ? { d:[[0,0],[-2.0,0],[0,0],[1.9,0],[1.55,.12]], m:[[0,0],[0,1.3],[0,0],[0,1.4],[0,.3]] }
+            : LIGHT ? { d:[[0,0],[-2.0,0],[0,0],[1.9,0],[0,.05]], m:[[0,0],[0,1.3],[0,0],[0,1.4],[0,.35]] }
                     : { d:[[0,0],[-2.0,0],[0,0],[1.9,0],[0,1.5]], m:[[0,0],[0,1.3],[0,0],[0,1.4],[0,2.2]] };
   function track(){
     const yMid=scrollY+innerHeight*.5; let i=0;
@@ -610,7 +671,26 @@ if(renderer){
     u.uIntro.value=Math.min(1,u.uIntro.value+dt*.55);
     const cur = shown.m<.5?shown.f:shown.t;
     u.uLogo.value += ((cur===4?1:0)-u.uLogo.value)*Math.min(1,dt*3);
-    u.uAlpha.value += ((tr.af+(tr.at-tr.af)*tr.m)-u.uAlpha.value)*Math.min(1,dt*3);
+    // robot muncul setelah partikel selesai merakit siluetnya
+    let rv=0;
+    if(RB){
+      const sv=(shown.f===4?1-Math.min(1,shown.m/.6):0)+(shown.t===4?Math.max(0,(shown.m-.4)/.6):0);
+      if(u.uIntro.value>.92) RB.shown=Math.min(1,RB.shown+dt*.8);
+      rv=Math.min(1,sv)*RB.shown;
+      RB.mats.forEach(m=>{ m.opacity=rv; m.transparent=rv<.99; m.depthWrite=rv>.5; });
+      RB.root.visible=rv>.01;
+      if(RB.root.visible && !reduce){
+        RB.chest.scale.y=1+Math.sin(t*1.6)*.012; RB.root.position.y=Math.sin(t*.9)*.04;
+        const kh=Math.min(1,dt*3);
+        RB.head.rotation.y+=(par.x*.55-RB.head.rotation.y)*kh; RB.head.rotation.x+=(-par.y*.3-RB.head.rotation.x)*kh;
+        if(rv>.9 && t-RB.wave>14) RB.wave=t;                 // melambai tiap 14 detik
+        const p=(t-RB.wave)/2.8, up=p>=0&&p<=1 ? Math.min(1,p/.2)*Math.min(1,(1-p)/.2) : 0, ease=up*up*(3-2*up);
+        RB.armR.sh.rotation.z=-(.12+ease*2.35); RB.armR.sh.rotation.x=-ease*.25;
+        RB.armR.el.rotation.z=-ease*(.35+Math.sin(t*9)*.45);
+        RB.armL.sh.rotation.z=.12+Math.sin(t*1.1)*.03;
+      }
+    }
+    u.uAlpha.value += ((tr.af+(tr.at-tr.af)*tr.m)*(1-.9*rv)-u.uAlpha.value)*Math.min(1,dt*3);
     u.uTime.value=t;
     if(performance.now()-last>900) pushT=0;
     u.uPush.value+=(pushT-u.uPush.value)*Math.min(1,dt*4);
