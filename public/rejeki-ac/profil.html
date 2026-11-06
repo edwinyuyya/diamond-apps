@@ -82,7 +82,7 @@ section{padding:var(--s-900) 0}
 .skip{position:absolute;left:var(--s-200);top:-80px;background:var(--brand);color:#fff;padding:var(--s-75) var(--s-100);border-radius:.5rem;z-index:100;transition:top .3s var(--ease)}
 .skip:focus{top:var(--s-200)}
 
-.nav{position:fixed;top:var(--s-200);left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:var(--s-300);padding:var(--s-75) var(--s-75) var(--s-75) var(--s-200);border:1px solid var(--line);border-radius:1rem;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);max-width:calc(100vw - 32px)}
+.nav{position:fixed;top:var(--s-200);left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:var(--s-300);padding:var(--s-75) var(--s-75) var(--s-75) var(--s-200);border:1px solid var(--line);border-radius:1rem;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);max-width:calc(100vw - 32px)}
 .brandmark{display:inline-flex;align-items:center;gap:var(--s-75);white-space:nowrap}
 .brandmark .mk{display:grid;place-items:center;width:28px;height:28px;border-radius:.5rem;background:var(--brand);color:#fff;font-size:1rem}
 .nav-links{display:flex;gap:var(--s-300);white-space:nowrap}
@@ -101,19 +101,35 @@ section{padding:var(--s-900) 0}
 .panel.open a{opacity:1;transform:none;transition-delay:calc(var(--i) * 60ms)}
 @media(max-width:767px){.nav-links,.nav .btn{display:none}.burger{display:block}.nav{gap:var(--s-200)}}
 
-.hero{padding-top:var(--s-900);padding-bottom:var(--s-800)}
-.hero-copy{max-width:680px;margin:var(--s-700) auto 0;text-align:center}
-.grad-text{background:linear-gradient(90deg,#000000,#666666);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
-.hero p.sub{color:var(--ink-2);margin:var(--s-200) auto 0;max-width:680px}
+.hero{position:relative;overflow:hidden;background:#000000;color:#fff;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:var(--s-900) 0 var(--s-700)}
+.hero .wrap{position:relative;z-index:2;width:100%}
+.hero-media{position:absolute;inset:0;z-index:0}
+.hero-media video,.hero-media img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s var(--ease)}
+.hero-media .ready{opacity:.55}
+.hero-shade{position:absolute;inset:0;z-index:1;background:#000000;opacity:.35;pointer-events:none}
+.fx{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:9999px;background:#0AA0D2;filter:blur(120px);opacity:.28;animation:drift 18s var(--ease) infinite alternate}
+.streak{position:absolute;left:-30%;height:2px;border-radius:9999px;background:#ffffff;opacity:0;animation:blow var(--t,9s) var(--ease) var(--dl,0s) infinite}
+.flake{position:absolute;top:-10%;color:#cfeefb;opacity:0;animation:fall var(--t,16s) linear var(--dl,0s) infinite}
+@keyframes drift{from{transform:translate3d(-6%,-4%,0) scale(1)}to{transform:translate3d(8%,6%,0) scale(1.15)}}
+@keyframes blow{0%{transform:translateX(0);opacity:0}15%{opacity:.35}100%{transform:translateX(190vw);opacity:0}}
+@keyframes fall{0%{transform:translate3d(0,0,0) rotate(0);opacity:0}10%{opacity:.7}90%{opacity:.5}100%{transform:translate3d(var(--x,40px),115vh,0) rotate(360deg);opacity:0}}
+.hero-copy{max-width:680px;margin:0 auto;text-align:center}
+.hero .eyebrow{color:#9b9b9b}
+.hero-copy h1{background:linear-gradient(90deg,#ffffff,#9b9b9b);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;max-width:680px;margin:0 auto;padding-bottom:var(--s-75)}
+.hero p.sub{color:#b3b3b3;margin:var(--s-200) auto 0;max-width:680px}
 .hero-cta{display:flex;flex-direction:column;align-items:center;gap:var(--s-100);margin-top:var(--s-400)}
-.hero-cta small{color:var(--ink-2)}
-.hero-proof{display:flex;justify-content:center;align-items:center;gap:var(--s-75);margin-top:var(--s-300);color:var(--ink-2)}
-.stats{margin-top:var(--s-700);padding:var(--s-75);border:1px solid var(--line);border-radius:1rem;background:var(--surface);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-75)}
-.stat{padding:var(--s-400) var(--s-300);border-radius:.5rem;background:var(--bg);text-align:center}
-.stat b{display:block}
-.stat span{color:var(--ink-2);display:block;margin-top:var(--s-75)}
-@media(max-width:639px){.stats{grid-template-columns:1fr}}
-
+.hero-cta small{color:#9b9b9b}
+.hero .btn{background:#fff;color:var(--brand);border-color:#fff}
+.hero .btn:hover{background:#e5e5e5}
+.hero-proof{display:flex;justify-content:center;align-items:center;gap:var(--s-75);margin-top:var(--s-300);color:#9b9b9b}
+.stats{margin-top:var(--s-700);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-75)}
+.stat{padding:var(--s-300);border:1px solid #313131;border-radius:1rem;background:rgba(24,24,24,.6);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);text-align:center}
+.stat b{display:block;color:#fff}
+.stat span{color:#9b9b9b;display:block;margin-top:var(--s-75)}
+@media(max-width:639px){.stats{grid-template-columns:1fr}.hero{padding-top:var(--s-900)}}
+@media(max-width:767px){.hero-copy h1 br{display:none}}
+@media(prefers-reduced-motion:reduce){.orb,.streak,.flake{animation:none}.streak,.flake{display:none}}
 .grid{display:grid;gap:var(--s-200)}
 .g2{grid-template-columns:repeat(2,1fr)}
 .g3{grid-template-columns:repeat(3,1fr)}
@@ -207,10 +223,14 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
 
 <main id="utama">
   <section class="hero">
+    <!-- Slot media: taruh foto/hero.mp4 atau foto/hero.webp, otomatis tampil di belakang animasi -->
+    <div class="hero-media" id="heroMedia" aria-hidden="true"></div>
+    <div class="hero-shade"></div>
+    <div class="fx" id="fx" aria-hidden="true"></div>
     <div class="wrap">
       <div class="hero-copy">
         <p class="eyebrow caption-1"><i class="ph ph-map-pin"></i> Melayani Karesidenan Surakarta</p>
-        <h1 class="heading-1 grad-text" style="max-width:680px;margin:0 auto;padding-bottom:var(--s-75)">AC dingin, rapi, dan<br>harga jelas sejak 1996</h1>
+        <h1 class="heading-1">AC dingin, rapi, dan<br>harga jelas sejak 1996</h1>
         <p class="sub body-3">Rejeki Utama AC melayani rumah, kantor, hotel, dan pabrik di Karesidenan Surakarta. Teknisi berpengalaman datang sesuai jadwal, bekerja bersih, dan menyampaikan biaya di depan.</p>
         <div class="hero-cta">
           <a class="btn lg button-md" href="https://wa.me/6281327660660?text=Halo%20Rejeki%20Utama%20AC%2C%20saya%20ingin%20konsultasi%20layanan%20AC." target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo"></i> Konsultasi lewat WhatsApp</a>
@@ -375,6 +395,35 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
     es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
   },{threshold:.12});
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+
+  // Hero: efek udara dingin (hanya transform dan opacity)
+  var fx=document.getElementById('fx');
+  if(!reduce){
+    var h='';
+    [['8%','55vw','-8%','auto','0s'],['auto','45vw','-10%','10%','-6s']].forEach(function(o,i){
+      h+='<span class="orb" style="width:'+o[1]+';height:'+o[1]+';top:'+(i?'45%':'-10%')+';left:'+(i?'55%':'-8%')+'"></span>';
+    });
+    for(var i=0;i<9;i++){
+      h+='<span class="streak" style="top:'+(12+i*9)+'%;width:'+(120+(i%4)*70)+'px;--t:'+(7+(i%5)*1.6)+'s;--dl:-'+(i*1.3)+'s"></span>';
+    }
+    for(var j=0;j<14;j++){
+      h+='<i class="ph ph-snowflake flake" style="left:'+(4+j*7)+'%;font-size:'+(12+(j%4)*6)+'px;--t:'+(14+(j%5)*3)+'s;--dl:-'+(j*2.1)+'s;--x:'+((j%2?1:-1)*(20+j*4))+'px"></i>';
+    }
+    fx.innerHTML=h;
+  }
+  // Hero: pakai foto/hero.mp4 atau foto/hero.webp jika file ada
+  var hm=document.getElementById('heroMedia');
+  function ready(el){ hm.appendChild(el); requestAnimationFrame(function(){ el.classList.add('ready'); }); }
+  fetch('foto/hero.mp4',{method:'HEAD'}).then(function(r){
+    if(!r.ok) throw 0;
+    var v=document.createElement('video'); v.src='foto/hero.mp4'; v.muted=true; v.loop=true; v.playsInline=true; v.autoplay=!reduce;
+    v.addEventListener('loadeddata',function(){ ready(v); if(!reduce) v.play(); });
+  }).catch(function(){
+    fetch('foto/hero.webp',{method:'HEAD'}).then(function(r){
+      if(!r.ok) return; var im=new Image(); im.alt=''; im.onload=function(){ ready(im); }; im.src='foto/hero.webp';
+    }).catch(function(){});
+  });
 
   var t = document.getElementById('tagline-text');
   var full = t.textContent.trim();
