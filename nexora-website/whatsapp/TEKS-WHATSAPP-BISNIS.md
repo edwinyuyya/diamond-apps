@@ -10,7 +10,7 @@ Isi bagian yang bertanda **[ ... ]** sebelum dipakai. Salin teks ke aplikasi Wha
 | Nama | Nexora |
 | Info (bio singkat) | `Sistem digital & tim virtual AI untuk UKM Indonesia. Konsultasi gratis ⚡` |
 | Kategori | Konsultan / Perusahaan teknologi (pilih yang tersedia) |
-| Email | halo@nexora.id |
+| Email | halo@nexoraindonesia.my.id |
 | Website | **[link website portofolio setelah online]** |
 | Jam buka | **[isi jam kerja Anda]** |
 
