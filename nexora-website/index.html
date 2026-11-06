@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexora — Portofolio Sistem Digital & AI Agent untuk Bisnis</title>
+<meta name="description" content="Nexora membangun sistem digital dan AI agent untuk UKM Indonesia: kasir F&B, SOP, ERP, toko online, hingga asisten AI yang membantu efisiensi waktu dan anggaran. Lihat karya dan layanan kami.">
+<meta property="og:title" content="Nexora — Engineering the Future of Business">
+<meta property="og:description" content="Portofolio sistem digital dan AI agent untuk UKM Indonesia.">
+<link rel="canonical" href="https://nexoraindonesia.my.id/">
+<meta property="og:url" content="https://nexoraindonesia.my.id/">
+<meta property="og:image" content="https://nexoraindonesia.my.id/nexora_logo.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" type="image/png" href="nexora_favicon.png">
+<link rel="apple-touch-icon" href="nexora_favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add('js')</script>
+<style>
+  :root{
+    --ink:#14112b; --ink2:#2b2650; --dim:#625f7a; --line:#e8e6f4;
+    --soft:#f7f5fe; --soft2:#efebfc;
+    --p:#6d28d9; --p2:#7c3aed; --p3:#a78bfa; --pl:#ede9fe;
+    --ok:#16a34a;
+    --shadow:0 1px 2px rgba(20,17,43,.04),0 14px 34px -14px rgba(60,30,140,.2);
+    --font:'Plus Jakarta Sans',-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+    --ease:cubic-bezier(.2,.8,.2,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scroll-padding-top:90px}
+  body{font-family:var(--font);color:var(--ink);background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  img{max-width:100%;display:block}
+  :focus-visible{outline:3px solid var(--p3);outline-offset:3px;border-radius:8px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+
+  /* ---------- HEADER ---------- */
+  header{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);transition:box-shadow .3s}
+  header.sc{box-shadow:0 1px 0 var(--line),0 10px 30px -20px rgba(20,17,43,.3)}
+  .nav{display:flex;align-items:center;gap:28px;height:68px}
+  .logo img{height:28px;width:auto}
+  .links{display:flex;gap:4px;flex:1}
+  .links a{padding:8px 12px;border-radius:9px;font-size:14.5px;font-weight:600;color:var(--ink);transition:.15s}
+  .links a:hover{background:var(--soft)}
+  .navR{display:flex;gap:10px;align-items:center}
+  .burger{display:none;width:42px;height:42px;border:1px solid var(--line);border-radius:11px;align-items:center;justify-content:center;font-size:19px}
+  @media(max-width:860px){
+    .links{display:none;position:absolute;top:68px;left:0;right:0;flex-direction:column;background:#fff;padding:8px 24px 18px;border-bottom:1px solid var(--line)}
+    .links.open{display:flex}.links a{padding:13px 10px}
+    .burger{display:inline-flex}.navR .btn-o{display:none}.nav{gap:12px;justify-content:space-between}.links{flex:0}
+  }
+
+  /* ---------- BUTTONS ---------- */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:11px;font-weight:700;font-size:14.5px;transition:transform .2s var(--ease),box-shadow .2s,background .2s;white-space:nowrap;border:1px solid transparent}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-d{background:var(--ink);color:#fff}
+  .btn-d:hover{box-shadow:0 12px 24px -10px rgba(20,17,43,.6)}
+  .btn-o{border-color:var(--ink);color:var(--ink);background:#fff}
+  .btn-o:hover{background:var(--soft)}
+  .btn-w{background:#fff;color:var(--ink)}
+  .btn-w:hover{box-shadow:0 12px 24px -10px rgba(0,0,0,.4)}
+  .btn-lg{padding:14px 26px;font-size:15.5px}
+
+  /* ---------- REVEAL ---------- */
+  .js .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease);transition-delay:var(--d,0s)}
+  .js .reveal.in{opacity:1;transform:none}
+  .stagger>*{opacity:0;transform:translateY(12px)}
+  .in .stagger>*{animation:pop .6s var(--ease) forwards;animation-delay:calc(var(--i,0)*.26s + .35s)}
+  @keyframes pop{to{opacity:1;transform:none}}
+  @keyframes fadeup{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:64px 0 36px}
+  .hero-in{max-width:900px}
+  .hero-in>*{animation:fadeup .9s var(--ease) both}
+  .hero-in>*:nth-child(2){animation-delay:.08s}.hero-in>*:nth-child(3){animation-delay:.16s}.hero-in>*:nth-child(4){animation-delay:.24s}
+  .pill{display:inline-flex;align-items:center;gap:10px;padding:7px 16px 7px 10px;border-radius:99px;background:var(--soft);border:1px solid var(--line);font-size:13.5px;font-weight:700;color:var(--ink2);margin-bottom:24px;transition:.2s}
+  .pill:hover{border-color:var(--p3);background:var(--soft2)}
+  .pdot{width:9px;height:9px;border-radius:50%;background:var(--p2);box-shadow:0 0 0 0 rgba(124,58,237,.5);animation:ping 2s infinite}
+  @keyframes ping{70%{box-shadow:0 0 0 9px rgba(124,58,237,0)}100%{box-shadow:0 0 0 0 rgba(124,58,237,0)}}
+  h1{font-size:clamp(38px,6vw,72px);line-height:1.04;letter-spacing:-.04em;font-weight:700;margin-bottom:20px}
+  .grad{background:linear-gradient(120deg,var(--p),#a855f7 70%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{font-size:19px;color:var(--dim);max-width:640px;margin-bottom:30px}
+
+  .hframe{position:relative;margin-top:46px;height:clamp(330px,44vw,470px);border-radius:28px;background:var(--fr,#ede9fe);overflow:hidden;transition:background-color .8s;animation:fadeup 1s .35s var(--ease) both}
+  .hstage{position:absolute;inset:0}
+  .hs-slide{position:absolute;inset:0;display:grid;justify-items:center;align-content:start;padding:42px 20px 0;opacity:0;transform:translateY(20px) scale(.985);transition:opacity .8s var(--ease),transform .8s var(--ease);pointer-events:none}
+  .hs-slide.on{opacity:1;transform:none}
+  .hs-slide .mk{transform:scale(1.08);transform-origin:top center;padding:0;width:100%}
+  .hs-slide .cap{display:none}
+  .hbar{position:absolute;left:18px;right:18px;bottom:16px;display:flex;align-items:center;gap:14px;z-index:3}
+  .hname{background:rgba(255,255,255,.92);backdrop-filter:blur(6px);padding:7px 14px;border-radius:99px;font-size:13px;font-weight:700}
+  .hdots{display:flex;gap:6px;margin-left:auto}
+  .hdots button{width:8px;height:8px;border-radius:99px;background:rgba(20,17,43,.25);transition:.3s}
+  .hdots button.on{width:26px;background:var(--ink)}
+  .hpause{width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;display:grid;place-items:center}
+  @media(max-width:700px){.hs-slide .mk{transform:scale(.92)}.hero{padding:40px 0 20px}.hname{font-size:12px}}
+
+  /* ---------- MARQUEE ---------- */
+  .trust{padding:34px 0 6px;text-align:center}
+  .trust p{font-size:14px;color:var(--dim);margin-bottom:22px}
+  .mq{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+  .mq-track{display:flex;gap:64px;width:max-content;animation:mq 30s linear infinite}
+  .mq:hover .mq-track{animation-play-state:paused}
+  .mq-track span{font-size:21px;font-weight:700;letter-spacing:-.02em;color:#3b3856;white-space:nowrap}
+  .mq-track span:nth-child(5n+2){font-family:Georgia,serif;font-weight:400;font-style:italic}
+  .mq-track span:nth-child(5n+4){letter-spacing:.14em;font-size:17px;text-transform:uppercase}
+  @keyframes mq{to{transform:translateX(-50%)}}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:84px 0}
+  .eyebrow{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--p);margin-bottom:12px}
+  .sh{font-size:clamp(26px,3.4vw,40px);line-height:1.15;letter-spacing:-.03em;font-weight:600;max-width:760px;margin-bottom:12px}
+  .sub{color:var(--dim);font-size:17px;max-width:620px}
+  .shead{margin-bottom:40px}
+  @media(max-width:700px){section{padding:56px 0}}
+
+  /* ---------- AI AGENT ---------- */
+  .ai{display:grid;grid-template-columns:1.05fr 1fr;gap:44px;padding:52px;border-radius:32px;color:#fff;position:relative;overflow:hidden;
+    background:radial-gradient(600px 300px at 100% 0%,rgba(168,85,247,.55),transparent 60%),linear-gradient(135deg,#1c0b4d,#3b1a9a 60%,#5b21b6)}
+  .ai h2{font-size:clamp(28px,3.6vw,44px);line-height:1.1;letter-spacing:-.035em;font-weight:700;margin-bottom:14px}
+  .ai p.d{opacity:.85;font-size:16.5px;max-width:520px;margin-bottom:26px}
+  .ai .eyebrow{color:#d8c8ff}
+  .big40{display:flex;align-items:flex-end;gap:16px;margin-bottom:26px}
+  .big40 b{font-size:clamp(72px,9vw,112px);line-height:.85;font-weight:800;letter-spacing:-.06em;background:linear-gradient(180deg,#fff,#c9b6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .big40 sup{font-size:.45em;vertical-align:top;position:relative;top:.1em}
+  .big40>span{font-size:15px;opacity:.9;max-width:230px;line-height:1.4;padding-bottom:6px;font-weight:600}
+  .ai-note{display:block;margin-top:16px;font-size:12.5px;opacity:.7}
+  .feed{align-self:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(8px);border-radius:22px;padding:18px;display:grid;gap:10px;align-content:start}
+  .feed h6{font-size:13px;display:flex;align-items:center;gap:8px;margin-bottom:2px}
+  .feed h6::before{content:"";width:8px;height:8px;border-radius:50%;background:#4ade80;box-shadow:0 0 0 4px rgba(74,222,128,.25)}
+  .fr{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,.95);color:var(--ink);border-radius:14px;padding:12px 14px;font-size:13.5px}
+  .fr i{font-style:normal;font-size:20px;line-height:1.2}
+  .fr b{display:block;font-size:13.5px}
+  .fr span{color:var(--dim);font-size:12.5px}
+  .fr u{margin-left:auto;text-decoration:none;font-size:11px;font-weight:800;color:#15803d;background:#dcfce7;border-radius:99px;padding:3px 9px;white-space:nowrap}
+  .feed small{font-size:11px;opacity:.65}
+  .perks{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+  .perk{padding:22px;border-radius:20px;background:var(--soft);border:1px solid var(--line)}
+  .perk i{font-style:normal;font-size:24px;display:block;margin-bottom:10px}
+  .perk b{display:block;font-size:16px;margin-bottom:4px}
+  .perk span{font-size:14px;color:var(--dim)}
+  @media(max-width:980px){.ai{grid-template-columns:1fr;padding:34px 24px}.perks{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.perks{grid-template-columns:1fr}}
+
+
+  .fr u.tm{background:#ede9fe;color:#6d28d9}
+  .team{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;margin-top:78px}
+  .tabs2{display:grid;gap:10px;margin-top:22px}
+  .tab2{position:relative;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;text-align:left;padding:16px 18px;border-radius:18px;border:1px solid var(--line);background:#fff;overflow:hidden;transition:border-color .25s,box-shadow .25s,transform .25s var(--ease)}
+  .tab2:hover{border-color:var(--p3);transform:translateX(3px)}
+  .tab2 .e{width:44px;height:44px;border-radius:13px;background:var(--soft2);display:grid;place-items:center;font-size:22px;transition:.25s}
+  .tab2 b{display:block;font-size:16px;letter-spacing:-.01em;margin-bottom:2px}
+  .tab2 span{font-size:13.5px;color:var(--dim);line-height:1.5;display:block;max-height:0;opacity:0;overflow:hidden;transition:max-height .45s var(--ease),opacity .35s}
+  .tab2 small{font-size:13px;color:var(--dim);display:block}
+  .tab2.on{border-color:var(--p2);box-shadow:0 18px 36px -22px rgba(109,40,217,.6)}
+  .tab2.on .e{background:linear-gradient(135deg,var(--p2),var(--p));transform:scale(1.05)}
+  .tab2.on span{max-height:130px;opacity:1;margin-top:4px}
+  .tab2.on small{display:none}
+  .tab2 i{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--p2)}
+  .tab2.on i{animation:fill var(--dur,9s) linear forwards}
+  .team.paused .tab2.on i{animation:none;width:100%;opacity:.35}
+  @keyframes fill{to{width:100%}}
+  .tphone{width:min(360px,100%);justify-self:center;border:9px solid var(--ink);border-radius:38px;background:#fff;box-shadow:0 40px 70px -28px rgba(20,17,43,.55);overflow:hidden;display:flex;flex-direction:column;height:520px}
+  .tph-h{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,#1c0b4d,#5b21b6);color:#fff}
+  .tph-h b{display:block;font-size:14.5px;line-height:1.2}.tph-h small{font-size:11.5px;opacity:.8}
+  .tph-av{width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:19px}
+  .tph-m{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;background:#faf9ff;scrollbar-width:none}
+  .tph-m::-webkit-scrollbar{display:none}
+  .tb{max-width:90%;padding:9px 12px;border-radius:15px;font-size:13px;line-height:1.5;white-space:pre-line;animation:pop .4s var(--ease) both}
+  .tb-b{background:#fff;border:1px solid var(--line);border-bottom-left-radius:5px;align-self:flex-start}
+  .tb-u{background:var(--p);color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
+  .tb-s{align-self:center;background:var(--soft2);color:var(--ink2);font-size:11.5px;font-weight:700;border-radius:99px;padding:4px 11px}
+  .tb-ok{background:#ecfdf3;border:1px solid #bbf7d0;color:#166534;font-weight:600}
+  .jv .tb{font-size:11px;padding:7px 10px;max-width:92%}
+  .tph-f{font-size:10.5px;color:var(--dim);text-align:center;padding:7px;background:#fff;border-top:1px solid var(--line)}
+  @media(max-width:900px){.team{grid-template-columns:1fr;gap:28px;margin-top:56px}.tphone{height:480px}}
+
+  /* ---------- WORK ---------- */
+  .work{display:grid;grid-template-columns:210px 1fr;gap:44px;align-items:start}
+  .sn{position:sticky;top:104px;display:grid;gap:2px;--ac:var(--p)}
+  .sn a{display:flex;gap:12px;align-items:center;padding:9px 0;color:var(--dim);font-size:15px;transition:color .25s,transform .25s}
+  .sn a span{font-size:12.5px;font-weight:700;opacity:.7}
+  .sn a::before{content:"";width:7px;height:7px;border-radius:2px;background:transparent;transform:scale(.4);transition:background .35s,transform .35s var(--ease)}
+  .sn a:hover{color:var(--ink)}
+  .sn a.on{color:var(--ink);font-weight:600;transform:translateX(2px)}
+  .sn a.on::before{background:var(--ac);transform:scale(1)}
+  .pcs{display:grid;gap:26px;min-width:0}
+  @media(max-width:980px){
+    .work{grid-template-columns:1fr;gap:20px}
+    .sn{position:sticky;top:68px;z-index:20;display:flex;overflow-x:auto;gap:8px;padding:10px 0;background:#fff;scrollbar-width:none;margin:0 -24px;padding-inline:24px}
+    .sn::-webkit-scrollbar{display:none}
+    .sn a{padding:8px 14px;border:1px solid var(--line);border-radius:99px;white-space:nowrap;font-size:13.5px}
+    .sn a::before{display:none}.sn a.on{background:var(--ink);color:#fff;border-color:var(--ink);transform:none}
+    .sn a span{display:none}
+  }
+
+  /* card */
+  .pc{position:relative;border-radius:28px;overflow:hidden;background:var(--bg);color:var(--fg);scroll-margin-top:96px;isolation:isolate}
+  .pc.B{background:#fff;border:1px solid var(--line)}
+  .pc.A{padding:36px 36px 0}
+  .pc-who{font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;opacity:.65;margin-bottom:8px}
+  .pc h3{font-size:clamp(24px,2.6vw,32px);line-height:1.15;letter-spacing:-.025em;font-weight:600}
+  .pc-sub{font-size:13.5px;opacity:.7;margin:4px 0 12px;font-weight:500}
+  .pc p{font-size:15.5px;opacity:.9;max-width:600px;line-height:1.6}
+  .pc p b{font-weight:700}
+  .pc-top{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;position:relative}
+  .ft{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:14px;line-height:1.45;position:relative}
+  .pc.A .ft{margin-top:24px}
+  .ft li{display:flex;gap:10px}
+  .ft li::before{content:"✓";font-weight:800;color:var(--ac,currentColor);flex:none}
+  .pc.A .ft li::before{color:#fff;opacity:.9}
+  .pc-mock{position:relative;display:grid;place-items:center}
+  .pc.A .pc-mock{margin-top:30px;margin-inline:-36px;padding:0 24px}
+  .pc.B .pc-mock{background:var(--bg);padding:40px 22px 0}
+  .pc-bot{display:grid;grid-template-columns:1fr 1fr;gap:36px;padding:32px 36px;background:#fff;color:var(--ink)}
+  .pc-btns{display:flex;gap:10px;flex-wrap:wrap}
+  .pc-bot .pc-btns{margin-top:20px}
+  .btn-ow{border-color:rgba(255,255,255,.5);color:#fff;background:transparent}
+  .btn-ow:hover{background:rgba(255,255,255,.12)}
+  .pc.B .pc-sub{opacity:.6}
+  .mk{position:relative;width:100%;display:grid;place-items:center;padding:6px 0 52px;--tl:1;
+      transform:perspective(1600px) rotateX(calc((1 - var(--tl))*9deg)) translateY(calc((1 - var(--tl))*40px)) scale(calc(.93 + var(--tl)*.07));transform-origin:50% 100%;will-change:transform}
+  .hs-slide .mk{transform:scale(1.08)}
+  .mk .cap{position:absolute;left:4px;bottom:14px;font-size:11px;font-weight:700;color:rgba(20,17,43,.45)}
+  .mk.dk .cap,.pc.A .mk .cap{color:rgba(255,255,255,.5)}
+  .fx.dm{border-color:rgba(233,201,135,.3)}
+  .blob{position:absolute;z-index:-1;border-radius:50%;filter:blur(46px);opacity:.55;animation:float 9s ease-in-out infinite}
+  .pc.A .b1{width:300px;height:300px;right:-80px;top:-90px;background:var(--ac)}
+  .pc.A .b2{width:240px;height:240px;left:-70px;bottom:20px;background:var(--ac);opacity:.28;animation-delay:-4s}
+  .pc.B .b1{width:260px;height:260px;right:-60px;top:-60px;background:#fff;opacity:.6;z-index:0;pointer-events:none}
+  @keyframes float{50%{transform:translate(18px,-20px) scale(1.08)}}
+  @media(max-width:760px){
+    .pc.A{padding:26px 20px 0}.pc.A .pc-mock{margin-inline:-20px;padding:0 12px}
+    .pc-top{flex-direction:column}.ft{grid-template-columns:1fr}
+    .pc-bot{grid-template-columns:1fr;padding:26px 20px;gap:22px}
+    .pc.B .pc-mock{padding:28px 12px 0}
+  }
+
+
+  .fx.ss{max-width:720px}
+  .fx.ss img{width:100%;display:block}
+  .arw.ss2{flex-wrap:nowrap;gap:20px;align-items:center;justify-content:center}
+  .arw.ss2 img{height:420px;width:auto;max-width:48%;object-fit:contain;border-radius:20px;box-shadow:0 30px 50px -22px rgba(10,60,100,.55);background:#fff}
+  .arw.ss2 img:first-child{transform:rotate(-2.5deg)}
+  .arw.ss2 img:last-child{transform:rotate(2deg);margin-top:30px}
+  @media(max-width:700px){.arw.ss2 img{height:300px}}
+
+  /* ---------- BENTO ---------- */
+  .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+  .sv{position:relative;border-radius:26px;padding:30px;display:flex;flex-direction:column;justify-content:space-between;gap:34px;min-height:260px;overflow:hidden;transition:transform .35s var(--ease),box-shadow .35s}
+  .sv:hover{transform:translateY(-6px);box-shadow:0 26px 44px -24px rgba(20,17,43,.4)}
+  .sv-ic{font-size:38px;line-height:1;transition:transform .4s var(--ease)}
+  .sv:hover .sv-ic{transform:scale(1.18) rotate(-6deg)}
+  .sv h3{font-size:22px;letter-spacing:-.02em;font-weight:600;margin-bottom:8px;line-height:1.2}
+  .sv p{font-size:14.5px;opacity:.85}
+  .sv small{font-size:13px;opacity:.85}
+  .sv1{grid-column:span 4;background:#f9ae93}
+  .sv2{grid-column:span 2;background:#cfeefb}
+  .sv3{grid-column:span 2;background:#0b2a8f;color:#fff}
+  .sv4{grid-column:span 2;background:#0f3320;color:#f5c542}
+  .sv6{grid-column:span 2;background:#fbf4e6}
+  .sv5{grid-column:span 6;order:9;min-height:230px;flex-direction:row;align-items:center;background:radial-gradient(500px 260px at 90% 0%,rgba(168,85,247,.6),transparent 60%),linear-gradient(135deg,#1c0b4d,#5b21b6);color:#fff}
+  .sv5 .sv-ic{font-size:60px}
+  .sv5 h3{font-size:28px}
+  .sv5 .tag40{display:inline-block;background:#fff;color:var(--p);font-weight:800;font-size:13px;padding:5px 12px;border-radius:99px;margin-bottom:12px}
+  @media(max-width:900px){.bento{grid-template-columns:1fr}.sv,.sv1,.sv2,.sv3,.sv4,.sv5,.sv6{grid-column:auto;min-height:0}.sv5{flex-direction:column;align-items:flex-start}}
+
+  /* ---------- STEPS ---------- */
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line)}
+  .st{padding:28px 24px 0 0;position:relative}
+  .st::before{content:"";position:absolute;top:-1px;left:0;height:2px;width:0;background:var(--ink);transition:width 1s var(--ease);transition-delay:var(--d,0s)}
+  .st.in::before{width:100%}
+  .st i{font-style:normal;font-size:13px;font-weight:800;color:var(--p);display:block;margin-bottom:10px}
+  .st b{display:block;font-size:19px;letter-spacing:-.015em;margin-bottom:6px;font-weight:600}
+  .st span{font-size:14.5px;color:var(--dim)}
+  @media(max-width:800px){.steps{grid-template-columns:1fr 1fr;row-gap:30px}}
+  @media(max-width:480px){.steps{grid-template-columns:1fr}}
+
+
+  /* ---------- TENTANG ---------- */
+  .ab{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+  .ab-l{position:sticky;top:104px}
+  .ab-places{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+  .ab-places span{padding:9px 15px;border-radius:99px;background:var(--soft);border:1px solid var(--line);font-size:14px;font-weight:600;transition:.2s}
+  .ab-places span:hover{transform:translateY(-3px);border-color:var(--p3);background:var(--soft2)}
+  .ab-r{display:grid;gap:22px}
+  .ab-r p{font-size:17.5px;line-height:1.75;color:var(--ink2);padding-left:22px;border-left:3px solid var(--soft2);transition:border-color .5s}
+  .ab-r p.in{border-left-color:var(--p2)}
+  .ab-r p b{color:var(--ink);font-weight:700}
+  .ab-q{margin:64px 0 40px;padding:64px 48px 44px;border-radius:28px;background:radial-gradient(500px 260px at 100% 0%,rgba(168,85,247,.45),transparent 60%),linear-gradient(135deg,#1c0b4d,#4c1d95);color:#fff;font-size:clamp(22px,3vw,34px);line-height:1.3;letter-spacing:-.025em;font-weight:600;quotes:none;position:relative}
+  .ab-q::before{content:"“";position:absolute;left:30px;top:6px;font-size:90px;line-height:1;opacity:.25;font-family:Georgia,serif}
+  .ab-vals{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .ab-vals div{padding:28px;border-radius:24px;background:var(--soft);border:1px solid var(--line);transition:transform .35s var(--ease),box-shadow .35s}
+  .ab-vals div:hover{transform:translateY(-5px);box-shadow:0 22px 40px -24px rgba(60,30,140,.4)}
+  .ab-vals i{font-style:normal;font-size:34px;display:block;margin-bottom:14px}
+  .ab-vals b{display:block;font-size:19px;letter-spacing:-.015em;margin-bottom:6px}
+  .ab-vals span{font-size:14.5px;color:var(--dim)}
+  @media(max-width:900px){.ab{grid-template-columns:1fr;gap:30px}.ab-l{position:static}.ab-vals{grid-template-columns:1fr}.ab-q{padding:34px 26px}}
+
+  /* ---------- DARK BAND ---------- */
+  .band{position:relative;border-radius:30px;overflow:hidden;padding:64px 52px;color:#fff;min-height:320px;display:flex;flex-direction:column;justify-content:space-between;gap:40px;
+        background:radial-gradient(500px 300px at 80% 100%,rgba(124,58,237,.55),transparent 60%),#0f0c1f}
+  .band q{font-size:clamp(26px,3.6vw,44px);line-height:1.18;letter-spacing:-.03em;font-weight:600;max-width:860px;quotes:none}
+  .band .row{align-items:center;justify-content:space-between}
+  .band small{opacity:.75;font-size:15px}
+  @media(max-width:700px){.band{padding:36px 24px}}
+
+  /* ---------- CTA + FOOTER ---------- */
+  .cta{border:1px solid var(--line);border-radius:26px;padding:40px 42px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  .cta h2{font-size:clamp(24px,3vw,34px);letter-spacing:-.03em;font-weight:600;margin-bottom:6px}
+  .cta p{color:var(--dim);font-size:15.5px}
+  footer{padding:20px 0 40px}
+  .fn{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:34px}
+  .fn img{height:26px;width:auto}
+  .fn nav{display:flex;gap:22px;flex-wrap:wrap;font-weight:600;font-size:14.5px}
+  .fcols{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+  .fcols h4{font-size:14px;font-weight:700;margin-bottom:12px}
+  .fcols ul{list-style:none;display:grid;gap:8px}
+  .fcols li,.fcols li a{font-size:14.5px;color:var(--dim)}
+  .fcols li a:hover{color:var(--ink)}
+  .fb{margin-top:36px;font-size:13px;color:var(--dim);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  @media(max-width:700px){.fcols{grid-template-columns:1fr 1fr}.cta{padding:28px 24px}}
+
+
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+    .js .reveal,.stagger>*{opacity:1!important;transform:none!important}
+    .mk{transform:none!important}
+    .mq-track{animation:none!important}
+  }
+
+  /* stage = latar tempat cuplikan */
+  .stg{position:relative;border-radius:28px;padding:30px 24px;min-height:380px;display:grid;place-items:center;overflow:hidden;background:linear-gradient(150deg,var(--s1),var(--s2))}
+  .stg::before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.5),transparent 65%);top:-110px;right:-80px}
+  .stg>*{position:relative}
+  .stg .cap{position:absolute;left:16px;bottom:10px;font-size:11px;font-weight:700;color:rgba(20,17,43,.45)}
+  .stg.dk .cap{color:rgba(255,255,255,.5)}
+  .fx{width:100%;max-width:520px;background:#fff;border-radius:14px;box-shadow:0 30px 60px -28px rgba(20,17,43,.45);overflow:hidden;border:1px solid rgba(20,17,43,.08);font-size:12px}
+  .fxb{display:flex;gap:6px;align-items:center;padding:9px 12px;background:#f3f1fa;border-bottom:1px solid #e8e6f4}
+  .fxb i{width:9px;height:9px;border-radius:50%;background:#dcd6ef}
+  .fxb u{margin-left:8px;text-decoration:none;font:10.5px ui-monospace,Menlo,monospace;color:#7a7794;background:#fff;border-radius:6px;padding:3px 10px;flex:1;max-width:240px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  .ph{width:208px;border:7px solid #14112b;border-radius:30px;background:#fff;overflow:hidden;box-shadow:0 30px 50px -22px rgba(20,17,43,.6);font-size:11px;position:relative;flex:none}
+  .ph::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:62px;height:14px;background:#14112b;border-radius:0 0 10px 10px;z-index:3}
+  .ph .scr{padding:24px 12px 14px;min-height:340px}
+  .duo{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .duo .ph:nth-child(2){margin-top:34px}
+
+  /* mock: toyzone */
+  .tz{background:#fffaf0}
+  .tzh{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border-bottom:1px solid #f5e6c8}
+  .tzh b{font-size:16px;font-weight:800;color:#f97316;letter-spacing:-.02em}
+  .tzh .s{flex:1;background:#fff7e6;border:1px solid #f5e6c8;border-radius:99px;padding:6px 12px;color:#a8a29e}
+  .tzh .c{background:#f97316;color:#fff;border-radius:99px;padding:5px 11px;font-weight:800}
+  .tzb{margin:12px;border-radius:14px;padding:16px 18px;background:linear-gradient(120deg,#fde047,#fb923c);color:#7c2d12;display:flex;justify-content:space-between;align-items:center}
+  .tzb strong{display:block;font-size:17px;line-height:1.15}
+  .tzb span{font-size:34px}
+  .pills{display:flex;gap:6px;padding:0 12px 10px;flex-wrap:wrap}
+  .pills span{background:#fff;border:1px solid #f5e6c8;padding:4px 10px;border-radius:99px;font-weight:700;color:#9a3412}
+  .tzg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 12px 14px}
+  .tzc{background:#fff;border:1px solid #f5e6c8;border-radius:12px;padding:8px;text-align:center}
+  .tzc i{display:block;font-style:normal;font-size:28px;background:#fff7e6;border-radius:9px;padding:8px 0;margin-bottom:6px}
+  .tzc b{display:block;font-size:10.5px;line-height:1.25;color:#431407}
+  .tzc em{display:block;font-style:normal;color:#ea580c;font-weight:800;margin:2px 0 5px}
+  .tzc u{text-decoration:none;display:block;background:#f97316;color:#fff;border-radius:7px;padding:3px 0;font-size:10px;font-weight:700}
+  @media(max-width:520px){.tzg{grid-template-columns:repeat(2,1fr)}}
+
+  /* mock: harmony */
+  .hm{display:flex;gap:14px;align-items:flex-end;justify-content:center;flex-wrap:wrap}
+  .hm .pics{display:flex;gap:12px}
+  .hm .pics img{width:150px;height:240px;object-fit:cover;border-radius:20px;box-shadow:0 20px 36px -18px rgba(40,30,10,.55)}
+  .hm .pics img:nth-child(2){margin-top:40px}
+  .hs h6{font-size:12px;margin-bottom:2px;color:#3f3a2e}
+  .hs .sm{color:#7c7560;font-size:10.5px;margin-bottom:8px}
+  .week{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:9px;text-align:center}
+  .week span{border-radius:7px;padding:4px 0;background:#f4efe2;color:#7c7560;font-weight:700;font-size:9.5px}
+  .week span.on{background:#3f6212;color:#fff}
+  .sess{border:1.5px solid #3f6212;border-radius:12px;padding:9px;background:#f7fbe9;margin-bottom:8px}
+  .sess b{display:block;font-size:11.5px;color:#365314}
+  .sess small{color:#5f6b3f;font-size:10px}
+  .meter{height:6px;border-radius:9px;background:#e7e5d5;margin:6px 0 2px;overflow:hidden}
+  .meter i{display:block;height:100%;width:60%;background:#65a30d}
+  .btnm{display:block;text-align:center;background:#3f6212;color:#fff;border-radius:10px;padding:8px;font-weight:800;margin-top:8px}
+  .code{background:#14112b;color:#fff;border-radius:10px;padding:8px 10px;margin-top:8px;font-size:10px}
+  .code b{display:block;font-size:13px;letter-spacing:.03em}
+
+  /* mock: erp */
+  .erp{display:grid;grid-template-columns:96px 1fr 190px;min-height:290px;background:#f8fafc}
+  .erp .sb{background:#0b3a53;color:#bfe6f5;padding:12px 8px;display:grid;gap:5px;align-content:start;font-size:10.5px;font-weight:600}
+  .erp .sb b{color:#fff;font-size:12px;margin-bottom:6px}
+  .erp .sb span{padding:5px 7px;border-radius:7px}
+  .erp .sb span.on{background:#0aa0d2;color:#fff}
+  .erp .mn{padding:12px;display:grid;gap:10px;align-content:start}
+  .kp{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .kp div{background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:7px 8px}
+  .kp b{display:block;font-size:13.5px;color:#0b4a6b}
+  .kp span{font-size:9.5px;color:#64748b}
+  .bars{display:flex;align-items:flex-end;gap:5px;height:72px;background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:8px}
+  .bars i{flex:1;border-radius:4px 4px 0 0;background:linear-gradient(180deg,#19c6f0,#0aa0d2)}
+  .agents{display:grid;gap:5px}
+  .agents div{background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:6px 8px;font-size:10px;color:#334155;display:flex;gap:6px}
+  .agents div b{color:#0a86bd}
+  .chat{background:#fff;border-left:1px solid #e2e8f0;padding:10px;display:grid;gap:7px;align-content:start;font-size:10.5px}
+  .chat h6{font-size:11.5px;color:#0b4a6b;display:flex;gap:6px;align-items:center}
+  .chat h6::before{content:"";width:8px;height:8px;border-radius:50%;background:#22c55e}
+  .m{padding:7px 9px;border-radius:11px;line-height:1.4}
+  .m.u{background:#e0f2fe;color:#0b4a6b;justify-self:end;border-bottom-right-radius:3px}
+  .m.b{background:#f1f5f9;color:#334155;border-bottom-left-radius:3px}
+  .m.b strong{color:#0a86bd}
+  .act{display:flex;gap:5px}.act span{background:#0aa0d2;color:#fff;border-radius:7px;padding:3px 8px;font-weight:700;font-size:10px}.act span.o{background:#fff;color:#0a86bd;border:1px solid #bae6fd}
+  @media(max-width:560px){.erp{grid-template-columns:1fr}.erp .sb,.erp .chat{display:none}}
+
+  /* mock: pos */
+  .bq{--o:#f97316}
+  .bq .ph .scr{background:#1c1410;color:#fff}
+  .bq h6{font-size:12.5px;color:#fff;margin-bottom:2px}
+  .bq .sm{color:#d6c3b5;font-size:10px;margin-bottom:8px}
+  .mi{display:flex;gap:8px;align-items:center;background:#2a1f18;border-radius:11px;padding:7px;margin-bottom:6px}
+  .mi i{font-style:normal;font-size:22px;background:#3a2b21;border-radius:8px;width:38px;height:38px;display:grid;place-items:center}
+  .mi b{display:block;font-size:11px}
+  .mi small{color:#fdba74}
+  .mi u{margin-left:auto;text-decoration:none;background:var(--o);border-radius:7px;width:22px;height:22px;display:grid;place-items:center;font-weight:800}
+  .bq .btnm{background:var(--o);color:#fff}
+  .kds{display:grid;gap:8px;width:210px}
+  .kds .t{background:#fff;border-radius:12px;padding:10px 11px;box-shadow:0 14px 26px -14px rgba(0,0,0,.6)}
+  .kds .t b{display:flex;justify-content:space-between;font-size:11.5px;margin-bottom:4px}
+  .kds .t b em{font-style:normal;font-size:9.5px;padding:2px 7px;border-radius:99px;background:#ffedd5;color:#c2410c}
+  .kds .t b em.g{background:#dcfce7;color:#15803d}
+  .kds .t p{color:#57534e;font-size:10.5px;margin:1px 0}
+  .kds .al{background:#14112b;color:#fff;border-radius:12px;padding:9px 11px;font-size:10.5px;line-height:1.4}
+
+  /* mock: checklist */
+  .ck h6{font-size:12px;margin-bottom:2px}
+  .ck .sm{color:#64748b;font-size:10px;margin-bottom:8px}
+  .tabs{display:flex;gap:4px;margin-bottom:8px}.tabs span{font-size:9.5px;font-weight:700;padding:4px 8px;border-radius:99px;background:#f1f5f9;color:#64748b}.tabs span.on{background:#14112b;color:#fff}
+  .it{display:flex;gap:7px;align-items:center;padding:7px 8px;border:1px solid #e2e8f0;border-radius:10px;margin-bottom:5px;font-weight:600;font-size:10.5px}
+  .it::before{content:"✓";width:16px;height:16px;border-radius:5px;background:#16a34a;color:#fff;display:grid;place-items:center;font-size:10px;flex:none}
+  .it.todo::before{content:"";background:#fff;border:1.5px solid #cbd5e1}
+  .shot{height:84px;border-radius:10px;margin:6px 0;background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.72)),linear-gradient(135deg,#94a3b8,#475569);position:relative;color:#fff;font:600 8.5px/1.4 ui-monospace,Menlo,monospace}
+  .shot span{position:absolute;left:7px;bottom:5px}
+  .shot::after{content:"📷";position:absolute;inset:0;display:grid;place-items:center;font-size:26px;opacity:.5}
+  .dash{width:230px;background:#fff;border-radius:16px;padding:14px;box-shadow:0 30px 50px -24px rgba(20,17,43,.5);font-size:11px}
+  .dash h6{font-size:12.5px;margin-bottom:8px}
+  .rw{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-top:1px solid #eef0f4}
+  .rw small{color:#64748b;display:block;font-size:9.5px}
+  .ok{background:#dcfce7;color:#15803d;font-weight:800;padding:3px 9px;border-radius:7px;font-size:10px}
+  .no2{background:#fee2e2;color:#b91c1c;font-weight:800;padding:3px 9px;border-radius:7px;font-size:10px}
+
+  /* mock: diamond mua */
+  .dm{background:#0f0d12;color:#fff}
+  .dmh{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;font-size:10.5px;color:#d4c9b8}
+  .dmh b{font:700 13px Georgia,serif;letter-spacing:.14em;color:#e9c987}
+  .dmh span{display:flex;gap:12px}
+  .dmv{padding:26px 20px 22px;text-align:center;background:radial-gradient(260px 140px at 50% 0%,rgba(233,201,135,.28),transparent 70%)}
+  .dmv small{letter-spacing:.2em;color:#e9c987;font-size:9px}
+  .dmv strong{display:block;font:italic 400 24px/1.15 Georgia,serif;margin:6px 0 10px}
+  .dmv u{text-decoration:none;display:inline-block;background:#e9c987;color:#1b1407;border-radius:99px;padding:6px 14px;font-weight:800;font-size:10.5px}
+  .gal{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:0 14px 14px}
+  .gal i{aspect-ratio:3/4;border-radius:9px;display:block}
+  .gal i:nth-child(1){background:linear-gradient(160deg,#f5d0c5,#b9788a)}
+  .gal i:nth-child(2){background:linear-gradient(160deg,#e9c987,#8a6a2a)}
+  .gal i:nth-child(3){background:linear-gradient(160deg,#d8b4fe,#7e4aa8)}
+  .gal i:nth-child(4){background:linear-gradient(160deg,#fecdd3,#be5a74)}
+  .dsv{display:flex;gap:6px;padding:0 14px 14px;flex-wrap:wrap}
+  .dsv span{border:1px solid #4b4252;border-radius:99px;padding:4px 10px;color:#e9dcc6;font-size:10px}
+
+  /* mock: AR card */
+  .arw{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap}
+  .card{width:230px;height:140px;border-radius:14px;background:linear-gradient(135deg,#0aa0d2,#19c6f0);color:#fff;padding:16px;box-shadow:0 24px 40px -18px rgba(10,110,160,.7);display:flex;flex-direction:column;justify-content:space-between;transform:rotate(-5deg)}
+  .card b{font:900 16px/1.1 Montserrat,'Plus Jakarta Sans',sans-serif}
+  .card b em{display:block;font-style:normal;color:#fede04;font-size:10px;letter-spacing:.16em;margin-top:4px}
+  .card small{font-size:10px;opacity:.95}
+  .card .qr{align-self:flex-end;width:34px;height:34px;background:#fff;border-radius:6px;display:grid;place-items:center;color:#0a86bd;font-weight:900}
+  .ar .scr{background:linear-gradient(180deg,#0b4a6b,#0a86bd);color:#fff;padding:24px 10px 12px;min-height:350px;display:flex;flex-direction:column;gap:8px}
+  .ar .bars2{display:flex;gap:3px}.ar .bars2 i{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.35)}.ar .bars2 i:first-child{background:#fff}
+  .ar .flake{margin:auto;text-align:center}
+  .ar .flake div{font-size:54px;filter:drop-shadow(0 0 14px #19c6f0)}
+  .ar .flake b{display:block;font-size:30px;font-weight:800}
+  .ar .flake small{opacity:.85}
+  .ar .q{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:11px;padding:8px;font-size:10.5px;line-height:1.4}
+  .ar .wa{background:#fede04;color:#0b4a6b;text-align:center;border-radius:10px;padding:8px;font-weight:800}
+
+
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="Nexora — ke atas"><img src="nexora_logo_navbar.png" alt="Nexora"></a>
+    <nav class="links" id="links" aria-label="Menu utama">
+      <a href="#ai">AI Agent</a>
+      <a href="#karya">Karya</a>
+      <a href="#layanan">Layanan</a>
+      <a href="#proses">Cara Kerja</a>
+      <a href="#tentang">Tentang Kami</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+    <div class="navR">
+      <a class="btn btn-o" href="#karya">Lihat Karya</a>
+      <a class="btn btn-d" href="#kontak">Konsultasi Gratis</a>
+      <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false" aria-controls="links">☰</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap">
+      <div class="hero-in">
+        <a class="pill" href="#ai"><span class="pdot"></span> Baru: tim virtual AI, hingga 40% lebih hemat waktu &amp; anggaran →</a>
+        <h1>Sistem digital &amp; AI agent yang <span class="grad">benar-benar dipakai</span> di lapangan.</h1>
+        <p class="lead">Nexora bukan hanya developer aplikasi biasa. Nexora adalah tempat Anda menemukan solusi yang bukan sekadar menyelesaikan masalah, tetapi memberi nilai tambah pada bisnis Anda.</p>
+        <div class="row">
+          <a class="btn btn-d btn-lg" href="#kontak">Konsultasi Gratis</a>
+          <a class="btn btn-o btn-lg" href="#karya">Lihat 9 Karya</a>
+        </div>
+      </div>
+      <div class="hframe" id="hframe" aria-label="Cuplikan karya Nexora">
+        <div class="hstage" id="hstage"></div>
+        <div class="hbar"><span class="hname" id="hname"></span><div class="hdots" id="hdots"></div><button class="hpause" id="hpause" aria-label="Jeda slideshow">❚❚</button></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trust wrap">
+    <p>Dirancang untuk berbagai jenis bisnis</p>
+    <div class="mq" aria-hidden="true"><div class="mq-track" id="mq">
+      <span>Restoran &amp; Kafe</span><span>Bengkel &amp; Servis AC</span><span>Studio &amp; Kelas</span><span>Toko Online</span><span>Make-up Artist</span>
+    </div></div>
+  </div>
+
+  <!-- AI AGENT -->
+  <section id="ai">
+    <div class="wrap">
+      <div class="ai reveal" id="aiBox">
+        <div>
+          <div class="eyebrow">Tim Virtual AI</div>
+          <h2>Bangun tim virtual yang bekerja bersama staf manusia Anda.</h2>
+          <p class="d">Bukan sekadar chatbot. Tim virtual mengerjakan tugas rutin yang berulang, siang dan malam, lalu melapor ke Anda. Staf manusia Anda fokus ke hal yang butuh sentuhan manusia: melayani pelanggan dan mengambil keputusan.</p>
+          <div class="big40"><b><span id="cnt" data-to="40">40</span><sup>%</sup></b><span>potensi efisiensi waktu &amp; anggaran operasional*</span></div>
+          <div class="row"><a class="btn btn-w btn-lg" href="#kontak">Bangun tim virtual saya →</a><a class="btn btn-o btn-lg" style="color:#fff;border-color:rgba(255,255,255,.5);background:transparent" href="#tim">Lihat contohnya ↓</a></div>
+          <small class="ai-note">*Hingga 40%, tergantung proses bisnis dan jumlah tugas rutin yang diotomasi.</small>
+        </div>
+        <div class="feed stagger">
+          <h6>Sehari bersama tim virtual Anda</h6>
+          <div class="fr"><i>🎨</i><div><b>Desainer Konten</b><span>Feed Instagram didesain &amp; diposting saat Anda tidur</span></div><u class="tm">02:00</u></div>
+          <div class="fr"><i>☀️</i><div><b>Laporan Pagi</b><span>Omzet, piutang, tagihan supplier &amp; kas menunggu Anda</span></div><u class="tm">06:30</u></div>
+          <div class="fr"><i>🌇</i><div><b>Laporan Sore</b><span>Kinerja staf, bonus &amp; komisi dihitung otomatis</span></div><u class="tm">17:00</u></div>
+          <div class="fr"><i>🧠</i><div><b>SPV Pintar</b><span>Melatih &amp; menjawab staf lewat chat, kapan saja</span></div><u class="tm">24 jam</u></div>
+          <small>Ilustrasi alur harian · contoh</small>
+        </div>
+      </div>
+
+      <div class="team" id="tim">
+        <div class="team-l reveal">
+          <div class="eyebrow">Kenalan dengan tim virtual Anda</div>
+          <h3 class="sh" style="font-size:clamp(24px,3vw,34px)">Empat anggota tim yang tidak pernah lelah.</h3>
+          <div class="tabs2" id="tabs2" role="tablist" aria-label="Anggota tim virtual"></div>
+        </div>
+        <div class="tphone reveal" style="--d:.12s" aria-live="polite">
+          <div class="tph-h"><div class="tph-av" id="tavatar">🎨</div><div><b id="tname">Desainer Konten</b><small>Tim virtual · online</small></div></div>
+          <div class="tph-m" id="tmsgs"></div>
+          <div class="tph-f">Contoh ilustrasi · nama dan angka fiktif</div>
+        </div>
+      </div>
+
+      <div class="perks">
+        <div class="perk reveal"><i>🌙</i><b>Bekerja saat Anda tidur</b><span>Posting, pengingat, dan follow-up berjalan 24 jam.</span></div>
+        <div class="perk reveal" style="--d:.08s"><i>📊</i><b>Laporan tanpa diminta</b><span>Pagi dan sore, langsung ke ponsel Anda.</span></div>
+        <div class="perk reveal" style="--d:.16s"><i>💸</i><b>Hemat waktu &amp; anggaran</b><span>Kurangi kerja manual berulang dan salah hitung.</span></div>
+        <div class="perk reveal" style="--d:.24s"><i>🔗</i><b>Terhubung ke sistem Anda</b><span>ERP, kasir, WhatsApp/Telegram, dan media sosial.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KARYA -->
+  <section id="karya" style="padding-top:20px">
+    <div class="wrap">
+      <div class="shead reveal">
+        <div class="eyebrow">Karya</div>
+        <h2 class="sh">Sistem yang dibangun untuk jalan di lapangan, bukan hanya di presentasi.</h2>
+        <p class="sub">9 karya yang sudah dikerjakan. Gulir untuk melihat cuplikan dan fiturnya.</p>
+      </div>
+      <div class="work">
+        <nav class="sn" id="sn" aria-label="Daftar karya"><a href="#toyzone"><span>01</span> Web E-commerce</a><a href="#harmony"><span>02</span> Online Booking &amp; Reservasi</a><a href="#erp"><span>03</span> ERP</a><a href="#pos"><span>04</span> POS F&amp;B</a><a href="#sop"><span>05</span> Aplikasi Checklist SOP</a><a href="#diamond"><span>06</span> Web Company Profile</a><a href="#ar"><span>07</span> Kartu Nama Augmented Reality 3D</a><a href="#vo"><span>08</span> Virtual Office AI Agent</a><a href="#jarvis"><span>09</span> Assistant Pribadi Jarvis</a></nav>
+        <div class="pcs">
+      <article class="pc B" id="toyzone" data-ac="#ea580c" data-fr="#ffd9a8" data-name="Web E-commerce" data-n="01" style="--bg:#ffd9a8;--fg:var(--ink)">
+        <div class="pc-mock"><i class="blob b1"></i><div class="mk"><div class="fx ss"><div class="fxb"><i></i><i></i><i></i><u>Toko Online</u></div><img src="img/toyzone.webp" alt="Tampilan website toko online: banner gratis ongkir, kategori, dan katalog" loading="lazy"></div><span class="cap">Tampilan asli website</span></div></div>
+        <div class="pc-bot"><div><div class="pc-who">01 · E-commerce</div><h3>Web E-commerce</h3><div class="pc-sub">Toko online</div><p>Toko online mainan dengan tampilan ceria dan penuh warna. Banner promo yang berganti otomatis, kategori yang mudah dijelajah, hingga keranjang dan pelacakan pesanan, semuanya terasa seperti belanja di toko besar.</p><div class="pc-btns"><a class="btn btn-d" href="https://toyzone-preview.netlify.app" target="_blank" rel="noopener">Buka website ↗</a><a class="btn btn-o" href="#kontak">Buat yang serupa</a></div></div><ul class="ft"><li>Banner promo berganti otomatis (gratis ongkir, produk baru)</li><li>Kategori berwarna: Produk Baru, Stok Terbatas, Terlaris, Eksklusif, Sale</li><li>Tab Terbaru, Minat &amp; Kategori untuk menemukan mainan</li><li>Pencarian, wishlist &amp; keranjang belanja</li><li>Menu Cara Belanja, Pesanan Saya &amp; Bantuan</li><li>Dua bahasa (ID/EN) &amp; tombol WhatsApp langsung</li></ul></div>
+      </article>
+      <article class="pc B" id="harmony" data-ac="#4d7c0f" data-fr="#d6e8ae" data-name="Online Booking &amp;amp; Reservasi" data-n="02" style="--bg:#d6e8ae;--fg:var(--ink)">
+        <div class="pc-mock"><i class="blob b1"></i><div class="mk">
+          <div class="hm">
+            <div class="pics"><img src="img/harmony-1.jpg" alt="Peserta kelas yoga Harmony of Life" loading="lazy"><img src="img/harmony-2.jpg" alt="Kelas yoga di studio" loading="lazy"></div>
+            <div class="ph hs"><div class="scr">
+              <h6>Kelas Yoga · Jumat</h6><div class="sm">Pilih sesi untuk mendaftar</div>
+              <div class="week"><span>SEN</span><span>SEL</span><span>RAB</span><span>KAM</span><span class="on">JUM</span><span>SAB</span><span>MIN</span></div>
+              <div class="sess"><b>Jumat · 19.00</b><small>Tiket Rp 50.000 / orang</small><div class="meter"><i></i></div><small>Sisa 8 dari 20 kursi</small></div>
+              <div class="btnm">Daftar sekarang</div>
+              <div class="code">Transfer tepat<b>Rp 50.347</b>kode unik memudahkan verifikasi</div>
+            </div></div>
+          </div>
+          <span class="cap">Foto asli kelas · layar pendaftaran ilustrasi</span>
+        </div></div>
+        <div class="pc-bot"><div><div class="pc-who">02 · Company profile + reservasi</div><h3>Online Booking &amp; Reservasi</h3><div class="pc-sub">Studio, kelas &amp; layanan berjadwal</div><p>Satu website untuk memperkenalkan studio sekaligus menerima pendaftaran kelas. Kursi dipesan sendiri oleh peserta, pembayaran dicek dengan kode unik, dan admin tinggal tandai lunas.</p><div class="pc-btns"><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div></div><ul class="ft"><li>Galeri kelas, workshop &amp; event</li><li>Jadwal otomatis 8 minggu ke depan</li><li>Kuota kursi, ditahan sementara lalu lepas otomatis</li><li>Nominal + kode unik, bukti via WhatsApp</li><li>Kelas offline, online live &amp; rekaman</li><li>Panel admin: kuota, lunas, batalkan</li></ul></div>
+      </article>
+      <article class="pc A" id="erp" data-ac="#0aa0d2" data-fr="#a8def2" data-name="ERP" data-n="03" style="--bg:#0b3a53;--fg:#fff">
+        <i class="blob b1"></i><i class="blob b2"></i>
+        <div class="pc-top"><div><div class="pc-who">03 · ERP + asisten &amp; agen AI</div><h3>ERP</h3><div class="pc-sub">Perusahaan jasa &amp; dagang</div><p><b>Bukan sekadar ERP.</b> Tinggal tanya “piutang minggu ini berapa?”, dan asisten pintar langsung menjawab. Di belakangnya, agen-agen AI ikut bekerja: menjadwalkan teknisi, mengawasi stok, dan mengejar penagihan. Anda fokus bertumbuh, sistem yang mengurus rutinitasnya.</p></div><div class="pc-btns"><a class="btn btn-w" href="https://nexora-demo-ru.netlify.app" target="_blank" rel="noopener">Coba demo ↗</a><a class="btn btn-ow" href="#kontak">Buat yang serupa</a></div></div>
+        <ul class="ft"><li>Asisten pintar: tanya data bisnis seperti ngobrol</li><li>Agen AI bekerja otomatis di setiap alur kerja</li><li>Surat tugas &amp; nota service sampai penagihan</li><li>Sales order, surat jalan &amp; approval owner</li><li>Keuangan, piutang &amp; verifikasi mutasi bank</li><li>Stok real-time &amp; cetak dokumen A5 otomatis</li><li>Akses Owner, Admin &amp; Teknisi</li><li>Satu sistem terintegrasi, tanpa input ganda</li></ul>
+        <div class="pc-mock"><div class="mk">
+          <div class="fx">
+            <div class="fxb"><i></i><i></i><i></i><u>erp · dashboard</u></div>
+            <div class="erp">
+              <div class="sb"><b>ERP</b><span class="on">Dashboard</span><span>Surat Tugas</span><span>Penjualan</span><span>Stok</span><span>Keuangan</span><span>Piutang</span></div>
+              <div class="mn">
+                <div class="kp"><div><b>Rp 86 jt</b><span>Omzet bulan ini</span></div><div><b>42</b><span>Servis berjalan</span></div><div><b>Rp 8,4 jt</b><span>Piutang jatuh tempo</span></div></div>
+                <div class="bars"><i style="height:38%"></i><i style="height:55%"></i><i style="height:46%"></i><i style="height:72%"></i><i style="height:64%"></i><i style="height:88%"></i><i style="height:76%"></i></div>
+                <div class="agents">
+                  <div>🤖 <span><b>Agen Jadwal</b> menugaskan teknisi ke 3 lokasi</span></div>
+                  <div>🤖 <span><b>Agen Stok</b> membuat draf pembelian freon</span></div>
+                  <div>🤖 <span><b>Agen Tagih</b> menyiapkan 4 pengingat</span></div>
+                </div>
+              </div>
+              <div class="chat">
+                <h6>Asisten ERP</h6>
+                <div class="m u">Piutang servis yang jatuh tempo minggu ini?</div>
+                <div class="m b">Ada <strong>4 nota</strong> senilai <strong>Rp 8,4 jt</strong>. Mau saya kirim pengingat penagihan?</div>
+                <div class="act"><span>Kirim</span><span class="o">Lihat daftar</span></div>
+              </div>
+            </div>
+          </div>
+          <span class="cap">Ilustrasi tampilan · data contoh</span>
+        </div></div>
+      </article>
+      <article class="pc A" id="pos" data-ac="#f97316" data-fr="#f2c9a8" data-name="POS F&amp;amp;B" data-n="04" style="--bg:#2b1a12;--fg:#fff">
+        <i class="blob b1"></i><i class="blob b2"></i>
+        <div class="pc-top"><div><div class="pc-who">04 · POS F&amp;B</div><h3>POS F&amp;B</h3><div class="pc-sub">Restoran &amp; kafe · dipakai di operasional harian</div><p>Tamu scan barcode di meja, memesan sendiri, dan pesanan langsung muncul di layar dapur. Pembayaran QRIS tanpa potongan payment gateway, stok bahan baku terjaga otomatis.</p></div><div class="pc-btns"><a class="btn btn-w" href="#kontak">Buat yang serupa</a></div></div>
+        <ul class="ft"><li>Order meja via scan barcode</li><li>Kitchen Display System real-time</li><li>QRIS tanpa biaya payment gateway</li><li>Kasir digital &amp; rekap penjualan</li><li>Stok FIFO otomatis via scan barcode</li><li>Alert kadaluarsa H-7 ke WhatsApp/Telegram</li></ul>
+        <div class="pc-mock"><div class="mk dk bq">
+          <div class="duo">
+            <div class="ph"><div class="scr">
+              <h6>Meja 07</h6><div class="sm">Nama Restoran</div>
+              <div class="mi"><i>🥩</i><div><b>Menu A</b><small>Rp 58.000</small></div><u>+</u></div>
+              <div class="mi"><i>🍜</i><div><b>Menu B</b><small>Rp 32.000</small></div><u>+</u></div>
+              <div class="mi"><i>🥤</i><div><b>Menu C</b><small>Rp 18.000</small></div><u>+</u></div>
+              <div class="btnm">Pesan · Rp 108.000</div>
+            </div></div>
+            <div class="kds">
+              <div class="t"><b>Meja 07 <em>Baru</em></b><p>1× Menu A</p><p>1× Menu B · 1× Menu C</p></div>
+              <div class="t"><b>Meja 03 <em class="g">Siap</em></b><p>2× Menu A</p></div>
+              <div class="al">⏰ Bahan baku mendekati kadaluarsa (H-7). Peringatan terkirim ke SPV &amp; Owner.</div>
+            </div>
+          </div>
+          <span class="cap">Ilustrasi tampilan · nama menu &amp; harga contoh</span>
+        </div></div>
+      </article>
+      <article class="pc B" id="sop" data-ac="#3b4fb8" data-fr="#c8d1f2" data-name="Aplikasi Checklist SOP" data-n="05" style="--bg:#c8d1f2;--fg:var(--ink)">
+        <div class="pc-mock"><i class="blob b1"></i><div class="mk">
+          <div class="duo ck">
+            <div class="ph"><div class="scr">
+              <h6>Checklist Area Dapur</h6><div class="sm">Preopening Resto · Shift pagi</div>
+              <div class="tabs"><span class="on">Preopening</span><span>Operasional</span><span>Closing</span></div>
+              <div class="it">Lantai &amp; meja bersih</div>
+              <div class="it">Peralatan siap pakai</div>
+              <div class="shot"><span>📍 Lokasi GPS tercatat<br>04 Nov 2026 · 09:12</span></div>
+              <div class="it todo">Stok bahan dicek</div>
+              <div class="btnm" style="background:#14112b">Kirim Checklist Area</div>
+            </div></div>
+            <div class="dash">
+              <h6>Dashboard Owner/SPV</h6>
+              <div class="rw"><div>Area Dapur<small>Shift pagi · 09:12</small></div><span class="ok">Setujui</span></div>
+              <div class="rw"><div>Area Bar<small>Shift pagi · 09:30</small></div><span class="ok">Setujui</span></div>
+              <div class="rw"><div>Area Kasir<small>Foto kurang jelas</small></div><span class="no2">Ulangi</span></div>
+            </div>
+          </div>
+          <span class="cap">Ilustrasi tampilan · data contoh</span>
+        </div></div>
+        <div class="pc-bot"><div><div class="pc-who">05 · Checklist SOP</div><h3>Aplikasi Checklist SOP</h3><div class="pc-sub">Restoran &amp; outlet · dipakai di operasional harian</div><p>Setiap tugas harian harus dibuktikan dengan foto ber-watermark lokasi GPS dan waktu. Owner atau SPV meninjau dari dashboard, lalu menyetujui atau meminta diulang.</p><div class="pc-btns"><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div></div><ul class="ft"><li>Foto bukti ber-watermark GPS &amp; waktu</li><li>Preopening, operasional &amp; closing</li><li>Per cabang, area, shift &amp; penanggung jawab</li><li>Setujui atau tolak, minta ulangi</li><li>Dashboard Owner/SPV dengan PIN</li><li>Jejak audit: reviewer tercatat di tiap keputusan</li></ul></div>
+      </article>
+      <article class="pc A" id="diamond" data-ac="#e9c987" data-fr="#e6d3ad" data-name="Web Company Profile" data-n="06" style="--bg:#1f1726;--fg:#fff">
+        <i class="blob b1"></i><i class="blob b2"></i>
+        <div class="pc-top"><div><div class="pc-who">06 · Company profile</div><h3>Web Company Profile</h3><div class="pc-sub">Bisnis jasa kreatif</div><p>Website company profile yang elegan untuk make-up artist. Foto/video layar penuh, kata-kata yang menenangkan, dan tombol reservasi yang selalu terlihat, sehingga calon pengantin langsung merasakan gaya brand Anda.</p></div><div class="pc-btns"><a class="btn btn-w" href="https://muasolo.com" target="_blank" rel="noopener">Buka website ↗</a><a class="btn btn-ow" href="#kontak">Buat yang serupa</a></div></div>
+        <ul class="ft"><li>Hero layar penuh dengan foto/video suasana</li><li>Tombol Reservasi &amp; Portofolio langsung di halaman depan</li><li>Layanan: pengantin, lamaran, wisuda, sweet seventeen, photoshoot</li><li>Bagian Tentang Kami dengan cerita founder &amp; lead artist</li><li>Tipografi serif elegan dengan nuansa hangat</li><li>Menu ringkas ala hamburger yang bersih</li></ul>
+        <div class="pc-mock"><div class="mk dk"><div class="fx ss"><div class="fxb"><i></i><i></i><i></i><u>Company Profile</u></div><img src="img/diamond.webp" alt="Tampilan website company profile" loading="lazy"></div><span class="cap">Tampilan asli website</span></div></div>
+      </article>
+      <article class="pc B" id="ar" data-ac="#0a86bd" data-fr="#bfe9f7" data-name="Kartu Nama Augmented Reality 3D" data-n="07" style="--bg:#bfe9f7;--fg:var(--ink)">
+        <div class="pc-mock"><i class="blob b1"></i><div class="mk"><div class="arw ss2"><img src="img/ar-poster.webp" alt="Poster kartu nama dengan QR untuk membuka AR" loading="lazy"><img src="img/ar-app.webp" alt="Halaman Kartu AR: Mulai AR, Lihat tanpa kamera, Cek kesehatan AC" loading="lazy"></div><span class="cap">Tampilan asli</span></div></div>
+        <div class="pc-bot"><div><div class="pc-who">07 · Augmented reality</div><h3>Kartu Nama Augmented Reality 3D</h3><div class="pc-sub">Bisnis penjualan &amp; servis</div><p>Kartu nama dengan QR: arahkan kamera ponsel, lalu pengalaman Augmented Reality 3D terbuka tanpa aplikasi. Pelanggan bisa melihat perbandingan AC yang rutin dirawat dan yang tidak, mengecek kesehatan AC, lalu langsung chat WhatsApp.</p><div class="pc-btns"><a class="btn btn-d" href="https://rejekiutamaac-bc.vercel.app" target="_blank" rel="noopener">Buka website ↗</a><a class="btn btn-o" href="#kontak">Buat yang serupa</a></div></div><ul class="ft"><li>Kartu cetak dengan QR: “Ingin tahu apa yang sebenarnya terjadi di dalam AC Anda?”</li><li>Tanpa aplikasi, tanpa daftar, gratis</li><li>Tombol Mulai AR yang membuka kamera</li><li>Pilihan Lihat tanpa kamera untuk ponsel tanpa AR</li><li>Cek kesehatan AC Anda dalam 30 detik</li><li>Tombol Chat WhatsApp langsung di halaman</li></ul></div>
+      </article>
+      <article class="pc A" id="vo" data-ac="#a78bfa" data-fr="#d8ccf7" data-name="Virtual Office AI Agent" data-n="08" style="--bg:#1c0b4d;--fg:#fff">
+        <i class="blob b1"></i><i class="blob b2"></i>
+        <div class="pc-top"><div><div class="pc-who">08 · AI agent</div><h3>Virtual Office AI Agent</h3><div class="pc-sub">Tim virtual untuk staf manusia Anda</div><p>Kantor virtual berisi agen AI yang bekerja mendampingi staf Anda, siang dan malam. Mereka mendesain dan memposting konten, mengirim laporan pagi dan sore, menghitung bonus dan komisi, bahkan melatih staf lewat chat.</p></div><div class="pc-btns"><a class="btn btn-w" href="#kontak">Buat yang serupa</a></div></div>
+        <ul class="ft"><li>Desainer konten: feed Instagram dibuat &amp; diposting otomatis</li><li>Laporan pagi: omzet, piutang, tagihan supplier &amp; kas</li><li>Laporan sore: kinerja staf, bonus &amp; komisi per karyawan</li><li>SPV pintar: jawab pertanyaan produk &amp; masalah teknis</li><li>Pengingat penagihan ke pelanggan</li><li>Bekerja 24 jam, melapor ke Anda</li></ul>
+        <div class="pc-mock"><div class="mk"><div class="fx"><div class="fxb"><i></i><i></i><i></i><u>virtual office</u></div><div class="vo" style="padding:16px;display:grid;gap:10px;background:#faf9ff"><div class="fr"><i>🎨</i><div><b>Desainer Konten</b><span>Feed promo diposting 02:00 saat Anda tidur</span></div><u>Selesai</u></div><div class="fr"><i>☀️</i><div><b>Laporan Pagi</b><span>Omzet, piutang, tagihan supplier &amp; kas terkirim 06:30</span></div><u>Terkirim</u></div><div class="fr"><i>🌇</i><div><b>Laporan Sore</b><span>Kinerja staf, bonus &amp; komisi dihitung</span></div><u class="tm">17:00</u></div><div class="fr"><i>🧠</i><div><b>SPV Pintar</b><span>Menjawab pertanyaan staf lewat chat</span></div><u class="tm">Siaga</u></div></div></div><span class="cap">Ilustrasi tampilan · data contoh</span></div></div>
+      </article>
+      <article class="pc B" id="jarvis" data-ac="#6d28d9" data-fr="#e3d9ff" data-name="Assistant Pribadi Jarvis" data-n="09" style="--bg:#e3d9ff;--fg:var(--ink)">
+        <div class="pc-mock"><i class="blob b1"></i><div class="mk"><div class="duo"><div class="ph" style="width:252px"><div class="scr jv" style="background:#faf9ff;display:flex;flex-direction:column;gap:7px;min-height:440px"><div class="tb tb-s">Selamat pagi, Bos ☀️</div><div class="tb tb-b">Pagi, Bos! Hari ini ada 2 rapat dan 1 pelanggan penting jam 10.</div><div class="tb tb-u">Menurutmu promo akhir bulan jadi nggak ya?</div><div class="tb tb-b">Jadi, tapi diskonnya cukup 10%. Penjualan Anda biasanya naik di tanggal gajian. Mau saya siapkan konsepnya?</div><div class="tb tb-u">Boleh. Eh, hadiah ulang tahun istri apa ya?</div><div class="tb tb-b">Tahun lalu Bos memberi tas. Bulan ini beliau beberapa kali menyebut ingin ikut kelas melukis. Mau saya carikan pilihannya?</div><div class="tb tb-u">Boleh, tolong ya</div><div class="tb tb-b tb-ok">💛 Siap. Pengingatnya sudah saya buat 2 hari sebelum hari-H.</div></div></div></div><span class="cap">Ilustrasi percakapan · nama dan data fiktif</span></div></div>
+        <div class="pc-bot"><div><div class="pc-who">09 · Asisten AI pribadi</div><h3>Assistant Pribadi Jarvis</h3><div class="pc-sub">Asisten pribadi untuk pemilik bisnis</div><p>Asisten pribadi seperti Jarvis di film Iron Man. Anda bisa memiliki asisten yang bisa Anda percaya untuk diajak berbincang dan berdiskusi tentang bisnis, bahkan urusan apa pun, dengan kemampuan dan pengetahuan sesuai yang Anda inginkan. Bukan seperti chatbot umum yang menjawab dengan jawaban pada umumnya: Jarvis menjawab seperti asisten pribadi cantik di dunia nyata.</p><div class="pc-btns"><a class="btn btn-d" href="#kontak">Buat yang serupa</a></div></div><ul class="ft"><li>Teman berbincang &amp; berdiskusi soal bisnis, bahkan urusan apa pun</li><li>Pengetahuan &amp; kemampuan disesuaikan dengan keinginan Anda</li><li>Jawaban personal, bukan jawaban umum</li><li>Tanya data bisnis seperti ngobrol (omzet, piutang, stok)</li><li>Pengingat jadwal &amp; ringkasan laporan harian</li><li>Memberi perintah ke tim virtual</li></ul></div>
+      </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAYANAN -->
+  <section id="layanan" style="padding-top:20px">
+    <div class="wrap">
+      <div class="shead reveal">
+        <div class="eyebrow">Layanan</div>
+        <h2 class="sh">Apa saja yang bisa dikerjakan.</h2>
+        <p class="sub">Kebutuhan Anda tidak persis di daftar ini? Tetap ceritakan, alur kerja bisa disesuaikan.</p>
+      </div>
+      <div class="bento"><div class="sv sv1 w reveal"><div class="sv-ic">🧾</div><div><h3>Kasir &amp; operasional F&amp;B</h3><p>Kasir digital, QRIS, order meja via barcode, layar dapur, dan kontrol stok bahan baku.</p></div><small>Contoh: <b>POS F&amp;B</b></small></div><div class="sv sv2 reveal"><div class="sv-ic">📋</div><div><h3>Manajemen SDM &amp; SOP</h3><p>Checklist harian dengan bukti foto ber-GPS dan pemantauan kepatuhan staf.</p></div><small>Contoh: <b>Aplikasi Checklist SOP</b></small></div><div class="sv sv3 reveal"><div class="sv-ic">🛠️</div><div><h3>Servis, penjualan &amp; keuangan</h3><p>Surat tugas, nota, stok, piutang, dan cetak dokumen otomatis untuk perusahaan jasa &amp; dagang.</p></div><small>Contoh: <b>ERP</b></small></div><div class="sv sv4 reveal"><div class="sv-ic">📅</div><div><h3>Pendaftaran &amp; booking online</h3><p>Kuota, jadwal otomatis, pembayaran dengan konfirmasi, dan panel admin untuk pengelola.</p></div><small>Contoh: <b>Online Booking &amp; Reservasi</b></small></div><div class="sv sv5 reveal"><div class="sv-ic">🤖</div><div><h3>Asisten pintar &amp; agen AI</h3><p>Bangun tim virtual: desainer konten, laporan pagi dan sore, bonus &amp; komisi staf, dan SPV pintar yang melatih tim lewat chat.</p></div><small>Contoh: <b>Virtual Office AI Agent &amp; Jarvis</b></small></div><div class="sv sv6 w reveal"><div class="sv-ic">🛒</div><div><h3>Website, toko online &amp; AR</h3><p>Company profile, toko online (e-commerce), kartu nama digital, dan presentasi interaktif berbasis AR.</p></div><small>Contoh: <b>Web E-commerce, Web Company Profile, Kartu Nama AR 3D</b></small></div></div>
+    </div>
+  </section>
+
+  <!-- PROSES -->
+  <section id="proses" style="padding-top:20px">
+    <div class="wrap">
+      <div class="shead reveal"><div class="eyebrow">Cara Kerja</div><h2 class="sh">Empat langkah, tanpa ribet.</h2></div>
+      <div class="steps">
+        <div class="st reveal"><i>01</i><b>Ngobrol dulu</b><span>Konsultasi gratis untuk memahami alur bisnis dan masalah Anda.</span></div>
+        <div class="st reveal" style="--d:.1s"><i>02</i><b>Petakan alur</b><span>Kami rangkum apa yang akan dibuat, supaya sama-sama jelas sebelum mulai.</span></div>
+        <div class="st reveal" style="--d:.2s"><i>03</i><b>Bangun &amp; uji</b><span>Sistem dibuat lalu dicoba langsung di operasional, bukan hanya di meja rapat.</span></div>
+        <div class="st reveal" style="--d:.3s"><i>04</i><b>Rilis &amp; berkembang</b><span>Dipakai lewat browser, lalu fitur disesuaikan seiring bisnis Anda tumbuh.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TENTANG KAMI -->
+  <section id="tentang" style="padding-top:20px">
+    <div class="wrap">
+      <div class="ab">
+        <div class="ab-l reveal">
+          <div class="eyebrow">Tentang Kami</div>
+          <h2 class="sh">Awal mula berdirinya Nexora.</h2>
+          <p class="sub">Berawal dari rasa lelah seorang pebisnis yang ingin tetap hadir untuk bisnisnya, tanpa kehilangan waktu untuk orang-orang tercinta.</p>
+          <div class="ab-places"><span>☕ Coffee shop</span><span>🍜 Warung makan</span><span>🏖️ Holiday trip</span><span>👨‍👩‍👧 Bersama keluarga</span></div>
+        </div>
+        <div class="ab-r">
+          <p class="reveal"><b>Nexora lahir dari rasa lelah.</b> Founder kami, yang juga seorang pebisnis, merasa suntuk dan capai mengawasi bisnis secara tatap muka setiap hari. Harapannya sederhana: dengan kehadiran bos di tempat kerja, karyawan bisa bekerja dengan efisien dan optimal.</p>
+          <p class="reveal">Kenyataannya, hasilnya ternyata sama saja. Sementara itu, founder justru lebih suka bekerja sambil menghabiskan waktu bersama keluarga, teman, dan kerabat, entah di coffee shop, warung makan, atau saat holiday trip.</p>
+          <p class="reveal">Dari situ muncul satu pertanyaan: bagaimana caranya bisnis tidak mengorbankan waktu yang berharga bagi kita, namun sistemnya justru berjalan makin baik? Jawabannya adalah keterhubungan. Pemilik bisnis dan kantor selalu bisa terintegrasi, bahkan di luar jam kerja. <b>Maka founder menciptakan Nexora.</b></p>
+          <p class="reveal">Nexora bukan perusahaan SaaS (software as a service) seperti pada umumnya. Kami lebih seperti wadah bagi para pengusaha, dari UMKM hingga usaha besar, untuk mendapatkan solusi dari permasalahan mereka dan melangkah ke tahap scale up bisnis.</p>
+        </div>
+      </div>
+      <blockquote class="ab-q reveal">Bisnis tidak harus mengorbankan waktu yang berharga. Justru sistemnya makin baik saat Anda hadir untuk hal yang lebih penting.</blockquote>
+      <div class="ab-vals">
+        <div class="reveal"><i>🤝</i><b>Manusia ke manusia, hati ke hati</b><span>Pendekatan kami tidak sekaku pendekatan teknis pada umumnya. Kami mendengar dulu, baru membangun.</span></div>
+        <div class="reveal" style="--d:.1s"><i>🛋️</i><b>Kenyamanan Anda nomor 1</b><span>Kenyamanan customer adalah prioritas dalam setiap keputusan dan setiap baris sistem yang kami buat.</span></div>
+        <div class="reveal" style="--d:.2s"><i>🌏</i><b>Mengembalikan kebaikan semesta</b><span>Tujuan utama Nexora adalah mengembalikan kebaikan alam semesta kepada manusia lainnya.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BAND -->
+  <section style="padding-top:20px">
+    <div class="wrap">
+      <div class="band reveal">
+        <q>Bukan demo. Kasir dan checklist SOP kami dipakai setiap hari di operasional sebuah restoran.</q>
+        <div class="row"><small>Diuji langsung di lapangan sebelum dirilis.</small><a class="btn btn-w" href="#karya">Lihat karyanya</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAK -->
+  <section id="kontak" style="padding-top:20px">
+    <div class="wrap">
+      <div class="cta reveal">
+        <div><h2>Mulai membangun bersama Nexora.</h2><p>Ceritakan singkat saja. Konsultasi gratis, tanpa komitmen. WhatsApp / Telepon 08131888116.</p></div>
+        <div class="row"><a class="btn btn-d btn-lg" href="https://wa.me/628131888116" target="_blank" rel="noopener">Chat via WhatsApp</a><a class="btn btn-o btn-lg" href="mailto:halo@nexora.id">halo@nexora.id</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fn"><img src="nexora_logo_navbar.png" alt="Nexora"><nav><a href="#ai">AI Agent</a><a href="#karya">Karya</a><a href="#layanan">Layanan</a><a href="#proses">Cara Kerja</a><a href="#tentang">Tentang Kami</a><a href="#kontak">Kontak</a></nav></div>
+    <div class="fcols">
+      <div><h4>Karya</h4><ul><li><a href="#toyzone">Web E-commerce</a></li><li><a href="#harmony">Online Booking &amp; Reservasi</a></li><li><a href="#erp">ERP</a></li><li><a href="#pos">POS F&amp;B</a></li><li><a href="#sop">Aplikasi Checklist SOP</a></li></ul></div>
+      <div><h4>&nbsp;</h4><ul><li><a href="#diamond">Web Company Profile</a></li><li><a href="#ar">Kartu Nama AR 3D</a></li><li><a href="#vo">Virtual Office AI Agent</a></li><li><a href="#jarvis">Assistant Pribadi Jarvis</a></li></ul></div>
+      <div><h4>Kontak</h4><ul><li>08131888116</li><li>halo@nexora.id</li></ul></div>
+    </div>
+    <div class="fb"><div>© 2026 Nexora. Semua hak dilindungi.</div><div>Engineering the future of business · Dibuat untuk bisnis Indonesia 🇮🇩</div></div>
+  </div>
+</footer>
+
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)}, $$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // header shadow + menu
+  var hdr=$('#hdr');
+  addEventListener('scroll',function(){hdr.classList.toggle('sc',scrollY>8)},{passive:true});
+  $('#burger').addEventListener('click',function(){var o=$('#links').classList.toggle('open');this.setAttribute('aria-expanded',o)});
+  $('#links').addEventListener('click',function(){this.classList.remove('open')});
+
+  // marquee: gandakan isi agar looping mulus
+  var mq=$('#mq'); mq.innerHTML+=mq.innerHTML+mq.innerHTML+mq.innerHTML;
+  mq.style.animationDuration='38s';
+
+  // ---- hero carousel: klon cuplikan dari kartu karya (sebelum stagger ditambahkan) ----
+  var cards=$$('.pc'), stage=$('#hstage'), frame=$('#hframe'), dots=$('#hdots'), nameEl=$('#hname'), pauseBtn=$('#hpause');
+  var slides=[], cur=0, playing=!reduce, timer;
+  cards.forEach(function(c,i){
+    var s=document.createElement('div'); s.className='hs-slide';
+    s.appendChild($('.mk',c).cloneNode(true)); stage.appendChild(s); slides.push(s);
+    var d=document.createElement('button'); d.setAttribute('aria-label','Tampilkan '+c.dataset.name); d.addEventListener('click',function(){go(i,true)}); dots.appendChild(d);
+  });
+  function go(i,user){
+    cur=(i+slides.length)%slides.length;
+    slides.forEach(function(s,k){s.classList.toggle('on',k===cur)});
+    $$('button',dots).forEach(function(d,k){d.classList.toggle('on',k===cur)});
+    frame.style.setProperty('--fr',cards[cur].dataset.fr);
+    nameEl.textContent=cards[cur].dataset.n+' · '+cards[cur].dataset.name;
+    if(user) restart();
+  }
+  function restart(){clearInterval(timer); if(playing) timer=setInterval(function(){go(cur+1)},4800)}
+  pauseBtn.addEventListener('click',function(){playing=!playing;pauseBtn.textContent=playing?'❚❚':'▶';pauseBtn.setAttribute('aria-label',playing?'Jeda slideshow':'Putar slideshow');restart()});
+  go(0); restart(); if(reduce) pauseBtn.textContent='▶';
+
+  // ---- stagger: elemen di dalam cuplikan muncul berurutan ----
+  ['.agents','.chat','.kds','.dash','.tzg','.gal','.dsv','.week','.pics','.vo','.jv'].forEach(function(sel){
+    $$('.pc '+sel).forEach(function(c){c.classList.add('stagger');$$(':scope > *',c).forEach(function(ch,i){ch.style.setProperty('--i',i)})});
+  });
+  $$('.feed .fr').forEach(function(ch,i){ch.style.setProperty('--i',i)});
+
+  // ---- reveal saat masuk layar ----
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);if(e.target.id==='aiBox')countUp()}
+  })},{threshold:.14});
+  $$('.reveal,.pc').forEach(function(el){io.observe(el)});
+
+  // hitung naik 0 → 40
+  function countUp(){
+    var el=$('#cnt'), to=+el.dataset.to; if(reduce){el.textContent=to;return}
+    var t0=performance.now(), dur=1600;
+    (function f(t){var p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(f)})(t0);
+  }
+  if(!reduce) $('#cnt').textContent='0';
+
+  // ---- cuplikan miring ke tegak mengikuti scroll ----
+  if(!reduce){
+    var mks=$$('.pc-mock .mk'), tick=false;
+    function upd(){
+      var vh=innerHeight;
+      mks.forEach(function(m){
+        var r=m.getBoundingClientRect(); if(r.bottom<-80||r.top>vh+80) return;
+        var p=1-Math.min(Math.max((r.top-vh*.32)/(vh*.62),0),1);
+        m.style.setProperty('--tl',p.toFixed(3));
+      });
+      tick=false;
+    }
+    addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});
+    addEventListener('resize',upd); upd();
+  }
+
+  // ---- daftar samping: penanda aktif berubah warna mengikuti kartu ----
+  var sn=$('#sn'), links=$$('a',sn);
+  var io2=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(!e.isIntersecting) return;
+    sn.style.setProperty('--ac',e.target.dataset.ac);
+    links.forEach(function(a){
+      var on=a.getAttribute('href')==='#'+e.target.id; a.classList.toggle('on',on);
+      if(on&&getComputedStyle(sn).display==='flex'){sn.scrollTo({left:a.offsetLeft-24,behavior:'smooth'})}
+    });
+  })},{rootMargin:'-42% 0px -52% 0px'});
+  cards.forEach(function(c){io2.observe(c)});
+})();
+</script>
+
+
+
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s)};
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var TEAM=[
+    {e:'🎨',n:'Desainer Konten',t:'Desainer & Admin Sosmed',d:'Mendesain konten feed Instagram, menulis caption, lalu memposting sesuai jadwal yang Anda mau, bahkan saat Anda tidur.',
+     m:[['s','Senin · 23:40'],['u','Buat feed promo akhir pekan, posting Sabtu jam 07.00 ya'],['b','Siap! 🎨 Saya buat 3 desain feed dengan warna brand Anda.'],['b','✍️ Caption dan hashtag sudah saya tulis. Mau saya kirim pratinjaunya?'],['u','Boleh, lihat dulu'],['b','Pratinjau terkirim. Jika disetujui, saya jadwalkan otomatis.'],['u','Setuju, jadwalkan'],['s','Sabtu · 07:00 (Anda masih tidur 😴)'],['ok','✅ Terposting di Instagram. Jangkauan pertama akan saya laporkan di laporan pagi.']]},
+    {e:'☀️',n:'Laporan Pagi',t:'Laporan Pagi',d:'Begitu Anda bangun, ringkasan bisnis kemarin sudah menunggu: omzet, piutang, tagihan supplier, dan pengeluaran kas.',
+     m:[['s','Setiap hari · 06:30'],['b','Selamat pagi, Bu Sari ☀️ Ringkasan kemarin:\n💰 Omzet Rp 12,4 jt (naik 8%)\n🧾 Piutang jatuh tempo Rp 3,2 jt\n📦 Tagihan supplier minggu ini Rp 5,6 jt\n💸 Pengeluaran kas Rp 1,1 jt'],['u','Piutang yang jatuh tempo siapa saja?'],['b','3 pelanggan: Toko A (Rp 1,5 jt), Pak B (Rp 1,0 jt), CV C (Rp 0,7 jt). Mau saya kirim pengingat sopan ke ketiganya?'],['u','Kirim'],['ok','✅ 3 pengingat terkirim. Saya kabari saat ada yang membayar.']]},
+    {e:'🌇',n:'Laporan Sore',t:'Laporan Sore, Bonus & Komisi',d:'Setiap sore, hasil kerja staf manusia Anda dirangkum: pencapaian hari ini, lalu bonus dan komisi tiap karyawan dihitung otomatis.',
+     m:[['s','Setiap hari · 17:00'],['b','Rekap kerja hari ini 🌇\n• Andi: 14 servis selesai ✓ target tercapai\n• Budi: 9 servis (target 12)\n• Sinta: 6 penjualan ✓'],['b','Komisi hari ini:\nAndi Rp 210.000 · Sinta Rp 180.000\nBonus target Andi: Rp 100.000'],['u','Budi kenapa kurang target?'],['b','2 servis tertunda karena menunggu suku cadang. Selebihnya sesuai jadwal.'],['u','Oke, kirim detailnya ke WhatsApp saya'],['ok','✅ Detail per karyawan sudah terkirim.']]},
+    {e:'🧠',n:'SPV Pintar',t:'SPV Pintar',d:'Staf baru maupun lama bisa bertanya lewat chat kapan saja: cara kerja alat, solusi masalah teknis, sampai preferensi pelanggan.',
+     m:[['u','Bagaimana cara menyetting mesin kopi ini?'],['b','Langkah awalnya: 1) Isi tangki air 2) Nyalakan mesin dan tunggu pemanasan 3) Atur gilingan sesuai resep. Mau saya kirim panduan lengkap sesuai tipe mesinnya?'],['u','Indoor AC kedip 2x, outdoor tidak keluar hawa panas. Apa yang bermasalah?'],['b','Kedip 2x biasanya kode error (tergantung merek). Outdoor tidak keluar hawa panas bisa dari kompresor, kapasitor, atau freon. Cek kabel komunikasi indoor-outdoor dulu. Sebutkan merek dan tipenya agar saya cocokkan dengan manualnya.'],['u','Pelanggan kita Bapak A kesukaannya apa dan biasa ditemui di mana?'],['b','Pak A suka kopi hitam tanpa gula dan biasa ditemui di kantornya Senin–Rabu pagi. Terakhir beli AC 1 PK, servis berikutnya jatuh tempo bulan depan.']]}
+  ];
+  var tabs=$('#tabs2'), msgs=$('#tmsgs'), box=$('.team'), cur=-1, timers=[], auto=!reduce, started=false;
+  var esc=function(s){var d=document.createElement('div');d.textContent=s;return d.innerHTML};
+  TEAM.forEach(function(x,i){
+    var b=document.createElement('button'); b.type='button'; b.className='tab2'; b.setAttribute('role','tab');
+    b.innerHTML='<div class="e">'+x.e+'</div><div><b>'+esc(x.t)+'</b><small>'+esc(x.d.split('.')[0])+'.</small><span>'+esc(x.d)+'</span></div><i></i>';
+    b.addEventListener('click',function(){auto=false;box.classList.add('paused');play(i)});
+    tabs.appendChild(b);
+  });
+  function clear(){timers.forEach(clearTimeout);timers=[]}
+  function bubble(kind,text){
+    var d=document.createElement('div'); d.className='tb '+(kind==='u'?'tb-u':kind==='s'?'tb-s':kind==='ok'?'tb-b tb-ok':'tb-b'); d.textContent=text;
+    msgs.appendChild(d); msgs.scrollTop=msgs.scrollHeight; return d;
+  }
+  function play(i){
+    clear(); cur=i; var x=TEAM[i];
+    Array.prototype.forEach.call(tabs.children,function(b,k){b.classList.toggle('on',k===i);b.setAttribute('aria-selected',k===i);b.style.setProperty('--dur','0s')});
+    $('#tavatar').textContent=x.e; $('#tname').textContent=x.n; msgs.innerHTML='';
+    if(reduce){x.m.forEach(function(m){bubble(m[0],m[1])}); return}
+    var t=300, total=0;
+    x.m.forEach(function(m){
+      var kind=m[0], text=m[1];
+      if(kind==='b'||kind==='ok'){
+        timers.push(setTimeout(function(){var ty=document.createElement('div');ty.className='cm cm-b cty';ty.style.cssText='align-self:flex-start;max-width:70px;border-radius:15px;background:#fff;border:1px solid var(--line)';ty.innerHTML='<i></i><i></i><i></i>';msgs.appendChild(ty);msgs.scrollTop=msgs.scrollHeight;timers.push(setTimeout(function(){ty.remove();bubble(kind,text)},750))},t));
+        t+=750+Math.min(text.length*14,1500);
+      } else { timers.push(setTimeout(function(){bubble(kind,text)},t)); t+=kind==='s'?600:1000; }
+    });
+    total=t+3200;
+    var active=tabs.children[i]; active.style.setProperty('--dur',(total/1000)+'s');
+    void active.offsetWidth; active.classList.remove('on'); void active.offsetWidth; active.classList.add('on');
+    if(auto) timers.push(setTimeout(function(){if(auto)play((i+1)%TEAM.length)},total));
+  }
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting&&!started){started=true;play(0)}
+  })},{threshold:.3});
+  io.observe($('#tim'));
+})();
+</script>
+</body>
+</html>
