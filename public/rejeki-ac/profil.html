@@ -84,7 +84,8 @@ section{padding:var(--s-900) 0}
 
 .nav{position:fixed;top:var(--s-200);left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:var(--s-300);padding:var(--s-75) var(--s-75) var(--s-75) var(--s-200);border:1px solid var(--line);border-radius:1rem;background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);max-width:calc(100vw - 32px)}
 .brandmark{display:inline-flex;align-items:center;gap:var(--s-75);white-space:nowrap}
-.brandmark .mk{display:grid;place-items:center;width:28px;height:28px;border-radius:.5rem;background:var(--brand);color:#fff;font-size:1rem}
+.brandmark .mk{display:grid;place-items:center;width:32px;height:32px;border-radius:.5rem;background:var(--brand)}
+.brandmark .mk img{width:22px;height:22px}
 .nav-links{display:flex;gap:var(--s-300);white-space:nowrap}
 .nav .btn{white-space:nowrap}
 .nav-links a{color:var(--ink-2);transition:color .3s var(--ease)}
@@ -124,6 +125,7 @@ section{padding:var(--s-900) 0}
 .hero-copy>*{animation:up .9s var(--ease) both}
 .hero-copy>*:nth-child(2){animation-delay:.1s}.hero-copy>*:nth-child(3){animation-delay:.2s}.hero-copy>*:nth-child(4){animation-delay:.3s}.hero-copy>*:nth-child(5){animation-delay:.4s}
 .hero .eyebrow{color:#d6f1fb}
+.hero-logo{width:72px;height:72px;margin:0 auto var(--s-200)}
 .hero-copy h1{color:#fff;max-width:680px;margin:0 auto}
 .hero p.sub{color:#e3f5fc;margin:var(--s-200) auto 0;max-width:680px}
 .hero-cta{display:flex;flex-direction:column;align-items:center;gap:var(--s-100);margin-top:var(--s-400)}
@@ -212,7 +214,7 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
 
 <header>
   <nav class="nav" aria-label="Navigasi utama">
-    <a class="brandmark button-sm" href="#utama" aria-label="Rejeki Utama AC, kembali ke atas"><span class="mk"><i class="ph ph-snowflake"></i></span>Rejeki Utama AC</a>
+    <a class="brandmark button-sm" href="#utama" aria-label="Rejeki Utama AC, kembali ke atas"><span class="mk"><img src="logo-putih.png" alt="" width="20" height="20"></span>Rejeki Utama AC</a>
     <div class="nav-links body-5">
       <a href="#layanan">Layanan</a>
       <a href="#kenapa">Kenapa kami</a>
@@ -242,6 +244,7 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
     </div>
     <div class="wrap">
       <div class="hero-copy">
+        <img class="hero-logo" src="logo-putih.png" alt="Logo Rejeki Utama AC" width="72" height="72">
         <p class="eyebrow caption-1"><i class="ph ph-map-pin"></i> Melayani Karesidenan Surakarta</p>
         <h1 class="heading-1">AC dingin, rapi, dan <br>harga jelas sejak 1996</h1>
         <p class="sub body-3">Rejeki Utama AC melayani rumah, kantor, hotel, dan pabrik di Karesidenan Surakarta. Teknisi berpengalaman datang sesuai jadwal, bekerja bersih, dan menyampaikan biaya di depan.</p>
@@ -369,6 +372,7 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
   <section id="kontak">
     <div class="wrap">
       <div class="final reveal">
+        <img src="logo-putih.png" alt="" width="48" height="48" style="width:48px;height:48px;margin:0 auto var(--s-200)">
         <h2 class="heading-3">Ceritakan masalah AC Anda sekarang</h2>
         <p class="body-3">Kirim pesan singkat lewat WhatsApp. Kami balas dengan langkah dan rincian biaya yang jelas.</p>
         <a class="btn lg button-md" href="https://wa.me/6281327660660?text=Halo%20Rejeki%20Utama%20AC%2C%20saya%20ingin%20konsultasi%20layanan%20AC." target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo"></i> Konsultasi lewat WhatsApp</a>
