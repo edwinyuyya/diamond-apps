@@ -9,7 +9,7 @@
 <meta property="og:title" content="Rejeki Utama AC | Penjualan, instalasi dan perawatan AC sejak 1996">
 <meta property="og:description" content="Teknisi berpengalaman, pekerjaan rapi, harga jelas di depan. Konsultasi lewat WhatsApp.">
 <meta name="twitter:card" content="summary">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#0877A8">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230B4A6B'/%3E%3Cpath d='M16 6v20M8 10l16 12M24 10L8 22' stroke='%23fff' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
 <script type="application/ld+json">
@@ -101,35 +101,45 @@ section{padding:var(--s-900) 0}
 .panel.open a{opacity:1;transform:none;transition-delay:calc(var(--i) * 60ms)}
 @media(max-width:767px){.nav-links,.nav .btn{display:none}.burger{display:block}.nav{gap:var(--s-200)}}
 
-.hero{position:relative;overflow:hidden;background:#000000;color:#fff;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:var(--s-900) 0 var(--s-700)}
-.hero .wrap{position:relative;z-index:2;width:100%}
+.hero{position:relative;overflow:hidden;background:#0877A8;color:#fff;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:var(--s-900) 0 var(--s-900)}
+.hero .wrap{position:relative;z-index:3;width:100%}
 .hero-media{position:absolute;inset:0;z-index:0}
 .hero-media video,.hero-media img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s var(--ease)}
-.hero-media .ready{opacity:.55}
-.hero-shade{position:absolute;inset:0;z-index:1;background:#000000;opacity:.35;pointer-events:none}
+.hero-media .ready{opacity:.4}
 .fx{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}
-.orb{position:absolute;border-radius:9999px;background:#0AA0D2;filter:blur(120px);opacity:.28;animation:drift 18s var(--ease) infinite alternate}
-.streak{position:absolute;left:-30%;height:2px;border-radius:9999px;background:#ffffff;opacity:0;animation:blow var(--t,9s) var(--ease) var(--dl,0s) infinite}
-.flake{position:absolute;top:-10%;color:#cfeefb;opacity:0;animation:fall var(--t,16s) linear var(--dl,0s) infinite}
-@keyframes drift{from{transform:translate3d(-6%,-4%,0) scale(1)}to{transform:translate3d(8%,6%,0) scale(1.15)}}
-@keyframes blow{0%{transform:translateX(0);opacity:0}15%{opacity:.35}100%{transform:translateX(190vw);opacity:0}}
-@keyframes fall{0%{transform:translate3d(0,0,0) rotate(0);opacity:0}10%{opacity:.7}90%{opacity:.5}100%{transform:translate3d(var(--x,40px),115vh,0) rotate(360deg);opacity:0}}
+.par{position:absolute;inset:0;will-change:transform}
+.orb{position:absolute;border-radius:9999px;filter:blur(90px);animation:drift var(--t,18s) var(--ease) infinite alternate}
+.streak{position:absolute;left:-30%;height:3px;border-radius:9999px;background:#ffffff;opacity:0;animation:blow var(--t,9s) var(--ease) var(--dl,0s) infinite}
+.flake{position:absolute;top:-12%;color:#ffffff;opacity:0;animation:fall var(--t,16s) linear var(--dl,0s) infinite}
+.waves{position:absolute;left:0;bottom:0;width:100%;height:160px;z-index:2;overflow:hidden;pointer-events:none}
+.waves svg{position:absolute;left:0;bottom:0;width:200%;height:100%;animation:slide var(--t,14s) linear infinite}
+.waves svg.w2{--t:22s;animation-direction:reverse}
+@keyframes slide{to{transform:translateX(-50%)}}
+@keyframes drift{from{transform:translate3d(-8%,-6%,0) scale(1)}to{transform:translate3d(10%,8%,0) scale(1.25)}}
+@keyframes blow{0%{transform:translateX(0);opacity:0}15%{opacity:.55}100%{transform:translateX(190vw);opacity:0}}
+@keyframes fall{0%{transform:translate3d(0,0,0) rotate(0);opacity:0}10%{opacity:.85}90%{opacity:.6}100%{transform:translate3d(var(--x,40px),118vh,0) rotate(360deg);opacity:0}}
+@keyframes up{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+@keyframes ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.35,1.6);opacity:0}}
 .hero-copy{max-width:680px;margin:0 auto;text-align:center}
-.hero .eyebrow{color:#9b9b9b}
-.hero-copy h1{background:linear-gradient(90deg,#ffffff,#9b9b9b);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;max-width:680px;margin:0 auto;padding-bottom:var(--s-75)}
-.hero p.sub{color:#b3b3b3;margin:var(--s-200) auto 0;max-width:680px}
+.hero-copy>*{animation:up .9s var(--ease) both}
+.hero-copy>*:nth-child(2){animation-delay:.1s}.hero-copy>*:nth-child(3){animation-delay:.2s}.hero-copy>*:nth-child(4){animation-delay:.3s}.hero-copy>*:nth-child(5){animation-delay:.4s}
+.hero .eyebrow{color:#d6f1fb}
+.hero-copy h1{color:#fff;max-width:680px;margin:0 auto}
+.hero p.sub{color:#e3f5fc;margin:var(--s-200) auto 0;max-width:680px}
 .hero-cta{display:flex;flex-direction:column;align-items:center;gap:var(--s-100);margin-top:var(--s-400)}
-.hero-cta small{color:#9b9b9b}
-.hero .btn{background:#fff;color:var(--brand);border-color:#fff}
-.hero .btn:hover{background:#e5e5e5}
-.hero-proof{display:flex;justify-content:center;align-items:center;gap:var(--s-75);margin-top:var(--s-300);color:#9b9b9b}
-.stats{margin-top:var(--s-700);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-75)}
-.stat{padding:var(--s-300);border:1px solid #313131;border-radius:1rem;background:rgba(24,24,24,.6);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);text-align:center}
+.hero-cta small{color:#d6f1fb}
+.hero .btn{position:relative;background:#fff;color:var(--brand);border-color:#fff}
+.hero .btn:hover{background:#eaf7fd}
+.hero .btn::after{content:"";position:absolute;inset:0;border-radius:inherit;border:2px solid #fff;animation:ring 2.4s var(--ease) infinite;pointer-events:none}
+.hero-proof{display:flex;justify-content:center;align-items:center;gap:var(--s-75);margin-top:var(--s-300);color:#d6f1fb}
+.stats{margin-top:var(--s-700);display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-100)}
+.stat{padding:var(--s-300);border:1px solid rgba(255,255,255,.35);border-radius:1rem;background:rgba(255,255,255,.14);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);text-align:center;transition:transform .5s var(--ease)}
+.stat:hover{transform:translateY(-4px)}
 .stat b{display:block;color:#fff}
-.stat span{color:#9b9b9b;display:block;margin-top:var(--s-75)}
+.stat span{color:#e3f5fc;display:block;margin-top:var(--s-75)}
 @media(max-width:639px){.stats{grid-template-columns:1fr}.hero{padding-top:var(--s-900)}}
 @media(max-width:767px){.hero-copy h1 br{display:none}}
-@media(prefers-reduced-motion:reduce){.orb,.streak,.flake{animation:none}.streak,.flake{display:none}}
+@media(prefers-reduced-motion:reduce){.orb,.streak,.flake,.waves svg,.hero-copy>*,.hero .btn::after{animation:none}.streak,.flake,.hero .btn::after{display:none}}
 .grid{display:grid;gap:var(--s-200)}
 .g2{grid-template-columns:repeat(2,1fr)}
 .g3{grid-template-columns:repeat(3,1fr)}
@@ -225,12 +235,15 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
   <section class="hero">
     <!-- Slot media: taruh foto/hero.mp4 atau foto/hero.webp, otomatis tampil di belakang animasi -->
     <div class="hero-media" id="heroMedia" aria-hidden="true"></div>
-    <div class="hero-shade"></div>
     <div class="fx" id="fx" aria-hidden="true"></div>
+    <div class="waves" aria-hidden="true">
+      <svg class="w2" viewBox="0 0 2400 160" preserveAspectRatio="none"><path d="M0 70 C200 20 400 120 600 70 S1000 20 1200 70 S1600 120 1800 70 S2200 20 2400 70 V160 H0Z" fill="rgba(255,255,255,.22)"/></svg>
+      <svg viewBox="0 0 2400 160" preserveAspectRatio="none"><path d="M0 100 C200 60 400 140 600 100 S1000 60 1200 100 S1600 140 1800 100 S2200 60 2400 100 V160 H0Z" fill="#f5f5f5"/></svg>
+    </div>
     <div class="wrap">
       <div class="hero-copy">
         <p class="eyebrow caption-1"><i class="ph ph-map-pin"></i> Melayani Karesidenan Surakarta</p>
-        <h1 class="heading-1">AC dingin, rapi, dan<br>harga jelas sejak 1996</h1>
+        <h1 class="heading-1">AC dingin, rapi, dan <br>harga jelas sejak 1996</h1>
         <p class="sub body-3">Rejeki Utama AC melayani rumah, kantor, hotel, dan pabrik di Karesidenan Surakarta. Teknisi berpengalaman datang sesuai jadwal, bekerja bersih, dan menyampaikan biaya di depan.</p>
         <div class="hero-cta">
           <a class="btn lg button-md" href="https://wa.me/6281327660660?text=Halo%20Rejeki%20Utama%20AC%2C%20saya%20ingin%20konsultasi%20layanan%20AC." target="_blank" rel="noopener"><i class="ph ph-whatsapp-logo"></i> Konsultasi lewat WhatsApp</a>
@@ -240,7 +253,7 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
       </div>
       <div class="stats reveal">
         <div class="stat"><b class="heading-4">Sejak 1996</b><span class="body-6">Berdiri dan terus berkembang</span></div>
-        <div class="stat"><b class="heading-4">1.000+</b><span class="body-6">Pelanggan dilayani setiap bulan</span></div>
+        <div class="stat"><b class="heading-4" data-count="1000" data-suffix="+">1.000+</b><span class="body-6">Pelanggan dilayani setiap bulan</span></div>
         <div class="stat"><b class="heading-4">7 layanan</b><span class="body-6">Dari AC sampai CCTV dan APAR</span></div>
       </div>
     </div>
@@ -400,18 +413,39 @@ footer{border-top:1px solid var(--line);padding:var(--s-600) 0 var(--s-700);colo
   // Hero: efek udara dingin (hanya transform dan opacity)
   var fx=document.getElementById('fx');
   if(!reduce){
-    var h='';
-    [['8%','55vw','-8%','auto','0s'],['auto','45vw','-10%','10%','-6s']].forEach(function(o,i){
-      h+='<span class="orb" style="width:'+o[1]+';height:'+o[1]+';top:'+(i?'45%':'-10%')+';left:'+(i?'55%':'-8%')+'"></span>';
+    var h='<div class="par" id="p1">';
+    [['#19C6F0',.55,'60vw','-12%','-10%',16],['#ffffff',.22,'45vw','50%','45%',22],['#0A5A82',.5,'55vw','62%','-18%',19]].forEach(function(o){
+      h+='<span class="orb" style="background:'+o[0]+';opacity:'+o[1]+';width:'+o[2]+';height:'+o[2]+';left:'+o[3]+';top:'+o[4]+';--t:'+o[5]+'s"></span>';
     });
-    for(var i=0;i<9;i++){
-      h+='<span class="streak" style="top:'+(12+i*9)+'%;width:'+(120+(i%4)*70)+'px;--t:'+(7+(i%5)*1.6)+'s;--dl:-'+(i*1.3)+'s"></span>';
+    h+='</div><div class="par" id="p2">';
+    for(var i=0;i<12;i++){
+      h+='<span class="streak" style="top:'+(8+i*7.5)+'%;width:'+(140+(i%4)*90)+'px;--t:'+(6+(i%5)*1.5)+'s;--dl:-'+(i*1.1)+'s"></span>';
     }
-    for(var j=0;j<14;j++){
-      h+='<i class="ph ph-snowflake flake" style="left:'+(4+j*7)+'%;font-size:'+(12+(j%4)*6)+'px;--t:'+(14+(j%5)*3)+'s;--dl:-'+(j*2.1)+'s;--x:'+((j%2?1:-1)*(20+j*4))+'px"></i>';
+    for(var j=0;j<22;j++){
+      var sz=14+(j%5)*7;
+      h+='<i class="ph ph-snowflake flake" style="left:'+(2+j*4.5)+'%;font-size:'+sz+'px;'+(sz<24?'filter:blur(1px);':'')+'--t:'+(12+(j%6)*3)+'s;--dl:-'+(j*1.7)+'s;--x:'+((j%2?1:-1)*(30+j*5))+'px"></i>';
     }
+    h+='</div>';
     fx.innerHTML=h;
+    // parallax mengikuti kursor, dibatasi lewat requestAnimationFrame
+    var p1=document.getElementById('p1'),p2=document.getElementById('p2'),tx=0,ty=0,raf=0;
+    window.addEventListener('pointermove',function(e){
+      tx=(e.clientX/innerWidth-.5); ty=(e.clientY/innerHeight-.5);
+      if(!raf) raf=requestAnimationFrame(function(){
+        raf=0; p1.style.transform='translate3d('+(tx*-40)+'px,'+(ty*-30)+'px,0)'; p2.style.transform='translate3d('+(tx*24)+'px,'+(ty*18)+'px,0)';
+      });
+    },{passive:true});
   }
+  // Angka statistik menghitung naik sekali saat terlihat
+  document.querySelectorAll('[data-count]').forEach(function(el){
+    var end=+el.dataset.count, suf=el.dataset.suffix||'';
+    if(reduce) return;
+    var cio=new IntersectionObserver(function(es){ if(!es[0].isIntersecting) return; cio.disconnect();
+      var t0=performance.now();
+      (function step(t){ var k=Math.min((t-t0)/1400,1), v=Math.round(end*(1-Math.pow(1-k,4)));
+        el.textContent=v.toLocaleString('id-ID')+suf; if(k<1) requestAnimationFrame(step); })(t0);
+    }); cio.observe(el);
+  });
   // Hero: pakai foto/hero.mp4 atau foto/hero.webp jika file ada
   var hm=document.getElementById('heroMedia');
   function ready(el){ hm.appendChild(el); requestAnimationFrame(function(){ el.classList.add('ready'); }); }
