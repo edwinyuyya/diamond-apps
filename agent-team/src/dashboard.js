@@ -62,7 +62,7 @@ function state() {
 
 const HTML = fs.readFileSync(new URL("./dashboard.html", import.meta.url), "utf8");
 http.createServer((req, res) => {
-  if (req.url.startsWith("/api/state")) {
+  if (req.url.includes("api/state")) {
     res.writeHead(200, { "content-type": "application/json", "cache-control": "no-store" });
     try { res.end(JSON.stringify(state())); } catch (e) { res.end(JSON.stringify({ error: String(e) })); }
   } else { res.writeHead(200, { "content-type": "text/html; charset=utf-8" }); res.end(HTML); }

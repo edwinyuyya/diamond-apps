@@ -50,7 +50,7 @@ function card(a,role,title,extra){
   <div class="log">${a.recent.map(r=>`<div>${esc(r)}</div>`).join('')}</div>`:''}</div>`;
 }
 async function tick(){
-  let s;try{s=await (await fetch('/api/state')).json()}catch{return}
+  let s;try{s=await (await fetch('api/state')).json()}catch{return}
   if(s.error)return;
   $('ws').textContent=s.ws;
   const names=['Perencanaan','Implementasi paralel','Verifikasi & perbaikan','Review akhir'];
