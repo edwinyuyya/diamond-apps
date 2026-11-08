@@ -1,22 +1,24 @@
-# Paket tampilan WhatsApp Business Nexora
+# Paket tampilan WhatsApp Business Nexora (gaya gelap)
+
+Gaya visual selaras dengan website `nexoraindonesia.my.id`: latar ungu tua berbintang, robot partikel sebagai maskot, aksen ungu–tosca.
 
 Isi bagian yang bertanda **[ ... ]** sebelum dipakai. Salin teks ke aplikasi WhatsApp Business, unggah gambar dari folder ini.
 
 ## 1. Profil (Pengaturan → Alat bisnis → Profil)
 | Bagian | Isi |
 |---|---|
-| Foto profil | `wa-profil.png` |
-| Foto sampul | `wa-cover.png` (konten utama di tengah, aman dari pemotongan) |
+| Foto profil | `wa-profil.png` (logo bercahaya di latar gelap, menonjol di daftar chat yang kebanyakan putih) |
+| Foto sampul | `wa-cover.png` (robot partikel melambai di tengah) |
 | Nama | Nexora |
-| Info (bio singkat) | `Sistem digital & tim virtual AI untuk UKM Indonesia. Konsultasi gratis ⚡` |
+| Info (bio singkat) | `Sistem digital & tim virtual AI · bekerja bersama staf Anda, bahkan saat Anda tidur ✦` |
 | Kategori | Konsultan / Perusahaan teknologi (pilih yang tersedia) |
 | Email | **[isi setelah kotak surat aktif, mis. halo@nexoraindonesia.my.id]** |
-| Website | **[link website portofolio setelah online]** |
+| Website | `https://nexoraindonesia.my.id` |
 | Jam buka | **[isi jam kerja Anda]** |
 
 **Deskripsi** (tempel apa adanya):
 ```
-Nexora membangun sistem digital & tim virtual AI untuk UKM Indonesia.
+Nexora bukan sekadar developer aplikasi. Kami tempat Anda menemukan solusi yang memberi nilai tambah pada bisnis, dengan pendekatan manusia ke manusia.
 
 ✅ Kasir (POS) F&B, QRIS tanpa biaya payment gateway
 ✅ ERP servis, penjualan & keuangan
@@ -46,13 +48,13 @@ Tim kami akan membalas secepatnya 😊
 Terima kasih sudah menghubungi Nexora 🙏
 Saat ini kami di luar jam kerja. Pesan Anda sudah kami terima dan akan dibalas pada jam kerja berikutnya (**[jam kerja]**).
 
-Sambil menunggu, lihat karya kami: **[link website]**
+Sambil menunggu, lihat karya kami: nexoraindonesia.my.id
 ```
 
 ## 4. Balasan cepat (ketik `/` lalu pintasan di chat)
 | Pintasan | Isi |
 |---|---|
-| `/karya` | `Berikut karya kami: POS F&B, aplikasi checklist SOP, ERP, online booking & reservasi, web e-commerce, web company profile, kartu nama Augmented Reality 3D, virtual office AI agent, dan asisten pribadi Jarvis. Lengkapnya di **[link website]** 🙌`|
+| `/karya` | `Berikut karya kami: POS F&B, aplikasi checklist SOP, ERP, online booking & reservasi, web e-commerce, web company profile, kartu nama Augmented Reality 3D, virtual office AI agent, dan asisten pribadi Jarvis. Lengkapnya di nexoraindonesia.my.id 🙌`|
 | `/ai` | `Tim virtual AI kami bisa: 🎨 mendesain & memposting konten Instagram otomatis, ☀️ kirim laporan omzet, piutang, tagihan supplier & kas tiap pagi, 🌇 rekap kerja staf + hitung bonus & komisi tiap sore, 🧠 jadi SPV pintar yang menjawab pertanyaan staf lewat chat. Potensi hemat waktu & anggaran hingga 40% (tergantung proses bisnis).` |
 | `/konsul` | `Konsultasi awal GRATIS. Boleh ceritakan jenis bisnis Anda dan alur kerja yang ingin dirapikan? Setelah itu kami usulkan sistem yang paling pas.` |
 | `/harga` | `Biaya tergantung kebutuhan dan ukuran sistemnya, jadi kami pastikan dulu alur bisnis Anda lewat konsultasi gratis. Boleh ceritakan kebutuhannya? 🙏` |
@@ -73,8 +75,19 @@ Harga: kosongkan, deskripsi sudah menyebut "hubungi untuk penawaran".
 | `wa-katalog-5-ai.png` | Tim virtual AI | Konten Instagram otomatis, laporan pagi & sore, bonus & komisi staf, SPV pintar. |
 | `wa-katalog-6-website.png` | Website, toko online & AR | Company profile, toko online, dan kartu nama berbasis augmented reality. |
 
-## 7. Status WhatsApp
-Unggah bergantian, satu per hari: `wa-status-1-tim-virtual.png`, `wa-status-2-karya.png`, `wa-status-3-hemat.png`.
+## 7. Status WhatsApp (seri "Kenalan dengan tim virtual Anda")
+Unggah satu per hari, berurutan, supaya pelanggan menunggu kelanjutannya:
+
+| Hari | Gambar | Isi |
+|---|---|---|
+| 1 | `wa-status-1-kenalan.png` | Pembuka: "Staf Anda tidur, tim virtual tetap bekerja" |
+| 2 | `wa-status-2-desainer-konten.png` | Desainer konten: feed Instagram terposting sendiri |
+| 3 | `wa-status-3-laporan-pagi.png` | Laporan pagi: omzet, piutang, tagihan supplier, kas |
+| 4 | `wa-status-4-laporan-sore.png` | Laporan sore: kinerja staf, bonus & komisi |
+| 5 | `wa-status-5-spv-pintar.png` | SPV pintar: tanya jawab product knowledge |
+| 6 | `wa-status-6-hemat.png` | Penutup: hemat waktu & anggaran hingga 40%* |
+
+Saran caption singkat tiap status: `Kenalan dengan tim virtual Nexora (bagian X dari 6). Balas status ini untuk konsultasi gratis ✦`
 
 ## 8. Tautan & kode QR
 Alat bisnis → **Tautan pendek** (wa.me/message/...) dan **Kode QR**. Taruh di website, kartu nama, dan Instagram.
