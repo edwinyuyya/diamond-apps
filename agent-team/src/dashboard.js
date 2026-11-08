@@ -60,10 +60,16 @@ function state() {
   try { commits = execFileSync("git", ["log", "--pretty=%h|%s"], { cwd: ws }).toString().trim().split("\n").map((l) => l.split("|")); } catch {}
   const files = ["SPEC.md", "CONTRACT.md", "plan.json", "verify.sh", "REPORT.md"].map((f) => ({ f, ok: fs.existsSync(path.join(ws, f)) }));
   const byName = Object.fromEntries(agents.map((a) => [a.name, a]));
-  const tasks = (plan?.tasks ?? []).map((t) => ({
-    id: t.id, role: t.role, title: t.title, description: t.description, owns: t.owns ?? [], dependsOn: t.dependsOn ?? [],
-    agent: byName[`${t.id}-${t.role}`] ?? null,
-  }));
+  const doneMarks = new Set(readJson(path.join(teamDir, "done.json"), []));
+  const tasks = (plan?.tasks ?? []).map((t) => {
+    let agent = byName[`${t.id}-${t.role}`] ?? null;
+    // Tugas yang ditandai selesai (done.json) tapi lognya tertimpa/tidak lengkap: tampilkan sebagai selesai.
+    if (doneMarks.has(t.id) && (!agent || agent.status !== "done")) {
+      agent = { ...(agent ?? { name: `${t.id}-${t.role}`, tools: 0, cost: 0, turns: 0, events: [], files: [], last: "", mtime: 0, startedAt: Date.now() }),
+        status: "done", summary: (agent?.summary || "Selesai pada penjalanan sebelumnya (log asli tertimpa saat resume; berkas hasil kerja tetap ada)."), restored: true };
+    }
+    return { id: t.id, role: t.role, title: t.title, description: t.description, owns: t.owns ?? [], dependsOn: t.dependsOn ?? [], agent };
+  });
   const debuggers = agents.filter((a) => a.name.startsWith("debugger") || a.name.startsWith("qa-fix"));
   const reviewer = byName["reviewer"] ?? null;
   const architect = byName["architect"] ?? null;
