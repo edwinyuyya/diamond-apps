@@ -1,0 +1,12 @@
+{
+  "name": "agent-team",
+  "version": "0.1.0",
+  "description": "Tim multi-agent AI yang membangun aplikasi dari prompt sampai test lulus, secara autonomous",
+  "type": "module",
+  "bin": { "agent-team": "./src/run.js" },
+  "scripts": {
+    "start": "node src/run.js",
+    "check": "node --check src/run.js && node --check src/agents.js && node --check src/lib.js"
+  },
+  "dependencies": { "@anthropic-ai/claude-agent-sdk": "^0.3.319" }
+}
