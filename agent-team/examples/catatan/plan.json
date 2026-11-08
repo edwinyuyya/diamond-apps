@@ -1,0 +1,45 @@
+{
+  "stack": "Node.js 20 + Express 4 + HTML/CSS/JS vanilla + JSON file store (server/store.js), node:test, tanpa build step",
+  "tasks": [
+    {
+      "id": "t1",
+      "role": "database",
+      "title": "Lapisan penyimpanan JSON (server/store.js)",
+      "description": "Implementasikan server/store.js sebagai satu-satunya lapisan penyimpanan file JSON sesuai CONTRACT.md §3 dan §4. Ekspor createStore({ filePath }) yang sinkron dan mengembalikan method async list, get, create, update, remove dengan semantik persis kontrak: format file {version:1,notes:[]}, pretty-print 2 spasi, buat direktori dan file saat operasi tulis pertama, tulis atomik melalui file .tmp lalu rename, semua operasi diserialisasi lewat satu antrean promise, baca file setiap operasi agar instance baru melihat data terbaru, id dari crypto.randomUUID, timestamp ISO 8601 UTC dengan milidetik, title di-trim, content default string kosong dan tidak di-trim, daftar diurutkan updatedAt desc lalu createdAt desc lalu id asc. File hilang berarti data kosong; file korup atau bentuk tidak valid harus melempar Error, bukan mereset data. Gunakan hanya modul bawaan Node (fs/promises, path, crypto), tanpa Express atau dependency lain, dan jangan menulis file di luar owns. Kriteria selesai: modul dapat di-require mandiri, seluruh method berperilaku sesuai §4, data terlihat oleh instance store baru pada file yang sama, penulisan tidak pernah parsial, dan tidak ada akses file selain filePath beserta file .tmp-nya.",
+      "owns": ["server/store.js", "data/"],
+      "dependsOn": []
+    },
+    {
+      "id": "t2",
+      "role": "backend",
+      "title": "REST API Express + hosting UI statis",
+      "description": "Implementasikan REST API Express dan hosting statis sesuai CONTRACT.md §5 dan §6. File: server/app.js (ekspor createApp({store}) tanpa listen; express.json dengan limit 100kb; mount router di /api; GET /api/health; express.static untuk public/; handler 404 API dan error middleware yang memetakan parse error ke 400 INVALID_JSON, body terlalu besar ke 413 PAYLOAD_TOO_LARGE, dan error lain ke 500 INTERNAL_ERROR tanpa stack trace), server/index.js (baca PORT default 3000 dan DATA_FILE default <root>/data/notes.json, buat store, listen, cetak URL), dan server/routes/notes.js (createNotesRouter(store) dengan GET /, POST /, GET /:id, PUT /:id, DELETE /:id serta validasi persis tabel §5.4 dan status 201/200/204/404). Gunakan hanya antarmuka store §4; jangan menulis atau mengubah server/store.js, public/, package.json, atau tests/. Kriteria selesai: createApp dapat diuji dengan store sementara, semua endpoint dan pesan error persis kontrak, GET / menyajikan public/index.html, JSON rusak tidak mematikan proses, dan response error tidak membocorkan detail internal.",
+      "owns": ["server/app.js", "server/index.js", "server/routes/"],
+      "dependsOn": []
+    },
+    {
+      "id": "t3",
+      "role": "frontend",
+      "title": "UI satu halaman untuk tambah, edit, dan hapus catatan",
+      "description": "Bangun UI web satu halaman di public/index.html, public/styles.css, dan public/app.js sesuai CONTRACT.md §7. Fitur: form tambah/edit dengan judul wajib dan isi opsional, daftar kartu catatan, tombol Edit dan Hapus, konfirmasi sebelum hapus, tombol Batal saat mode edit, empty state 'Belum ada catatan.', status loading 'Memuat catatan...', dan area error role=alert. Gunakan fetch ke /api/notes dengan method sesuai kontrak dan tampilkan error.message dari response error. Wajib memakai ID stabil #note-form, #title, #content, #submit-btn, #cancel-btn, #form-error, #notes-list, #list-status serta struktur kartu article.note dengan .note-title, .note-content, .note-updated, .edit-btn, .delete-btn. Render seluruh data pengguna dengan textContent, bukan innerHTML. Tanpa framework, CDN, build step, atau dependency; CSS responsif satu kolom di layar kecil dan rapi di desktop. Jangan menulis file di luar public/. Kriteria selesai: alur tambah, edit, batal, dan hapus berjalan terhadap kontrak API; state kosong/loading/error tampil; tidak ada XSS; halaman berfungsi saat disajikan dari GET /.",
+      "owns": ["public/"],
+      "dependsOn": []
+    },
+    {
+      "id": "t4",
+      "role": "devops",
+      "title": "Bootstrap proyek: package.json, README, .gitignore",
+      "description": "Bootstrap proyek sesuai CONTRACT.md §8. Buat package.json persis dengan nama catatan2, main server/index.js, engines node >=20, scripts start/dev/test/verify, dan satu dependency express ^4.21.2 tanpa devDependencies. Jalankan npm install hingga package-lock.json terbentuk. Buat README.md berisi deskripsi, prasyarat, perintah npm install/start/dev/test/verify, URL http://localhost:3000, lokasi data, env PORT dan DATA_FILE, tabel endpoint API, dan struktur direktori. Buat .gitignore final yang memuat node_modules/, .team/, data/notes.json, data/*.tmp, *.log, dan .DS_Store. Jangan menulis file server/, public/, tests/, atau verify.sh. Kriteria selesai: npm install bersih dan menghasilkan lock file, package.json valid tanpa dependency tambahan, npm test meneruskan ke node --test (auto-discovery), README akurat dan cukup untuk menjalankan aplikasi, serta .gitignore mempertahankan .team/.",
+      "owns": ["package.json", "package-lock.json", "README.md", ".gitignore"],
+      "dependsOn": []
+    },
+    {
+      "id": "t5",
+      "role": "qa",
+      "title": "Test otomatis dan verify.sh end-to-end",
+      "description": "Tulis test otomatis dan verify.sh sesuai CONTRACT.md §9. tests/store.test.js mencakup file belum ada, create/get/update/remove, persistensi lintas instance, dan file korup yang melempar error. tests/api.test.js memakai createApp({store}) dengan DATA_FILE di direktori sementara dan app.listen(0), lalu fetch; mencakup health, list kosong, create sukses, validasi judul dan isi, get beserta 404, update parsial dan penuh beserta 404, PUT kosong, delete beserta 404, JSON rusak 400, urutan updatedAt, dan endpoint API tak dikenal 404. Gunakan node:test dan node:assert tanpa dependency tambahan; jangan menyentuh data/notes.json asli dan jangan memakai port tetap. verify.sh harus executable, memakai set -euo pipefail, cd ke root, npm install bila node_modules belum ada, npm test, lalu smoke test HTTP nyata di PORT default 3000 dengan DATA_FILE sementara (health, POST, list, PUT, DELETE, 404), memakai trap untuk mematikan server, mencetak VERIFY OK, dan exit non-zero saat ada kegagalan. Jangan mengubah kode implementasi; laporkan kegagalan kontrak secara jelas. Kriteria selesai: npm test lulus berulang dari kondisi bersih, verify.sh lulus end-to-end, dan verify.sh mengembalikan exit code non-zero bila salah satu pengecekan gagal.",
+      "owns": ["tests/", "verify.sh"],
+      "dependsOn": ["t1", "t2", "t3", "t4"]
+    }
+  ]
+}
