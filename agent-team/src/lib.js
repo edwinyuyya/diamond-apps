@@ -85,8 +85,10 @@ export async function runAgent({ name, role, task, cwd, model, owns: ownList, ma
         env: providerEnv(model),
         systemPrompt: role.prompt,
         allowedTools: role.tools,
-        permissionMode: "bypassPermissions",
-        allowDangerouslySkipPermissions: true, // JALANKAN HANYA DI SANDBOX/CONTAINER
+        // Default aman: hanya tool di allowedTools yang jalan, sisanya ditolak otomatis.
+        // AGENT_TEAM_BYPASS=1 → lewati semua izin (HANYA di sandbox/container).
+        permissionMode: process.env.AGENT_TEAM_BYPASS === "1" ? "bypassPermissions" : "dontAsk",
+        allowDangerouslySkipPermissions: process.env.AGENT_TEAM_BYPASS === "1",
         settingSources: [],
         maxTurns,
         maxBudgetUsd: budget,

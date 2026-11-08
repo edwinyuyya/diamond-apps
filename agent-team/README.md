@@ -52,8 +52,8 @@ Hasil ada di `projects/<nama>/` (SPEC, kode, `verify.sh`, `REPORT.md`, log per a
 
 ## Peringatan
 
-Agent berjalan dengan `bypassPermissions` (bebas menjalankan shell). **Jalankan hanya di container/VM/sandbox**,
-bukan di mesin yang berisi data penting. Tetapkan `--budget` agar biaya terkendali.
+Default: mode `dontAsk` — hanya tool di daftar tiap peran yang boleh jalan (termasuk `Bash`, jadi tetap bisa menjalankan
+perintah shell). `AGENT_TEAM_BYPASS=1` melewati semua izin. **Jalankan tetap hanya di container/VM/sandbox**. Tetapkan `--budget` agar biaya terkendali.
 
 ## Menambah agent
 
