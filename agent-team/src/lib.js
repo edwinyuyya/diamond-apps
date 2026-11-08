@@ -3,6 +3,24 @@ import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
+/** Env untuk provider. DEEPSEEK_API_KEY → arahkan SDK ke endpoint kompatibel-Anthropic milik DeepSeek. */
+export function providerEnv(model) {
+  const env = { ...process.env };
+  if (process.env.DEEPSEEK_API_KEY) {
+    delete env.ANTHROPIC_API_KEY;
+    env.ANTHROPIC_BASE_URL = process.env.DEEPSEEK_BASE_URL ?? "https://api.deepseek.com/anthropic";
+    env.ANTHROPIC_AUTH_TOKEN = process.env.DEEPSEEK_API_KEY;
+    env.ANTHROPIC_MODEL = model;
+    env.ANTHROPIC_SMALL_FAST_MODEL = model;
+    env.ANTHROPIC_DEFAULT_OPUS_MODEL = model;
+    env.ANTHROPIC_DEFAULT_SONNET_MODEL = model;
+    env.ANTHROPIC_DEFAULT_HAIKU_MODEL = model;
+    env.CLAUDE_CODE_SUBAGENT_MODEL = model;
+    env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
+  }
+  return env;
+}
+
 export const sh = (cmd, cwd, timeoutMs = 600_000) =>
   new Promise((resolve) => {
     const p = spawn("bash", ["-lc", cmd], { cwd });
@@ -64,6 +82,7 @@ export async function runAgent({ name, role, task, cwd, model, owns: ownList, ma
       options: {
         cwd,
         model,
+        env: providerEnv(model),
         systemPrompt: role.prompt,
         allowedTools: role.tools,
         permissionMode: "bypassPermissions",

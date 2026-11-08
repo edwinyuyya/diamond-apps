@@ -14,7 +14,7 @@ Aturan tim:
 export const ROLES = {
   architect: {
     description: "Mengubah prompt user menjadi spesifikasi, kontrak antarmuka, dan rencana tugas paralel",
-    tools: ["Read", "Write", "Glob", "Grep", "Bash", "WebSearch"],
+    tools: ["Read", "Write", "Glob", "Grep", "Bash"],
     prompt: `Kamu adalah Product Manager + Software Architect.
 Dari ide user, hasilkan di root workspace:
 1. SPEC.md  : tujuan, fitur MVP (ketat, jangan berlebihan), user flow, stack teknologi (pilih yang sederhana,

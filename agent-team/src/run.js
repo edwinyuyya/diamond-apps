@@ -8,14 +8,15 @@ import { runAgent, sh, log, pool } from "./lib.js";
 const args = process.argv.slice(2);
 const flag = (n, d) => { const i = args.indexOf(`--${n}`); return i >= 0 ? args.splice(i, 2)[1] : d; };
 const out = flag("out", null);
-const model = flag("model", undefined);
+const useDeepseek = !!process.env.DEEPSEEK_API_KEY;
+const model = flag("model", useDeepseek ? "deepseek-chat" : undefined);
 const parallel = Number(flag("parallel", 4));
 const maxFix = Number(flag("max-fix", 5));
 const budget = Number(flag("budget", 5)); // USD per agent
 const idea = args.join(" ").trim();
 
-if (!idea || (!process.env.ANTHROPIC_API_KEY && !process.env.CLAUDE_CODE_OAUTH_TOKEN)) {
-  console.error(`Pakai:  ANTHROPIC_API_KEY=... node src/run.js [--out dir] [--parallel 4] [--max-fix 5] [--budget 5] [--model m] "ide aplikasi"`);
+if (!idea || (!useDeepseek && !process.env.ANTHROPIC_API_KEY && !process.env.CLAUDE_CODE_OAUTH_TOKEN)) {
+  console.error(`Pakai:  DEEPSEEK_API_KEY=... node src/run.js [--out dir] [--parallel 4] [--max-fix 5] [--budget 5] [--model m] "ide aplikasi"`);
   process.exit(1);
 }
 

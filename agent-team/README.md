@@ -34,12 +34,21 @@ cd agent-team && npm install
 ```
 
 ```bash
-ANTHROPIC_API_KEY=sk-ant-... node src/run.js "Aplikasi todo dengan login, REST API, dan UI web"
+DEEPSEEK_API_KEY=sk-... node src/run.js "Aplikasi todo dengan login, REST API, dan UI web"
 ```
 
 Opsi: `--out dir` · `--parallel 4` · `--max-fix 5` · `--budget 5` (USD per agent) · `--model <id>`
 
 Hasil ada di `projects/<nama>/` (SPEC, kode, `verify.sh`, `REPORT.md`, log per agent di `.team/logs/`).
+
+## Provider
+
+- **DeepSeek (default bila `DEEPSEEK_API_KEY` ada)**: SDK diarahkan ke `https://api.deepseek.com/anthropic`
+  (endpoint kompatibel-Anthropic), model `deepseek-chat`. Ganti dengan `--model deepseek-reasoner` bila perlu
+  (lebih lambat; cocok hanya untuk architect/debugger). Base URL bisa diganti via `DEEPSEEK_BASE_URL`.
+- Anthropic: set `ANTHROPIC_API_KEY` tanpa `DEEPSEEK_API_KEY`.
+- Catatan: angka biaya & `--budget` dihitung SDK dengan tarif Claude, jadi tidak akurat untuk DeepSeek;
+  pantau pemakaian di dashboard DeepSeek. Tool `WebSearch` tidak dipakai karena berjalan di sisi Anthropic.
 
 ## Peringatan
 
