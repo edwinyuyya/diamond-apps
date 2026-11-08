@@ -1,0 +1,10 @@
+# Situs dashboard terlindung password. Tidak ada berkas statis publik: halaman juga dilayani lewat fungsi.
+# netlify/lib/page.mjs dihasilkan dengan `node build-page.js` (sebelum deploy), karena build di Netlify
+# tidak bisa membaca ../src/dashboard.html di luar folder ini.
+[build]
+  command = "echo tanpa-build"
+  publish = "public"
+  functions = "netlify/functions"
+
+[build.environment]
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
