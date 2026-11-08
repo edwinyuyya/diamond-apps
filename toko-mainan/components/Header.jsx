@@ -8,6 +8,7 @@ import Logo from './Logo';
 import { useCatalog } from './CatalogProvider';
 import { useLang, LangSwitch } from './LangProvider';
 import { pick, PRICE_NAMES } from '../lib/i18n';
+import ToyIcon, { catIcon } from './ToyIcon';
 import { IcSearch, IcHeart, IcCart, IcLeft, IcRight, IcMenu, IcClose, IcBox, IcHelp, IcStore, IcDown } from './Icons';
 
 const SHOP_LINKS = [
@@ -113,7 +114,7 @@ export default function Header() {
               <div className="mega-cats">
                 {CATEGORIES.map((c) => (
                   <Link key={c.slug} href={`/produk?kategori=${c.slug}`} onClick={close} className="mega-cat">
-                    <span style={{ background: c.color }}>{c.emoji}</span>{c.name}
+                    <span style={{ background: c.color }}><ToyIcon name={catIcon(c.slug)} /></span>{c.name}
                   </Link>
                 ))}
               </div>
@@ -128,7 +129,7 @@ export default function Header() {
             <div className="mnav-top"><Logo /><button className="ico-btn" onClick={() => setMobile(false)} aria-label={t('common.close')}><IcClose /></button></div>
             <details open><summary>{t('hdr.shop')} <IcDown size={18} /></summary>{SHOP_LINKS.map(([l, h]) => <Link key={h} href={h} onClick={close}>{t(l)}</Link>)}</details>
             <Link className="mnav-link" href="/produk?tag=eksklusif" onClick={close}>{t('hdr.exclusive')}</Link>
-            <details><summary>{t('hdr.categories')} <IcDown size={18} /></summary>{CATEGORIES.map((c) => <Link key={c.slug} href={`/produk?kategori=${c.slug}`} onClick={close}>{c.emoji} {c.name}</Link>)}</details>
+            <details><summary>{t('hdr.categories')} <IcDown size={18} /></summary>{CATEGORIES.map((c) => <Link key={c.slug} href={`/produk?kategori=${c.slug}`} onClick={close} className="mnav-cat"><ToyIcon name={catIcon(c.slug)} size={26} /> {c.name}</Link>)}</details>
             <Link className="mnav-link sale-txt" href="/produk?tag=diskon" onClick={close}>{t('hdr.sale')}</Link>
             <div className="mnav-util">
               <Link href="/pesanan" onClick={close}><IcBox size={18} /> {t('hdr.myOrders')}</Link>

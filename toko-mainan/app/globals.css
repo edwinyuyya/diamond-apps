@@ -628,3 +628,10 @@ body:has(.sticky-buy.show) .wa-float{bottom:100px}
 .lang-mini button{padding:3px 8px;font-size:12px}
 .mnav-lang{display:flex;align-items:center;justify-content:space-between;padding:12px 0 4px;border-top:1px solid #eee;margin-top:8px}
 @media (max-width:900px){.lang-switch.lang-mini{display:inline-flex}}
+
+/* ── Ikon khas Toyzone (components/ToyIcon.jsx) ── */
+.toy-ico{display:block;overflow:visible}
+.tile span .toy-ico{width:clamp(78px,9vw,138px);height:auto;filter:drop-shadow(4px 6px 0 rgba(0,0,0,.22))}
+.mega-cat span .toy-ico{width:62px;height:62px;filter:drop-shadow(2px 3px 0 rgba(0,0,0,.2))}
+.theme-box i .toy-ico{width:80px;height:80px;filter:drop-shadow(3px 5px 0 rgba(0,0,0,.22))}
+.mnav details a.mnav-cat{display:flex;align-items:center;gap:10px}
