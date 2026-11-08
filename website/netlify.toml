@@ -1,6 +1,16 @@
 [build]
-  publish = "."
-  command = ""
+  # Halaman statis disalin ke dist supaya kode server & node_modules tidak ikut terbit
+  command = "rm -rf dist && mkdir dist && cp -r index.html admin media favicon.svg favicon-48.png apple-touch-icon.png og-image.jpg robots.txt sitemap.xml dist/"
+  publish = "dist"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
 
 [[headers]]
   for = "/media/*"

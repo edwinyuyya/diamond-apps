@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Diamond — Instagram Studio</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --ivory:#FAF6F1; --porcelain:#F2EBE3; --nude:#E7D5CB; --champagne:#B89A7E; --mocha:#2F2522; --ink:#2F2522; --muted:#85766F; --line:rgba(47,37,34,.14); --ok:#5E7F62; --bad:#A3473B; --serif:'Cormorant Garamond',Georgia,serif; --sans:'Jost',Arial,sans-serif; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:var(--sans); font-weight:300; color:var(--ink); background:var(--ivory); line-height:1.6; -webkit-font-smoothing:antialiased; }
+        button, input, select, textarea { font:inherit; color:inherit; }
+        button { cursor:pointer; background:none; border:0; }
+        .wrap { max-width:760px; margin:0 auto; padding:0 1.2rem 5rem; }
+        header { position:sticky; top:0; z-index:5; background:rgba(250,246,241,.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+        header .wrap { display:flex; align-items:center; justify-content:space-between; padding:.9rem 1.2rem; }
+        .wm b { font-family:var(--serif); font-weight:400; letter-spacing:.3em; font-size:1.15rem; display:block; line-height:1; }
+        .wm small { font-size:.55rem; letter-spacing:.35em; text-transform:uppercase; color:var(--muted); }
+        .eyebrow { font-size:.62rem; letter-spacing:.28em; text-transform:uppercase; color:var(--champagne); }
+        h1 { font-family:var(--serif); font-weight:400; font-size:2.2rem; line-height:1.1; margin:.4rem 0 .6rem; }
+        h2 { font-family:var(--serif); font-weight:400; font-size:1.5rem; margin:2rem 0 .8rem; }
+        .muted { color:var(--muted); font-size:.88rem; }
+        .btn { display:inline-flex; align-items:center; justify-content:center; gap:.5rem; font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; padding:.85rem 1.2rem; border:1px solid var(--mocha); background:var(--mocha); color:var(--ivory); }
+        .btn.ghost { background:transparent; color:var(--ink); border-color:var(--line); }
+        .btn.small { padding:.55rem .8rem; font-size:.6rem; }
+        .btn[disabled] { opacity:.5; pointer-events:none; }
+        .f { display:block; margin:1rem 0; }
+        .f span { display:block; font-size:.6rem; letter-spacing:.22em; text-transform:uppercase; color:var(--champagne); margin-bottom:.35rem; }
+        .f input, .f textarea, .f select { width:100%; background:#fff; border:1px solid var(--line); padding:.7rem .8rem; font-size:.95rem; outline:none; }
+        .f textarea { min-height:7rem; resize:vertical; }
+        .f input:focus, .f textarea:focus { border-color:var(--mocha); }
+        .tabs { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--line); margin:1.4rem 0; }
+        .tabs button { padding:.85rem .3rem; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
+        .tabs button.on { background:var(--mocha); color:var(--ivory); }
+        .tabs i { font-style:normal; display:inline-block; min-width:1.3em; margin-left:.3em; padding:0 .3em; background:var(--champagne); color:#fff; border-radius:9px; font-size:.6rem; letter-spacing:0; }
+        .note { border:1px solid var(--line); background:#fff; padding:1rem 1.1rem; margin:1rem 0; font-size:.88rem; }
+        .note.warn { border-color:#E2C9A0; background:#FFF9EE; }
+        .note.err { border-color:#E6B9B2; background:#FFF4F2; color:var(--bad); }
+        .note.ok { border-color:#C7D9C8; background:#F4FAF4; }
+        .card { display:grid; grid-template-columns:120px 1fr; gap:1rem; background:#fff; border:1px solid var(--line); padding:.9rem; margin:1rem 0; }
+        .card img { width:120px; aspect-ratio:4/5; object-fit:cover; display:block; }
+        .card textarea { width:100%; min-height:9rem; border:1px solid var(--line); padding:.6rem; font-size:.88rem; resize:vertical; }
+        .card .meta { font-size:.72rem; letter-spacing:.06em; color:var(--muted); margin-bottom:.4rem; }
+        .card .acts { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.6rem; }
+        .card .caption { white-space:pre-wrap; font-size:.85rem; max-height:8rem; overflow:auto; }
+        .pill { display:inline-block; font-size:.58rem; letter-spacing:.16em; text-transform:uppercase; padding:.2rem .5rem; border:1px solid var(--line); margin-right:.3rem; }
+        .pill.scheduled { border-color:var(--champagne); color:var(--champagne); }
+        .pill.published { border-color:var(--ok); color:var(--ok); }
+        .pill.failed { border-color:var(--bad); color:var(--bad); }
+        .when { display:flex; gap:.4rem; align-items:center; flex-wrap:wrap; margin-top:.5rem; font-size:.75rem; color:var(--muted); }
+        .when input { border:1px solid var(--line); padding:.35rem .5rem; font-size:.8rem; background:#fff; }
+        #preview { width:100%; max-width:380px; aspect-ratio:4/5; display:block; margin:1rem auto; border:1px solid var(--line); background:var(--porcelain); }
+        .row2 { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; }
+        .empty { text-align:center; padding:2rem 1rem; color:var(--muted); font-size:.9rem; border:1px dashed var(--line); }
+        .toast { position:fixed; left:50%; bottom:1.2rem; transform:translateX(-50%); background:var(--mocha); color:var(--ivory); padding:.8rem 1.2rem; font-size:.85rem; z-index:20; max-width:90vw; }
+        [hidden] { display:none !important; }
+        @media (max-width:520px) { .card { grid-template-columns:90px 1fr; } .card img { width:90px; } h1 { font-size:1.9rem; } }
+    </style>
+</head>
+<body>
+    <header><div class="wrap">
+        <div class="wm"><b>DIAMOND</b><small>Instagram Studio</small></div>
+        <button class="btn ghost small" id="logout" hidden>Keluar</button>
+    </div></header>
+
+    <main class="wrap">
+        <!-- Login -->
+        <section id="login">
+            <div style="margin-top:3rem" class="eyebrow">Admin</div>
+            <h1>Masuk ke Studio</h1>
+            <p class="muted">Halaman khusus tim Diamond untuk mengatur posting Instagram otomatis.</p>
+            <form id="loginForm">
+                <label class="f"><span>Kata sandi admin</span><input type="password" id="key" required autocomplete="current-password"></label>
+                <button class="btn" type="submit">Masuk</button>
+                <p class="note err" id="loginErr" hidden></p>
+            </form>
+        </section>
+
+        <!-- App -->
+        <section id="app" hidden>
+            <div style="margin-top:1.6rem" class="eyebrow">Instagram @diamond.makeupartist</div>
+            <h1>Studio Posting</h1>
+            <p class="muted">Upload foto atau buat promo &rarr; AI menulis caption &rarr; kamu setujui &rarr; otomatis tayang <b>Senin, Rabu &amp; Jumat pukul 19.00 WIB</b>.</p>
+            <div id="statusBox"></div>
+
+            <div class="tabs">
+                <button data-t="upload" class="on">Upload Foto</button>
+                <button data-t="promo">Buat Promo</button>
+                <button data-t="queue">Antrean <i id="badge">0</i></button>
+            </div>
+
+            <!-- Upload -->
+            <div data-p="upload">
+                <label class="f"><span>Foto (boleh lebih dari satu)</span><input type="file" id="photos" accept="image/*" multiple></label>
+                <label class="f"><span>Keterangan untuk AI (opsional)</span><input id="photoNote" placeholder="Contoh: Wedding bride by Ing2, adat Jawa, Hotel di Solo"></label>
+                <p class="muted">Foto otomatis dipotong rapi ke ukuran Instagram 4:5 (1080&times;1350).</p>
+                <p style="margin-top:1rem"><button class="btn" id="uploadBtn">Buat Caption &amp; Masukkan Antrean</button></p>
+                <p class="muted" id="uploadMsg" style="margin-top:.8rem"></p>
+            </div>
+
+            <!-- Promo -->
+            <div data-p="promo" hidden>
+                <label class="f"><span>Topik promo / info</span><input id="topic" placeholder="Contoh: Slot wedding Desember tinggal sedikit"></label>
+                <p><button class="btn ghost" id="aiPromo">Tulis Teks dengan AI</button></p>
+                <div class="row2">
+                    <label class="f"><span>Judul di gambar</span><input id="headline" placeholder="Slot Desember"></label>
+                    <label class="f"><span>Kalimat pendukung</span><input id="subline" placeholder="Amankan tanggal pernikahanmu"></label>
+                </div>
+                <label class="f"><span>Foto latar</span><input type="file" id="promoBg" accept="image/*"></label>
+                <canvas id="preview" width="1080" height="1350"></canvas>
+                <label class="f"><span>Caption</span><textarea id="promoCaption" placeholder="Tekan &ldquo;Tulis Teks dengan AI&rdquo; atau tulis sendiri"></textarea></label>
+                <button class="btn" id="promoAdd">Masukkan ke Antrean</button>
+            </div>
+
+            <!-- Queue -->
+            <div data-p="queue" hidden>
+                <h2>Perlu disetujui</h2><div id="qReview"></div>
+                <h2>Terjadwal</h2><div id="qScheduled"></div>
+                <h2>Gagal</h2><div id="qFailed"></div>
+                <h2>Sudah tayang</h2><div id="qPublished"></div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const $ = s => document.querySelector(s);
+        let KEY = '';
+        try { KEY = sessionStorage.getItem('dk') || ''; } catch (e) {}
+        const toast = msg => { const t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3500); };
+        const esc = s => String(s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        const wib = iso => new Date(iso).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta', weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }) + ' WIB';
+
+        async function api(path, opts = {}) {
+            const r = await fetch('/api/ig' + path, { ...opts, headers: { 'content-type': 'application/json', 'x-admin-key': KEY, ...(opts.headers || {}) } });
+            const data = await r.json().catch(() => ({ error: 'Server tidak merespons dengan benar' }));
+            if (!r.ok) throw Object.assign(new Error(data.error || 'Gagal'), { status: r.status });
+            return data;
+        }
+
+        // ---------- Login ----------
+        $('#loginForm').onsubmit = async e => {
+            e.preventDefault(); KEY = $('#key').value;
+            try { await start(); try { sessionStorage.setItem('dk', KEY); } catch (e) {} }
+            catch (err) { $('#loginErr').hidden = false; $('#loginErr').textContent = err.message; }
+        };
+        $('#logout').onclick = () => { try { sessionStorage.removeItem('dk'); } catch (e) {} location.reload(); };
+
+        async function start() {
+            const st = await api('/status');
+            $('#login').hidden = true; $('#app').hidden = false; $('#logout').hidden = false;
+            const box = $('#statusBox'); const msgs = [];
+            if (!st.env.ANTHROPIC_API_KEY) msgs.push(['warn', 'Caption AI belum aktif: isi <b>ANTHROPIC_API_KEY</b> di Netlify &rarr; Environment variables.']);
+            if (!st.env.IG_ACCESS_TOKEN) msgs.push(['warn', 'Instagram belum terhubung: isi <b>IG_ACCESS_TOKEN</b> di Netlify &rarr; Environment variables. Post tetap bisa disiapkan dan dijadwalkan.']);
+            else if (st.igError) msgs.push(['err', 'Instagram error: ' + esc(st.igError)]);
+            else if (st.ig) msgs.push(['ok', 'Terhubung ke Instagram <b>@' + esc(st.ig.username) + '</b>.']);
+            box.innerHTML = msgs.map(([c, m]) => `<p class="note ${c}">${m}</p>`).join('');
+            await loadQueue();
+        }
+
+        // ---------- Tabs ----------
+        document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
+            document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+            document.querySelectorAll('[data-p]').forEach(p => p.hidden = p.dataset.p !== b.dataset.t);
+            if (b.dataset.t === 'queue') loadQueue();
+        });
+        const showTab = t => document.querySelector(`.tabs button[data-t="${t}"]`).click();
+
+        // ---------- Gambar: potong 4:5, 1080x1350, JPEG ----------
+        const loadImg = file => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error('Foto tidak bisa dibaca')); i.src = URL.createObjectURL(file); });
+        function drawCover(ctx, img, W, H) {
+            const s = Math.max(W / img.width, H / img.height), w = img.width * s, h = img.height * s;
+            ctx.drawImage(img, (W - w) / 2, (H - h) / 2.6, w, h);
+        }
+        const toB64 = canvas => canvas.toDataURL('image/jpeg', 0.9).split(',')[1];
+        async function photoToB64(file) {
+            const img = await loadImg(file); const c = document.createElement('canvas'); c.width = 1080; c.height = 1350;
+            drawCover(c.getContext('2d'), img, 1080, 1350); return toB64(c);
+        }
+
+        // ---------- Upload foto ----------
+        $('#uploadBtn').onclick = async () => {
+            const files = [...$('#photos').files]; if (!files.length) return toast('Pilih foto dulu');
+            const btn = $('#uploadBtn'); btn.disabled = true; let ok = 0;
+            for (const [i, f] of files.entries()) {
+                $('#uploadMsg').textContent = `Memproses foto ${i + 1} dari ${files.length} (AI sedang menulis caption)…`;
+                try { await api('/posts', { method: 'POST', body: JSON.stringify({ image: await photoToB64(f), kind: 'photo', note: $('#photoNote').value }) }); ok++; }
+                catch (e) { toast(`${f.name}: ${e.message}`); }
+            }
+            btn.disabled = false; $('#uploadMsg').textContent = `${ok} foto masuk antrean. Cek tab Antrean untuk menyetujui caption.`;
+            $('#photos').value = ''; if (ok) { await loadQueue(); showTab('queue'); }
+        };
+
+        // ---------- Promo ----------
+        let promoBgImg = null;
+        const cv = $('#preview'), cx = cv.getContext('2d');
+        function wrap(text, maxW) {
+            const words = String(text).split(/\s+/), lines = []; let cur = '';
+            for (const w of words) { const t = cur ? cur + ' ' + w : w; if (cx.measureText(t).width > maxW && cur) { lines.push(cur); cur = w; } else cur = t; }
+            if (cur) lines.push(cur); return lines;
+        }
+        async function renderPromo() {
+            await document.fonts.load('400 120px "Cormorant Garamond"'); await document.fonts.load('400 40px Jost');
+            const W = 1080, H = 1350;
+            cx.fillStyle = '#2F2522'; cx.fillRect(0, 0, W, H);
+            if (promoBgImg) drawCover(cx, promoBgImg, W, H);
+            let g = cx.createLinearGradient(0, 0, 0, H);
+            g.addColorStop(0, 'rgba(31,24,22,.55)'); g.addColorStop(.25, 'rgba(31,24,22,0)'); g.addColorStop(.5, 'rgba(31,24,22,.1)'); g.addColorStop(1, 'rgba(31,24,22,.88)');
+            cx.fillStyle = g; cx.fillRect(0, 0, W, H);
+            cx.strokeStyle = 'rgba(231,213,203,.55)'; cx.lineWidth = 2; cx.strokeRect(40, 40, W - 80, H - 80);
+            cx.textAlign = 'center'; cx.fillStyle = '#FAF6F1';
+            cx.font = '400 54px "Cormorant Garamond"'; cx.letterSpacing = '18px'; cx.fillText('DIAMOND', W / 2 + 9, 140);
+            cx.font = '400 20px Jost'; cx.letterSpacing = '9px'; cx.fillStyle = '#E7D5CB'; cx.fillText('MAKE UP ARTIST · SOLO', W / 2 + 4, 180);
+            cx.letterSpacing = '0px'; cx.textAlign = 'left';
+            const head = $('#headline').value || 'Judul promo', sub = $('#subline').value || '';
+            cx.font = '400 116px "Cormorant Garamond"'; const hl = wrap(head, W - 200);
+            cx.font = '300 40px Jost'; const sl = sub ? wrap(sub, W - 200) : [];
+            let y = H - 175 - sl.length * 54 - (hl.length - 1) * 110;
+            cx.fillStyle = '#FAF6F1'; cx.font = '400 116px "Cormorant Garamond"';
+            hl.forEach((l, i) => cx.fillText(l, 100, y + i * 110));
+            y += (hl.length - 1) * 110 + 70;
+            cx.fillStyle = '#E7D5CB'; cx.font = '300 40px Jost'; sl.forEach((l, i) => cx.fillText(l, 100, y + i * 54));
+            cx.fillStyle = 'rgba(250,246,241,.85)'; cx.font = '400 24px Jost'; cx.letterSpacing = '4px';
+            cx.fillText('RESERVASI  0895 1261 4222  ·  MUASOLO.COM', 100, H - 90); cx.letterSpacing = '0px';
+        }
+        ['#headline', '#subline'].forEach(s => $(s).addEventListener('input', renderPromo));
+        $('#promoBg').onchange = async e => { if (e.target.files[0]) { promoBgImg = await loadImg(e.target.files[0]); renderPromo(); } };
+        $('#aiPromo').onclick = async () => {
+            const topic = $('#topic').value.trim(); if (!topic) return toast('Isi topik promo dulu');
+            const b = $('#aiPromo'); b.disabled = true; b.textContent = 'AI sedang menulis…';
+            try { const r = await api('/promo-text', { method: 'POST', body: JSON.stringify({ topic }) }); $('#headline').value = r.headline || ''; $('#subline').value = r.subline || ''; $('#promoCaption').value = r.caption || ''; renderPromo(); }
+            catch (e) { toast(e.message); }
+            b.disabled = false; b.textContent = 'Tulis Teks dengan AI';
+        };
+        $('#promoAdd').onclick = async () => {
+            if (!$('#headline').value) return toast('Isi judul promo dulu');
+            const b = $('#promoAdd'); b.disabled = true;
+            try {
+                await renderPromo();
+                await api('/posts', { method: 'POST', body: JSON.stringify({ image: toB64(cv), kind: 'promo', note: $('#topic').value, caption: $('#promoCaption').value }) });
+                toast('Promo masuk antrean'); ['#topic', '#headline', '#subline', '#promoCaption'].forEach(s => $(s).value = ''); promoBgImg = null; renderPromo(); await loadQueue(); showTab('queue');
+            } catch (e) { toast(e.message); }
+            b.disabled = false;
+        };
+        renderPromo();
+
+        // ---------- Antrean ----------
+        async function loadQueue() {
+            const { posts } = await api('/posts');
+            const by = s => posts.filter(p => p.status === s);
+            $('#badge').textContent = by('review').length;
+            const sched = by('scheduled').sort((a, b) => a.scheduled_at.localeCompare(b.scheduled_at));
+            render('#qReview', by('review'), 'Belum ada post yang menunggu persetujuan.');
+            render('#qScheduled', sched, 'Belum ada post terjadwal.');
+            render('#qFailed', by('failed'), 'Tidak ada.');
+            render('#qPublished', by('published').slice(0, 12), 'Belum ada post yang tayang.');
+        }
+        function render(sel, list, empty) {
+            const el = $(sel);
+            if (!list.length) { el.innerHTML = `<div class="empty">${empty}</div>`; return; }
+            el.innerHTML = list.map(p => {
+                const head = `<div class="meta"><span class="pill ${p.status}">${{ review: 'Perlu disetujui', scheduled: 'Terjadwal', published: 'Tayang', failed: 'Gagal' }[p.status]}</span>${p.kind === 'promo' ? 'Promo' : 'Foto'}${p.note ? ' · ' + esc(p.note) : ''}</div>`;
+                let body = '';
+                if (p.status === 'review') body = `<textarea data-cap>${esc(p.caption)}</textarea>
+                    <div class="when">Jadwal: <input type="datetime-local" data-when> <span>(kosongkan = slot berikutnya Sen/Rab/Jum 19.00)</span></div>
+                    <div class="acts"><button class="btn small" data-a="approve">Setujui &amp; Jadwalkan</button><button class="btn ghost small" data-a="regenerate">Tulis Ulang AI</button><button class="btn ghost small" data-a="save">Simpan</button><button class="btn ghost small" data-a="delete">Hapus</button></div>`;
+                if (p.status === 'scheduled') body = `<div class="caption">${esc(p.caption)}</div><div class="when">Tayang: <b>${wib(p.scheduled_at)}</b></div>
+                    <div class="acts"><button class="btn small" data-a="publish_now">Posting Sekarang</button><button class="btn ghost small" data-a="unschedule">Batalkan &amp; Edit</button></div>`;
+                if (p.status === 'failed') body = `<p class="note err">${esc(p.error)}</p><textarea data-cap>${esc(p.caption)}</textarea>
+                    <div class="acts"><button class="btn small" data-a="publish_now">Coba Posting Lagi</button><button class="btn ghost small" data-a="approve">Jadwalkan Ulang</button><button class="btn ghost small" data-a="delete">Hapus</button></div>`;
+                if (p.status === 'published') body = `<div class="caption">${esc(p.caption)}</div><div class="when">Tayang ${wib(p.published_at)}${p.permalink ? ` · <a href="${esc(p.permalink)}" target="_blank" rel="noopener">Lihat di Instagram</a>` : ''}</div>`;
+                return `<div class="card" data-id="${p.id}"><img src="${esc(p.image_url.replace('https://muasolo.com', ''))}" alt=""><div>${head}${body}</div></div>`;
+            }).join('');
+        }
+        document.addEventListener('click', async e => {
+            const b = e.target.closest('[data-a]'); if (!b) return;
+            const card = b.closest('.card'), id = card.dataset.id, a = b.dataset.a;
+            const cap = card.querySelector('[data-cap]'), when = card.querySelector('[data-when]');
+            if (a === 'delete' && !confirm('Hapus post ini?')) return;
+            if (a === 'publish_now' && !confirm('Posting ke Instagram sekarang?')) return;
+            b.disabled = true; const label = b.textContent; b.textContent = a === 'regenerate' ? 'AI menulis…' : 'Memproses…';
+            try {
+                if (a === 'delete') { await api('/posts/' + id, { method: 'DELETE' }); toast('Post dihapus'); }
+                else {
+                    const body = { action: a === 'save' ? undefined : a };
+                    if (cap) body.caption = cap.value;
+                    if (a === 'approve' && when && when.value) body.scheduled_at = new Date(when.value + ':00+07:00').toISOString();
+                    const { post } = await api('/posts/' + id, { method: 'PATCH', body: JSON.stringify(body) });
+                    toast({ approve: 'Terjadwal: ' + (post.scheduled_at ? wib(post.scheduled_at) : ''), publish_now: post.status === 'published' ? 'Berhasil tayang di Instagram!' : 'Gagal: ' + post.error, regenerate: 'Caption baru sudah ditulis', unschedule: 'Jadwal dibatalkan', save: 'Tersimpan' }[a] || 'Selesai');
+                }
+                await loadQueue();
+            } catch (err) { toast(err.message); b.disabled = false; b.textContent = label; }
+        });
+
+        if (KEY) start().catch(() => { KEY = ''; });
+    </script>
+</body>
+</html>
