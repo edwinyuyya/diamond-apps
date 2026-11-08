@@ -1,4 +1,4 @@
-// Berjalan otomatis tiap 15 menit: memposting post terjadwal yang sudah waktunya
+// Berjalan otomatis tiap jam (menit ke-5): memposting post terjadwal yang sudah waktunya
 // dan memperpanjang token Instagram sebelum kedaluwarsa.
 import { listPosts, publishPost, refreshTokenIfDue } from "../lib/core.mjs";
 
@@ -13,4 +13,4 @@ export default async () => {
     console.log(JSON.stringify({ token, published: results }));
 };
 
-export const config = { schedule: "*/15 * * * *" };
+export const config = { schedule: "5 * * * *" };
