@@ -56,11 +56,15 @@ await checkpoint("plan");
 
 // ── Fase 2: Eksekusi paralel per gelombang (topological) ───────────────────
 log("team", `FASE 2 — implementasi ${tasks.length} tugas (maks ${parallel} paralel)`);
+// Penanda permanen tugas yang sukses (.team/done.json) + cadangan: cari pesan "result" sukses di seluruh log.
+const doneFile = path.join(ws, ".team", "done.json");
+const doneMarks = (() => { try { return new Set(JSON.parse(fs.readFileSync(doneFile, "utf8"))); } catch { return new Set(); } })();
+const markDone = (id) => { doneMarks.add(id); fs.writeFileSync(doneFile, JSON.stringify([...doneMarks])); };
 const doneBefore = (id, role) => {
+  if (doneMarks.has(id)) return true;
   try {
-    const lines = fs.readFileSync(path.join(ws, ".team", "logs", `${id}-${role}.jsonl`), "utf8").trim().split("\n");
-    const last = JSON.parse(lines[lines.length - 1]);
-    return last.type === "result" && last.subtype === "success";
+    const lines = fs.readFileSync(path.join(ws, ".team", "logs", `${id}-${role}.jsonl`), "utf8").split("\n");
+    return lines.some((l) => l.includes('"type":"result"') && l.includes('"subtype":"success"'));
   } catch { return false; }
 };
 const done = new Set(resume ? tasks.filter((t) => doneBefore(t.id, t.role)).map((t) => t.id) : []);
@@ -82,7 +86,7 @@ await new Promise((resolve) => {
         name: `${t.id}-${t.role}`, role: ROLES[t.role], owns: t.owns ?? [],
         task: `TUGAS ${t.id}: ${t.title}\n\n${t.description}\n\nOWNS (boleh ditulis): ${(t.owns ?? []).join(", ")}\nStack: ${plan.stack}${resume ? "\n\nCATATAN: run ini lanjutan; sebagian file mungkin sudah ada dari percobaan sebelumnya yang terputus. Periksa dulu, pertahankan yang benar, lanjutkan yang kurang — jangan mulai dari nol." : ""}`,
       }).then(async (r) => {
-        (r.ok ? done : failed).add(t.id); sem.running--;
+        (r.ok ? done : failed).add(t.id); if (r.ok) markDone(t.id); sem.running--;
         await checkpoint(`task ${t.id}`);
         pump();
       });

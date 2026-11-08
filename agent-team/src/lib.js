@@ -95,7 +95,10 @@ export async function runAgent({ name, role, task, cwd, model, owns: ownList, ma
         hooks,
       },
     })) {
-      logFile.write(JSON.stringify({ ...msg, _ts: Date.now() }) + "\n");
+      // Jangan simpan event streaming/thinking (98% ukuran log, tidak dipakai dashboard).
+      if (msg.type !== "stream_event" && !(msg.type === "system" && msg.subtype === "thinking_tokens")) {
+        logFile.write(JSON.stringify({ ...msg, _ts: Date.now() }) + "\n");
+      }
       if (msg.type === "assistant") {
         for (const b of msg.message.content ?? []) {
           if (b.type === "tool_use") {

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AmanLaba menghitung 10.000 kemungkinan usaha dari rentang biaya dan permintaan, lalu menunjukkan peluang rugi, rentang untung, dan harga jual paling aman.">
+  <meta name="color-scheme" content="light">
+  <title>AmanLaba — Simulator Risiko Usaha untuk UMKM</title>
+  <link rel="stylesheet" href="/assets/css/base.css">
+</head>
+<body class="halaman-landing">
+  <a class="lompat" href="#konten-utama">Lewati ke konten utama</a>
+
+  <header class="situs-header" id="atas">
+    <div class="wadah situs-header__dalam">
+      <a class="merek" href="/" aria-label="AmanLaba — beranda">
+        <span class="merek__lambang" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19V5"></path>
+            <path d="M4 19h16"></path>
+            <path d="M7.5 15.5l3.8-4.7 3 2.7 4.7-6.3"></path>
+            <path d="M15.5 7.2H19v3.4"></path>
+          </svg>
+        </span>
+        <span class="merek__teks">AmanLaba</span>
+      </a>
+
+      <nav class="nav-utama" id="nav-utama" aria-label="Navigasi utama">
+        <a href="#fitur">Fitur</a>
+        <a href="#cara-kerja">Cara Kerja</a>
+        <a href="#template">Template</a>
+        <a href="#harga">Harga</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="situs-header__aksi">
+        <a class="tombol tombol--utama tombol--kecil" href="/app">Buka Aplikasi</a>
+        <button class="tombol-menu" id="tombol-menu" type="button" aria-expanded="false" aria-controls="nav-utama" aria-label="Buka menu navigasi">
+          <span class="tombol-menu__isi" aria-hidden="true">
+            <span class="tombol-menu__garis"></span>
+            <span class="tombol-menu__garis"></span>
+            <span class="tombol-menu__garis"></span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="konten-utama">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="judul-hero">
+      <div class="wadah hero__dalam">
+        <div class="hero__teks">
+          <p class="hero__eyebrow"><span class="hero__titik" aria-hidden="true"></span>Simulator risiko usaha untuk UMKM</p>
+          <h1 id="judul-hero">Jangan tebak harga jual. Simulasikan risikonya.</h1>
+          <p class="hero__subjudul">Masukkan biaya dan permintaan sebagai rentang. AmanLaba menghitung 10.000 kemungkinan dan menunjukkan peluang rugi, rentang untung, serta harga jual paling aman.</p>
+          <div class="hero__aksi">
+            <a class="tombol tombol--utama tombol--besar" id="cta-utama" href="/app">
+              Coba Simulator Gratis
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14"></path>
+                <path d="M13 6l6 6-6 6"></path>
+              </svg>
+            </a>
+            <a class="tombol tombol--garis tombol--besar" href="#cara-kerja">Lihat cara kerja</a>
+          </div>
+          <p class="hero__catatan">Gratis, tanpa akun. Skenario tetap tersimpan di browser Anda.</p>
+        </div>
+
+        <div class="hero__visual">
+          <div class="cuplikan kartu" aria-label="Contoh hasil simulasi usaha warung makan">
+            <div class="cuplikan__kepala">
+              <div>
+                <p class="cuplikan__label">Contoh hasil &middot; Warung Makan</p>
+                <p class="cuplikan__judul">Risiko pada harga Rp15.000</p>
+              </div>
+              <span class="badge badge--netral">10.000 simulasi</span>
+            </div>
+
+            <div class="cuplikan__metrik">
+              <div>
+                <p class="cuplikan__angka cuplikan__angka--bahaya">18,0%</p>
+                <p class="cuplikan__ket">Peluang rugi</p>
+              </div>
+              <div class="cuplikan__bar" role="img" aria-label="Delapan belas persen dari simulasi menghasilkan laba negatif">
+                <span class="cuplikan__bar-isi"></span>
+              </div>
+            </div>
+
+            <figure class="cuplikan__grafik">
+              <svg viewBox="0 0 320 110" role="img" aria-labelledby="judul-mini-histogram" preserveAspectRatio="xMidYMid meet">
+                <title id="judul-mini-histogram">Contoh histogram laba: sebagian kecil simulasi menghasilkan rugi</title>
+                <line x1="6" y1="100" x2="314" y2="100" stroke="#E3E7ED" stroke-width="1"></line>
+                <rect class="batang-rugi" x="8" y="88" width="10" height="12" rx="1.5"></rect>
+                <rect class="batang-rugi" x="20" y="80" width="10" height="20" rx="1.5"></rect>
+                <rect class="batang-rugi" x="32" y="72" width="10" height="28" rx="1.5"></rect>
+                <rect class="batang-rugi" x="44" y="62" width="10" height="38" rx="1.5"></rect>
+                <rect class="batang-rugi" x="56" y="54" width="10" height="46" rx="1.5"></rect>
+                <rect class="batang-untung" x="68" y="44" width="10" height="56" rx="1.5"></rect>
+                <rect class="batang-untung" x="80" y="36" width="10" height="64" rx="1.5"></rect>
+                <rect class="batang-untung" x="92" y="28" width="10" height="72" rx="1.5"></rect>
+                <rect class="batang-untung" x="104" y="20" width="10" height="80" rx="1.5"></rect>
+                <rect class="batang-untung" x="116" y="14" width="10" height="86" rx="1.5"></rect>
+                <rect class="batang-untung" x="128" y="10" width="10" height="90" rx="1.5"></rect>
+                <rect class="batang-untung" x="140" y="14" width="10" height="86" rx="1.5"></rect>
+                <rect class="batang-untung" x="152" y="20" width="10" height="80" rx="1.5"></rect>
+                <rect class="batang-untung" x="164" y="26" width="10" height="74" rx="1.5"></rect>
+                <rect class="batang-untung" x="176" y="34" width="10" height="66" rx="1.5"></rect>
+                <rect class="batang-untung" x="188" y="42" width="10" height="58" rx="1.5"></rect>
+                <rect class="batang-untung" x="200" y="50" width="10" height="50" rx="1.5"></rect>
+                <rect class="batang-untung" x="212" y="58" width="10" height="42" rx="1.5"></rect>
+                <rect class="batang-untung" x="224" y="66" width="10" height="34" rx="1.5"></rect>
+                <rect class="batang-untung" x="236" y="72" width="10" height="28" rx="1.5"></rect>
+                <rect class="batang-untung" x="248" y="78" width="10" height="22" rx="1.5"></rect>
+                <rect class="batang-untung" x="260" y="84" width="10" height="16" rx="1.5"></rect>
+                <rect class="batang-untung" x="272" y="89" width="10" height="11" rx="1.5"></rect>
+                <rect class="batang-untung" x="284" y="93" width="10" height="7" rx="1.5"></rect>
+                <line class="garis-median" x1="146" y1="4" x2="146" y2="102"></line>
+                <text x="150" y="12" font-size="9" font-weight="700" fill="#5B6675">P50</text>
+              </svg>
+              <figcaption>Distribusi laba dari 10.000 kemungkinan</figcaption>
+            </figure>
+
+            <dl class="cuplikan__persentil">
+              <div>
+                <dt>P5</dt>
+                <dd>-Rp250 rb</dd>
+              </div>
+              <div>
+                <dt>P50</dt>
+                <dd>Rp1,1 jt</dd>
+              </div>
+              <div>
+                <dt>P95</dt>
+                <dd>Rp2,9 jt</dd>
+              </div>
+            </dl>
+            <p class="cuplikan__disclaimer">Ilustrasi dari template Warung Makan. Hasil Anda bergantung pada asumsi yang dimasukkan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pita fakta -->
+    <div class="wadah pita-fakta">
+      <div class="pita-fakta__dalam">
+        <div class="pita-fakta__item">
+          <span class="pita-fakta__ikon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 18V9"></path><path d="M9 18V5"></path><path d="M14 18v-6"></path><path d="M19 18V7"></path>
+            </svg>
+          </span>
+          <div>
+            <p class="pita-fakta__judul">10.000 kemungkinan</p>
+            <p class="pita-fakta__ket">per simulasi</p>
+          </div>
+        </div>
+        <div class="pita-fakta__item">
+          <span class="pita-fakta__ikon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+            </svg>
+          </span>
+          <div>
+            <p class="pita-fakta__judul">4 template siap pakai</p>
+            <p class="pita-fakta__ket">warung, kafe, toko online, jasa</p>
+          </div>
+        </div>
+        <div class="pita-fakta__item">
+          <span class="pita-fakta__ikon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l7 3v5c0 4.4-2.8 8.3-7 10-4.2-1.7-7-5.6-7-10V6l7-3z"></path><path d="M9.2 12l2 2 3.6-4"></path>
+            </svg>
+          </span>
+          <div>
+            <p class="pita-fakta__judul">Data di browser</p>
+            <p class="pita-fakta__ket">tanpa akun dan tanpa database</p>
+          </div>
+        </div>
+        <div class="pita-fakta__item">
+          <span class="pita-fakta__ikon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 9V3h12v6"></path><rect x="3" y="9" width="18" height="8" rx="2"></rect><path d="M7 17h10v4H7z"></path>
+            </svg>
+          </span>
+          <div>
+            <p class="pita-fakta__judul">Laporan siap cetak</p>
+            <p class="pita-fakta__ket">rapi pada kertas A4 dan PDF</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Masalah -->
+    <section class="bagian bagian--masalah" aria-labelledby="judul-masalah">
+      <div class="wadah">
+        <div class="kepala-bagian">
+          <p class="eyebrow">Masalahnya</p>
+          <h2 class="judul-bagian" id="judul-masalah">Satu angka membuat keputusan terlihat lebih aman daripada kenyataannya.</h2>
+          <p class="teks-lembut">Kalkulator untung biasa hanya menjawab satu kemungkinan. Padahal biaya, harga, dan permintaan selalu bergerak bersamaan.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="kartu masalah__kartu">
+            <span class="masalah__nomor" aria-hidden="true">01</span>
+            <h3>Permintaan ditebak satu angka</h3>
+            <p>Target penjualan disusun dari perkiraan terbaik saja. Saat permintaan turun 20%, keputusan yang tadinya aman berubah menjadi rugi.</p>
+          </article>
+          <article class="kartu masalah__kartu">
+            <span class="masalah__nomor" aria-hidden="true">02</span>
+            <h3>Peluang rugi tidak pernah dihitung</h3>
+            <p>Angka "paling mungkin" tidak memberi tahu seberapa sering hasil bisa negatif. Padahal itulah yang menentukan tidur Anda nyenyak atau tidak.</p>
+          </article>
+          <article class="kartu masalah__kartu">
+            <span class="masalah__nomor" aria-hidden="true">03</span>
+            <h3>Variabel paling berbahaya tak terlihat</h3>
+            <p>Tanpa analisis sensitivitas, sulit tahu apakah yang perlu dijaga adalah biaya bahan baku, harga jual, atau jumlah pembeli.</p>
+          </article>
+        </div>
+
+        <div class="masalah__penutup">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 3l7 3v5c0 4.4-2.8 8.3-7 10-4.2-1.7-7-5.6-7-10V6l7-3z"></path>
+            <path d="M12 8v4"></path><path d="M12 15.5h.01"></path>
+          </svg>
+          <p><strong>AmanLaba mengubah ketidakpastian menjadi distribusi hasil</strong> yang bisa dibaca, dibandingkan, dan dicetak — bukan satu angka yang terasa pasti.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cara kerja -->
+    <section class="bagian bagian--cara-kerja" id="cara-kerja" aria-labelledby="judul-cara-kerja">
+      <div class="wadah">
+        <div class="kepala-bagian kepala-bagian--tengah">
+          <p class="eyebrow">Cara kerja</p>
+          <h2 class="judul-bagian" id="judul-cara-kerja">Tiga langkah, kurang dari satu menit.</h2>
+          <p class="teks-lembut">Tanpa akuntansi rumit. Anda hanya perlu jujur tentang rentang angka yang Anda ketahui.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="langkah">
+            <div class="langkah__nomor" aria-hidden="true">1</div>
+            <div class="kartu langkah__kartu">
+              <h3>Isi rentang angka</h3>
+              <p>Masukkan harga jual, biaya tetap, biaya variabel, dan permintaan dalam bentuk minimum, paling mungkin, dan maksimum.</p>
+            </div>
+          </article>
+          <article class="langkah">
+            <div class="langkah__nomor" aria-hidden="true">2</div>
+            <div class="kartu langkah__kartu">
+              <h3>Jalankan 10.000 simulasi</h3>
+              <p>Mesin Monte Carlo ber-seed menarik kombinasi angka dari rentang Anda, menghitung laba, lalu menyusun distribusinya.</p>
+            </div>
+          </article>
+          <article class="langkah">
+            <div class="langkah__nomor" aria-hidden="true">3</div>
+            <div class="kartu langkah__kartu">
+              <h3>Putuskan harga dengan bukti</h3>
+              <p>Baca peluang rugi, rentang untung, variabel paling berpengaruh, dan dua rekomendasi harga sebelum menentukan keputusan.</p>
+            </div>
+          </article>
+        </div>
+
+        <aside class="asumsi-kotak" aria-labelledby="judul-asumsi">
+          <span class="asumsi-kotak__ikon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"></circle><path d="M12 8v5"></path><path d="M12 16.5h.01"></path>
+            </svg>
+          </span>
+          <div>
+            <h3 id="judul-asumsi">Asumsi penting: bagaimana permintaan merespons harga?</h3>
+            <p>Permintaan yang Anda masukkan adalah permintaan <strong>pada harga mode</strong>. Pada harga lain, AmanLaba memakai respons linear: <strong>faktor 1</strong> di harga mode, <strong>0,5</strong> di harga maksimum, dan <strong>0</strong> di harga choke (<span class="nowrap">2 × harga maksimum − harga mode</span>). Faktor dibatasi pada rentang 0–2. Asumsi ini transparan agar trade-off antara margin dan volume terlihat.</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Fitur -->
+    <section class="bagian" id="fitur" aria-labelledby="judul-fitur">
+      <div class="wadah">
+        <div class="kepala-bagian">
+          <p class="eyebrow">Fitur</p>
+          <h2 class="judul-bagian" id="judul-fitur">Semua yang dibutuhkan untuk mengambil keputusan harga.</h2>
+          <p class="teks-lembut">Satu alur kerja yang tenang, dari memasukkan rentang sampai membagikan laporan.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="kartu fitur__kartu">
+            <span class="fitur__ikon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19V5"></path><path d="M4 19h16"></path>
+                <path d="M7.5 15.5l3.8-4.7 3 2.7 4.7-6.3"></path><path d="M15.5 7.2H19v3.4"></path>
+              </svg>
+            </span>
+            <h3>Monte Carlo ber-seed</h3>
+            <p>10.000 iterasi dengan urutan acak yang tetap. Seed dan input yang sama menghasilkan angka identik, sehingga hasil dapat diperiksa ulang.</p>
+          </article>
+
+          <article class="kartu fitur__kartu">
+            <span class="fitur__ikon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 7h12"></path><path d="M19 7h2"></path><circle cx="17" cy="7" r="2"></circle>
+                <path d="M3 17h4"></path><path d="M11 17h10"></path><circle cx="9" cy="17" r="2"></circle>
+              </svg>
+            </span>
+            <h3>Input berupa rentang</h3>
+            <p>Nyatakan min, mode, dan max untuk setiap variabel. Ketidakpastian menjadi bagian dari perhitungan, bukan catatan kaki.</p>
+          </article>
+
+          <article class="kartu fitur__kartu">
+            <span class="fitur__ikon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 20V10"></path><path d="M9 20V4"></path><path d="M14 20v-7"></path><path d="M19 20V7"></path>
+              </svg>
+            </span>
+            <h3>Histogram distribusi laba</h3>
+            <p>Lihat seberapa lebar kemungkinan hasil dan berapa bagian yang jatuh di area rugi. Batang negatif dan positif dibedakan.</p>
+          </article>
+
+          <article class="kartu fitur__kartu">
+            <span class="fitur__ikon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 6h9"></path><path d="M4 12h13"></path><path d="M4 18h7"></path>
+                <path d="M16 4l4 2-4 2"></path><path d="M20 10l-4 2 4 2"></path>
+              </svg>
+            </span>
+            <h3>Diagram tornado</h3>
+            <p>Urutkan variabel berdasarkan dampaknya terhadap laba. Ketahui lebih dulu mana yang paling menentukan risiko usaha Anda.</p>
+          </article>
+
+          <article class="kartu fitur__kartu">
+            <span class="fitur__ikon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5L21 21"></path><path d="M8 11h6"></path><path d="M11 8v6"></path>
+              </svg>
+            </span>
+            <h3>Pencari harga</h3>
+            <p>Simulasikan 21 titik harga sekaligus. Dapatkan rekomendasi laba rata-rata tertinggi dan peluang rugi terendah beserta alasannya.</p>
+          </article>
+
+          <article class="kartu fitur__kartu">
+            <span class="fitur__ikon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 9V3h12v6"></path><rect x="3" y="9" width="18" height="8" rx="2"></rect><path d="M7 17h10v4H7z"></path>
+              </svg>
+            </span>
+            <h3>Laporan siap cetak</h3>
+            <p>Rangkum asumsi, metrik, grafik, dan kesimpulan dalam satu halaman laporan yang rapi pada A4 atau PDF.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Template -->
+    <section class="bagian bagian--template" id="template" aria-labelledby="judul-template">
+      <div class="wadah">
+        <div class="kepala-bagian">
+          <p class="eyebrow">Template</p>
+          <h2 class="judul-bagian" id="judul-template">Mulai dari contoh yang dekat dengan usaha Anda.</h2>
+          <p class="teks-lembut">Empat template berisi asumsi awal yang wajar. Ubah semua angkanya sesuai kondisi Anda.</p>
+        </div>
+
+        <div class="grid-4">
+          <article class="kartu template__kartu">
+            <div class="template__kepala">
+              <span class="template__emoji" aria-hidden="true">🍜</span>
+              <h3>Warung Makan</h3>
+            </div>
+            <p>Harga menu, bahan baku, dan jumlah porsi per bulan.</p>
+            <p class="template__rentang"><span class="badge badge--netral">Rp12–18 rb / porsi</span><span class="badge badge--netral">300–1.000 porsi</span></p>
+            <a class="template__tautan" href="/app">Coba template
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+            </a>
+          </article>
+
+          <article class="kartu template__kartu">
+            <div class="template__kepala">
+              <span class="template__emoji" aria-hidden="true">☕</span>
+              <h3>Kafe</h3>
+            </div>
+            <p>Harga minuman, biaya sewa tempat, dan kunjungan per bulan.</p>
+            <p class="template__rentang"><span class="badge badge--netral">Rp18–32 rb / minuman</span><span class="badge badge--netral">400–1.100 kunjungan</span></p>
+            <a class="template__tautan" href="/app">Coba template
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+            </a>
+          </article>
+
+          <article class="kartu template__kartu">
+            <div class="template__kepala">
+              <span class="template__emoji" aria-hidden="true">🛍️</span>
+              <h3>Toko Online</h3>
+            </div>
+            <p>Harga produk, biaya iklan, dan jumlah pesanan per bulan.</p>
+            <p class="template__rentang"><span class="badge badge--netral">Rp75–129 rb / produk</span><span class="badge badge--netral">150–700 pesanan</span></p>
+            <a class="template__tautan" href="/app">Coba template
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+            </a>
+          </article>
+
+          <article class="kartu template__kartu">
+            <div class="template__kepala">
+              <span class="template__emoji" aria-hidden="true">💻</span>
+              <h3>Jasa Freelance</h3>
+            </div>
+            <p>Tarif proyek, biaya operasional, dan jumlah proyek per bulan.</p>
+            <p class="template__rentang"><span class="badge badge--netral">Rp1,5–4 jt / proyek</span><span class="badge badge--netral">2–7 proyek</span></p>
+            <a class="template__tautan" href="/app">Coba template
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Harga -->
+    <section class="bagian bagian--harga" id="harga" aria-labelledby="judul-harga">
+      <div class="wadah">
+        <div class="kepala-bagian kepala-bagian--tengah">
+          <p class="eyebrow">Harga</p>
+          <h2 class="judul-bagian" id="judul-harga">Sederhana, jujur, tanpa jebakan.</h2>
+          <p class="teks-lembut">Versi demo dapat dipakai gratis sepenuhnya. Paket berbayar ditampilkan sebagai rencana, bukan transaksi.</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="kartu paket">
+            <div class="paket__kepala">
+              <span class="paket__nama">Gratis</span>
+              <span class="badge badge--aman">Selamanya</span>
+            </div>
+            <p class="paket__harga"><span class="paket__angka">Rp0</span> <span class="paket__periode">/ selamanya</span></p>
+            <p class="paket__ket">Cukup untuk mencoba seluruh alur simulasi dari awal sampai laporan.</p>
+            <ul class="paket__daftar">
+              <li><svg class="paket__cek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>10.000 iterasi per simulasi</li>
+              <li><svg class="paket__cek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>1 skenario tersimpan</li>
+              <li><svg class="paket__cek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>4 template siap pakai</li>
+              <li><svg class="paket__cek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>Laporan dengan tanda AmanLaba</li>
+            </ul>
+            <a class="tombol tombol--utama" href="/app">Mulai Gratis</a>
+          </article>
+
+          <article class="kartu paket paket--unggulan">
+            <div class="paket__kepala">
+              <span class="paket__nama">Pro</span>
+              <span class="badge badge--aksen">Paling populer</span>
+            </div>
+            <p class="paket__harga"><span class="paket__angka">Rp49.000</span> <span class="paket__periode">/ bulan</span></p>
+            <p class="paket__ket">Untuk pemilik usaha yang rutin menguji harga dan biaya.</p>
+            <ul class="paket__daftar">
+              <li><svg class="paket__cek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>Skenario tanpa batas*</li>
+              <li><svg class="paket__cek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>Semua template</li>
+              <li><svg class="paket__cek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>Laporan tanpa tanda</li>
+              <li><svg class="paket__cek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>Pencari harga lengkap</li>
+            </ul>
+            <button class="tombol tombol--utama" type="button" data-demo="true">Coba Pro</button>
+          </article>
+
+          <article class="kartu paket">
+            <div class="paket__kepala">
+              <span class="paket__nama">Bisnis</span>
+              <span class="badge badge--netral">Tim</span>
+            </div>
+            <p class="paket__harga"><span class="paket__angka">Rp149.000</span> <span class="paket__periode">/ bulan</span></p>
+            <p class="paket__ket">Untuk tim kecil yang perlu menyusun laporan bersama.</p>
+            <ul class="paket__daftar">
+              <li><svg class="paket__cek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>Semua fitur Pro</li>
+              <li><svg class="paket__cek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>5 kursi tim</li>
+              <li><svg class="paket__cek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>Dukungan prioritas</li>
+              <li><svg class="paket__cek" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12.5l5 5L20 6.5"></path></svg>Akses awal Panel Pelanggan AI <span class="teks-lembut">(segera hadir)</span></li>
+            </ul>
+            <button class="tombol tombol--garis" type="button" data-demo="true">Konsultasi</button>
+          </article>
+        </div>
+
+        <p class="harga__kaki">*Versi demo tidak menerapkan pembatasan paket; semua pengguna dapat menyimpan hingga 50 skenario per browser. Tombol Pro dan Bisnis hanya menampilkan pemberitahuan bahwa pembayaran belum tersedia.</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="bagian bagian--faq" id="faq" aria-labelledby="judul-faq">
+      <div class="wadah">
+        <div class="kepala-bagian kepala-bagian--tengah">
+          <p class="eyebrow">FAQ</p>
+          <h2 class="judul-bagian" id="judul-faq">Pertanyaan yang sering diajukan.</h2>
+          <p class="teks-lembut">Jika masih ada yang mengganjal, mulai saja dengan template — Anda tidak bisa merusak apa pun.</p>
+        </div>
+
+        <div class="faq__daftar">
+          <details class="faq__item">
+            <summary>Apa itu simulasi Monte Carlo?</summary>
+            <div class="faq__jawaban">
+              <p>Monte Carlo adalah metode untuk menjalankan banyak kemungkinan sekaligus. Alih-alih memakai satu angka permintaan, AmanLaba menarik nilai dari rentang yang Anda berikan sebanyak 10.000 kali, lalu menghitung laba pada setiap kombinasi.</p>
+              <p>Hasilnya berupa distribusi: seberapa sering rugi, rentang laba yang paling mungkin, dan nilai ekstrem yang perlu diwaspadai.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Apakah AmanLaba gratis?</summary>
+            <div class="faq__jawaban">
+              <p>Ya. Versi demo dapat dipakai tanpa akun dan tanpa pembayaran. Semua fitur inti, termasuk laporan, tersedia.</p>
+              <p>Paket Pro dan Bisnis ditampilkan sebagai rencana ke depan. Pada versi demo, tombol paket berbayar hanya menampilkan pemberitahuan bahwa pembayaran belum tersedia.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Di mana data skenario saya disimpan?</summary>
+            <div class="faq__jawaban">
+              <p>Skenario tersimpan di <strong>localStorage browser Anda</strong>, bukan di database server. Artinya data hanya ada di perangkat dan browser yang sama.</p>
+              <p>Jika riwayat browser dibersihkan, skenario ikut terhapus. Laporan sebaiknya disimpan sebagai PDF setelah dibuat.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Apakah ini nasihat keuangan?</summary>
+            <div class="faq__jawaban">
+              <p>Tidak. AmanLaba adalah alat bantu simulasi berdasarkan asumsi yang Anda masukkan sendiri. Hasilnya bukan jaminan, bukan prediksi pasti, dan bukan nasihat keuangan atau investasi.</p>
+              <p>Selalu pertimbangkan kondisi nyata usaha Anda dan konsultasikan keputusan besar dengan pihak yang kompeten.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Apakah laporan bisa dicetak?</summary>
+            <div class="faq__jawaban">
+              <p>Bisa. Setelah menyimpan skenario di aplikasi, buka tautan laporan. Halaman laporan menyediakan tombol <strong>Cetak / Simpan PDF</strong> dan tata letak A4 yang menyembunyikan navigasi serta tombol.</p>
+              <p>Anda juga dapat membuka laporan dengan tambahan <code>?cetak=1</code> agar dialog cetak terbuka otomatis.</p>
+            </div>
+          </details>
+
+          <details class="faq__item">
+            <summary>Bagaimana permintaan merespons perubahan harga?</summary>
+            <div class="faq__jawaban">
+              <p>Permintaan yang Anda masukkan adalah permintaan pada harga mode. Saat harga berubah, AmanLaba memakai respons linear: <strong>faktor 1</strong> pada harga mode, <strong>0,5</strong> pada harga maksimum, dan <strong>0</strong> pada harga choke, yaitu 2 × harga maksimum − harga mode.</p>
+              <p>Faktor dibatasi pada 0–2. Ini penyederhanaan yang transparan agar kenaikan harga tidak otomatis dianggap selalu menambah laba. Jika harga maksimum sama dengan harga mode, faktor selalu 1.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA akhir -->
+    <section class="bagian bagian--cta">
+      <div class="wadah">
+        <div class="cta-akhir">
+          <h2>Tahu risikonya sebelum menentukan harga.</h2>
+          <p>Mulai dari template warung makan, ubah angkanya, lalu lihat sendiri peluang rugi dan rentang untung usaha Anda.</p>
+          <a class="tombol tombol--utama tombol--besar" href="/app">Coba Simulator Gratis</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="situs-footer">
+    <div class="wadah">
+      <div class="situs-footer__atas">
+        <div>
+          <a class="merek" href="/" aria-label="AmanLaba — beranda">
+            <span class="merek__lambang" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19V5"></path><path d="M4 19h16"></path>
+                <path d="M7.5 15.5l3.8-4.7 3 2.7 4.7-6.3"></path><path d="M15.5 7.2H19v3.4"></path>
+              </svg>
+            </span>
+            <span class="merek__teks">AmanLaba</span>
+          </a>
+          <p class="situs-footer__deskripsi">Simulator risiko usaha untuk UMKM, penjual online, dan freelancer. Berbasis rentang dan simulasi Monte Carlo ber-seed.</p>
+        </div>
+
+        <div>
+          <h2>Halaman</h2>
+          <nav class="situs-footer__tautan" aria-label="Tautan halaman">
+            <a href="/">Beranda</a>
+            <a href="/app">Aplikasi</a>
+            <a href="#fitur">Fitur</a>
+            <a href="#template">Template</a>
+            <a href="#harga">Harga</a>
+            <a href="#faq">FAQ</a>
+          </nav>
+        </div>
+
+        <div>
+          <h2>Mulai</h2>
+          <nav class="situs-footer__tautan" aria-label="Tautan mulai">
+            <a href="/app">Coba simulator</a>
+            <a href="#cara-kerja">Cara kerja</a>
+            <a href="#harga">Paket harga</a>
+            <a href="/laporan">Halaman laporan</a>
+          </nav>
+        </div>
+      </div>
+
+      <div class="situs-footer__bawah">
+        <p>&copy; <span id="tahun">2026</span> AmanLaba. Semua hak dilindungi.</p>
+        <p class="situs-footer__disclaimer">AmanLaba adalah alat bantu simulasi, bukan nasihat keuangan.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="notifikasi" id="notifikasi-paket" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="/assets/js/landing.js"></script>
+</body>
+</html>
