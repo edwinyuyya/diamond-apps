@@ -1,0 +1,18 @@
+{
+  "name": "amanlaba",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Simulator risiko usaha dengan Monte Carlo ber-seed",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "test": "node --test test/*.test.js",
+    "verify": "bash verify.sh"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

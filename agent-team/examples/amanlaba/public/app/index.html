@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AmanLaba — simulator risiko usaha dengan 10.000 kemungkinan. Masukkan biaya dan permintaan sebagai rentang, lalu lihat peluang rugi dan harga jual paling aman.">
+  <title>AmanLaba — Simulasi Risiko Usaha</title>
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/app.css">
+  <script type="module" src="/assets/js/app/utama.js"></script>
+</head>
+<body class="halaman-app">
+  <a class="app-lompat" href="#konten-utama">Lompat ke konten utama</a>
+
+  <header class="app-header tanpa-cetak">
+    <div class="wadah app-header__isi">
+      <a class="merek" href="/" aria-label="AmanLaba — beranda">
+        <span class="merek__lambang" aria-hidden="true">A</span>
+        <span>AmanLaba</span>
+      </a>
+      <nav class="app-nav" aria-label="Navigasi halaman">
+        <a class="app-nav__tautan" href="/">Beranda</a>
+        <span class="badge badge--netral" id="indikator-simulasi">10.000 simulasi</span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wadah app-tata-letak" id="konten-utama">
+    <section class="app-kolom-form" aria-labelledby="judul-form">
+      <div class="app-intro">
+        <p class="app-intro__eyebrow">Simulator risiko</p>
+        <h1 id="judul-form">Simulasikan risiko usahamu</h1>
+        <p class="teks-lembut">
+          Masukkan biaya dan permintaan sebagai rentang. AmanLaba menjalankan ribuan
+          kemungkinan dan menunjukkan peluang rugi, rentang laba, serta harga jual
+          yang paling masuk akal.
+        </p>
+      </div>
+
+      <form id="form-skenario" class="kartu app-form" novalidate>
+        <div class="app-form__nama">
+          <label class="label" for="nama-skenario">Nama skenario</label>
+          <input
+            class="input"
+            type="text"
+            id="nama-skenario"
+            name="nama"
+            maxlength="80"
+            autocomplete="off"
+            placeholder="Contoh: Warung Makan Bu Sari"
+            value="Warung Makan"
+            aria-describedby="bantuan-nama">
+          <p class="app-bantuan" id="bantuan-nama">Opsional. Dipakai sebagai judul saat menyimpan dan membuat laporan.</p>
+        </div>
+
+        <fieldset class="app-fieldset">
+          <legend>Harga &amp; Biaya</legend>
+
+          <div class="app-bidang">
+            <p class="app-bidang__judul" id="judul-harga">Harga jual per unit (Rp)</p>
+            <p class="app-bantuan" id="bantuan-harga">
+              Harga menu atau produk. Rentang minimum–maksimum mewakili kenaikan dan
+              potongan harga yang mungkin terjadi.
+            </p>
+            <div class="app-trio" role="group" aria-labelledby="judul-harga" aria-describedby="bantuan-harga">
+              <div class="app-trio__sel">
+                <label class="label app-label-kecil" for="harga-min">Minimum</label>
+                <input class="input" type="number" id="harga-min" name="harga-min" inputmode="decimal" min="0" step="any" value="12000" aria-describedby="bantuan-harga">
+              </div>
+              <div class="app-trio__sel">
+                <label class="label app-label-kecil" for="harga-mode">Paling mungkin</label>
+                <input class="input" type="number" id="harga-mode" name="harga-mode" inputmode="decimal" min="0" step="any" value="15000" aria-describedby="bantuan-harga">
+              </div>
+              <div class="app-trio__sel">
+                <label class="label app-label-kecil" for="harga-max">Maksimum</label>
+                <input class="input" type="number" id="harga-max" name="harga-max" inputmode="decimal" min="0" step="any" value="18000" aria-describedby="bantuan-harga">
+              </div>
+            </div>
+          </div>
+
+          <div class="app-bidang">
+            <p class="app-bidang__judul" id="judul-tetap">Biaya tetap per bulan (Rp)</p>
+            <p class="app-bantuan" id="bantuan-tetap">
+              Biaya yang tetap keluar walau penjualan berubah, misalnya sewa, gaji, dan listrik.
+            </p>
+            <div class="app-trio" role="group" aria-labelledby="judul-tetap" aria-describedby="bantuan-tetap">
+              <div class="app-trio__sel">
+                <label class="label app-label-kecil" for="tetap-min">Minimum</label>
+                <input class="input" type="number" id="tetap-min" name="tetap-min" inputmode="decimal" min="0" step="any" value="3000000" aria-describedby="bantuan-tetap">
+              </div>
+              <div class="app-trio__sel">
+                <label class="label app-label-kecil" for="tetap-mode">Paling mungkin</label>
+                <input class="input" type="number" id="tetap-mode" name="tetap-mode" inputmode="decimal" min="0" step="any" value="4000000" aria-describedby="bantuan-tetap">
+              </div>
+              <div class="app-trio__sel">
+                <label class="label app-label-kecil" for="tetap-max">Maksimum</label>
+                <input class="input" type="number" id="tetap-max" name="tetap-max" inputmode="decimal" min="0" step="any" value="5500000" aria-describedby="bantuan-tetap">
+              </div>
+            </div>
+          </div>
+
+          <div class="app-bidang">
+            <p class="app-bidang__judul" id="judul-variabel">Biaya variabel per unit (Rp)</p>
+            <p class="app-bantuan" id="bantuan-variabel">
+              Biaya bahan baku dan biaya lain yang muncul untuk setiap unit yang terjual.
+            </p>
+            <div class="app-trio" role="group" aria-labelledby="judul-variabel" aria-describedby="bantuan-variabel">
+              <div class="app-trio__sel">
+                <label class="label app-label-kecil" for="variabel-min">Minimum</label>
+                <input class="input" type="number" id="variabel-min" name="variabel-min" inputmode="decimal" min="0" step="any" value="5000" aria-describedby="bantuan-variabel">
+              </div>
+              <div class="app-trio__sel">
+                <label class="label app-label-kecil" for="variabel-mode">Paling mungkin</label>
+                <input class="input" type="number" id="variabel-mode" name="variabel-mode" inputmode="decimal" min="0" step="any" value="6500" aria-describedby="bantuan-variabel">
+              </div>
+              <div class="app-trio__sel">
+                <label class="label app-label-kecil" for="variabel-max">Maksimum</label>
+                <input class="input" type="number" id="variabel-max" name="variabel-max" inputmode="decimal" min="0" step="any" value="8000" aria-describedby="bantuan-variabel">
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="app-fieldset">
+          <legend>Permintaan</legend>
+          <div class="app-bidang">
+            <p class="app-bidang__judul" id="judul-permintaan">Permintaan per bulan (pada harga paling mungkin)</p>
+            <p class="app-bantuan" id="bantuan-permintaan">
+              Isi jumlah unit yang diperkirakan terjual <strong>pada harga paling mungkin</strong>
+              (nilai mode harga jual), bukan pada harga minimum atau maksimum. Model AmanLaba
+              menyesuaikan permintaan secara linear saat harga berubah.
+            </p>
+            <div class="app-trio" role="group" aria-labelledby="judul-permintaan" aria-describedby="bantuan-permintaan">
+              <div class="app-trio__sel">
+                <label class="label app-label-kecil" for="permintaan-min">Minimum (pada harga paling mungkin)</label>
+                <input class="input" type="number" id="permintaan-min" name="permintaan-min" inputmode="numeric" min="0" step="any" value="300" aria-describedby="bantuan-permintaan">
+              </div>
+              <div class="app-trio__sel">
+                <label class="label app-label-kecil" for="permintaan-mode">Paling mungkin (pada harga paling mungkin)</label>
+                <input class="input" type="number" id="permintaan-mode" name="permintaan-mode" inputmode="numeric" min="0" step="any" value="600" aria-describedby="bantuan-permintaan">
+              </div>
+              <div class="app-trio__sel">
+                <label class="label app-label-kecil" for="permintaan-max">Maksimum (pada harga paling mungkin)</label>
+                <input class="input" type="number" id="permintaan-max" name="permintaan-max" inputmode="numeric" min="0" step="any" value="1000" aria-describedby="bantuan-permintaan">
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset class="app-fieldset">
+          <legend>Pengaturan Simulasi</legend>
+          <div class="app-pengaturan">
+            <div class="app-pengaturan__sel">
+              <label class="label" for="iterasi">Jumlah iterasi</label>
+              <input class="input" type="number" id="iterasi" name="iterasi" inputmode="numeric" min="1000" max="50000" step="1" value="10000" aria-describedby="bantuan-iterasi">
+              <p class="app-bantuan" id="bantuan-iterasi">Antara 1.000 dan 50.000. Semakin banyak, semakin halus distribusinya.</p>
+            </div>
+            <div class="app-pengaturan__sel">
+              <label class="label" for="seed">Seed</label>
+              <div class="app-seed">
+                <input class="input" type="number" id="seed" name="seed" inputmode="numeric" min="0" max="2147483647" step="1" value="12345" aria-describedby="bantuan-seed">
+                <button class="tombol tombol--garis app-tombol-seed" type="button" id="tombol-acak-seed">Acak Seed</button>
+              </div>
+              <p class="app-bantuan" id="bantuan-seed">Seed yang sama dengan input yang sama menghasilkan hasil yang sama.</p>
+            </div>
+          </div>
+          <p class="app-asumsi-inline">
+            Model memakai distribusi triangular dan asumsi <strong>respons harga linear</strong>:
+            permintaan bernilai penuh pada harga mode, 0,5 pada harga maksimum, dan 0 pada
+            harga choke (2 × maks − mode).
+          </p>
+        </fieldset>
+
+        <div id="galat" class="galat app-galat" role="alert" hidden>
+          <p class="app-galat__judul">Input belum bisa diproses</p>
+          <ul class="app-galat__daftar"></ul>
+        </div>
+
+        <div class="app-aksi-utama">
+          <button class="tombol tombol--utama app-tombol-hitung" type="submit" id="tombol-hitung">Hitung Risiko</button>
+          <p class="app-status" id="status-hitung" aria-live="polite"></p>
+        </div>
+
+        <div class="app-aksi-simpan">
+          <button class="tombol tombol--garis" type="button" id="tombol-simpan">Simpan Skenario</button>
+          <a class="tombol tombol--halus nonaktif" id="tautan-laporan" aria-disabled="true" tabindex="-1">Buat Laporan</a>
+        </div>
+        <p class="app-bantuan app-bantuan--simpan">
+          Skenario hanya tersimpan di browser ini. Tautan laporan aktif setelah skenario disimpan.
+        </p>
+      </form>
+
+      <section class="kartu kartu--padat app-panel-samping" aria-labelledby="judul-template">
+        <div class="app-panel-samping__kepala">
+          <h2 class="app-judul-kecil" id="judul-template">Template skenario</h2>
+          <span class="badge badge--netral">4 contoh</span>
+        </div>
+        <p class="app-bantuan">Pilih contoh untuk mengisi form lalu menghitung otomatis.</p>
+        <div id="daftar-template" class="app-daftar-template" aria-live="polite">
+          <p class="app-memuat">Memuat template…</p>
+        </div>
+      </section>
+
+      <section class="kartu kartu--padat app-panel-samping" aria-labelledby="judul-skenario-saya">
+        <div class="app-panel-samping__kepala">
+          <h2 class="app-judul-kecil" id="judul-skenario-saya">Skenario saya</h2>
+          <span class="badge badge--netral" id="jumlah-skenario">0</span>
+        </div>
+        <div id="daftar-skenario" class="app-daftar-skenario" aria-live="polite">
+          <p class="app-kosong-kecil">Belum ada skenario tersimpan. Simulasikan lalu tekan Simpan Skenario.</p>
+        </div>
+        <p class="app-bantuan" id="peringatan-penyimpanan" hidden></p>
+      </section>
+    </section>
+
+    <section class="app-kolom-hasil" aria-label="Hasil simulasi">
+      <div id="panel-kosong" class="kartu app-kosong-hasil">
+        <div class="app-kosong-hasil__ikon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="48" height="48" role="presentation" focusable="false">
+            <rect x="7" y="25" width="7" height="15" rx="2" fill="currentColor" opacity="0.35"></rect>
+            <rect x="20" y="17" width="7" height="23" rx="2" fill="currentColor" opacity="0.55"></rect>
+            <rect x="33" y="9" width="7" height="31" rx="2" fill="currentColor"></rect>
+          </svg>
+        </div>
+        <h2 class="app-kosong-hasil__judul">Hasil akan tampil di sini</h2>
+        <p class="teks-lembut">
+          Halaman akan memuat template Warung Makan dan menghitung otomatis. Kamu juga bisa
+          mengubah rentang lalu menekan <strong>Hitung Risiko</strong>.
+        </p>
+      </div>
+
+      <div id="panel-hasil" class="app-hasil" hidden>
+        <header class="app-hasil__kepala">
+          <div>
+            <h2 class="app-hasil__judul">Hasil Simulasi</h2>
+            <p class="app-hasil__meta" id="meta-hasil"></p>
+          </div>
+          <span class="badge badge--netral app-badge-hasil" id="badge-simulasi">10.000 simulasi</span>
+        </header>
+
+        <p class="app-status-basi" id="status-basi" hidden>
+          Input telah berubah — hasil di bawah belum dihitung ulang. Tekan
+          <strong>Hitung Risiko</strong> untuk memperbarui.
+        </p>
+
+        <section class="kartu app-kartu-peluang" aria-labelledby="judul-peluang">
+          <h3 class="app-judul-kecil" id="judul-peluang">Peluang hasil</h3>
+          <div class="app-peluang">
+            <div class="app-peluang__sel app-peluang__sel--rugi">
+              <p class="app-peluang__label">Peluang rugi</p>
+              <p class="app-peluang__nilai" id="nilai-peluang-rugi">—</p>
+              <p class="app-peluang__catatan">Proporsi simulasi dengan laba di bawah nol.</p>
+            </div>
+            <div class="app-peluang__sel app-peluang__sel--untung">
+              <p class="app-peluang__label">Peluang untung</p>
+              <p class="app-peluang__nilai" id="nilai-peluang-untung">—</p>
+              <p class="app-peluang__catatan">Proporsi simulasi dengan laba nol atau lebih.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="kartu app-kartu-metrik" aria-labelledby="judul-rentang">
+          <div class="app-seksi-kepala">
+            <h3 class="app-judul-kecil" id="judul-rentang">Rentang laba per bulan</h3>
+            <span class="badge badge--netral">P5 · P50 · P95</span>
+          </div>
+          <div class="grid-3 app-rentang">
+            <div class="app-metrik">
+              <p class="app-metrik__label">P5 — skenario buruk</p>
+              <p class="app-metrik__nilai" id="nilai-p5">—</p>
+            </div>
+            <div class="app-metrik app-metrik--utama">
+              <p class="app-metrik__label">P50 — nilai tengah</p>
+              <p class="app-metrik__nilai" id="nilai-p50">—</p>
+            </div>
+            <div class="app-metrik">
+              <p class="app-metrik__label">P95 — skenario baik</p>
+              <p class="app-metrik__nilai" id="nilai-p95">—</p>
+            </div>
+          </div>
+          <div class="app-statistik">
+            <div class="app-statistik__sel">
+              <p class="app-statistik__label">Rata-rata</p>
+              <p class="app-statistik__nilai" id="nilai-rata-rata">—</p>
+            </div>
+            <div class="app-statistik__sel">
+              <p class="app-statistik__label">Laba minimum</p>
+              <p class="app-statistik__nilai" id="nilai-min">—</p>
+            </div>
+            <div class="app-statistik__sel">
+              <p class="app-statistik__label">Laba maksimum</p>
+              <p class="app-statistik__nilai" id="nilai-maks">—</p>
+            </div>
+            <div class="app-statistik__sel">
+              <p class="app-statistik__label">Deviasi standar</p>
+              <p class="app-statistik__nilai" id="nilai-deviasi">—</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="kartu app-kartu-impas" aria-labelledby="judul-impas">
+          <div class="app-seksi-kepala">
+            <h3 class="app-judul-kecil" id="judul-impas">Titik impas (berdasarkan nilai mode)</h3>
+            <span class="badge badge--netral">BEP</span>
+          </div>
+          <div class="grid-2 app-impas">
+            <div class="app-metrik">
+              <p class="app-metrik__label">Unit impas</p>
+              <p class="app-metrik__nilai" id="nilai-impas-unit">—</p>
+            </div>
+            <div class="app-metrik">
+              <p class="app-metrik__label">Pendapatan impas</p>
+              <p class="app-metrik__nilai" id="nilai-impas-pendapatan">—</p>
+            </div>
+          </div>
+          <p class="app-bantuan" id="catatan-impas"></p>
+        </section>
+
+        <section class="kartu app-kartu-grafik" aria-labelledby="judul-histogram">
+          <div class="app-seksi-kepala">
+            <h3 class="app-judul-kecil" id="judul-histogram">Histogram distribusi laba</h3>
+            <span class="badge badge--netral">30 bin</span>
+          </div>
+          <p class="app-bantuan">Semakin lebar sebaran, semakin besar ketidakpastian usaha.</p>
+          <div class="app-grafik" id="grafik-histogram">
+            <p class="app-grafik-kosong">Jalankan simulasi untuk melihat grafik.</p>
+          </div>
+          <p class="app-grafik-petunjuk">Geser grafik ke samping bila layar sempit.</p>
+          <details class="app-detail-data">
+            <summary>Lihat tabel distribusi</summary>
+            <div class="app-tabel-bungkus">
+              <table class="tabel app-tabel">
+                <caption class="sr-only">Distribusi laba per bin</caption>
+                <thead>
+                  <tr><th scope="col">Rentang laba</th><th scope="col">Jumlah</th><th scope="col">Proporsi</th></tr>
+                </thead>
+                <tbody id="tabel-histogram">
+                  <tr><td colspan="3">Belum ada data.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </section>
+
+        <section class="kartu app-kartu-grafik" aria-labelledby="judul-tornado">
+          <div class="app-seksi-kepala">
+            <h3 class="app-judul-kecil" id="judul-tornado">Tornado sensitivitas</h3>
+            <span class="badge badge--netral">P10 → P90</span>
+          </div>
+          <p class="app-bantuan">
+            Variabel di urutan teratas paling besar pengaruhnya terhadap laba. Batang kiri
+            menunjukkan laba pada kondisi rendah (P10), batang kanan pada kondisi tinggi (P90).
+          </p>
+          <div class="app-grafik" id="grafik-tornado">
+            <p class="app-grafik-kosong">Jalankan simulasi untuk melihat grafik.</p>
+          </div>
+          <p class="app-grafik-petunjuk">Geser grafik ke samping bila layar sempit.</p>
+          <details class="app-detail-data">
+            <summary>Lihat tabel sensitivitas</summary>
+            <div class="app-tabel-bungkus">
+              <table class="tabel app-tabel">
+                <caption class="sr-only">Dampak tiap variabel terhadap laba</caption>
+                <thead>
+                  <tr><th scope="col">Variabel</th><th scope="col">Laba P10</th><th scope="col">Laba P90</th><th scope="col">Dampak</th></tr>
+                </thead>
+                <tbody id="tabel-tornado">
+                  <tr><td colspan="4">Belum ada data.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </section>
+
+        <section class="kartu app-kartu-grafik" aria-labelledby="judul-grafik-harga">
+          <div class="app-seksi-kepala">
+            <h3 class="app-judul-kecil" id="judul-grafik-harga">Pencari harga jual</h3>
+            <span class="badge badge--netral">21 titik</span>
+          </div>
+          <p class="app-bantuan">
+            Laba rata-rata pada setiap titik harga. Titik oranye mengejar laba tertinggi;
+            titik hijau mengejar peluang rugi terendah.
+          </p>
+          <div class="app-grafik" id="grafik-harga">
+            <p class="app-grafik-kosong">Jalankan simulasi untuk melihat grafik.</p>
+          </div>
+          <p class="app-grafik-petunjuk">Geser grafik ke samping bila layar sempit.</p>
+          <p class="app-asumsi">
+            <strong>Asumsi respons permintaan linear:</strong> permintaan yang kamu masukkan
+            adalah permintaan pada harga paling mungkin (mode). Pada harga maksimum, permintaan
+            menjadi 0,5×; pada harga choke (2 × maks − mode), permintaan menjadi 0. Asumsi ini
+            membuat kenaikan harga tidak selalu menaikkan laba.
+          </p>
+          <details class="app-detail-data">
+            <summary>Lihat tabel sapuan harga</summary>
+            <div class="app-tabel-bungkus">
+              <table class="tabel app-tabel">
+                <caption class="sr-only">Laba rata-rata dan peluang rugi pada setiap harga</caption>
+                <thead>
+                  <tr><th scope="col">Harga</th><th scope="col">Laba rata-rata</th><th scope="col">P5</th><th scope="col">P50</th><th scope="col">Peluang rugi</th></tr>
+                </thead>
+                <tbody id="tabel-harga">
+                  <tr><td colspan="5">Belum ada data.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+        </section>
+
+        <div class="grid-2 app-rekomendasi" aria-label="Rekomendasi harga">
+          <section class="kartu app-rekomendasi__kartu app-rekomendasi__kartu--terbaik" aria-labelledby="judul-terbaik">
+            <span class="badge badge--netral">Laba terbaik</span>
+            <h3 class="app-judul-kecil" id="judul-terbaik">Harga dengan laba rata-rata tertinggi</h3>
+            <p class="app-rekomendasi__harga" id="label-harga-terbaik">—</p>
+            <p class="app-rekomendasi__alasan" id="alasan-harga-terbaik"></p>
+          </section>
+          <section class="kartu app-rekomendasi__kartu app-rekomendasi__kartu--teraman" aria-labelledby="judul-teraman">
+            <span class="badge badge--aman">Risiko terendah</span>
+            <h3 class="app-judul-kecil" id="judul-teraman">Harga dengan peluang rugi terkecil</h3>
+            <p class="app-rekomendasi__harga" id="label-harga-teraman">—</p>
+            <p class="app-rekomendasi__alasan" id="alasan-harga-teraman"></p>
+          </section>
+        </div>
+
+        <p class="app-disclaimer">
+          Hasil ini adalah simulasi berdasarkan asumsi pengguna, bukan jaminan atau nasihat
+          keuangan. Peluang bukan kepastian.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer tanpa-cetak">
+    <div class="wadah app-footer__isi">
+      <p><strong>AmanLaba</strong> — alat bantu simulasi risiko usaha.</p>
+      <p class="app-footer__tautan">
+        <a href="/">Beranda</a>
+        <a href="/#cara-kerja">Cara kerja</a>
+        <a href="/#faq">FAQ</a>
+      </p>
+    </div>
+  </footer>
+
+  <div id="notifikasi" class="notifikasi app-toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+</body>
+</html>
