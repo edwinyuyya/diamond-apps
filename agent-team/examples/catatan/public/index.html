@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Catatan2 &mdash; Catatan pribadi</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="app-header__inner">
+      <a class="brand" href="/" aria-label="Catatan2, kembali ke beranda">
+        <span class="brand__mark" aria-hidden="true">C</span>
+        <span class="brand__text">
+          <span class="brand__name">Catatan2</span>
+          <span class="brand__tagline">Catatan pribadi, tersimpan lokal.</span>
+        </span>
+      </a>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <div class="layout">
+      <section class="panel form-panel" aria-labelledby="form-heading">
+        <div class="panel__head">
+          <h2 id="form-heading">Tambah catatan</h2>
+          <p class="panel__hint">Judul wajib diisi, isi boleh dikosongkan.</p>
+        </div>
+
+        <form id="note-form" novalidate>
+          <div class="field">
+            <label for="title">Judul</label>
+            <input
+              id="title"
+              name="title"
+              type="text"
+              maxlength="200"
+              autocomplete="off"
+              spellcheck="false"
+              aria-required="true"
+              placeholder="Mis. Belanja mingguan"
+            >
+          </div>
+
+          <div class="field">
+            <label for="content">Isi <span class="label-hint">(opsional)</span></label>
+            <textarea
+              id="content"
+              name="content"
+              maxlength="10000"
+              rows="7"
+              placeholder="Tulis isi catatan di sini..."
+            ></textarea>
+          </div>
+
+          <div id="form-error" class="form-error" role="alert" aria-live="assertive"></div>
+
+          <div class="form-actions">
+            <button id="submit-btn" class="btn btn--primary" type="submit">Tambah Catatan</button>
+            <button id="cancel-btn" class="btn btn--ghost" type="button" hidden>Batal</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel list-panel" aria-labelledby="list-heading">
+        <div class="panel__head panel__head--row">
+          <h2 id="list-heading">Daftar catatan</h2>
+        </div>
+
+        <div id="list-status" class="list-status" role="status" aria-live="polite">Memuat catatan&hellip;</div>
+        <div id="notes-list" class="notes-list"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>Data disimpan di server lokal Anda.</p>
+  </footer>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>

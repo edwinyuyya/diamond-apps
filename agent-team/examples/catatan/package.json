@@ -1,0 +1,17 @@
+{
+  "name": "catatan2",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aplikasi catatan sederhana dengan REST API Express dan UI satu halaman",
+  "main": "server/index.js",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test": "node --test",
+    "verify": "bash verify.sh"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
