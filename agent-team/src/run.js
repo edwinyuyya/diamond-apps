@@ -31,6 +31,7 @@ const checkpoint = (m) =>
 let total = 0;
 const run = async (o) => { const r = await runAgent({ model, budget, cwd: ws, ...o }); total += r.cost; return r; };
 
+if (idea) fs.writeFileSync(path.join(ws, ".team", "idea.txt"), idea);
 console.log(`Workspace: ${ws}\n`);
 
 // ── Fase 1: Arsitek ────────────────────────────────────────────────────────

@@ -95,7 +95,7 @@ export async function runAgent({ name, role, task, cwd, model, owns: ownList, ma
         hooks,
       },
     })) {
-      logFile.write(JSON.stringify(msg) + "\n");
+      logFile.write(JSON.stringify({ ...msg, _ts: Date.now() }) + "\n");
       if (msg.type === "assistant") {
         for (const b of msg.message.content ?? []) {
           if (b.type === "tool_use") {
