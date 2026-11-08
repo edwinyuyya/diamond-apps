@@ -41,6 +41,17 @@ Opsi: `--out dir` · `--parallel 4` · `--max-fix 5` · `--budget 5` (USD per ag
 
 Hasil ada di `projects/<nama>/` (SPEC, kode, `verify.sh`, `REPORT.md`, log per agent di `.team/logs/`).
 
+## Dashboard progres (live)
+
+```bash
+node src/dashboard.js projects/<nama> 4000
+```
+
+Buka `http://localhost:4000`: fase, kartu tiap agent (status, aksi terakhir, waktu, biaya), hasil `verify.sh`, dan
+riwayat commit. Membaca log di `.team/` sehingga bisa dibuka kapan saja, termasuk setelah run selesai.
+
+![dashboard](docs/dashboard-preview.png)
+
 ## Provider
 
 - **DeepSeek (default bila `DEEPSEEK_API_KEY` ada)**: SDK diarahkan ke `https://api.deepseek.com/anthropic`

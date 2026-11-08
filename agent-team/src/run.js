@@ -53,20 +53,32 @@ await checkpoint("plan");
 log("team", `FASE 2 — implementasi ${tasks.length} tugas (maks ${parallel} paralel)`);
 const done = new Set();
 const failed = new Set();
-while (done.size + failed.size < tasks.length) {
-  const ready = tasks.filter((t) => !done.has(t.id) && !failed.has(t.id) &&
-    (t.dependsOn ?? []).every((d) => done.has(d)));
-  if (!ready.length) { log("team", "dependensi macet/gagal, lanjut ke verifikasi"); break; }
-  log("team", `gelombang: ${ready.map((t) => `${t.id}:${t.role}`).join(", ")}`);
-  await pool(ready, parallel, async (t) => {
-    const r = await run({
-      name: `${t.id}-${t.role}`, role: ROLES[t.role], owns: t.owns ?? [],
-      task: `TUGAS ${t.id}: ${t.title}\n\n${t.description}\n\nOWNS (boleh ditulis): ${(t.owns ?? []).join(", ")}\nStack: ${plan.stack}`,
-    });
-    (r.ok ? done : failed).add(t.id);
-  });
-  await checkpoint(`wave: ${ready.map((t) => t.id).join(",")}`);
-}
+const started = new Set();
+const sem = { running: 0 };
+// Penjadwal dinamis: tiap tugas mulai begitu dependensinya selesai (tanpa menunggu "gelombang").
+await new Promise((resolve) => {
+  const pump = () => {
+    for (const t of tasks) {
+      if (started.has(t.id) || sem.running >= parallel) continue;
+      const deps = t.dependsOn ?? [];
+      if (deps.some((d) => failed.has(d))) { started.add(t.id); failed.add(t.id); log("team", `${t.id} dilewati (dependensi gagal)`); continue; }
+      if (!deps.every((d) => done.has(d))) continue;
+      started.add(t.id); sem.running++;
+      log("team", `mulai ${t.id}:${t.role}`);
+      run({
+        name: `${t.id}-${t.role}`, role: ROLES[t.role], owns: t.owns ?? [],
+        task: `TUGAS ${t.id}: ${t.title}\n\n${t.description}\n\nOWNS (boleh ditulis): ${(t.owns ?? []).join(", ")}\nStack: ${plan.stack}`,
+      }).then(async (r) => {
+        (r.ok ? done : failed).add(t.id); sem.running--;
+        await checkpoint(`task ${t.id}`);
+        pump();
+      });
+    }
+    if (done.size + failed.size >= tasks.length) resolve();
+    else if (sem.running === 0 && !tasks.some((t) => !started.has(t.id) && (t.dependsOn ?? []).every((d) => done.has(d)))) resolve();
+  };
+  pump();
+});
 
 // ── Fase 3: Verifikasi + loop perbaikan ────────────────────────────────────
 log("team", "FASE 3 — verifikasi (bash verify.sh) & perbaikan");
