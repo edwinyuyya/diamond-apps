@@ -65,5 +65,6 @@ http.createServer((req, res) => {
   if (req.url.includes("api/state")) {
     res.writeHead(200, { "content-type": "application/json", "cache-control": "no-store" });
     try { res.end(JSON.stringify(state())); } catch (e) { res.end(JSON.stringify({ error: String(e) })); }
-  } else { res.writeHead(200, { "content-type": "text/html; charset=utf-8" }); res.end(HTML); }
+  } else { res.writeHead(200, { "content-type": "text/html; charset=utf-8" }); let init = "null"; try { init = JSON.stringify(state()).replace(/</g, "\\u003c"); } catch {}
+    res.end(HTML.replace("/*__INIT__*/null", init)); }
 }).listen(port, () => console.log(`Dashboard: http://localhost:${port}  (workspace: ${ws})`));

@@ -27,6 +27,7 @@ pre{background:#0b0e13;border:1px solid var(--line);border-radius:8px;padding:10
 .banner{padding:12px 16px;border-radius:10px;margin-bottom:14px;background:#12332a;color:var(--ok);border:1px solid var(--ok);display:none}
 </style></head><body>
 <h1>🤖 agent-team — progres build</h1><div class="sub" id="ws"></div>
+<div id="err" style="color:#ff6b6b;font-size:12px;margin:8px 0"></div>
 <div class="banner" id="banner">✅ Semua fase selesai</div>
 <div class="phases" id="phases"></div>
 <div class="stats" id="stats"></div>
@@ -35,6 +36,7 @@ pre{background:#0b0e13;border:1px solid var(--line);border-radius:8px;padding:10
 <h2>Verifikasi (bash verify.sh)</h2><div id="verify" class="sub">belum dijalankan</div>
 <h2>Checkpoint git</h2><div class="commits" id="commits"></div>
 <script>
+window.__INIT__=/*__INIT__*/null;
 const $=id=>document.getElementById(id);
 const ROLE_ICON={architect:'🧭',backend:'⚙️',frontend:'🎨',database:'🗄️',devops:'🚀',qa:'🧪',debugger:'🐞',reviewer:'🔎'};
 const fmt=ms=>ms>=60000?Math.floor(ms/60000)+'m '+Math.round(ms%60000/1000)+'s':Math.round(ms/1000)+'s';
@@ -49,9 +51,15 @@ function card(a,role,title,extra){
   ${a?`<div class="meta"><span>🔧 ${a.tools} aksi</span><span>⏱ ${age}</span><span>$${a.cost.toFixed(2)}</span></div>
   <div class="log">${a.recent.map(r=>`<div>${esc(r)}</div>`).join('')}</div>`:''}</div>`;
 }
+let first=true;
 async function tick(){
-  let s;try{s=await (await fetch('api/state')).json()}catch{return}
-  if(s.error)return;
+  let s;
+  try{s=await (await fetch('api/state',{cache:'no-store'})).json()}
+  catch(e){ if(first&&window.__INIT__){s=window.__INIT__;$('err').textContent='⚠ live update gagal ('+e+'), menampilkan data awal — muat ulang halaman';}
+            else{$('err').textContent='⚠ gagal mengambil data: '+e;return} }
+  first=false;
+  if(s.error){$('err').textContent='⚠ '+s.error;return}
+  if(!$('err').textContent.includes('data awal'))$('err').textContent='';
   $('ws').textContent=s.ws;
   const names=['Perencanaan','Implementasi paralel','Verifikasi & perbaikan','Review akhir'];
   $('phases').innerHTML=names.map((n,i)=>{const k=i+1,c=s.allDone||k<s.phase?'done':k===s.phase?'cur':'';
