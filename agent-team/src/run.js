@@ -13,9 +13,10 @@ const model = flag("model", useDeepseek ? "deepseek-chat" : undefined);
 const parallel = Number(flag("parallel", 4));
 const maxFix = Number(flag("max-fix", 5));
 const budget = Number(flag("budget", 5)); // USD per agent
+const resume = args.includes("--resume") && args.splice(args.indexOf("--resume"), 1).length > 0;
 const idea = args.join(" ").trim();
 
-if (!idea || (!useDeepseek && !process.env.ANTHROPIC_API_KEY && !process.env.CLAUDE_CODE_OAUTH_TOKEN)) {
+if ((!idea && !resume) || (!useDeepseek && !process.env.ANTHROPIC_API_KEY && !process.env.CLAUDE_CODE_OAUTH_TOKEN)) {
   console.error(`Pakai:  DEEPSEEK_API_KEY=... node src/run.js [--out dir] [--parallel 4] [--max-fix 5] [--budget 5] [--model m] "ide aplikasi"`);
   process.exit(1);
 }
@@ -34,7 +35,10 @@ console.log(`Workspace: ${ws}\n`);
 
 // ── Fase 1: Arsitek ────────────────────────────────────────────────────────
 log("team", "FASE 1 — perencanaan");
-const arch = await run({
+const planPath = path.join(ws, "plan.json");
+let arch = { text: "" };
+if (resume && fs.existsSync(planPath)) log("team", "resume: architect dilewati, memakai plan.json yang ada");
+else arch = await run({
   name: "architect", role: ROLES.architect,
   task: `Ide user:\n\n${idea}\n\nBuat SPEC.md, CONTRACT.md, dan plan.json di workspace ini.`,
 });
@@ -51,9 +55,17 @@ await checkpoint("plan");
 
 // ── Fase 2: Eksekusi paralel per gelombang (topological) ───────────────────
 log("team", `FASE 2 — implementasi ${tasks.length} tugas (maks ${parallel} paralel)`);
-const done = new Set();
+const doneBefore = (id, role) => {
+  try {
+    const lines = fs.readFileSync(path.join(ws, ".team", "logs", `${id}-${role}.jsonl`), "utf8").trim().split("\n");
+    const last = JSON.parse(lines[lines.length - 1]);
+    return last.type === "result" && last.subtype === "success";
+  } catch { return false; }
+};
+const done = new Set(resume ? tasks.filter((t) => doneBefore(t.id, t.role)).map((t) => t.id) : []);
+if (done.size) log("team", `resume: sudah selesai sebelumnya → ${[...done].join(", ")}`);
+const started = new Set(done);
 const failed = new Set();
-const started = new Set();
 const sem = { running: 0 };
 // Penjadwal dinamis: tiap tugas mulai begitu dependensinya selesai (tanpa menunggu "gelombang").
 await new Promise((resolve) => {
@@ -67,7 +79,7 @@ await new Promise((resolve) => {
       log("team", `mulai ${t.id}:${t.role}`);
       run({
         name: `${t.id}-${t.role}`, role: ROLES[t.role], owns: t.owns ?? [],
-        task: `TUGAS ${t.id}: ${t.title}\n\n${t.description}\n\nOWNS (boleh ditulis): ${(t.owns ?? []).join(", ")}\nStack: ${plan.stack}`,
+        task: `TUGAS ${t.id}: ${t.title}\n\n${t.description}\n\nOWNS (boleh ditulis): ${(t.owns ?? []).join(", ")}\nStack: ${plan.stack}${resume ? "\n\nCATATAN: run ini lanjutan; sebagian file mungkin sudah ada dari percobaan sebelumnya yang terputus. Periksa dulu, pertahankan yang benar, lanjutkan yang kurang — jangan mulai dari nol." : ""}`,
       }).then(async (r) => {
         (r.ok ? done : failed).add(t.id); sem.running--;
         await checkpoint(`task ${t.id}`);

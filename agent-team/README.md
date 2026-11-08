@@ -37,7 +37,7 @@ cd agent-team && npm install
 DEEPSEEK_API_KEY=sk-... node src/run.js "Aplikasi todo dengan login, REST API, dan UI web"
 ```
 
-Opsi: `--out dir` · `--parallel 4` · `--max-fix 5` · `--budget 5` (USD per agent) · `--model <id>`
+Opsi: `--resume` (lanjutkan run yang terhenti: `node src/run.js --resume --out projects/<nama>`) · `--out dir` · `--parallel 4` · `--max-fix 5` · `--budget 5` (USD per agent) · `--model <id>`
 
 Hasil ada di `projects/<nama>/` (SPEC, kode, `verify.sh`, `REPORT.md`, log per agent di `.team/logs/`).
 
