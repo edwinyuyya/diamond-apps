@@ -1,84 +1,287 @@
 <!doctype html>
-<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>agent-team · progres</title>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kantor Virtual Nexora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1218;--card:#181d27;--line:#262d3b;--tx:#e6e9ef;--mut:#8a93a6;--run:#f5b942;--ok:#3ecf8e;--bad:#ff6b6b;--wait:#4a5468;--acc:#6ea8ff}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,sans-serif;padding:20px;max-width:1100px;margin-inline:auto}
-h1{font-size:18px;margin:0 0 4px}.sub{color:var(--mut);font-size:12px;word-break:break-all}
-.phases{display:flex;gap:8px;margin:18px 0}.ph{flex:1;padding:10px 12px;border-radius:10px;background:var(--card);border:1px solid var(--line);color:var(--mut)}
-.ph b{display:block;color:var(--tx);font-size:13px}.ph.done{border-color:var(--ok)}.ph.done b{color:var(--ok)}.ph.cur{border-color:var(--run)}.ph.cur b{color:var(--run)}
-.stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px}.stat small{color:var(--mut);display:block;font-size:11px}
-h2{font-size:13px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em;margin:22px 0 8px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
-.card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--wait);border-radius:10px;padding:12px}
-.card.running{border-left-color:var(--run)}.card.done{border-left-color:var(--ok)}.card.failed{border-left-color:var(--bad)}
-.top{display:flex;justify-content:space-between;align-items:center;gap:8px}.role{font-weight:600}
-.badge{font-size:11px;padding:2px 8px;border-radius:99px;background:#2a3142;color:var(--mut)}
-.running .badge{background:#3a2f12;color:var(--run)}.done .badge{background:#12332a;color:var(--ok)}.failed .badge{background:#3b1818;color:var(--bad)}
-.title{color:var(--mut);font-size:12px;margin:4px 0 8px}.own{font:11px ui-monospace,monospace;color:var(--acc)}
-.meta{display:flex;gap:12px;color:var(--mut);font-size:12px;margin-top:8px}
-.log{font:11px ui-monospace,monospace;color:var(--mut);margin-top:8px;border-top:1px dashed var(--line);padding-top:6px}
-.log div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.log div:last-child{color:var(--tx)}
-.dep{font-size:11px;color:var(--mut)}
-.pulse{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--run);margin-right:6px;animation:p 1s infinite}@keyframes p{50%{opacity:.25}}
-.files{display:flex;gap:8px;flex-wrap:wrap}.f{font:12px ui-monospace,monospace;padding:3px 10px;border-radius:6px;border:1px solid var(--line);color:var(--mut)}.f.ok{color:var(--ok);border-color:#1d5a44}
-pre{background:#0b0e13;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:11px;overflow:auto;margin:6px 0}
-.commits div{font:12px ui-monospace,monospace;color:var(--mut);padding:2px 0}.commits span{color:var(--acc);margin-right:8px}
-.banner{padding:12px 16px;border-radius:10px;margin-bottom:14px;background:#12332a;color:var(--ok);border:1px solid var(--ok);display:none}
-</style></head><body>
-<h1>🤖 agent-team — progres build <small style="color:#8a93a6;font-weight:400">(snapshot statis)</small></h1><div class="sub" id="ws"></div>
-<div id="err" style="color:#ff6b6b;font-size:12px;margin:8px 0"></div>
-<div class="banner" id="banner">✅ Semua fase selesai</div>
-<div class="phases" id="phases"></div>
-<div class="stats" id="stats"></div>
-<h2>Berkas inti</h2><div class="files" id="files"></div>
-<h2>Agent</h2><div class="grid" id="agents"></div>
-<h2>Verifikasi (bash verify.sh)</h2><div id="verify" class="sub">belum dijalankan</div>
-<h2>Checkpoint git</h2><div class="commits" id="commits"></div>
-<script>
-window.__INIT__={"ws":"/home/user/diamond-apps/agent-team/projects/catatan2","now":1794139895029,"phase":4,"allDone":false,"plan":{"stack":"Node.js 20 + Express 4 + HTML/CSS/JS vanilla + JSON file store (server/store.js), node:test, tanpa build step"},"architect":{"name":"architect","status":"done","tools":14,"cost":1.348795,"turns":15,"last":"Bash node -e 'const p=require(\"./plan.json\"); const ids=new Set(p.tasks.map","recent":["Edit /home/user/diamond-apps/agent-team/projects/catatan2/CONTRACT.md","Edit /home/user/diamond-apps/agent-team/projects/catatan2/CONTRACT.md","Edit /home/user/diamond-apps/agent-team/projects/catatan2/plan.json","Write /home/user/diamond-apps/agent-team/projects/catatan2/plan.json","Write /home/user/diamond-apps/agent-team/projects/catatan2/CONTRACT.md","Bash node -e 'const p=require(\"./plan.json\"); const ids=new Set(p.tasks.map"],"mtime":1794138975177.4358,"startedAt":1794138738113.4275,"durationMs":236168},"tasks":[{"id":"t1","role":"database","title":"Lapisan penyimpanan JSON (server/store.js)","description":"Implementasikan server/store.js sebagai satu-satunya lapisan penyimpanan file JSON sesuai CONTRACT.md §3 dan §4. Ekspor createStore({ filePath }) yang sinkron dan mengembalikan method async list, get, create, update, remove dengan semantik persis kontrak: format file {version:1,notes:[]}, pretty-print 2 spasi, buat direktori dan file saat operasi tulis pertama, tulis atomik melalui file .tmp lalu rename, semua operasi diserialisasi lewat satu antrean promise, baca file setiap operasi agar instance baru melihat data terbaru, id dari crypto.randomUUID, timestamp ISO 8601 UTC dengan milidetik, title di-trim, content default string kosong dan tidak di-trim, daftar diurutkan updatedAt desc lalu createdAt desc lalu id asc. File hilang berarti data kosong; file korup atau bentuk tidak valid harus melempar Error, bukan mereset data. Gunakan hanya modul bawaan Node (fs/promises, path, crypto), tanpa Express atau dependency lain, dan jangan menulis file di luar owns. Kriteria selesai: modul dapat di-require mandiri, seluruh method berperilaku sesuai §4, data terlihat oleh instance store baru pada file yang sama, penulisan tidak pernah parsial, dan tidak ada akses file selain filePath beserta file .tmp-nya.","owns":["server/store.js","data/"],"dependsOn":[],"agent":{"name":"t1-database","status":"done","tools":13,"cost":0.510152,"turns":14,"last":"Bash git status --short && echo \"--- diff ---\" && git diff -- server/store.","recent":["Edit /home/user/diamond-apps/agent-team/projects/catatan2/server/store.js","Bash ls -la /home/user/diamond-apps/agent-team/projects/catatan2/NOTES.md 2","Bash cp /home/user/diamond-apps/agent-team/projects/catatan2/server/store.j","Bash grep -n \"store\\.\" server/routes/notes.js server/app.js server/index.js","Write /home/user/diamond-apps/agent-team/projects/catatan2/NOTES.md","Bash git status --short && echo \"--- diff ---\" && git diff -- server/store."],"mtime":1794139473529.4536,"startedAt":1794138975289.436,"durationMs":70526}},{"id":"t2","role":"backend","title":"REST API Express + hosting UI statis","description":"Implementasikan REST API Express dan hosting statis sesuai CONTRACT.md §5 dan §6. File: server/app.js (ekspor createApp({store}) tanpa listen; express.json dengan limit 100kb; mount router di /api; GET /api/health; express.static untuk public/; handler 404 API dan error middleware yang memetakan parse error ke 400 INVALID_JSON, body terlalu besar ke 413 PAYLOAD_TOO_LARGE, dan error lain ke 500 INTERNAL_ERROR tanpa stack trace), server/index.js (baca PORT default 3000 dan DATA_FILE default \u003croot>/data/notes.json, buat store, listen, cetak URL), dan server/routes/notes.js (createNotesRouter(store) dengan GET /, POST /, GET /:id, PUT /:id, DELETE /:id serta validasi persis tabel §5.4 dan status 201/200/204/404). Gunakan hanya antarmuka store §4; jangan menulis atau mengubah server/store.js, public/, package.json, atau tests/. Kriteria selesai: createApp dapat diuji dengan store sementara, semua endpoint dan pesan error persis kontrak, GET / menyajikan public/index.html, JSON rusak tidak mematikan proses, dan response error tidak membocorkan detail internal.","owns":["server/app.js","server/index.js","server/routes/"],"dependsOn":[],"agent":{"name":"t2-backend","status":"done","tools":28,"cost":1.4379250000000003,"turns":29,"last":"Bash pgrep -af 'edge\\.js|server/index\\.js' || echo \"no stale processes\"; gi","recent":["Bash cat > /tmp/t2-verify/edge.js \u003c\u003c'EOF'\n'use strict';\nconst assert = requ","Bash pkill -f '/tmp/t2-verify/edge.js' 2>/dev/null; sleep 0.3; pgrep -af 'e","Bash pgrep -af 'edge\\.js|server/index\\.js' || echo \"no stale processes\"","Bash kill 4053 4212 6440 2>/dev/null; sleep 0.5; pgrep -af 'edge\\.js|server","Bash cd /tmp/t2-verify && sed -i \"s#assert.deepStrictEqual(JSON.parse(r.tex","Bash pgrep -af 'edge\\.js|server/index\\.js' || echo \"no stale processes\"; gi"],"mtime":1794139651478.5942,"startedAt":1794138975289.436,"durationMs":248347}},{"id":"t3","role":"frontend","title":"UI satu halaman untuk tambah, edit, dan hapus catatan","description":"Bangun UI web satu halaman di public/index.html, public/styles.css, dan public/app.js sesuai CONTRACT.md §7. Fitur: form tambah/edit dengan judul wajib dan isi opsional, daftar kartu catatan, tombol Edit dan Hapus, konfirmasi sebelum hapus, tombol Batal saat mode edit, empty state 'Belum ada catatan.', status loading 'Memuat catatan...', dan area error role=alert. Gunakan fetch ke /api/notes dengan method sesuai kontrak dan tampilkan error.message dari response error. Wajib memakai ID stabil #note-form, #title, #content, #submit-btn, #cancel-btn, #form-error, #notes-list, #list-status serta struktur kartu article.note dengan .note-title, .note-content, .note-updated, .edit-btn, .delete-btn. Render seluruh data pengguna dengan textContent, bukan innerHTML. Tanpa framework, CDN, build step, atau dependency; CSS responsif satu kolom di layar kecil dan rapi di desktop. Jangan menulis file di luar public/. Kriteria selesai: alur tambah, edit, batal, dan hapus berjalan terhadap kontrak API; state kosong/loading/error tampil; tidak ada XSS; halaman berfungsi saat disajikan dari GET /.","owns":["public/"],"dependsOn":[],"agent":{"name":"t3-frontend","status":"done","tools":32,"cost":1.3602280000000002,"turns":33,"last":"Bash fuser -k 3210/tcp 2>/dev/null || true; sleep 0.3; cd /home/user/diamon","recent":["Bash fuser -k 3210/tcp 2>/dev/null || true","Bash git status --short; echo '--- tracked:'; git ls-files public; echo '--","Bash ls -d node_modules 2>/dev/null && node -e \"console.log(require.resolve","Bash ls -l /tmp/pw-catatan2-ui.js 2>/dev/null || echo 'script gone'","Bash cd /home/user/diamond-apps/agent-team/projects/catatan2\nTMPD=$(mktemp","Bash fuser -k 3210/tcp 2>/dev/null || true; sleep 0.3; cd /home/user/diamon"],"mtime":1794139570653.4573,"startedAt":1794138975289.436,"durationMs":167723}},{"id":"t4","role":"devops","title":"Bootstrap proyek: package.json, README, .gitignore","description":"Bootstrap proyek sesuai CONTRACT.md §8. Buat package.json persis dengan nama catatan2, main server/index.js, engines node >=20, scripts start/dev/test/verify, dan satu dependency express ^4.21.2 tanpa devDependencies. Jalankan npm install hingga package-lock.json terbentuk. Buat README.md berisi deskripsi, prasyarat, perintah npm install/start/dev/test/verify, URL http://localhost:3000, lokasi data, env PORT dan DATA_FILE, tabel endpoint API, dan struktur direktori. Buat .gitignore final yang memuat node_modules/, .team/, data/notes.json, data/*.tmp, *.log, dan .DS_Store. Jangan menulis file server/, public/, tests/, atau verify.sh. Kriteria selesai: npm install bersih dan menghasilkan lock file, package.json valid tanpa dependency tambahan, npm test meneruskan ke node --test (auto-discovery), README akurat dan cukup untuk menjalankan aplikasi, serta .gitignore mempertahankan .team/.","owns":["package.json","package-lock.json","README.md",".gitignore"],"dependsOn":[],"agent":{"name":"t4-devops","status":"done","tools":22,"cost":0.626187,"turns":23,"last":"Bash node -e '\nconst assert=require(\"assert\");\nconst p=require(\"./package.j","recent":["Bash ps -eo pid,ppid,stat,lstart,cmd | grep -E 'node server/index|npm start","Bash ss -ltn 2>/dev/null | head -20; echo \"---\"; curl -sS -m 2 -w ' [%{http","Bash kill 2834 2833 2820 2>/dev/null || true\nsleep 0.5\ncurl -sS -m 1 http:/","Bash set -e\nTMP=$(mktemp -d)\n( DATA_FILE=\"$TMP/notes.json\" setsid npm start","Edit /home/user/diamond-apps/agent-team/projects/catatan2/NOTES.md","Bash node -e '\nconst assert=require(\"assert\");\nconst p=require(\"./package.j"],"mtime":1794139549841.4565,"startedAt":1794139473629.4539,"durationMs":75439}},{"id":"t5","role":"qa","title":"Test otomatis dan verify.sh end-to-end","description":"Tulis test otomatis dan verify.sh sesuai CONTRACT.md §9. tests/store.test.js mencakup file belum ada, create/get/update/remove, persistensi lintas instance, dan file korup yang melempar error. tests/api.test.js memakai createApp({store}) dengan DATA_FILE di direktori sementara dan app.listen(0), lalu fetch; mencakup health, list kosong, create sukses, validasi judul dan isi, get beserta 404, update parsial dan penuh beserta 404, PUT kosong, delete beserta 404, JSON rusak 400, urutan updatedAt, dan endpoint API tak dikenal 404. Gunakan node:test dan node:assert tanpa dependency tambahan; jangan menyentuh data/notes.json asli dan jangan memakai port tetap. verify.sh harus executable, memakai set -euo pipefail, cd ke root, npm install bila node_modules belum ada, npm test, lalu smoke test HTTP nyata di PORT default 3000 dengan DATA_FILE sementara (health, POST, list, PUT, DELETE, 404), memakai trap untuk mematikan server, mencetak VERIFY OK, dan exit non-zero saat ada kegagalan. Jangan mengubah kode implementasi; laporkan kegagalan kontrak secara jelas. Kriteria selesai: npm test lulus berulang dari kondisi bersih, verify.sh lulus end-to-end, dan verify.sh mengembalikan exit code non-zero bila salah satu pengecekan gagal.","owns":["tests/","verify.sh"],"dependsOn":["t1","t2","t3","t4"],"agent":{"name":"t5-qa","status":"done","tools":25,"cost":1.2743250000000002,"turns":26,"last":"Bash git status --short; echo \"---\"; ls -l tests verify.sh; echo \"--- data","recent":["Bash command -v shellcheck >/dev/null && shellcheck verify.sh || echo \"shel","Bash rm -rf /tmp/catatan2-clean && mkdir -p /tmp/catatan2-clean && tar -C /","Bash rm -rf /tmp/catatan2-clean","Read /home/user/diamond-apps/agent-team/projects/catatan2/NOTES.md","Bash cat >> NOTES.md \u003c\u003c'EOF'\n\n## t5 (qa) — test otomatis + verify.sh\n\n### S","Bash git status --short; echo \"---\"; ls -l tests verify.sh; echo \"--- data"],"mtime":1794139806429.4656,"startedAt":1794139651529.4602,"durationMs":154145}}],"debuggers":[],"reviewer":{"name":"reviewer","status":"running","tools":25,"cost":0,"turns":0,"last":"Bash set -u\nTMP=$(mktemp -d /tmp/catatan2-review2.XXXXXX); PORT=3197; expor","recent":["Bash bash verify.sh 2>&1 | tail -40; echo \"EXIT=${PIPESTATUS[0]}\"","Bash ls -la data 2>/dev/null || echo \"no data dir\"; echo \"---\"; node --vers","Bash git ls-files -s | sed -n '1,50p'; echo \"---EXPRESS---\"; node -e \"conso","Bash git log --stat --oneline -5 | sed -n '1,80p'; echo \"---BRANCH---\"; git","Bash set -u\nTMP=$(mktemp -d /tmp/catatan2-review.XXXXXX); PORT=3198; export","Bash set -u\nTMP=$(mktemp -d /tmp/catatan2-review2.XXXXXX); PORT=3197; expor"],"mtime":1794139894685.4688,"startedAt":1794139807753.4656},"verifies":[{"file":"verify-0.log","tail":"uration_ms: 29.809549\n  type: 'test'\n  ...\n1..27\n# tests 27\n# suites 0\n# pass 27\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 329.081941\n\n==> Menjalankan server: PORT=3000, DATA_FILE=/tmp/catatan2-verify.r6bqlI/notes.json\n\n==> Server siap — GET /api/health\n\n==> POST /api/notes\n\n==> GET /api/notes (daftar berisi catatan baru)\n\n==> PUT /api/notes/57a9e1a1-45ec-48b1-b2d9-e98230f490f3\n\n==> GET / (halaman utama)\n\n==> DELETE /api/notes/57a9e1a1-45ec-48b1-b2d9-e98230f490f3\n\n==> GET /api/notes/:id setelah dihapus → 404\n\n==> GET /api/tidak-dikenal → 404\n\n==> Menghentikan server\n\nVERIFY OK\n","ok":false}],"commits":[["2fdfb9b","task t5"],["9b3933c","task t4"],["83b3f4c","task t1"],["73ab65e","init"],["9fef91b","plan"],["a05da95","init"]],"files":[{"f":"SPEC.md","ok":true},{"f":"CONTRACT.md","ok":true},{"f":"plan.json","ok":true},{"f":"verify.sh","ok":true},{"f":"REPORT.md","ok":false}],"cost":6.557612000000001};
-const $=id=>document.getElementById(id);
-const ROLE_ICON={architect:'🧭',backend:'⚙️',frontend:'🎨',database:'🗄️',devops:'🚀',qa:'🧪',debugger:'🐞',reviewer:'🔎'};
-const fmt=ms=>ms>=60000?Math.floor(ms/60000)+'m '+Math.round(ms%60000/1000)+'s':Math.round(ms/1000)+'s';
-const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
-function card(a,role,title,extra){
-  const st=a?a.status:'waiting';
-  const label={waiting:'menunggu',running:'berjalan',done:'selesai',failed:'gagal'}[st];
-  const age=a&&st==='running'?fmt(Date.now()-a.startedAt):(a?.durationMs?fmt(a.durationMs):'');
-  return `<div class="card ${st}"><div class="top"><span class="role">${ROLE_ICON[role]||'🤖'} ${esc(role)}</span>
-  <span class="badge">${st==='running'?'<i class="pulse"></i>':''}${label}</span></div>
-  <div class="title">${esc(title||'')}</div>${extra||''}
-  ${a?`<div class="meta"><span>🔧 ${a.tools} aksi</span><span>⏱ ${age}</span><span>$${a.cost.toFixed(2)}</span></div>
-  <div class="log">${a.recent.map(r=>`<div>${esc(r)}</div>`).join('')}</div>`:''}</div>`;
+:root{
+  --bg:#e9f1f6; --floor:#f7fbfd; --wall:#9fb8c8; --surface:#ffffff; --ink:#0d2230; --muted:#5a7487;
+  --sky:#0b8fc7; --sky-soft:#dff3fc; --sun:#f5c400; --sun-soft:#fff5c7;
+  --ok:#1f9d55; --warn:#d99a00; --bad:#d6363f; --idle:#9aabb7; --desk:#d9c3a0; --desk-edge:#b89c74;
+  --display:"Bricolage Grotesque","Segoe UI",sans-serif; --body:"Plus Jakarta Sans","Segoe UI",system-ui,sans-serif;
+  color-scheme: light;
 }
-let first=true;
+@media (prefers-color-scheme: dark){:root{
+  --bg:#071118; --floor:#0d1d29; --wall:#2c4a5e; --surface:#11283a; --ink:#e6f2f9; --muted:#8eadc0;
+  --sky:#3cc4fb; --sky-soft:#0c3249; --sun:#ffd60a; --sun-soft:#3a3108;
+  --ok:#3fd17f; --warn:#f2b631; --bad:#ff6b73; --idle:#56707f; --desk:#6b5639; --desk-edge:#8a7150; color-scheme: dark;}}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--body);padding:24px 16px 48px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:18px}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.15;text-wrap:balance}
+h1{font-size:clamp(26px,4.6vw,40px);font-weight:800;letter-spacing:-.02em}
+h3{font-size:15px}
+.head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+.head p{color:var(--muted);max-width:68ch;margin:6px 0 0}
+.stats{display:flex;gap:8px;flex-wrap:wrap}
+.stat{background:var(--surface);border:1px solid var(--wall);border-radius:10px;padding:8px 12px;display:grid;min-width:88px}
+.stat b{font:800 22px/1 var(--display);font-variant-numeric:tabular-nums}
+.stat span{font-size:11.5px;color:var(--muted)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px}
+.err{color:var(--bad);font-size:12px}
+
+/* alur kerja */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.step{background:var(--surface);border:1px solid var(--wall);border-radius:10px;padding:9px 12px;display:grid;gap:5px}
+.step b{font-size:13px}.step small{color:var(--muted);font-size:11.5px}
+.bar{height:6px;border-radius:99px;background:var(--sky-soft);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--sky);border-radius:99px;transition:width .6s}
+.step.done{border-color:var(--ok)}.step.done .bar i{background:var(--ok)}
+.step.cur{border-color:var(--sun)}.step.cur .bar i{background:var(--warn)}
+.step.bad{border-color:var(--bad)}.step.bad .bar i{background:var(--bad)}
+
+/* denah */
+.plan{background:var(--wall);padding:10px;border-radius:16px;display:grid;gap:10px;
+  grid-template-columns:1fr 1.4fr 1fr;grid-template-areas:"lobi eng ops" "arsi eng ops" "debug review uji"}
+.room{background:var(--floor);border-radius:8px;padding:12px;position:relative;display:grid;gap:10px;align-content:start;
+  background-image:linear-gradient(var(--sky-soft) 1px,transparent 1px),linear-gradient(90deg,var(--sky-soft) 1px,transparent 1px);background-size:28px 28px}
+.room.lobi{grid-area:lobi;background-color:var(--sun-soft)}
+.room.arsi{grid-area:arsi}.room.eng{grid-area:eng}.room.ops{grid-area:ops}.room.debug{grid-area:debug}.room.review{grid-area:review}.room.uji{grid-area:uji}
+.plate{display:inline-flex;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--wall);border-radius:6px;padding:3px 9px;width:max-content;font:700 12px/1.4 var(--body);letter-spacing:.04em;text-transform:uppercase}
+.desks{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.desk{appearance:none;border:0;background:none;padding:0;text-align:left;color:inherit;font:inherit;cursor:pointer;display:grid;gap:6px;border-radius:10px}
+.desk:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
+.desk.sel .bubble{box-shadow:0 0 0 2px var(--sky)}
+.bubble{background:var(--surface);border:1px solid var(--wall);border-radius:10px;padding:7px 9px;font-size:12px;line-height:1.35;position:relative;min-height:58px;overflow:hidden;word-break:break-word}
+.bubble::after{content:"";position:absolute;left:22px;bottom:-6px;width:10px;height:10px;background:var(--surface);border-right:1px solid var(--wall);border-bottom:1px solid var(--wall);transform:rotate(45deg)}
+.bubble time{display:block;font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums;margin-bottom:1px}
+.bubble code{font:11px ui-monospace,Consolas,monospace}
+.station{display:flex;align-items:end;gap:6px;padding-left:6px}
+.station svg{flex:none}
+.tag{display:grid;gap:0;min-width:0}
+.tag b{font-size:13px}
+.tag small{color:var(--muted);font-size:11px;display:flex;align-items:center}
+.desk.running .bubble{border-color:var(--ok)}
+.desk.failed .bubble{border-color:var(--bad)}
+.desk.waiting .bubble{border-style:dashed;color:var(--muted)}
+.desk.running .screen{animation:blink 2.4s ease-in-out infinite}
+@keyframes blink{50%{opacity:.5}}
+@media (prefers-reduced-motion:reduce){.desk.running .screen{animation:none}}
+.empty{font-size:12px;color:var(--muted)}
+.lamp{display:flex;align-items:center;gap:10px}
+.lamp i{width:18px;height:18px;border-radius:50%;background:var(--idle);box-shadow:0 0 0 4px var(--sky-soft)}
+.lamp.ok i{background:var(--ok)}.lamp.bad i{background:var(--bad)}
+.note{font-size:12px;color:var(--muted);margin:0}
+.brief{font-size:12.5px;margin:0;display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+
+/* detail */
+.card{background:var(--surface);border:1px solid var(--wall);border-radius:14px;padding:16px;display:grid;gap:10px;min-width:0;align-content:start}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.code{font:700 11px/1 ui-monospace,Consolas,monospace;letter-spacing:.06em;color:var(--sky);background:var(--sky-soft);padding:4px 6px;border-radius:5px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid var(--wall);color:var(--muted);display:inline-flex;align-items:center}
+.chip .dot{margin-right:5px}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.kv div{background:var(--sky-soft);border-radius:8px;padding:6px 10px}
+.kv b{display:block;font:800 17px/1.2 var(--display);font-variant-numeric:tabular-nums}
+.kv span{font-size:11px;color:var(--muted)}
+.list{display:grid;gap:3px;margin:0;padding:0;list-style:none;font:12px/1.45 ui-monospace,Consolas,monospace}
+.list li{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.list time{color:var(--muted);margin-right:6px}
+.list .k{color:var(--sky);margin-right:6px}
+.sum{white-space:pre-wrap;font-size:12.5px;background:var(--bg);border-radius:8px;padding:10px;max-height:190px;overflow:auto;margin:0}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+pre.log{background:var(--bg);border-radius:8px;padding:8px 10px;font:11px/1.45 ui-monospace,Consolas,monospace;max-height:150px;overflow:auto;margin:6px 0 0;white-space:pre-wrap}
+@media (max-width:900px){
+  .flow{grid-template-columns:1fr 1fr}.cols{grid-template-columns:1fr}
+  .plan{grid-template-columns:1fr 1fr;grid-template-areas:"lobi arsi" "eng eng" "ops ops" "debug review" "uji uji"}
+}
+@media (max-width:520px){
+  .plan{grid-template-columns:1fr;grid-template-areas:"lobi" "arsi" "eng" "ops" "debug" "review" "uji"}
+  .desks{grid-template-columns:repeat(2,minmax(0,1fr))}.flow{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div>
+      <h1>Kantor Virtual Nexora</h1>
+      <p id="sub"><b>Snapshot statis 12:57 UTC.</b> Denah tim agent AI Nexora yang membangun aplikasi dari satu prompt. Gelembung di tiap meja menampilkan aksi terakhir agent. Ketuk meja untuk melihat tugas, berkas, dan laporan agent.</p>
+    </div>
+    <div class="stats" id="stats"></div>
+  </div>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--ok)"></i>bekerja</span>
+    <span><i class="dot" style="background:var(--sky)"></i>selesai</span>
+    <span><i class="dot" style="background:var(--bad)"></i>gagal</span>
+    <span><i class="dot" style="background:var(--idle)"></i>menunggu giliran</span>
+    <span id="asof"></span>
+  </div>
+  <div id="err" class="err"></div>
+  <div class="flow" id="flow"></div>
+
+  <div class="plan">
+    <section class="room lobi"><span class="plate">Lobi · pemesan</span><p class="brief" id="brief"></p><p class="note" id="stack"></p></section>
+    <section class="room arsi"><span class="plate">Ruang Arsitek</span><div class="desks" id="r-arsi"></div></section>
+    <section class="room eng"><span class="plate">Engineering</span><div class="desks" id="r-eng"></div></section>
+    <section class="room ops"><span class="plate">DevOps &amp; QA</span><div class="desks" id="r-ops"></div></section>
+    <section class="room debug"><span class="plate">Ruang Debug</span><div class="desks" id="r-debug"></div></section>
+    <section class="room review"><span class="plate">Ruang Review</span><div class="desks" id="r-review"></div></section>
+    <section class="room uji"><span class="plate">Ruang Uji · verify.sh</span><div id="r-uji"></div></section>
+  </div>
+
+  <section class="card" id="detail" aria-live="polite"></section>
+
+  <div class="cols">
+    <section class="card"><h3>Aktivitas terbaru</h3><ul class="list" id="feed"></ul></section>
+    <section class="card"><h3>Berkas yang dihasilkan <span class="chip" id="nfiles"></span></h3><ul class="list" id="files"></ul></section>
+  </div>
+  <div class="cols">
+    <section class="card"><h3>Hasil verifikasi</h3><div id="verify" class="note">belum dijalankan</div></section>
+    <section class="card"><h3>Checkpoint git</h3><ul class="list" id="commits"></ul></section>
+  </div>
+</div>
+
+<script>
+window.__STATIC__=true;window.__INIT__={"ws":"/home/user/diamond-apps/agent-team/projects/simulator","now":1794142632093,"phase":2,"allDone":false,"startedAt":1794141450285.5244,"endedAt":null,"idea":"","specTitle":"SPEC — AmanLaba","stack":"Node.js >=18.17 (disarankan 20 LTS) ESM tanpa dependency npm; HTTP bawaan Node; HTML/CSS/JS statis; grafik SVG murni; localStorage; node:test; port 3000","architect":{"name":"architect","status":"done","tools":49,"cost":4.914598000000001,"turns":50,"last":"Bash python3 -I - \u003c\u003c'PY' import json, re from pathlib import Path plan = json.loads(Path('plan.","lastTs":null,"events":[{"kind":"Read","text":"CONTRACT.md","ts":null},{"kind":"Bash","text":"python3 -I - \u003c\u003c'PY' from pathlib import Path p = Path('CONTRACT.md') c = p.read_text(encod","ts":null},{"kind":"Bash","text":"python3 -I - \u003c\u003c'PY' from pathlib import Path p = Path('plan.json') s = p.read_text(encodin","ts":null},{"kind":"Bash","text":"python3 -I - \u003c\u003c'PY' import random, math # warung template, approximate triangular sampler ","ts":null},{"kind":"Bash","text":"python3 -I -m json.tool plan.json >/dev/null && echo 'plan valid' && python3 -I - \u003c\u003c'PY' f","ts":null},{"kind":"Bash","text":"sed -n '14,18p' plan.json","ts":null},{"kind":"Bash","text":"python3 -I - \u003c\u003c'PY' from pathlib import Path p=Path('plan.json') s=p.read_text(encoding='u","ts":null},{"kind":"Bash","text":"python3 -I - \u003c\u003c'PY' import random, math def tri(rng, lo, md, hi): if hi == lo: return lo u","ts":null},{"kind":"Bash","text":"python3 -I - \u003c\u003c'PY' import random, math def tri(rng, lo, md, hi): if hi == lo: return lo u","ts":null},{"kind":"Bash","text":"python3 -I - \u003c\u003c'PY' from pathlib import Path p=Path('CONTRACT.md') c=p.read_text(encoding=","ts":null},{"kind":"Bash","text":"grep -n -A5 '\"harga\": 15000' CONTRACT.md | head -20; echo '---'; grep -n -A5 '\"harga\": 240","ts":null},{"kind":"Bash","text":"python3 -I - \u003c\u003c'PY' from pathlib import Path p=Path('CONTRACT.md'); c=p.read_text(encoding","ts":null},{"kind":"Bash","text":"grep -n \"laba = (harga\" SPEC.md CONTRACT.md; echo '---'; grep -n \"faktorPermintaanHarga\\|f","ts":null},{"kind":"Bash","text":"python3 -I - \u003c\u003c'PY' import json, re from pathlib import Path plan = json.loads(Path('plan.","ts":null}],"files":["SPEC.md","CONTRACT.md","plan.json"],"summary":"Selesai. Tiga file sudah dibuat dan tervalidasi di root workspace:\n\n- **`SPEC.md`** — spesifikasi produk **AmanLaba**, fitur MVP ketat, user flow, model Monte Carlo, stack, paket harga, kriteria rilis, dan risiko.\n- **`CONTRACT.md`** — kontrak teknis lengkap: struktur direktori, kepemilikan file, port 3000, seluruh endpoint API beserta contoh JSON, skema validasi, localStorage, ID DOM wajib, token desain, spesifikasi grafik SVG, perintah npm, serta **titik ekstensi Panel Pelanggan AI** (stub, belum diimplementasikan).\n- **`plan.json`** — 5 tugas; **t1–t4 berjalan paralel tanpa dependensi**, dan **t5 QA bergantung pada semua tugas implementasi**.\n\nCatatan keputusan produk: pencari harga memakai asumsi respons permintaan linear (faktor 1 pada harga mode, 0,5 pada harga maksimum, 0 pada harga choke). Tanpa ini, harga terbaik dan teraman akan selalu jatuh di batas atas sapuan dan fitur menjadi tidak bermakna. Asumsi ini didokumentasikan untuk UI, laporan, dan pengujian.\n\nValidasi: `plan.json` valid, 15 contoh JSON di `CONTRACT.md` valid, 5 tugas dengan 4 parallel root, dan QA mencakup semua tugas implementasi. Tidak ada kode aplikasi yang ditulis.","mtime":1794142254977.5532,"startedAt":1794141450285.5244,"durationMs":803740},"tasks":[{"id":"t1","role":"backend","title":"Mesin Monte Carlo ber-seed, API HTTP, dan stub Panel Pelanggan AI","description":"Bangun seluruh isi backend/ sesuai CONTRACT.md bagian 3-7, 12, dan 14. Implementasikan modul mesin murni: RNG mulberry32 ber-seed, sampler dan kuantil triangular, persentil interpolasi linear, histogram 30 bin, titik impas dari nilai mode, sensitivitas tornado P10/P90, sapuan harga otomatis 21 titik x 1500 iterasi dengan seed turunan (seed + 104729*k), serta jalankanSimulasi dengan urutan pengambilan acak tetap: harga, biaya tetap, biaya variabel, permintaan. Semua fungsi wajib deterministik dan tanpa I/O. Terapkan faktor respons permintaan linear: permintaan adalah permintaan pada harga mode; faktor 1 di mode, 0,5 di harga maksimum, 0 di harga choke (2*max-mode), di-clamp 0..2, dan 1 jika max=mode; pakai faktor yang sama pada simulasi utama, sensitivitas harga, dan sapuan harga. Ekspor faktorPermintaanHarga(harga, hargaJual). Implementasikan validasi skenario/opsi dengan pesan Indonesia dan galat ber-field. Buat server HTTP tanpa framework: GET /api/health, GET /api/template (4 template persis), POST /api/simulasi, POST /api/harga, envelope {data} / {error}, batas body 128 KB, status 400/404/405/413/500, serta rute statis /, /app, /laporan, /assets dengan whitelist ekstensi dan proteksi path traversal. Ekspor buatServer dan mulaiServer; jangan listen saat diimpor. Sertakan stub backend/extensions/panel-pelanggan-ai/ beserta README yang menyatakan status belum-diimplementasikan dan melempar error E_BELUM_DIIMPLEMENTASIKAN; jangan impor stub itu di server. Tanpa dependency npm dan tanpa menulis di luar backend/. Kriteria selesai: server jalan di port 3000; seluruh endpoint dan bentuk JSON cocok kontrak; seed sama menghasilkan angka identik; template tepat 4; rute statis aman; stub tidak aktif; self-check manual lulus.","owns":["backend/"],"dependsOn":[],"agent":{"name":"t1-backend","status":"running","tools":36,"cost":0,"turns":0,"last":"Bash cd /home/user/diamond-apps/agent-team/projects/simulator node --input-type=module \u003c\u003c'EOF'","lastTs":null,"events":[{"kind":"Write","text":"backend/extensions/panel-pelanggan-ai/index.js","ts":null},{"kind":"Write","text":"backend/extensions/panel-pelanggan-ai/README.md","ts":null},{"kind":"Bash","text":"node --input-type=module \u003c\u003c'EOF' import assert from 'node:assert/strict'; import { VERSI_M","ts":null},{"kind":"Bash","text":"node --input-type=module \u003c\u003c'EOF' import assert from 'node:assert/strict'; import { VERSI_M","ts":null},{"kind":"Bash","text":"node --input-type=module \u003c\u003c'EOF' function makeRng(seed, varian) { let a = Number(seed) >>>","ts":null},{"kind":"Bash","text":"node --input-type=module \u003c\u003c'EOF' function makeRng(seed, varian) { let a = Number(seed) >>>","ts":null},{"kind":"Edit","text":"backend/engine/rng.js","ts":null},{"kind":"Bash","text":"node --input-type=module \u003c\u003c'EOF' import assert from 'node:assert/strict'; import { VERSI_M","ts":null},{"kind":"Bash","text":"set -e BASE=/home/user/diamond-apps/agent-team/projects/simulator FIX=$BASE/backend/.uji-p","ts":null},{"kind":"Bash","text":"set -e BASE=/home/user/diamond-apps/agent-team/projects/simulator FIX=$BASE/backend/.uji-p","ts":null},{"kind":"Bash","text":"cd /home/user/diamond-apps/agent-team/projects/simulator node --input-type=module \u003c\u003c'EOF' ","ts":null},{"kind":"Bash","text":"git status --short && echo \"---\" && find backend public -type f 2>/dev/null | sort && echo","ts":null},{"kind":"Bash","text":"cd /home/user/diamond-apps/agent-team/projects/simulator node --input-type=module \u003c\u003c'EOF' ","ts":null},{"kind":"Bash","text":"cd /home/user/diamond-apps/agent-team/projects/simulator node --input-type=module \u003c\u003c'EOF' ","ts":null}],"files":["backend/package.json","backend/engine/rng.js","backend/engine/distribusi.js","backend/engine/statistik.js","backend/engine/validasi.js","backend/engine/titik-impas.js","backend/engine/sensitivitas.js","backend/engine/sapuan-harga.js","backend/engine/simulasi.js","backend/engine/template.js","backend/engine/index.js","backend/http/util-http.js","backend/http/rute-api.js","backend/http/rute-statis.js","backend/server.js","backend/extensions/panel-pelanggan-ai/index.js","backend/extensions/panel-pelanggan-ai/README.md"],"summary":"","mtime":1794142631585.5667,"startedAt":1794142255085.5532,"durationMs":null}},{"id":"t2","role":"frontend","title":"Aplikasi simulasi /app dengan form rentang, grafik SVG, dan penyimpanan lokal","description":"Bangun public/app/index.html, public/assets/css/app.css, dan public/assets/js/app/{utama,form,hasil,grafik,penyimpanan,format}.js sesuai CONTRACT.md bagian 8-11. Form berisi empat variabel (harga jual, biaya tetap, biaya variabel, permintaan) dengan input min/mode/max; label permintaan harus menyebut 'pada harga paling mungkin' dan UI/report menjelaskan asumsi respons harga linear, iterasi 1000-50000, seed, tombol acak seed, dan tombol Hitung Risiko. Saat halaman dimuat, ambil GET /api/template dan localStorage secara paralel, terapkan template warung-makan, lalu jalankan simulasi otomatis. Kirim POST /api/simulasi dan render: peluang rugi/untung, P5/P50/P95, rata-rata, min/maks, deviasi standar, titik impas unit dan pendapatan, histogram SVG, tornado SVG, sapuan harga SVG, serta rekomendasi harga laba terbaik dan risiko terendah beserta alasannya. Implementasikan simpan/muat/hapus skenario pada key amanlaba:skenario:v1 (maks 50), tautan /laporan?id= yang aktif hanya setelah skenario tersimpan, state loading, penanganan error, dan toast. Gunakan token serta kelas bersama dari base.css tanpa mendefinisikan ulang palet; gaya khusus aplikasi hanya di app.css dengan awalan app- atau scope .halaman-app. Wajib memakai seluruh ID DOM pada CONTRACT.md 9.4, format Rupiah/persen Indonesia, aksesibel, responsif 360/768/1280 px, tanpa library dan tanpa request eksternal. Tanpa menulis di luar public/app/, app.css, dan public/assets/js/app/. Kriteria selesai: halaman memuat template dan hasil otomatis; semua metrik/grafik tampil; simpan/muat/hapus bekerja; laporan tertaut benar; tidak ada error console; layout tidak pecah di ponsel.","owns":["public/app/","public/assets/css/app.css","public/assets/js/app/"],"dependsOn":[],"agent":{"name":"t2-frontend","status":"running","tools":16,"cost":0,"turns":0,"last":"Write public/assets/js/app/hasil.js","lastTs":null,"events":[{"kind":"Read","text":"CONTRACT.md","ts":null},{"kind":"Read","text":"SPEC.md","ts":null},{"kind":"Bash","text":"find public -type f 2>/dev/null | head -50; echo \"---\"; cat plan.json; echo \"---\"; ls .tea","ts":null},{"kind":"Bash","text":"git status --short && git log --oneline -5 && ls -la public 2>/dev/null; ls -la backend 2>","ts":null},{"kind":"Bash","text":"mkdir -p public/app public/assets/css public/assets/js/app && node -v","ts":null},{"kind":"Write","text":"public/app/index.html","ts":null},{"kind":"Write","text":"public/assets/js/app/format.js","ts":null},{"kind":"Write","text":"public/assets/js/app/form.js","ts":null},{"kind":"Edit","text":"public/assets/js/app/form.js","ts":null},{"kind":"Write","text":"public/assets/js/app/penyimpanan.js","ts":null},{"kind":"Write","text":"public/assets/js/app/grafik.js","ts":null},{"kind":"Edit","text":"public/assets/js/app/grafik.js","ts":null},{"kind":"Edit","text":"public/assets/js/app/grafik.js","ts":null},{"kind":"Write","text":"public/assets/js/app/hasil.js","ts":null}],"files":["public/app/index.html","public/assets/js/app/format.js","public/assets/js/app/form.js","public/assets/js/app/penyimpanan.js","public/assets/js/app/grafik.js","public/assets/js/app/hasil.js"],"summary":"","mtime":1794142631773.5667,"startedAt":1794142255085.5532,"durationMs":null}},{"id":"t3","role":"frontend","title":"Landing page, sistem desain bersama, dan laporan cetak","description":"Bangun public/index.html, public/laporan.html, public/assets/css/base.css, public/assets/js/landing.js, dan public/assets/js/laporan.js sesuai CONTRACT.md bagian 9.1-9.6 dan 10-11. base.css wajib memuat token warna/radius/bayangan/lebar/font persis serta seluruh kelas bersama (.wadah, .tombol, .kartu, .input, .badge, .grid-2, .grid-3, dll.) dengan gaya scoped .halaman-landing. Landing dan laporan harus menjelaskan asumsi respons permintaan linear (faktor 1 di harga mode, 0,5 di harga maksimum, 0 di choke). Landing harus memuat: header lengket, hero dengan H1 dan subjudul persis, kartu cuplikan hasil, bagian masalah, cara kerja, minimal 6 fitur, 4 template, 3 paket harga (Gratis/Pro/Bisnis dengan poin wajib), minimal 5 FAQ, CTA akhir, footer dan disclaimer; tombol Pro/Bisnis hanya menampilkan notifikasi demo tanpa transaksi; tanpa testimoni/logo fiktif. laporan.html membaca /laporan?id= dari localStorage key amanlaba:skenario:v1, memanggil POST /api/simulasi, lalu menampilkan metadata, metrik, tabel asumsi, histogram, tornado, sapuan harga, dua rekomendasi, kesimpulan otomatis, disclaimer, dan tombol cetak. Tangani id hilang/rusak, data tidak ditemukan, loading, error API, serta query cetak=1 untuk memicu window.print satu kali. Sediakan @media print A4 yang menyembunyikan navigasi/tombol dan menjaga kartu/grafik tidak terpotong. Tanpa library, tanpa aset eksternal, responsif, aksesibel. Tanpa menulis di luar file yang dimiliki. Kriteria selesai: semua bagian landing dan paket harga tampil; laporan memuat data tersimpan dan rapi saat print preview A4; error state bekerja; tidak ada request eksternal; tidak ada ID DOM wajib yang hilang.","owns":["public/index.html","public/laporan.html","public/assets/css/base.css","public/assets/js/landing.js","public/assets/js/laporan.js","public/assets/img/"],"dependsOn":[],"agent":{"name":"t3-frontend","status":"running","tools":10,"cost":0,"turns":0,"last":"Write public/laporan.html","lastTs":null,"events":[{"kind":"Bash","text":"ls -la /home/user/diamond-apps/agent-team/projects/simulator","ts":null},{"kind":"Read","text":"CONTRACT.md","ts":null},{"kind":"Read","text":"SPEC.md","ts":null},{"kind":"Bash","text":"ls -R public .team 2>/dev/null | head -50; cat plan.json | head -80; git log --oneline | h","ts":null},{"kind":"Bash","text":"find public backend test scripts -type f 2>/dev/null | head -60; ls -la; cat package.json ","ts":null},{"kind":"Bash","text":"which node npm chromium chromium-browser google-chrome google-chrome-stable firefox 2>/dev","ts":null},{"kind":"Write","text":"public/assets/css/base.css","ts":null},{"kind":"Write","text":"public/index.html","ts":null},{"kind":"Write","text":"public/assets/js/landing.js","ts":null},{"kind":"Write","text":"public/laporan.html","ts":null}],"files":["public/assets/css/base.css","public/index.html","public/assets/js/landing.js","public/laporan.html"],"summary":"","mtime":1794142631985.5667,"startedAt":1794142255085.5532,"durationMs":null}},{"id":"t4","role":"devops","title":"Konfigurasi root, skrip npm, dokumentasi, dan pemeriksaan Node","description":"Sediakan package.json, README.md, .nvmrc, .gitignore, dan scripts/cek-node.sh sesuai CONTRACT.md bagian 12. package.json wajib: name amanlaba, versi 1.0.0, private, type module, engines Node >=18.17, dependencies dan devDependencies kosong, serta skrip start (node backend/server.js), dev (node --watch backend/server.js), test (node --test test/*.test.js), dan verify (bash verify.sh). Jangan menambahkan dependency apa pun dan jangan membuat lockfile yang mengunduh paket. README harus menjelaskan nilai produk singkat, cara menjalankan tanpa npm install, daftar perintah, environment variable PORT/HOST/NODE_ENV, struktur singkat, endpoint API, alur landing/app/laporan, dan status titik ekstensi Panel Pelanggan AI yang belum aktif. .nvmrc berisi versi Node yang didukung. .gitignore mencakup node_modules, .env, log, dan artefak lokal tanpa menghapus .team yang sudah ada. scripts/cek-node.sh memeriksa Node >=18.17 dan keluar dengan pesan jelas bila gagal. Jangan menulis kode aplikasi, test, verify.sh, atau file frontend/backend. Kriteria selesai: npm install tidak diperlukan; npm start/test/verify ter-resolve ke perintah yang benar; README akurat terhadap kontrak; pemeriksaan Node berfungsi; tidak ada dependency.","owns":["package.json","README.md",".gitignore",".nvmrc","scripts/"],"dependsOn":[],"agent":null},{"id":"t5","role":"qa","title":"Test otomatis statistik/API/statis/kontrak dan verify.sh","description":"Setelah t1-t4 selesai, tulis test di test/ dan verify.sh sesuai CONTRACT.md bagian 13. engine-statistik.test.js: uji uniformitas RNG 100.000 sampel (rata-rata 0,5 +/-0,01; desil 0,1 +/-0,02), inverse CDF triangular, kasus analitik (harga 15000, biaya tetap 4.000.000, biaya variabel 5.000, permintaan triangular 200/400/800, N=20.000, seed 12345) dengan toleransi rata-rata 2 persen, peluang rugi 1/3 +/-0,02, P5 -1.225.403 +/-150.000, P50 535.900 +/-150.000, P95 2.904.555 +/-150.000, titik impas 400 unit/Rp6.000.000; determinisme, histogram 30 bin, sensitivitas 4 item terurut, sapuan harga 21 titik, kasus margin tidak valid, seed 0, serta faktor respons permintaan (1 di mode, 0,5 di max, 0 di choke, clamp 0..2, max=mode => 1) dan trade-off sapuan pada template warung-makan (terbaik/teraman bukan harga maksimum). api.test.js: health, 4 template, simulasi valid, validasi 400, JSON rusak, body 413, 404, 405+Allow, /api/harga, determinisme via HTTP (kecuali durasiMs/dihitungPada), dan path traversal. statis.test.js: rute /, /app, /laporan, aset CSS/JS, MIME, seluruh ID DOM wajib, lang=id, serta larangan aset eksternal. kontrak.test.js: stub Panel Pelanggan AI (status dan error E_BELUM_DIIMPLEMENTASIKAN), versi mesin, dan nol dependency. Gunakan node:test/assert, port ephemeral 0, tanpa browser automation. verify.sh wajib set -euo pipefail, cek Node, jalankan npm test, start server sementara port 3456, tunggu health, curl halaman dan template, trap kill, lalu cetak VERIFIKASI LULUS. Jangan mengubah kode implementasi; laporkan kegagalan. Kriteria selesai: semua test deterministik dan lulus; verify.sh executable dan lulus dari root; tidak ada dependency baru dan tidak ada file di luar test/ dan verify.sh.","owns":["test/","verify.sh"],"dependsOn":["t1","t2","t3","t4"],"agent":null}],"debuggers":[],"reviewer":null,"verifies":[],"commits":[["ae6802f","plan"],["25dc74f","init"]],"files":[{"f":"SPEC.md","ok":true},{"f":"CONTRACT.md","ok":true},{"f":"plan.json","ok":true},{"f":"verify.sh","ok":false},{"f":"REPORT.md","ok":false}],"feed":[{"agent":"t3-frontend","kind":"Write","text":"public/laporan.html","ts":1794142631985.5667},{"agent":"t2-frontend","kind":"Write","text":"public/assets/js/app/hasil.js","ts":1794142631773.5667},{"agent":"t1-backend","kind":"Bash","text":"cd /home/user/diamond-apps/agent-team/projects/simulator node --input-type=module \u003c\u003c'EOF'","ts":1794142631585.5667},{"agent":"architect","kind":"Bash","text":"python3 -I - \u003c\u003c'PY' import json, re from pathlib import Path plan = json.loads(Path('plan.","ts":1794142254977.5532}],"producedFiles":{"SPEC.md":"architect","CONTRACT.md":"architect","plan.json":"architect","backend/package.json":"t1-backend","backend/engine/rng.js":"t1-backend","backend/engine/distribusi.js":"t1-backend","backend/engine/statistik.js":"t1-backend","backend/engine/validasi.js":"t1-backend","backend/engine/titik-impas.js":"t1-backend","backend/engine/sensitivitas.js":"t1-backend","backend/engine/sapuan-harga.js":"t1-backend","backend/engine/simulasi.js":"t1-backend","backend/engine/template.js":"t1-backend","backend/engine/index.js":"t1-backend","backend/http/util-http.js":"t1-backend","backend/http/rute-api.js":"t1-backend","backend/http/rute-statis.js":"t1-backend","backend/server.js":"t1-backend","backend/extensions/panel-pelanggan-ai/index.js":"t1-backend","backend/extensions/panel-pelanggan-ai/README.md":"t1-backend","public/app/index.html":"t2-frontend","public/assets/js/app/format.js":"t2-frontend","public/assets/js/app/form.js":"t2-frontend","public/assets/js/app/penyimpanan.js":"t2-frontend","public/assets/js/app/grafik.js":"t2-frontend","public/assets/js/app/hasil.js":"t2-frontend","public/assets/css/base.css":"t3-frontend","public/index.html":"t3-frontend","public/assets/js/landing.js":"t3-frontend","public/laporan.html":"t3-frontend"},"cost":4.914598000000001,"totalActions":111};
+var $=function(id){return document.getElementById(id)};
+var selected=null, S=null;
+var LABEL={architect:"Arsitek",backend:"Backend",frontend:"Frontend",database:"Database",devops:"DevOps",qa:"QA",debugger:"Debugger",reviewer:"Reviewer"};
+var ROOM={architect:"arsi",backend:"eng",frontend:"eng",database:"eng",devops:"ops",qa:"ops",debugger:"debug",reviewer:"review"};
+var COLOR={architect:"#f5c400",backend:"#0b8fc7",frontend:"#e8590c",database:"#7a5af5",devops:"#5a7487",qa:"#1f9d55",debugger:"#d6363f",reviewer:"#0d8f8f"};
+var SLABEL={running:"bekerja",done:"selesai",failed:"gagal",waiting:"menunggu"};
+var SCOL={running:"var(--ok)",done:"var(--sky)",failed:"var(--bad)",waiting:"var(--idle)"};
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function dur(ms){if(ms==null||ms<0)return "—";var s=Math.round(ms/1000);if(s<60)return s+" dtk";var m=Math.floor(s/60);if(m<60)return m+" mnt "+(s%60)+" dtk";return Math.floor(m/60)+" jam "+(m%60)+" mnt"}
+function hm(ts){if(!ts)return "";var d=new Date(ts);return d.toTimeString().slice(0,8)}
+function short(n){return n.replace(/^(t\d+)-(\w+)$/,function(_,t,r){return t+" "+(LABEL[r]||r)}).replace(/^debugger-(\d+)$/,"Debugger $1").replace(/^qa-fix(\d+)$/,"QA susulan $1")}
+
+function desksOf(s){
+  var d=[];
+  if(s.architect||true){d.push({key:"architect",role:"architect",title:"Spec, kontrak, dan rencana tugas",tag:"arsitek",a:s.architect,task:null})}
+  s.tasks.forEach(function(t){d.push({key:t.id,role:t.role,title:t.title,tag:t.id,a:t.agent,task:t})});
+  s.debuggers.forEach(function(a){d.push({key:a.name,role:"debugger",title:"Memperbaiki kegagalan verify.sh",tag:short(a.name),a:a,task:null})});
+  d.push({key:"reviewer",role:"reviewer",title:"Review akhir dan REPORT.md",tag:"review",a:s.reviewer,task:null});
+  d.forEach(function(x){x.status=x.a?x.a.status:"waiting"});
+  return d;
+}
+function figure(color,st){
+  var screen=st==="waiting"?"var(--idle)":(st==="failed"?"var(--bad)":"var(--sky)");
+  return '<svg width="64" height="56" viewBox="0 0 64 56" aria-hidden="true">'+
+   '<rect x="2" y="34" width="60" height="16" rx="3" fill="var(--desk)" stroke="var(--desk-edge)"/>'+
+   '<rect class="screen" x="34" y="18" width="24" height="16" rx="2" fill="var(--ink)"/>'+
+   '<rect class="screen" x="37" y="21" width="18" height="10" rx="1" fill="'+screen+'"/>'+
+   '<rect x="44" y="34" width="4" height="3" fill="var(--ink)"/>'+
+   (st==="waiting"?'':'<circle cx="17" cy="14" r="8" fill="'+color+'"/><path d="M5 34 q12 -16 24 0" fill="'+color+'" opacity=".85"/>')+
+   '<circle cx="54" cy="8" r="4" fill="'+SCOL[st]+'"/>'+
+   (st==="done"?'<path d="M51.5 8l2 2 3-3.5" stroke="#fff" stroke-width="1.5" fill="none"/>':'')+
+  '</svg>';
+}
+function bubble(x,s){
+  if(x.status==="waiting"){
+    var dep=x.task&&x.task.dependsOn.length?"Menunggu "+x.task.dependsOn.join(", "):"Menunggu giliran / slot kosong";
+    return '<time>belum mulai</time>'+esc(dep);
+  }
+  var a=x.a, t=a.status==="running"?"bekerja "+dur(s.now-a.startedAt):(a.status==="done"?"selesai · "+dur(a.durationMs):"gagal");
+  var last=a.last?esc(a.last.length>70?a.last.slice(0,70)+"…":a.last):"menyiapkan…";
+  return '<time>'+t+' · '+a.tools+' aksi</time><code>'+last+'</code>';
+}
+function renderDesks(s){
+  ["arsi","eng","ops","debug","review"].forEach(function(r){$("r-"+r).innerHTML=""});
+  var d=desksOf(s);
+  d.forEach(function(x){
+    var b=document.createElement("button");b.type="button";
+    b.className="desk "+x.status+(selected===x.key?" sel":"");b.id="meja-"+x.key;
+    b.setAttribute("aria-label",LABEL[x.role]+" "+x.tag+", "+SLABEL[x.status]);
+    b.innerHTML='<div class="bubble">'+bubble(x,s)+'</div><div class="station">'+figure(COLOR[x.role],x.status)+
+      '<div class="tag"><b>'+esc(LABEL[x.role])+'</b><small><i class="dot" style="background:'+SCOL[x.status]+'"></i>'+esc(x.tag)+' · '+SLABEL[x.status]+'</small></div></div>';
+    b.addEventListener("click",function(){selected=x.key;render(S)});
+    $("r-"+ROOM[x.role]).appendChild(b);
+  });
+  if(!s.debuggers.length)$("r-debug").innerHTML='<p class="empty">Kosong. Debugger dipanggil hanya jika verify.sh gagal.</p>';
+  return d;
+}
+function renderDetail(s,d){
+  var x=d.filter(function(k){return k.key===selected})[0];
+  if(!x){x=d.filter(function(k){return k.status==="running"})[0]||d[0];selected=x.key}
+  var a=x.a,t=x.task,st=x.status;
+  var h='<div class="row"><span class="code">'+esc(x.tag.toUpperCase())+'</span><h2 style="font-size:20px">'+esc(LABEL[x.role])+' · '+esc(x.title)+'</h2>'+
+    '<span class="chip" style="border-color:'+SCOL[st]+';color:'+SCOL[st]+'"><i class="dot" style="background:'+SCOL[st]+'"></i>'+SLABEL[st]+'</span></div>';
+  if(t&&t.description)h+='<p>'+esc(t.description)+'</p>';
+  if(t){
+    h+='<div class="chips">'+(t.owns.length?t.owns.map(function(o){return '<span class="chip">boleh menulis: '+esc(o)+'</span>'}).join(""):"")+
+      t.dependsOn.map(function(id){var dd=d.filter(function(k){return k.key===id})[0];var ds=dd?dd.status:"waiting";
+        return '<span class="chip"><i class="dot" style="background:'+SCOL[ds]+'"></i>bergantung pada '+esc(id)+' ('+SLABEL[ds]+')</span>'}).join("")+'</div>';
+  }
+  if(a){
+    var elapsed=a.status==="running"?s.now-a.startedAt:a.durationMs;
+    h+='<div class="kv"><div><b>'+a.tools+'</b><span>aksi alat</span></div><div><b>'+(a.turns||"—")+'</b><span>giliran model</span></div>'+
+       '<div><b>'+dur(elapsed)+'</b><span>durasi</span></div><div><b>$'+a.cost.toFixed(2)+'</b><span>biaya (perkiraan)</span></div>'+
+       '<div><b>'+a.files.length+'</b><span>berkas ditulis</span></div></div>';
+    if(a.files.length)h+='<div><h3>Berkas yang ditulis</h3><ul class="list">'+a.files.map(function(f){return '<li>'+esc(f)+'</li>'}).join("")+'</ul></div>';
+    if(a.events.length)h+='<div><h3>Aksi terakhir</h3><ul class="list">'+a.events.slice().reverse().map(function(e){return '<li>'+(e.ts?'<time>'+hm(e.ts)+'</time>':'')+'<span class="k">'+esc(e.kind)+'</span>'+esc(e.text)+'</li>'}).join("")+'</ul></div>';
+    if(a.summary)h+='<div><h3>Laporan agent</h3><pre class="sum">'+esc(a.summary)+'</pre></div>';
+  } else h+='<p class="note">Agent ini belum dimulai. Penjadwal memulainya begitu semua dependensi selesai dan ada slot paralel kosong.</p>';
+  $("detail").innerHTML=h;
+}
+function renderFlow(s){
+  var tasksDone=s.tasks.filter(function(t){return t.agent&&t.agent.status==="done"}).length, n=s.tasks.length;
+  var vOk=s.verifies.some(function(v){return v.ok}), vBad=s.verifies.length&&!vOk;
+  var steps=[
+    {t:"1 · Perencanaan",sub:s.architect?SLABEL[s.architect.status]:"menunggu",p:s.architect&&s.architect.status==="done"?100:(s.architect?45:0),c:s.architect&&s.architect.status==="done"?"done":"cur"},
+    {t:"2 · Implementasi paralel",sub:n?tasksDone+" / "+n+" tugas selesai":"menunggu rencana",p:n?Math.round(tasksDone/n*100):0,c:n&&tasksDone===n?"done":(s.phase===2?"cur":"")},
+    {t:"3 · Verifikasi & perbaikan",sub:vOk?"verify.sh lulus":(vBad?"gagal, debugger bekerja":(s.phase>=3?"berjalan":"belum mulai")),p:vOk?100:(s.phase>=3?50:0),c:vOk?"done":(vBad?"bad":(s.phase===3?"cur":""))},
+    {t:"4 · Review akhir",sub:s.allDone?"REPORT.md siap":(s.reviewer?"berjalan":"belum mulai"),p:s.allDone?100:(s.reviewer?50:0),c:s.allDone?"done":(s.phase===4?"cur":"")}
+  ];
+  $("flow").innerHTML=steps.map(function(x){return '<div class="step '+x.c+'"><b>'+x.t+'</b><small>'+esc(x.sub)+'</small><div class="bar"><i style="width:'+x.p+'%"></i></div></div>'}).join("");
+}
+function render(s){
+  if(!s)return;
+  var d=renderDesks(s);renderDetail(s,d);renderFlow(s);
+  var running=d.filter(function(x){return x.status==="running"}).length,done=d.filter(function(x){return x.status==="done"}).length,
+      failed=d.filter(function(x){return x.status==="failed"}).length,wait=d.filter(function(x){return x.status==="waiting"}).length;
+  var elapsed=s.startedAt?(s.endedAt||s.now)-s.startedAt:null;
+  $("stats").innerHTML=[["agent",d.length,""],["bekerja",running,"var(--ok)"],["selesai",done,"var(--sky)"],["gagal",failed,failed?"var(--bad)":""],["menunggu",wait,""],
+    ["aksi",s.totalActions,""],["durasi",dur(elapsed),""],["biaya (perkiraan)","$"+s.cost.toFixed(2),""]]
+    .map(function(x){return '<div class="stat"><b style="'+(x[2]?"color:"+x[2]:"")+'">'+x[1]+'</b><span>'+x[0]+'</span></div>'}).join("");
+  $("asof").textContent=s.allDone?"Run selesai":"Diperbarui "+hm(s.now);
+  var title=s.specTitle?s.specTitle.replace(/^SPEC\s*[—-]\s*/i,""):"";
+  $("brief").textContent=s.idea?s.idea:(title?"Produk: "+title+" (prompt asli tidak tersimpan di log run ini)":"Menunggu arsitek memilih rancangan…");
+  $("stack").textContent=s.stack?"Stack: "+s.stack:"";
+  $("feed").innerHTML=s.feed.length?s.feed.map(function(e){return '<li><time>'+hm(e.ts)+'</time><span class="k">'+esc(short(e.agent))+'</span>'+esc(e.kind)+' '+esc(e.text)+'</li>'}).join(""):'<li class="empty">belum ada aktivitas</li>';
+  var pf=Object.keys(s.producedFiles).sort();
+  $("nfiles").textContent=pf.length;
+  $("files").innerHTML=pf.length?pf.map(function(f){return '<li>'+esc(f)+' <span class="k">← '+esc(short(s.producedFiles[f]))+'</span></li>'}).join(""):'<li class="empty">belum ada berkas</li>';
+  var core=s.files.map(function(f){return '<span class="chip"><i class="dot" style="background:'+(f.ok?"var(--ok)":"var(--idle)")+'"></i>'+esc(f.f)+'</span>'}).join("");
+  var ujiOk=s.verifies.some(function(v){return v.ok}),ujiBad=s.verifies.length&&!ujiOk;
+  $("r-uji").innerHTML='<div class="lamp '+(ujiOk?"ok":(ujiBad?"bad":""))+'"><i></i><b>'+(ujiOk?"LULUS":(ujiBad?"GAGAL":"belum dijalankan"))+'</b></div><div class="chips" style="margin-top:8px">'+core+'</div>';
+  $("verify").innerHTML=s.verifies.length?s.verifies.map(function(v){return '<div><span class="chip" style="color:'+(v.ok?"var(--ok)":"var(--bad)")+'">'+esc(v.file)+' · '+(v.ok?"lulus":"gagal")+'</span><pre class="log">'+esc(v.tail)+'</pre></div>'}).join(""):'belum dijalankan, menunggu semua tugas implementasi selesai';
+  $("commits").innerHTML=s.commits.length?s.commits.map(function(c){return '<li><span class="k">'+esc(c[0])+'</span>'+esc(c[1])+'</li>'}).join(""):'<li class="empty">belum ada</li>';
+}
+async function load(){
+  if(window.__STATIC__)return window.__INIT__;
+  return await (await fetch('api/state',{cache:'no-store'})).json();
+}
+var first=true;
 async function tick(){
-  let s;
-  try{s=window.__INIT__}
-  catch(e){ if(first&&window.__INIT__){s=window.__INIT__;$('err').textContent='⚠ live update gagal ('+e+'), menampilkan data awal — muat ulang halaman';}
-            else{$('err').textContent='⚠ gagal mengambil data: '+e;return} }
+  var s;
+  try{s=await load()}
+  catch(e){ if(first&&window.__INIT__){s=window.__INIT__;$("err").textContent="⚠ pembaruan live gagal ("+e+"); menampilkan data awal, muat ulang halaman."}
+            else{$("err").textContent="⚠ gagal mengambil data: "+e;return} }
   first=false;
-  if(s.error){$('err').textContent='⚠ '+s.error;return}
-  if(!$('err').textContent.includes('data awal'))$('err').textContent='';
-  $('ws').textContent=s.ws;
-  const names=['Perencanaan','Implementasi paralel','Verifikasi & perbaikan','Review akhir'];
-  $('phases').innerHTML=names.map((n,i)=>{const k=i+1,c=s.allDone||k<s.phase?'done':k===s.phase?'cur':'';
-    return `<div class="ph ${c}"><b>${c==='done'?'✓':k}. ${n}</b>${['prompt → spec','agent kerja bersamaan','test, run, fix loop','laporan REPORT.md'][i]}</div>`}).join('');
-  $('banner').style.display=s.allDone?'block':'none';
-  const all=[s.architect,...s.tasks.map(t=>t.agent),...s.debuggers,s.reviewer].filter(Boolean);
-  const done=all.filter(a=>a.status==='done').length,run=all.filter(a=>a.status==='running').length;
-  const total=1+s.tasks.length;
-  $('stats').innerHTML=[['Tugas rencana',s.tasks.filter(t=>t.agent?.status==='done').length+' / '+s.tasks.length],['Agent aktif',run],['Total aksi',all.reduce((x,a)=>x+a.tools,0)],['Biaya (perkiraan)','$'+s.cost.toFixed(2)],['Stack',s.plan?.stack?.slice(0,40)||'—']]
-    .map(([k,v])=>`<div class="stat"><small>${k}</small><b>${esc(v)}</b></div>`).join('');
-  $('files').innerHTML=s.files.map(f=>`<span class="f ${f.ok?'ok':''}">${f.ok?'✓':'○'} ${f.f}</span>`).join('');
-  let html=card(s.architect,'architect','Spec, kontrak, dan rencana tugas');
-  html+=s.tasks.map(t=>card(t.agent,t.role,t.id+' · '+t.title,
-    `<div class="own">owns: ${esc((t.owns||[]).join(', '))}</div>${t.dependsOn?.length?`<div class="dep">menunggu: ${t.dependsOn.join(', ')}</div>`:''}`)).join('');
-  html+=s.debuggers.map(d=>card(d,'debugger',d.name)).join('');
-  if(s.phase>=3||s.reviewer)html+=card(s.reviewer,'reviewer','Review akhir + REPORT.md');
-  $('agents').innerHTML=html;
-  $('verify').innerHTML=s.verifies.length?s.verifies.map(v=>`<div><b>${v.file}</b><pre>${esc(v.tail)}</pre></div>`).join(''):'belum dijalankan';
-  $('commits').innerHTML=s.commits.map(c=>`<div><span>${c[0]}</span>${esc(c[1])}</div>`).join('');
+  if(s.error){$("err").textContent="⚠ "+s.error;return}
+  if(!/data awal/.test($("err").textContent))$("err").textContent="";
+  S=s;render(s);
 }
 tick();
-</script></body></html>
+if(!window.__STATIC__)setInterval(tick,2000);
+</script>
+</body>
+</html>

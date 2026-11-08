@@ -50,6 +50,8 @@ node src/dashboard.js projects/<nama> 4000
 Buka `http://localhost:4000`: fase, kartu tiap agent (status, aksi terakhir, waktu, biaya), hasil `verify.sh`, dan
 riwayat commit. Membaca log di `.team/` sehingga bisa dibuka kapan saja, termasuk setelah run selesai.
 
+Dashboard "Kantor Virtual Nexora": denah ruangan per peran, meja per agent, detail tugas, aktivitas, berkas, dan hasil verifikasi.
+
 ![dashboard](docs/dashboard-preview.png)
 
 ## Provider
