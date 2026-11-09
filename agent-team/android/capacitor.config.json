@@ -1,0 +1,7 @@
+{
+  "appId": "id.rekammedisku.app",
+  "appName": "Rekam Medisku",
+  "webDir": "www",
+  "server": { "androidScheme": "https" },
+  "android": { "allowMixedContent": false }
+}
