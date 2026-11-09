@@ -1,0 +1,23 @@
+# Diamond Make Up Artist — muasolo.com (hosting cPanel/Apache)
+Options -Indexes
+RewriteEngine On
+
+# Semua domain (www, muasolo.site, muasolo.it.com) & http diarahkan ke https://muasolo.com
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} !^muasolo\.com$ [NC]
+RewriteCond %{REQUEST_URI} !^/\.well-known/
+RewriteRule ^ https://muasolo.com%{REQUEST_URI} [L,R=301]
+
+# API Instagram Studio
+RewriteRule ^api/ig(/.*)?$ api/ig.php [L,QSA]
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    <FilesMatch "\.(webp|jpg|jpeg|png|mp4|svg|ico)$">
+        Header set Cache-Control "public, max-age=604800"
+    </FilesMatch>
+</IfModule>
+
+AddType video/mp4 .mp4
+AddType image/webp .webp

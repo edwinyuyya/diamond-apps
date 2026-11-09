@@ -637,7 +637,9 @@
                 }
             }
             try {
-                await fetch('/', hasFile ? { method: 'POST', body: data }
+                // Hosting PHP (IDwebhost): /api/form.php. Selama masih di Netlify, endpoint itu 404 -> kirim ke Netlify Forms.
+                const r = await fetch('/api/form.php', { method: 'POST', body: data });
+                if (r.status === 404) await fetch('/', hasFile ? { method: 'POST', body: data }
                     : { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() });
             } catch (err) { /* tetap lanjut ke WhatsApp */ }
             btn.textContent = btn.dataset.label;

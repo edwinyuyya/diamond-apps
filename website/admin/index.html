@@ -33,7 +33,7 @@
         .f input, .f textarea, .f select { width:100%; background:#fff; border:1px solid var(--line); padding:.7rem .8rem; font-size:.95rem; outline:none; }
         .f textarea { min-height:7rem; resize:vertical; }
         .f input:focus, .f textarea:focus { border-color:var(--mocha); }
-        .tabs { display:grid; grid-template-columns:repeat(3,1fr); border:1px solid var(--line); margin:1.4rem 0; }
+        .tabs { display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line); margin:1.4rem 0; }
         .tabs button { padding:.85rem .3rem; font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--muted); }
         .tabs button.on { background:var(--mocha); color:var(--ivory); }
         .tabs i { font-style:normal; display:inline-block; min-width:1.3em; margin-left:.3em; padding:0 .3em; background:var(--champagne); color:#fff; border-radius:9px; font-size:.6rem; letter-spacing:0; }
@@ -56,6 +56,14 @@
         #preview { width:100%; max-width:380px; aspect-ratio:4/5; display:block; margin:1rem auto; border:1px solid var(--line); background:var(--porcelain); }
         .row2 { display:grid; grid-template-columns:1fr 1fr; gap:.8rem; }
         .empty { text-align:center; padding:2rem 1rem; color:var(--muted); font-size:.9rem; border:1px dashed var(--line); }
+        .sub { background:#fff; border:1px solid var(--line); padding:1rem; margin:1rem 0; font-size:.88rem; }
+        .sub dl { display:grid; grid-template-columns:8.5rem 1fr; gap:.25rem .8rem; margin:.6rem 0; }
+        .sub dt { color:var(--muted); font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; padding-top:.15rem; }
+        .sub dd { white-space:pre-wrap; word-break:break-word; }
+        .sub .photos { display:flex; gap:.6rem; flex-wrap:wrap; margin:.4rem 0; }
+        .sub .photos a { display:block; width:110px; } .sub .photos img { width:110px; aspect-ratio:4/5; object-fit:cover; display:block; border:1px solid var(--line); }
+        .sub .photos small { display:block; font-size:.65rem; color:var(--muted); }
+        @media (max-width:520px) { .sub dl { grid-template-columns:1fr; } .sub dt { padding-top:.5rem; } .tabs button { font-size:.52rem; letter-spacing:.1em; } }
         .toast { position:fixed; left:50%; bottom:1.2rem; transform:translateX(-50%); background:var(--mocha); color:var(--ivory); padding:.8rem 1.2rem; font-size:.85rem; z-index:20; max-width:90vw; }
         [hidden] { display:none !important; }
         @media (max-width:520px) { .card { grid-template-columns:90px 1fr; } .card img { width:90px; } h1 { font-size:1.9rem; } }
@@ -91,6 +99,7 @@
                 <button data-t="upload" class="on">Upload Foto</button>
                 <button data-t="promo">Buat Promo</button>
                 <button data-t="queue">Antrean <i id="badge">0</i></button>
+                <button data-t="forms">Kiriman Form <i id="fbadge">0</i></button>
             </div>
 
             <!-- Upload -->
@@ -114,6 +123,12 @@
                 <canvas id="preview" width="1080" height="1350"></canvas>
                 <label class="f"><span>Caption</span><textarea id="promoCaption" placeholder="Tekan &ldquo;Tulis Teks dengan AI&rdquo; atau tulis sendiri"></textarea></label>
                 <button class="btn" id="promoAdd">Masukkan ke Antrean</button>
+            </div>
+
+            <!-- Kiriman form website -->
+            <div data-p="forms" hidden>
+                <p class="muted" style="margin-top:.5rem">Reservasi makeup &amp; pendaftaran kelas yang diisi pengunjung di muasolo.com.</p>
+                <div id="subs"></div>
             </div>
 
             <!-- Queue -->
@@ -159,13 +174,42 @@
             else if (st.ig) msgs.push(['ok', 'Terhubung ke Instagram <b>@' + esc(st.ig.username) + '</b>.']);
             box.innerHTML = msgs.map(([c, m]) => `<p class="note ${c}">${m}</p>`).join('');
             await loadQueue();
+            loadSubs();
         }
+
+        // ---------- Kiriman form ----------
+        const LBL = { nama: 'Nama', whatsapp: 'WhatsApp', tanggal: 'Tanggal makeup', alamat: 'Alamat', lokasi_maps: 'Lokasi', layanan: 'Jenis makeup', jam_mulai: 'Jam mulai', jam_selesai: 'Jam selesai', gaya_makeup: 'Gaya makeup', kelas: 'Kelas', pengalaman: 'Pengalaman', rencana_mulai: 'Rencana mulai', domisili: 'Domisili', catatan: 'Catatan' };
+        const waLink = n => { let d = String(n || '').replace(/\D/g, ''); if (d.startsWith('0')) d = '62' + d.slice(1); return 'https://wa.me/' + d; };
+        async function loadSubs() {
+            let list = [];
+            try { list = (await api('/submissions')).submissions || []; } catch (e) { $('#subs').innerHTML = `<p class="note warn">${esc(e.message)}</p>`; return; }
+            $('#fbadge').textContent = list.length;
+            if (!list.length) { $('#subs').innerHTML = '<div class="empty">Belum ada kiriman form.</div>'; return; }
+            $('#subs').innerHTML = list.map(s => {
+                const rows = Object.entries(s.data || {}).filter(([, v]) => v).map(([k, v]) => {
+                    let val = esc(v);
+                    if (k === 'lokasi_maps' && /^https?:\/\//.test(v)) val = `<a href="${esc(v)}" target="_blank" rel="noopener">Buka di Maps</a>`;
+                    if (k === 'whatsapp') val = `<a href="${waLink(v)}" target="_blank" rel="noopener">${esc(v)}</a>`;
+                    return `<dt>${LBL[k] || esc(k)}</dt><dd>${val}</dd>`;
+                }).join('');
+                const photos = Object.entries(s.file_urls || {}).map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt=""><small>${k === 'foto_bare_face' ? 'Bare face' : 'Referensi'}</small></a>`).join('');
+                return `<div class="sub" data-sid="${s.id}"><div class="meta"><span class="pill ${s.form === 'kelas' ? 'scheduled' : 'published'}">${s.form === 'kelas' ? 'Daftar kelas' : 'Reservasi'}</span>${wib(s.created_at)}</div>
+                    <dl>${rows}</dl>${photos ? `<div class="photos">${photos}</div>` : ''}
+                    <div class="acts" style="display:flex;gap:.4rem;margin-top:.6rem"><a class="btn small" href="${waLink(s.data.whatsapp)}" target="_blank" rel="noopener">Balas via WA</a><button class="btn ghost small" data-del-sub>Hapus</button></div></div>`;
+            }).join('');
+        }
+        document.addEventListener('click', async e => {
+            const b = e.target.closest('[data-del-sub]'); if (!b) return;
+            if (!confirm('Hapus kiriman ini?')) return;
+            try { await api('/submissions/' + b.closest('.sub').dataset.sid, { method: 'DELETE' }); toast('Kiriman dihapus'); loadSubs(); } catch (err) { toast(err.message); }
+        });
 
         // ---------- Tabs ----------
         document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
             document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
             document.querySelectorAll('[data-p]').forEach(p => p.hidden = p.dataset.p !== b.dataset.t);
             if (b.dataset.t === 'queue') loadQueue();
+            if (b.dataset.t === 'forms') loadSubs();
         });
         const showTab = t => document.querySelector(`.tabs button[data-t="${t}"]`).click();
 

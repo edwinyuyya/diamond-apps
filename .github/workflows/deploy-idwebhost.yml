@@ -1,0 +1,61 @@
+# Deploy website muasolo.com ke hosting IDwebhost (cPanel) lewat FTP.
+# Butuh GitHub Secrets: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_DIR,
+# ADMIN_KEY, ANTHROPIC_API_KEY, IG_ACCESS_TOKEN (opsional: NOTIFY_EMAIL, FTP_PROTOCOL).
+name: Deploy ke IDwebhost
+
+on:
+  push:
+    branches: [main, claude/serene-archimedes-ywas6w]
+    paths: ["website/**", ".github/workflows/deploy-idwebhost.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-idwebhost
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.FTP_SERVER }}
+    steps:
+      - name: Lewati jika data FTP belum diisi
+        if: env.FTP_SERVER == ''
+        run: echo "::notice::Secrets FTP belum diisi, deploy dilewati."
+
+      - uses: actions/checkout@v4
+        if: env.FTP_SERVER != ''
+
+      - uses: shivammathur/setup-php@v2
+        if: env.FTP_SERVER != ''
+        with:
+          php-version: "8.1"
+          tools: composer
+
+      - name: Rakit paket website
+        if: env.FTP_SERVER != ''
+        run: bash website/server/build-host.sh
+
+      - name: Tulis kunci rahasia (tidak ikut ke repo)
+        if: env.FTP_SERVER != ''
+        env:
+          ADMIN_KEY: ${{ secrets.ADMIN_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          NOTIFY_EMAIL: ${{ secrets.NOTIFY_EMAIL }}
+        run: |
+          php -r '$k=["ADMIN_KEY","ANTHROPIC_API_KEY","IG_ACCESS_TOKEN","NOTIFY_EMAIL"]; $o=[]; foreach($k as $x){$o[$x]=(string)getenv($x);} file_put_contents("website/dist-host/api/secrets.php", "<?php\nreturn ".var_export($o,true).";\n");'
+
+      - name: Upload ke hosting
+        if: env.FTP_SERVER != ''
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ secrets.FTP_PROTOCOL || 'ftps' }}
+          local-dir: website/dist-host/
+          server-dir: ${{ secrets.FTP_DIR }}
+          exclude: |
+            **/.git*
+            **/.git*/**

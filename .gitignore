@@ -1,3 +1,5 @@
 .netlify/
 node_modules/
 website/dist/
+website/dist-host/
+website/server/vendor/

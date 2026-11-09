@@ -1,0 +1,5 @@
+# Hanya endpoint publik yang boleh dibuka; library, vendor & secrets diblokir
+<FilesMatch "^(lib|secrets)\.php$">
+    Require all denied
+</FilesMatch>
+RedirectMatch 404 ^/api/vendor/
