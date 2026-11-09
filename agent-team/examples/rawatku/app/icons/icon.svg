@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Rawatku — perisai dengan huruf R dan hati">
+  <title>Rawatku</title>
+  <!-- Latar penuh agar aman untuk ikon maskable; konten berada di zona aman. -->
+  <rect width="512" height="512" fill="#0f766e"/>
+  <!-- Perisai -->
+  <path d="M256 96 L384 144 V256 C384 336 328 392 256 416 C184 392 128 336 128 256 V144 Z" fill="#ffffff"/>
+  <!-- Hati kecil: penanda kesehatan, bukan klaim medis. -->
+  <path d="M256 186 C240 172 226 162 226 148 C226 136 236 128 247 128 C252 128 256 131 256 136 C256 131 260 128 265 128 C276 128 286 136 286 148 C286 162 272 172 256 186 Z" fill="#b91c1c"/>
+  <!-- Huruf R -->
+  <path fill-rule="evenodd" d="M204 196 H280 C314 196 338 214 338 242 C338 262 326 276 308 283 L350 352 H316 L282 290 H232 V352 H204 Z M232 222 H278 C292 222 302 230 302 242 C302 254 292 262 278 262 H232 Z" fill="#0f766e"/>
+</svg>

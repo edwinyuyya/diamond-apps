@@ -1,0 +1,242 @@
+{
+  "stack": "Vanilla JS ES modules + Node.js http static server; IndexedDB/localStorage, Web Crypto AES-GCM/PBKDF2, SVG charts, QR encoder murni, PWA service worker; OCR lokal Tesseract.js yang di-vendor ke public/vendor (npm hanya untuk vendoring: tesseract.js, @tesseract.js-data/ind, @tesseract.js-data/eng); parser resep dan rekam medis deterministik; node:test; tanpa framework dan tanpa layanan eksternal saat runtime",
+  "tasks": [
+    {
+      "id": "t1",
+      "role": "database",
+      "title": "Lapisan data: model, vault, state CRUD, kripto, dan cadangan",
+      "description": "Implementasikan app/js/model.js, app/js/storage.js, app/js/state.js, app/js/crypto.js, app/js/backup.js persis CONTRACT.md bagian 4, 5, 6, 13. model.js: APP_ID/APP_VERSION 1.1.0/SCHEMA_VERSION/VITAL_TYPES/DISCLAIMERS (termasuk ocr, resep, rekam, review, photo)/EMERGENCY_NUMBERS/SCAN_KINDS/ALLOWED_SOURCE_PHOTO_MIME/MAX_SOURCE_PHOTO_BYTES 2097152/MAX_SOURCE_PHOTO_DIMENSION 2000/MAX_OCR_TEXT_CHARS/OCR_LOW_CONFIDENCE/PARSER_RESEP_VERSION/PARSER_REKAM_VERSION/ITEM_PREFIXES.photos, factory create*, createItem, validateItem, validateSourceMeta, normalizeState (source hilang/tidak valid menjadi null), makeDoseLogId, ageFromBirthDate. storage.js: vault IndexedDB rawatku, fallback localStorage rawatku:vault, fallback memori; get/put/clear/usage/kind. state.js: createState({storage,cryptoApi,clock,kdfIterations,photoStore}) dengan init/unlock/lock/setPassword/removePassword, multi-profil dan cascade, 7 koleksi, logDose idempoten, setSettings, exportBackup/importBackup, resetAll, getStorageInfo, subscribe, antrean tulis serial, serta saveSourcePhoto/getSourcePhoto/listSourcePhotos/deleteSourcePhoto yang mengenkripsi foto memakai kunci sesi bila vault terenkripsi; removeProfile menghapus foto profil, resetAll mengosongkan foto. crypto.js: PBKDF2-SHA256 310000 iterasi -> AES-GCM-256, envelope {alg,kdf,iterations,salt,iv,ciphertext}, error KATA_SANDI_SALAH/DATA_RUSAK/KRIPTO_TIDAK_TERSEDIA. backup.js: format app/rawatku-backup/version 1, cadangan TIDAK memuat byte foto (hanya SourceMeta), error kontrak. Semua bebas DOM agar diuji node:test. Selesai bila: vault plain/terenkripsi dan instance baru benar, password salah tidak merusak data, API foto dan enkripsinya berfungsi, tidak menulis berkas di luar owns.",
+      "owns": [
+        "app/js/model.js",
+        "app/js/storage.js",
+        "app/js/state.js",
+        "app/js/crypto.js",
+        "app/js/backup.js"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t2",
+      "role": "backend",
+      "title": "Logika jadwal obat, stok, dan kepatuhan",
+      "description": "Implementasikan app/js/logic/dates.js, schedule.js, stock.js, adherence.js sesuai CONTRACT.md bagian 7.1-7.4. dates.js: tanggal lokal YYYY-MM-DD, parse tengah hari, validasi tanggal/jam, addDays/diffDays, awal/akhir minggu Senin, ISO week, format Indonesia, formatBytes. schedule.js: isMedicationActiveOn, doseKey, buildDosesForDate, applyDoseLogs (taken/skipped menang, grace 180 menit), summarizeDoses (percent null bila denominator 0), nextDose, formatSchedule. adherence.js: weeklyAdherence, adherenceHistory 8 minggu, complianceLabel. stock.js: simulateStockOut (30 tablet 2x/hari => runOutDate H+15, refillByDate H+12), refillDue, predictRefills. Semua fungsi murni, deterministik, bebas DOM dan dependency. Selesai bila seluruh edge case kontrak terpenuhi, tidak ada pembulatan tak terdokumentasi, tidak ada saran medis, hanya menulis 4 berkas owns.",
+      "owns": [
+        "app/js/logic/dates.js",
+        "app/js/logic/schedule.js",
+        "app/js/logic/stock.js",
+        "app/js/logic/adherence.js"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t3",
+      "role": "backend",
+      "title": "Logika keselamatan, tren vital/lab, dan ringkasan dokter",
+      "description": "Implementasikan app/js/logic/safety.js, vitals.js, summary.js sesuai CONTRACT.md bagian 7.5-7.7. safety.js: normalisasi bahan aktif (NFKC, lowercase, buang tanda baca), findDuplicateIngredients hanya obat aktif per profil, duplicatesForMedication, flagValue, resolveRange (updatedAt terbaru), flagVital, flagLab. vitals.js: pointsForType, seriesForMetric, latestFor, statsFor, buildVitalTrend, formatVital, groupLabResults. summary.js: buildControlQuestions (maks 10, hanya pertanyaan) dan buildDoctorSummary (profil, obat aktif + stok, duplikasi, 5 kunjungan, tren vital/lab, kepatuhan, pertanyaan, disclaimer, isMedicalAdvice:false), summaryToPlainText. Wajib memakai DISCLAIMERS dari model; tidak menghasilkan diagnosis, saran dosis, atau klaim interaksi. Selesai bila bentuk output persis kontrak, nilai tanpa rentang berflag unknown, tidak ada saran medis, hanya menulis 3 berkas owns.",
+      "owns": [
+        "app/js/logic/safety.js",
+        "app/js/logic/vitals.js",
+        "app/js/logic/summary.js"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t4",
+      "role": "frontend",
+      "title": "Shell aplikasi, router, CSS dasar, dan aksesibilitas",
+      "description": "Implementasikan app/index.html, app/css/style.css, app/js/app.js, app/js/dom.js sesuai CONTRACT.md bagian 9.1-9.3, 9.6, 10.1, 12.2. index.html: lang id, meta viewport/description/theme-color/referrer/CSP persis kontrak (script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; child-src 'self' blob:; connect-src 'self'; img-src 'self' data: blob:), manifest + print.css, skip-link, header (#app-header, #profile-switcher, #btn-lock), #app-view, nav (#nav-home,#nav-meds,#nav-visits,#nav-vitals,#btn-more), dialog #more-menu berisi #more-scan, #toast-region, footer #app-disclaimer + #footer-emergency (tel:112/119), tanpa inline script/handler. app.js: ROUTES lengkap termasuk #/pindai -> ui/scan.js dan #/tinjau -> ui/scan-review.js (dynamic import sehingga shell dapat dimuat saat modul layar dikerjakan paralel), boot, navigate, ctx {state,profile,now,navigate,toast,confirm,refresh}, lock flow, settings font/contrast, registrasi sw.js gagal senyap. dom.js: h/qs/qsa/clear/on/escapeHtml/setText/fragment. style.css: token kontrak, is-large-text, data-contrast high, target sentuh 48px, focus-visible, mobile-first maks 720px, body.is-locked, kelas flag/badge/card/form, serta kelas scan/review: .scan-*, .review-*, .review-source, .is-low-confidence (disertai penanda teks), .is-review-warning, .badge-verified, .source-photo. Selesai bila semua route dan ID kontrak ada, tanpa request eksternal, aksesibel, hanya menulis 4 berkas owns.",
+      "owns": [
+        "app/index.html",
+        "app/css/style.css",
+        "app/js/app.js",
+        "app/js/dom.js"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t5",
+      "role": "frontend",
+      "title": "Layar beranda, profil keluarga, pengaturan, dan kunci",
+      "description": "Implementasikan app/js/ui/dashboard.js, profile.js, settings.js, lock.js sesuai CONTRACT.md bagian 9.4 dan 13. Setiap layar mengekspor async render(root, ctx), mengosongkan root, memakai dom.h (tanpa innerHTML data pengguna). Dashboard: sapaan, obat hari ini via schedule, logDose, kepatuhan + bagan, vital terakhir, stok perlu tebus, pintasan darurat/ringkasan, serta #dash-quick-scan yang menavigasi ke #/pindai. Profil: form lengkap dengan ID kontrak, daftar keluarga, tambah/ganti/hapus profil, tangani PROFIL_TERAKHIR. Pengaturan: toggle font/contrast/reminders, info penyimpanan termasuk jenis/ukuran foto, ekspor/impor cadangan dengan peringatan bahwa foto sumber TIDAK ikut cadangan, pasang/hapus kata sandi, reset. Kunci: form unlock dengan error jelas dan peringatan privasi. Semua ID DOM persis kontrak, bahasa Indonesia, tanpa dependency/external. Selesai bila CRUD profil dan backup berfungsi terhadap state API dan hanya menulis 4 berkas owns.",
+      "owns": [
+        "app/js/ui/dashboard.js",
+        "app/js/ui/profile.js",
+        "app/js/ui/settings.js",
+        "app/js/ui/lock.js"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t6",
+      "role": "frontend",
+      "title": "Layar kunjungan, lampiran, obat, vital/lab, dan grafik SVG",
+      "description": "Implementasikan app/js/ui/visits.js, attachments.js, meds.js, vitals.js, chart.js sesuai CONTRACT.md bagian 4, 7, 9.4. visits.js: linimasa, form tambah/edit/hapus kunjungan, diagnosis berlabel 'sesuai yang Anda tulis', daftar lampiran, badge 'Diverifikasi' bila visit.source.verifiedByUser, tautan foto sumber via state.getSourcePhoto (bila ada), jumlah lampiran. attachments.js: fileToAttachment, kompres <=1 MiB, mime diizinkan, validateAttachment. meds.js: daftar + form obat lengkap, peringatan duplikasi, dosis hari ini, kepatuhan, prediksi stok, badge 'Diverifikasi' dan tautan foto sumber bila medication.source ada. vitals.js: tab tipe, form tensi/nilai tunggal, grafik tren, rentang acuan, form/daftar lab. chart.js: builder string SVG aksesibel (title/desc/role/aria-label), buildLineChartSVG/buildBarChartSVG/renderChart, escape teks, tanpa library. Perhitungan memakai modul logika, bukan duplikasi rumus. Selesai bila semua ID kontrak ada, grafik valid tanpa data, tidak ada diagnosis/saran dosis, hanya menulis 5 berkas owns.",
+      "owns": [
+        "app/js/ui/visits.js",
+        "app/js/ui/attachments.js",
+        "app/js/ui/meds.js",
+        "app/js/ui/vitals.js",
+        "app/js/ui/chart.js"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t7",
+      "role": "frontend",
+      "title": "Kartu darurat QR, ringkasan dokter, CSS cetak, dan ikon",
+      "description": "Implementasikan app/js/qr.js, app/js/ui/emergency.js, app/js/ui/report.js, app/css/print.css, app/icons/icon.svg sesuai CONTRACT.md bagian 7.7, 8, 9.4, 10.2, 11. qr.js: encoder QR murni Model 2 byte mode EC M versi 1-10, encodeQR, qrToSvg, emergencyPayload <=200 UTF-8 bytes dengan 112/119 dan QRError QR_TERLALU_PANJANG. emergency.js: kartu dari profil aktif + maks 3 obat aktif, QR #emergency-qr, preview teks, tel:, peringatan privasi, disclaimer, window.print(). report.js: buildDoctorSummary ke #report-root, pertanyaan manual, tombol cetak, diagnosis 'sesuai yang Anda tulis'. print.css: A4, margin 14mm, sembunyikan nav/header/tombol/toast/disclaimer, hitam-putih, hindari page-break. icon.svg: ikon perisai/hati + R, aman maskable. Selesai bila QR benar dan payload <=200 bytes, ringkasan dapat dicetak, tidak ada klaim medis, hanya menulis 5 berkas owns.",
+      "owns": [
+        "app/js/qr.js",
+        "app/js/ui/emergency.js",
+        "app/js/ui/report.js",
+        "app/css/print.css",
+        "app/icons/icon.svg"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t8",
+      "role": "devops",
+      "title": "package.json, server statis + /vendor, README, manifest, dan service worker",
+      "description": "Implementasikan package.json, server.js, README.md, app/sw.js, app/manifest.webmanifest sesuai CONTRACT.md bagian 2, 3, 11. package.json: type module, engines node >=20, scripts start 'node server.js', test 'node --test tests/*.test.js', verify 'bash verify.sh', vendor:ocr 'node scripts/vendor-ocr.mjs'; devDependencies persis tesseract.js ^6.0.1, @tesseract.js-data/ind ^1.0.0, @tesseract.js-data/eng ^1.0.0 (hanya untuk vendoring, tidak dipakai runtime dari node_modules). server.js: createServer({rootDir,vendorDir}) dan startServer({port,host,vendorDir}), PORT 3000/HOST 127.0.0.1, sajikan app/ di / dan public/vendor/ di /vendor/, /health, MIME .wasm application/wasm, .gz application/gzip, .traineddata/.data application/octet-stream, proteksi traversal untuk kedua root, tanpa endpoint data. README: install, npm run vendor:ocr, start, test/verify, struktur, privasi offline, batas keselamatan, catatan foto tidak ikut cadangan. sw.js: precache seluruh modul final termasuk ocr/adaptor.js, ocr/tesseractEngine.js, photos.js, scanSession.js, ui/scan.js, ui/photo-capture.js, ui/scan-review.js; VENDOR_CACHE rawatku-vendor-v1 dengan runtime cache same-origin /vendor/*; tidak precache vendor saat install; tanpa request eksternal. manifest.webmanifest: Rawatku, lang id, standalone, theme #0f766e. Selesai bila server menyajikan /vendor dan wasm dengan MIME benar, script benar, hanya menulis 5 berkas owns.",
+      "owns": [
+        "package.json",
+        "server.js",
+        "README.md",
+        "app/sw.js",
+        "app/manifest.webmanifest"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t9",
+      "role": "backend",
+      "title": "Penerjemah resep deterministik: kamus, kalimat, dan pemetaan obat",
+      "description": "Implementasikan app/js/logic/resepKamus.js dan app/js/logic/resep.js sesuai CONTRACT.md bagian 7.8. resepKamus.js: KAMUS_SINGKATAN (dd/d/c/p.c./pc/a.c./d.c./h.s./prn/k.p./mane/nocte/S/selama/x, bentuk tab/caps/syr/cth/gtt/supp/ung/inj, satuan mg/mcg/g/ml, No./#), label Indonesia, normalisasiResep (NFKC, lowercase, rapikan spasi/titik), tokenisasiResep, frasaTerjemahan. resep.js: kenaliResep(teks) -> daftar ObatTerjemahan dengan field persis {nama,kekuatan,bentukSediaan,kaliSehari,takaranPerDosis,waktuMinum[],aturanMakan,durasiHari,jumlahTotal,teksAsli,teksTerjemahan,kepercayaan,bagianTidakDipahami[]}; pahami '3 dd 1', '3x1', '3 x 1 tab', 'S 3 dd tab I', 'S.2.d.d.C.I', '1-0-1', aturan makan, durasi, jumlah; jadwalUntukObat dari jadwal bawaan hasil parser; obatKeMedication membuat draf Medication (source belum diverifikasi); kalimat 'Diminum 3 kali sehari, 1 tablet, sesudah makan, selama 5 hari'; kepercayaan deterministik sesuai kontrak. Tidak boleh menebak nama obat menjadi diagnosis; teks tak dikenali masuk bagianTidakDipahami. Selesai bila seluruh contoh kontrak lulus dan hanya menulis 2 berkas owns.",
+      "owns": [
+        "app/js/logic/resepKamus.js",
+        "app/js/logic/resep.js"
+      ],
+      "dependsOn": [
+        "t10"
+      ]
+    },
+    {
+      "id": "t10",
+      "role": "backend",
+      "title": "Parser sediaan, kekuatan, frekuensi, durasi, jumlah, dan jadwal bawaan resep",
+      "description": "Implementasikan app/js/logic/resepSediaan.js dan app/js/logic/resepJadwal.js sesuai CONTRACT.md bagian 7.9. resepSediaan.js: BENTUK_SEDIAAN, parseBentukSediaan (tab/caps/syr/cth/gtt/supp/ung/inj), parseKekuatan (mg/mcg/g/ml), parseDurasi ('selama 5 hari', 'x 7 hari', '7 hari'), parseJumlah ('No. X', '#X'), normalisasi angka romawi/desimal koma, objek {nilai,satuan,teks}. resepJadwal.js: JADWAL_BAWAAN 1=>['07:00'], 2=>['07:00','19:00'], 3=>['07:00','13:00','19:00'], 4=>['07:00','12:00','17:00','21:00'], >4 terdistribusi; parseFrekuensi dengan urutan prioritas kontrak termasuk '1-0-1', 'S.2.d.d.C.I', 'S 3 dd tab I', '3 x 1 tab', '3 dd 1', '3 kali sehari'; parseAturanMakan (p.c./pc sesudah, a.c. sebelum, d.c. dengan, h.s. sebelum tidur, prn/k.p. bila perlu, mane pagi, nocte malam); jadwalUntukObat dan polaHarian. Semua murni, bebas DOM, tanpa dependency; tidak menyimpulkan dosis yang tidak tertulis. Selesai bila semua pola kontrak terurai benar dan hanya menulis 2 berkas owns.",
+      "owns": [
+        "app/js/logic/resepSediaan.js",
+        "app/js/logic/resepJadwal.js"
+      ],
+      "dependsOn": [
+        "t2"
+      ]
+    },
+    {
+      "id": "t11",
+      "role": "backend",
+      "title": "Parser rekam medis rumah sakit dan hasil laboratorium menjadi draf",
+      "description": "Implementasikan app/js/logic/rekam.js dan app/js/logic/labParse.js sesuai CONTRACT.md bagian 7.10. rekam.js: kenaliRekamMedis(teks) -> {draf:{tanggal,tanggalTeks,faskes,dokter,diagnosisTertulis[],keluhan,catatan,nomorRekamMedis}, hasilLab[], bagianTidakDipahami, kepercayaan, teksAsli, peringatan, parserVersion:'rekam-v1', isMedicalAdvice:false}; heuristik tanggal Indonesia/ISO, label RS/dokter/diagnosis/keluhan, diagnosis disalin apa adanya tanpa inferensi; rekamKeKunjungan dan labKeLab menghasilkan draf dengan source belum diverifikasi. labParse.js: parseAngkaLab, parseRujukan (rentang '4.0-10.0', '<5', '>2'), parseBarisLab, parseHasilLab -> HasilLab {nama,nilai,satuan,rujukanBawah,rujukanAtas,rujukanTeks,barisAsli,kepercayaan}; abaikan baris non-lab, tandai bagianTidakDipahami. Semua deterministik, bebas DOM. Selesai bila output draf tidak pernah otomatis menjadi state, diagnosis tidak dikarang, dan hanya menulis 2 berkas owns.",
+      "owns": [
+        "app/js/logic/rekam.js",
+        "app/js/logic/labParse.js"
+      ],
+      "dependsOn": [
+        "t2"
+      ]
+    },
+    {
+      "id": "t12",
+      "role": "frontend",
+      "title": "Vendor OCR lokal dan adaptor Tesseract.js",
+      "description": "Implementasikan scripts/vendor-ocr.mjs, app/js/ocr/adaptor.js, app/js/ocr/tesseractEngine.js, dan isi public/vendor/ sesuai CONTRACT.md bagian 8A. scripts/vendor-ocr.mjs membaca node_modules dari devDependencies lalu menyalin ke public/vendor: tesseract.esm.min.js, worker.min.js, tesseract-core wasm/js, lang/ind.traineddata.gz dan lang/eng.traineddata.gz, plus public/vendor/manifest.json {version,files:[{path,bytes,sha256}]}; gagal jelas bila paket belum di-install; idempoten. tesseractEngine.js: memuat modul ESM vendor same-origin, workerPath /vendor/tesseract/worker.min.js, corePath /vendor/tesseract-core, langPath /vendor/lang, bahasa ind+eng, progress callback, hasil BarisOcr {teks,kepercayaan}, error OCR_GAGAL/OCR_TIDAK_TERSEDIA. adaptor.js: OCR_DEFAULTS, OCR_ENGINES (cloud enabled:false, documentationOnly:true, tidak diimplementasikan), OcrError, ocrTersedia, createOcrAdapter({engine}), kenaliTeks(gambar,opsi) -> {teks,kepercayaan,baris[],bahasa,mesin,durasiMs,gambar,peringatan}; mesin dapat diinjeksi (fake engine untuk test); createCloudOcrAdapter selalu melempar OCR_CLOUD_NONAKTIF. Tidak boleh ada URL eksternal. Selesai bila file vendor nyata dan bermanifest, .wasm disajikan server, adaptor dapat ditukar mesin, hanya menulis 4 path owns.",
+      "owns": [
+        "scripts/vendor-ocr.mjs",
+        "app/js/ocr/adaptor.js",
+        "app/js/ocr/tesseractEngine.js",
+        "public/vendor/"
+      ],
+      "dependsOn": [
+        "t8"
+      ]
+    },
+    {
+      "id": "t13",
+      "role": "frontend",
+      "title": "Penyimpanan foto sumber, sesi draf scan, layar unggah/kamera",
+      "description": "Implementasikan app/js/photos.js, app/js/scanSession.js, app/js/ui/scan.js, app/js/ui/photo-capture.js sesuai CONTRACT.md bagian 6.2, 8A, 9.5. photos.js: PHOTO_DB_NAME rawatku-photos v1 store photos, createPhotoStore (IndexedDB + fallback memori), fileToSourcePhoto (validasi mime, kompres canvas <=2 MiB dan dimensi <=2000), photoDataUrl, photoBytes, validatePhotoRecord; bila vault terenkripsi state yang menyegel data, photos.js hanya menyimpan record. scanSession.js: setScanDraft/getScanDraft/clearScanDraft/subscribeScanDraft, hanya memori, tidak menulis state. scan.js: #/pindai dengan #scan-mode, #scan-tab-photo, #scan-tab-text, #scan-file-input, #scan-camera-button, #scan-camera-video, #btn-capture, #btn-run-ocr, #btn-parse-text, #scan-progress, #scan-error, #scan-ocr-text, #scan-ocr-confidence, #btn-to-review; jalur 'Ketik/Tempel teks resep' dengan pratinjau terjemahan langsung memakai resep.js; peringatan hasil bisa salah dan wajib dicek; tidak menyimpan apa pun; navigasi ke #/tinjau membawa draf. photo-capture.js: getUserMedia dengan fallback input file, stop track, error ramah. Semua same-origin, tanpa upload keluar. Selesai bila kedua jalur menghasilkan draf di memori dan tidak ada penulisan state, hanya menulis 4 berkas owns.",
+      "owns": [
+        "app/js/photos.js",
+        "app/js/scanSession.js",
+        "app/js/ui/scan.js",
+        "app/js/ui/photo-capture.js"
+      ],
+      "dependsOn": [
+        "t4",
+        "t9",
+        "t12"
+      ]
+    },
+    {
+      "id": "t14",
+      "role": "frontend",
+      "title": "Layar Tinjau wajib: koreksi, penanda ragu, centang verifikasi, dan simpan manual",
+      "description": "Implementasikan app/js/ui/scan-review.js sesuai CONTRACT.md bagian 9.6. Layar #/tinjau menampilkan foto asli (#review-source-panel, #review-source-image) berdampingan dengan teks OCR (#review-ocr-text), kepercayaan (#review-confidence), bagian ragu (#review-low-confidence dengan kelas is-low-confidence + penanda teks), dan daftar item editable (#review-items, field #review-item-name-<i>, kekuatan, bentuk, kali sehari, takaran, waktu, aturan makan, durasi, jumlah) untuk resep; field rekam (#review-rekam-tanggal, -faskes, -dokter, -diagnosis, -keluhan) dan lab (#review-lab-<j>-*) untuk dokumen RS. Semua field dapat diubah; item dapat dihapus/ditambah manual; peringatan jelas bahwa OCR bisa salah dan dosis salah baca berbahaya, minta konfirmasi apoteker/dokter. Simpan HANYA aktif setelah checkbox #review-verified berlabel 'Saya sudah mencocokkan dengan resep asli' (atau padanan dokumen) dicentang; #btn-save-reviewed disabled sebelumnya. Simpan memanggil state.saveSourcePhoto bila ada foto, membangun Medication via obatKeMedication / Visit via rekamKeKunjungan / Lab via labKeLab, mengisi source {kind,photoId,photoMime,ocrText,ocrConfidence,translatedText,verifiedByUser:true,verifiedAt,parserVersion}, upsert ke state, clearScanDraft, lalu navigasi ke layar terkait. Tidak ada auto-save dan tidak ada kirim data keluar. Selesai bila gate verifikasi tidak bisa dilewati, field terkoreksi yang tersimpan sesuai input, dan hanya menulis 1 berkas owns.",
+      "owns": [
+        "app/js/ui/scan-review.js"
+      ],
+      "dependsOn": [
+        "t1",
+        "t9",
+        "t11",
+        "t13"
+      ]
+    },
+    {
+      "id": "t15",
+      "role": "backend",
+      "title": "Korpus dan tes terjemahan resep (minimal 40 kasus)",
+      "description": "Tulis tests/fixtures/resep-cases.js dan tests/resep.test.js sesuai CONTRACT.md bagian 14. Fixture berisi minimal 40 kasus teks resep nyata/realistis yang mencakup: '3 dd 1', '3x1', '3 x 1 tab', 'S 3 dd tab I', 'S.2.d.d.C.I', '1-0-1', p.c./pc, a.c., d.c., h.s., prn/k.p., mane/nocte, tab/caps/syr/cth/gtt/supp/ung/inj, mg/mcg/g/ml, 'selama 5 hari', 'x 7 hari', 'No. X', '#X', resume multi-obat, dan kasus tidak lengkap/kotor. Setiap kasus menetapkan teks masukan dan ekspektasi field ObatTerjemahan (termasuk teksTerjemahan dan bagianTidakDipahami). Tes memakai node:test + node:assert/strict, menguji kenaliResep, parseFrekuensi, parseAturanMakan, parseDurasi, parseJumlah, jadwalUntukObat (3x => 07:00/13:00/19:00), obatKeMedication, determinisme, dan contoh kalimat 'Diminum 3 kali sehari, 1 tablet, sesudah makan, selama 5 hari'. Tidak boleh mengubah kode implementasi; hanya menulis 2 berkas owns. Selesai bila seluruh kasus lulus dan mencakup semua pola yang diwajibkan.",
+      "owns": [
+        "tests/resep.test.js",
+        "tests/fixtures/resep-cases.js"
+      ],
+      "dependsOn": [
+        "t9",
+        "t10"
+      ]
+    },
+    {
+      "id": "t16",
+      "role": "qa",
+      "title": "Tes otomatis lengkap, verifikasi vendor OCR, dan verify.sh",
+      "description": "Tulis tests/logic.test.js, tests/security.test.js, tests/platform.test.js, tests/scan.test.js, dan verify.sh sesuai CONTRACT.md bagian 14. Gunakan node:test + node:assert/strict tanpa dependency, waktu tetap, iterasi kripto rendah. logic.test.js: dates, schedule, stock, adherence, safety, vitals, summary. security.test.js: crypto roundtrip/password salah/envelope, backup plain+terenkripsi, QR, payload <=200 bytes; pindai semua sumber untuk URL eksternal, pastikan CSP memuat connect-src 'self' dan OCR cloud nonaktif. platform.test.js: model, storage, state (termasuk API foto terenkripsi), server createServer dengan vendorDir dan dummy .wasm (content-type application/wasm), route /vendor, traversal kedua root, 404/405. scan.test.js: fake OCR engine melalui adaptor (tanpa Tesseract nyata), scanSession hanya memori, parser rekam/lab, review gate (simpan ditolak tanpa verifiedByUser), SourceMeta pada medication/visit/lab, foto tidak masuk cadangan. verify.sh executable set -euo pipefail: jalankan node --test tests/*.test.js, npm run vendor:ocr bila node_modules ada (atau periksa public/vendor/manifest.json), start server PORT=3210 HOST=127.0.0.1 background + trap kill, tunggu /health, smoke /health, /, /js/app.js, /manifest.webmanifest, /vendor manifest, cek MIME .wasm, 404, POST 405, lalu cetak SEMUA VERIFIKASI LULUS. Tidak boleh mengubah berkas implementasi; hanya menulis 4 berkas test dan verify.sh. Selesai bila verify.sh lulus penuh tanpa jaringan eksternal.",
+      "owns": [
+        "tests/logic.test.js",
+        "tests/security.test.js",
+        "tests/platform.test.js",
+        "tests/scan.test.js",
+        "verify.sh"
+      ],
+      "dependsOn": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6",
+        "t7",
+        "t8",
+        "t9",
+        "t10",
+        "t11",
+        "t12",
+        "t13",
+        "t14",
+        "t15"
+      ]
+    }
+  ]
+}
