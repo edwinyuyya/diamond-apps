@@ -175,7 +175,8 @@ export async function render(root, ctx) {
     type: 'button',
     class: 'btn btn-primary'
   }, 'Tambah obat');
-  header.appendChild(h('div', { class: 'actions' }, newButton));
+  header.appendChild(h('div', { class: 'actions' }, newButton,
+    h('a', { id: 'link-voice-med', class: 'btn btn-secondary', href: '#/suara' }, 'Isi obat dengan suara')));
   screen.appendChild(header);
 
   // ---------------------------------------------------------------------

@@ -98,6 +98,46 @@ function extractBaris(data) {
   return baris;
 }
 
+/** Batas waktu memuat mesin OCR agar layar tidak menggantung tanpa akhir (HP lama butuh puluhan detik). */
+export const BATAS_MUAT_OCR_MS = 90000;
+
+/**
+ * Apakah data bahasa tersedia dalam bentuk `.traineddata.gz`?
+ *
+ * Pengemasan APK (Android) membuka kompresi berkas `.gz` dan membuang akhirannya, sehingga
+ * `/vendor/lang/ind.traineddata.gz` menjadi 404 dan OCR menunggu selamanya. Bila `.gz` tidak ada,
+ * pakai `gzip:false` agar Tesseract meminta `.traineddata` biasa (yang justru ada di APK).
+ */
+export async function bahasaGzipTersedia(langPath, languages, fetchImpl = globalThis.fetch) {
+  if (typeof fetchImpl !== 'function') return true;
+  for (const bahasa of languages) {
+    const kendali = typeof AbortController === 'function' ? new AbortController() : null;
+    try {
+      const respons = await fetchImpl(`${langPath}/${bahasa}.traineddata.gz`, {
+        signal: kendali ? kendali.signal : undefined
+      });
+      const jenis = respons.headers && typeof respons.headers.get === 'function'
+        ? String(respons.headers.get('content-type') || '')
+        : '';
+      if (kendali) kendali.abort();
+      // 404, atau "berhasil" berupa halaman HTML pengganti, berarti berkas .gz tidak ada.
+      if (!respons.ok || /text\/html/i.test(jenis)) return false;
+    } catch {
+      return false;
+    }
+  }
+  return true;
+}
+
+/** Jalankan `janji` dengan batas waktu; lewat batas -> OcrError yang jelas, bukan menggantung. */
+function denganBatasWaktu(janji, ms, pesan, kode) {
+  let pewaktu;
+  const batas = new Promise((_, tolak) => {
+    pewaktu = setTimeout(() => tolak(new OcrError(pesan, { code: kode })), ms);
+  });
+  return Promise.race([janji, batas]).finally(() => clearTimeout(pewaktu));
+}
+
 /**
  * Muat modul ESM Tesseract.js dari vendor dan buat worker lokal.
  * Gagal memuat/membuat worker → OcrError OCR_TIDAK_TERSEDIA (tanpa fallback cloud).
@@ -169,13 +209,21 @@ export async function createTesseractEngine({
   let worker = null;
   let currentLangs = requestedLanguages.join('+');
   try {
-    worker = await createWorker(currentLangs, OEM_LSTM_ONLY, {
-      workerPath: resolvedWorkerPath,
-      corePath: resolvedCorePath,
-      langPath: resolvedLangPath,
-      logger: safeLogger
-    });
+    const pakaiGzip = await bahasaGzipTersedia(resolvedLangPath, requestedLanguages);
+    worker = await denganBatasWaktu(
+      createWorker(currentLangs, OEM_LSTM_ONLY, {
+        workerPath: resolvedWorkerPath,
+        corePath: resolvedCorePath,
+        langPath: resolvedLangPath,
+        gzip: pakaiGzip,
+        logger: safeLogger
+      }),
+      BATAS_MUAT_OCR_MS,
+      'Mesin OCR terlalu lama dimuat. Tutup aplikasi lalu buka lagi, atau gunakan jalur ketik/tempel teks resep.',
+      'OCR_TIDAK_TERSEDIA'
+    );
   } catch (error) {
+    if (error instanceof OcrError) throw error;
     throw new OcrError(
       'Mesin OCR lokal gagal dimulai. Periksa aset /vendor atau gunakan jalur teks.',
       { code: 'OCR_TIDAK_TERSEDIA', cause: error }

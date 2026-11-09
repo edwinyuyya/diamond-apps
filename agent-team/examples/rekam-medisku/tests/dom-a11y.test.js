@@ -301,8 +301,9 @@ test('Isi dengan Suara: urutan logis mulai -> hasil -> konfirmasi -> simpan/bata
   const root = dom.createRoot();
   await renderIsiSuara(root, ctxUntuk(fakeState()));
 
-  // Buka elemen yang secara default tersembunyi sampai ada hasil.
-  for (const id of ['suara-ringkasan', 'suara-pertanyaan-konfirmasi', 'btn-konfirmasi-ya', 'btn-konfirmasi-tidak']) {
+  // Buka elemen yang secara default tersembunyi sampai ada hasil. Baris tombol dikte (#suara-aksi-dikte)
+  // memang disembunyikan di mode Obat (obat memakai tanya satu per satu), jadi dibuka seperti mode dikte.
+  for (const id of ['suara-aksi-dikte', 'suara-ringkasan', 'suara-pertanyaan-konfirmasi', 'btn-konfirmasi-ya', 'btn-konfirmasi-tidak']) {
     const el = root.querySelector(`#${id}`);
     assert.ok(el, `#${id} tidak ada`);
     el.hidden = false;
@@ -509,4 +510,14 @@ test('semua elemen layar yang dirender memakai tag DOM, bukan string HTML mentah
   assert.ok(semua.length > 5);
   // Tidak ada elemen yang dibuat dari string HTML mentah.
   assert.equal(root.querySelector('script'), null);
+});
+
+test('Isi dengan Suara: di mode Obat tombol dikte bebas disembunyikan (tombol redup yang tak berfungsi membingungkan)', async (t) => {
+  const dom = createFakeDom();
+  t.after(() => dom.teardown());
+  const root = dom.createRoot();
+  await renderIsiSuara(root, ctxUntuk(fakeState()));
+  const baris = root.querySelector('#suara-aksi-dikte');
+  assert.ok(baris, '#suara-aksi-dikte tidak ada');
+  assert.equal(baris.hidden, true, 'mode Obat harus menyembunyikan baris tombol dikte');
 });

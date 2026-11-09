@@ -553,6 +553,15 @@ export async function render(root, ctx) {
   header.appendChild(create('p', { class: 'muted' }, formatDateSafe(todayISO(now))));
   screen.appendChild(header);
 
+  // Pintu masuk suara: untuk pengguna tunanetra/lansia yang sulit mengetik, harus terlihat paling awal.
+  screen.appendChild(buildQuickLink({
+    id: 'dash-quick-voice',
+    href: '#/suara',
+    title: 'Isi dengan Suara',
+    description: 'Tanpa mengetik: aplikasi bertanya satu per satu dan membacakan ulang sebelum menyimpan.',
+    className: 'quick-voice'
+  }));
+
   if (profile) {
     screen.appendChild(renderProfileSummary(profile, {
       now,

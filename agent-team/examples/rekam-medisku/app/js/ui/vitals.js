@@ -144,6 +144,8 @@ export async function render(root, ctx) {
   header.appendChild(h('p', { class: 'muted' },
     'Catat tensi, gula darah, berat, suhu, nadi, SpO₂, dan hasil lab. '
     + 'Rentang acuan diatur sendiri oleh Anda/dokter.'));
+  header.appendChild(h('div', { class: 'actions' },
+    h('a', { id: 'link-voice-vital', class: 'btn btn-secondary', href: '#/suara' }, 'Isi tanda vital dengan suara')));
   screen.appendChild(header);
 
   // ---------------------------------------------------------------------

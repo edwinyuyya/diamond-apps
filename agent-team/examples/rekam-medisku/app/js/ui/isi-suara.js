@@ -173,8 +173,10 @@ export async function render(root, ctx) {
 
   kontrolCard.appendChild(mendengarEl);
   kontrolCard.appendChild(transkripEl);
-  kontrolCard.appendChild(h('div', { class: 'actions' },
-    mulaiButton, berhentiButton, ulangiButton, batalButton));
+  // Baris tombol dikte bebas: disembunyikan di mode Obat (tidak berlaku di sana; obat memakai tanya satu per satu).
+  const barisAksiDikte = h('div', { class: 'actions', id: 'suara-aksi-dikte' },
+    mulaiButton, berhentiButton, ulangiButton, batalButton);
+  kontrolCard.appendChild(barisAksiDikte);
   kontrolCard.appendChild(statusEl);
   kontrolCard.appendChild(errorBox);
   screen.appendChild(kontrolCard);
@@ -467,6 +469,9 @@ export async function render(root, ctx) {
     // tetap dapat difokus keyboard/pembaca layar dan menjelaskan alasannya.
     mulaiButton.setAttribute('aria-disabled', modeObat ? 'true' : 'false');
     mulaiButton.disabled = !modeObat && (konfirmasiAktif || mendengarkan);
+    // Tombol redup yang tidak berfungsi membingungkan pengguna yang sulit melihat layar; jalan yang benar
+    // di mode Obat adalah tombol "Mulai tanya obat" pada panel di bawah.
+    barisAksiDikte.hidden = modeObat;
     ulangiButton.disabled = konfirmasiAktif || mendengarkan || modeObat;
     berhentiButton.disabled = !mendengarkan;
   }
