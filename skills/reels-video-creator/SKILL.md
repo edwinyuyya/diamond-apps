@@ -1,14 +1,17 @@
 ---
 name: reels-video-creator
-description: Plan and script high-retention Instagram Reels, TikTok and YouTube Shorts quickly, including hook, shot list, voiceover, on-screen text, caption, hashtags, AI video prompts and posting plan. Use when the user asks for a reels script, short video idea, content plan, "bikin reels", "skrip video pendek", "ide konten", viral hook, or batch content for promotion, education, product, storytelling or personal brand.
+description: Plan and script high-retention Instagram Reels, TikTok and YouTube Shorts quickly, including hook, shot list, voiceover, on-screen text, caption, hashtags, AI video prompts and posting plan. Use when the user asks for a reels script, short video idea, content plan, "bikin reels", "skrip video pendek", "ide konten", viral hook, or batch content for promotion, education, product, storytelling or personal brand. Also use for the brands Nexora, BBQIU and Rejeki Utama AC (konten reels, caption, jadwal posting).
 ---
 
 # Reels / Shorts Video Creator
 
 Goal: turn a topic into a ready-to-shoot or ready-to-generate short video package in one answer. Be fast: deliver first, refine after.
 
+## Brands
+The user runs several businesses: **Nexora** (software), **BBQIU** (BBQ), **Rejeki Utama AC** (AC services & sales). If a brand is named or obvious from the topic, read `brands.md` in this skill's folder first and apply that brand's tone, visuals, CTA, hashtags and posting times. Do not mix brands in one video. Never invent claims the user has not confirmed.
+
 ## Step 0: Inputs (infer; ask at most ONE question, only if essential)
-- Topic / offer
+- Brand (see above) and topic / offer
 - Audience (default: Indonesian general audience, casual tone)
 - Goal: awareness, leads, sales, education, entertainment (default: awareness)
 - Production mode: **A) Camera / talking head**, **B) Stock + text (faceless)**, **C) AI-generated clips** (default C if the user mentions an AI video generator)
