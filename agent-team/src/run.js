@@ -12,6 +12,7 @@ const useDeepseek = !!process.env.DEEPSEEK_API_KEY;
 const model = flag("model", useDeepseek ? "deepseek-chat" : undefined);
 const parallel = Number(flag("parallel", 4));
 const maxFix = Number(flag("max-fix", 5));
+const maxTurns = Number(flag("max-turns", 60)); // langkah alat maksimum per agent
 const budget = Number(flag("budget", 5)); // USD per agent
 const revise = flag("revise", null);
 const resume = args.includes("--resume") && args.splice(args.indexOf("--resume"), 1).length > 0;
@@ -30,7 +31,7 @@ await sh("git init -q && git add -A && git -c user.name=team -c user.email=team@
 const checkpoint = (m) =>
   sh(`git add -A && git -c user.name=team -c user.email=team@local commit -qm ${JSON.stringify(m)} || true`, ws);
 let total = 0;
-const run = async (o) => { const r = await runAgent({ model, budget, cwd: ws, ...o }); total += r.cost; return r; };
+const run = async (o) => { const r = await runAgent({ model, budget, maxTurns, cwd: ws, ...o }); total += r.cost; return r; };
 
 if (idea) fs.writeFileSync(path.join(ws, ".team", "idea.txt"), idea);
 console.log(`Workspace: ${ws}\n`);
