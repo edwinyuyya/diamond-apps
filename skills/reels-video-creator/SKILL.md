@@ -8,7 +8,7 @@ description: Plan and script high-retention Instagram Reels, TikTok and YouTube 
 Goal: turn a topic into a ready-to-shoot or ready-to-generate short video package in one answer. Be fast: deliver first, refine after.
 
 ## Brands
-The user runs several businesses: **Nexora** (software), **BBQIU** (BBQ), **Rejeki Utama AC** (AC services & sales). If a brand is named or obvious from the topic, read `brands.md` in this skill's folder first and apply that brand's tone, visuals, CTA, hashtags and posting times. Do not mix brands in one video. Never invent claims the user has not confirmed.
+The user runs several businesses: **Nexora** (software), **BBQIU** (BBQ), **Rejeki Utama AC** (AC and CCTV sales; AC, water heater, water tank and jet-washer maintenance; vacant-house cleaning). If a brand is named or obvious from the topic, read `brands.md` in this skill's folder first and apply that brand's tone, visuals, CTA, hashtags and posting times. Do not mix brands in one video. Never invent claims the user has not confirmed.
 
 ## Step 0: Inputs (infer; ask at most ONE question, only if essential)
 - Brand (see above) and topic / offer
