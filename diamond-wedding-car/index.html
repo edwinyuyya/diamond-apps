@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DIAMOND WEDDING CAR — Brand Identity Kit</title>
+<meta name="description" content="Panduan identitas brand DIAMOND WEDDING CAR: logo, warna, tipografi, layanan, dan penerapan pada mobil, plat nama, seragam driver, dan Instagram.">
+<link rel="icon" href="png/diamond-monogram-emerald-180.png">
+<link rel="stylesheet" href="assets/brand.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--f-sans); color: var(--charcoal); background: var(--ivory); line-height: 1.65; font-size: 16px; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  /* Navigasi */
+  nav { position: sticky; top: 0; z-index: 10; background: rgba(16,57,46,.97); color: var(--ivory); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 60px; }
+  nav img { height: 36px; width: auto; }
+  nav ul { display: flex; gap: 22px; list-style: none; font-size: 12px; letter-spacing: .18em; overflow-x: auto; white-space: nowrap; }
+  nav a { text-decoration: none; opacity: .85; }
+  nav a:hover { color: var(--champagne); opacity: 1; }
+
+  /* Hero */
+  .hero { background: radial-gradient(110% 90% at 50% 0%, #17503f, var(--emerald) 50%, var(--emerald-deep)); color: var(--ivory); text-align: center; padding: 72px 0 80px; }
+  .hero img { width: min(520px, 90%); margin: 0 auto; }
+  .hero .slogan { font-family: var(--f-serif); font-style: italic; font-size: clamp(26px, 4vw, 38px); color: var(--champagne-light); margin-top: 18px; }
+  .hero .kicker { margin-top: 14px; font-size: 12px; letter-spacing: .4em; color: var(--champagne); }
+
+  section { padding: 84px 0; border-bottom: 1px solid #e3d9c6; }
+  section.dark { background: var(--emerald); color: var(--ivory); border: 0; }
+  .num { font-size: 12px; letter-spacing: .32em; color: var(--champagne); font-weight: 500; }
+  h2 { font-family: var(--f-display); font-weight: 500; font-size: clamp(28px, 4vw, 40px); letter-spacing: .06em; color: var(--emerald); margin: 8px 0 14px; line-height: 1.2; }
+  section.dark h2 { color: var(--ivory); }
+  h3 { font-family: var(--f-display); font-weight: 500; font-size: 19px; letter-spacing: .06em; color: var(--emerald); margin-bottom: 8px; }
+  section.dark h3 { color: var(--champagne-light); }
+  .lead { font-family: var(--f-serif); font-size: 23px; line-height: 1.5; max-width: 760px; }
+  p + p { margin-top: 10px; }
+
+  .grid { display: grid; gap: 22px; margin-top: 36px; }
+  .g2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .g3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+  .g4 { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .card { background: #fff; border: 1px solid #e6dcc8; padding: 26px; }
+  section.dark .card { background: rgba(10,38,31,.6); border-color: rgba(198,161,91,.4); }
+  .tile { display: flex; flex-direction: column; }
+  .tile .art { aspect-ratio: 4 / 3; display: grid; place-items: center; padding: 26px; border: 1px solid #e6dcc8; }
+  .tile .art.check { background: repeating-conic-gradient(#e9e4da 0 25%, #f7f4ee 0 50%) 0 0 / 18px 18px; }
+  .tile .art img { max-height: 100%; }
+  .tile figcaption { font-size: 13px; padding-top: 10px; }
+  .tile figcaption b { display: block; font-weight: 500; color: var(--emerald); letter-spacing: .04em; }
+  .tile figcaption a { color: #8a6d35; font-size: 12px; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 15px; }
+  th, td { text-align: left; padding: 14px 16px; border-bottom: 1px solid #e3d9c6; vertical-align: top; }
+  th { font-weight: 500; font-size: 12px; letter-spacing: .2em; color: #8a6d35; width: 34%; }
+
+  /* Warna */
+  .sw { border: 1px solid #e3d9c6; background: #fff; }
+  .sw .chip { height: 150px; }
+  .sw div.info { padding: 16px 18px; font-size: 13px; }
+  .sw b { display: block; font-family: var(--f-display); font-weight: 500; font-size: 18px; color: var(--emerald); }
+  .ratio { display: flex; height: 26px; margin-top: 26px; border: 1px solid #e3d9c6; }
+  .ratio span { display: grid; place-items: center; font-size: 11px; letter-spacing: .12em; }
+
+  /* Tipografi */
+  .type { padding: 28px; background: #fff; border: 1px solid #e6dcc8; }
+  .type .spec { font-size: 12px; letter-spacing: .2em; color: #8a6d35; margin-bottom: 14px; }
+  .t-display { font-family: var(--f-display); font-size: 46px; letter-spacing: .1em; color: var(--emerald); line-height: 1.1; }
+  .t-serif { font-family: var(--f-serif); font-style: italic; font-size: 40px; color: var(--emerald); line-height: 1.2; }
+  .t-sans { font-family: var(--f-sans); font-weight: 400; font-size: 18px; letter-spacing: .32em; color: var(--emerald); }
+
+  /* Do & don't */
+  .dont .art { position: relative; }
+  .dont .art::after { content: '✕'; position: absolute; top: 8px; right: 12px; color: #a33; font-size: 20px; }
+  .rules li { margin: 6px 0 0 18px; }
+
+  /* Paket */
+  .pkg { padding: 30px 26px; border: 1px solid rgba(198,161,91,.5); position: relative; }
+  .pkg .tier { font-size: 11px; letter-spacing: .32em; color: var(--champagne); }
+  .pkg h3 { font-size: 24px; margin: 8px 0 12px; }
+  .pkg ul { list-style: none; margin-top: 16px; font-size: 14px; }
+  .pkg li { padding: 7px 0; border-top: 1px solid rgba(198,161,91,.25); }
+  .pkg li::before { content: '◆'; color: var(--champagne); font-size: 9px; margin-right: 10px; vertical-align: 2px; }
+  .pkg.featured { background: var(--ivory); color: var(--charcoal); }
+  .pkg.featured h3 { color: var(--emerald); }
+
+  /* Mockup penerapan */
+  .mock { border: 1px solid #e6dcc8; background: #fff; }
+  .mock .stage { aspect-ratio: 16 / 10; display: grid; place-items: center; overflow: hidden; position: relative; }
+  .mock .txt { padding: 18px 22px 22px; font-size: 14px; }
+  .mock .txt h3 { font-size: 17px; }
+
+  .door { background: linear-gradient(180deg, #fbfbfa, #e9e9e6 60%, #d9d9d5); }
+  .door::before { content: ''; position: absolute; left: 6%; right: 6%; top: 14%; height: 30%; border-radius: 40px 60px 6px 6px; background: linear-gradient(160deg, #3c4a52, #1c2429); }
+  .door::after { content: ''; position: absolute; right: 12%; top: 50%; width: 70px; height: 10px; border-radius: 6px; background: #c9c9c4; box-shadow: inset 0 1px 2px rgba(0,0,0,.25); }
+  .door img { position: relative; width: 42%; margin-top: 30%; }
+
+  .plate-stage { background: linear-gradient(180deg, #f7f7f5, #d8d8d3); }
+  .plate-stage img { width: 78%; box-shadow: 0 10px 22px rgba(0,0,0,.25); border-radius: 10px; }
+
+  .uniform { background: linear-gradient(180deg, #ece6da, #d6cdbb); }
+  .shirt { width: 46%; aspect-ratio: 1 / 1.05; background: var(--charcoal); position: relative; clip-path: polygon(22% 0, 40% 0, 50% 12%, 60% 0, 78% 0, 100% 16%, 90% 38%, 82% 33%, 82% 100%, 18% 100%, 18% 33%, 10% 38%, 0 16%); margin-top: 8%; }
+  .shirt img { position: absolute; width: 18%; left: 58%; top: 22%; }
+  .shirt i { position: absolute; left: 49.5%; top: 12%; bottom: 0; width: 1px; background: #3a3a3a; }
+
+  .phone { width: 64%; align-self: start; background: #fff; border: 8px solid #111; border-bottom: 0; border-radius: 26px 26px 0 0; margin-top: 7%; padding: 14px 12px; font-size: 10px; line-height: 1.35; }
+  .phone .row { display: flex; align-items: center; gap: 10px; }
+  .phone .row img { width: 54px; border-radius: 50%; }
+  .phone .bio b { font-size: 11px; }
+  .phone .feed { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 10px; }
+  .phone .feed span { aspect-ratio: 1; background: var(--emerald); display: grid; place-items: center; }
+  .phone .feed span:nth-child(2n) { background: var(--ivory); }
+  .phone .feed span img { width: 60%; }
+
+  .bcard-stage { background: linear-gradient(135deg, #d8d2c6, #bfb6a5); gap: 4%; grid-auto-flow: column; justify-content: center; }
+  .bcard { width: 150px; aspect-ratio: 85 / 55; box-shadow: 0 8px 18px rgba(0,0,0,.25); display: grid; place-items: center; }
+  .bcard.front { background: var(--emerald); }
+  .bcard.front img { width: 62%; }
+  .bcard.back { background: var(--ivory); font-size: 8px; padding: 10px 12px; place-items: start; align-content: center; color: var(--emerald); line-height: 1.6; }
+  .bcard.back strong { font-family: var(--f-display); font-weight: 500; font-size: 10px; letter-spacing: .08em; }
+  .bcard.back em { font-family: var(--f-serif); font-size: 11px; color: #8a6d35; }
+
+  .poster-stage { background: #1c1c1c; }
+  .poster-stage img { height: 92%; width: auto; }
+
+  /* Ekosistem */
+  .family { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; margin-top: 36px; border: 1px solid rgba(198,161,91,.5); }
+  .family div { padding: 30px 24px; text-align: center; border-right: 1px solid rgba(198,161,91,.35); }
+  .family div:last-child { border-right: 0; }
+  .family .gem { width: 60px; margin: 0 auto 14px; }
+  .family strong { display: block; font-family: var(--f-display); font-weight: 500; font-size: 22px; letter-spacing: .12em; }
+  .family span { display: block; font-size: 11px; letter-spacing: .3em; color: var(--champagne); margin-top: 4px; }
+  .family p { font-size: 14px; margin-top: 12px; opacity: .85; }
+  .tag { display: inline-block; font-size: 10px; letter-spacing: .2em; border: 1px solid currentColor; padding: 2px 8px; margin-top: 10px; color: var(--champagne); }
+
+  .note { margin-top: 24px; font-size: 13px; padding: 14px 18px; border-left: 3px solid var(--champagne); background: #fff; }
+  section.dark .note { background: rgba(10,38,31,.6); }
+
+  .files { columns: 2 300px; font-size: 14px; margin-top: 24px; }
+  .files li { break-inside: avoid; margin-bottom: 6px; list-style: none; }
+  .files code { font-size: 12.5px; background: #fff; border: 1px solid #e6dcc8; padding: 1px 6px; }
+
+  footer { background: var(--emerald-deep); color: var(--ivory); text-align: center; padding: 56px 0; }
+  footer img { width: 220px; margin: 0 auto; }
+  footer p { font-family: var(--f-serif); font-style: italic; font-size: 22px; color: var(--champagne-light); margin-top: 12px; }
+
+  @media (max-width: 720px) {
+    nav ul { display: none; }
+    section { padding: 60px 0; }
+    .family div { border-right: 0; border-bottom: 1px solid rgba(198,161,91,.35); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#top"><img src="logo/diamond-logo-horizontal-reverse.svg" alt="DIAMOND WEDDING CAR"></a>
+    <ul>
+      <li><a href="#identitas">IDENTITAS</a></li>
+      <li><a href="#logo">LOGO</a></li>
+      <li><a href="#warna">WARNA</a></li>
+      <li><a href="#tipografi">TIPOGRAFI</a></li>
+      <li><a href="#layanan">LAYANAN</a></li>
+      <li><a href="#penerapan">PENERAPAN</a></li>
+      <li><a href="#file">FILE</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <img src="logo/diamond-logo-primary-reverse.svg" alt="DIAMOND WEDDING CAR – Luxury Wedding Transportation">
+    <p class="slogan">Arrive in Elegance, Remember Forever.</p>
+    <p class="kicker">BRAND IDENTITY KIT · VERSI 1.0</p>
+  </div>
+</header>
+
+<!-- 01 IDENTITAS -->
+<section id="identitas">
+  <div class="wrap">
+    <p class="num">01 · IDENTITAS &amp; POSITIONING</p>
+    <h2>Menyewa pengalaman, bukan hanya kendaraan</h2>
+    <p class="lead">DIAMOND WEDDING CAR adalah layanan transportasi pernikahan mewah yang membuat calon pengantin merasa istimewa sejak detik pertama mereka tiba. Nama DIAMOND menyatu dengan plat nama mobil dan Diamond Makeup Artist, sehingga kita membangun satu ekosistem wedding premium, bukan dua identitas terpisah.</p>
+    <table>
+      <tr><th>NAMA BRAND</th><td>DIAMOND WEDDING CAR</td></tr>
+      <tr><th>KATEGORI</th><td>Luxury Wedding Transportation</td></tr>
+      <tr><th>SLOGAN</th><td><em>Arrive in Elegance, Remember Forever.</em></td></tr>
+      <tr><th>TAGLINE PENDUKUNG</th><td>Your special day deserves the best.</td></tr>
+      <tr><th>TARGET</th><td>Calon pengantin premium, menengah ke atas</td></tr>
+      <tr><th>KARAKTER</th><td>Elegant · Exclusive · Trustworthy</td></tr>
+      <tr><th>WARNA UTAMA</th><td>Emerald Green, didampingi Champagne Gold dan Ivory</td></tr>
+      <tr><th>SIMBOL</th><td>Berlian geometris (diamond gemstone)</td></tr>
+    </table>
+    <div class="grid g3">
+      <div class="card"><h3>Elegant</h3><p>Tampilan tenang dan rapi. Banyak ruang kosong, garis emas tipis, tanpa ornamen berlebihan.</p></div>
+      <div class="card"><h3>Exclusive</h3><p>Bahasa yang personal dan terbatas: “hari Anda”, “kedatangan Anda”. Hindari kata “murah” atau “diskon besar-besaran”.</p></div>
+      <div class="card"><h3>Trustworthy</h3><p>Tepat waktu, mobil bersih, driver berseragam. Janji yang ditulis harus selalu ditepati di hari H.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 LOGO -->
+<section id="logo">
+  <div class="wrap">
+    <p class="num">02 · LOGO RESMI</p>
+    <h2>Simbol berlian, serif elegan, garis emas</h2>
+    <p class="lead">Ikon berlian geometris di atas, DIAMOND dalam serif klasik, garis emas tipis dengan berlian kecil, lalu WEDDING CAR dalam huruf kapital tipis berjarak lebar. Tanpa gambar mobil: simbol berlian lebih mudah dikenali dan terlihat lebih mahal.</p>
+
+    <div class="grid g2">
+      <figure class="tile"><div class="art" style="background:var(--emerald)"><img src="logo/diamond-logo-primary-emerald.svg" alt="Logo utama emerald"></div>
+        <figcaption><b>Logo utama · Emerald</b>Versi utama untuk semua media. <a href="logo/diamond-logo-primary-emerald.svg" download>SVG</a> · <a href="png/diamond-logo-primary-emerald-2000.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><div class="art" style="background:var(--ivory);border-color:#ddd"><img src="logo/diamond-logo-primary-ivory.svg" alt="Logo utama ivory"></div>
+        <figcaption><b>Logo utama · Ivory</b>Untuk dokumen, invoice, dan latar terang. <a href="logo/diamond-logo-primary-ivory.svg" download>SVG</a> · <a href="png/diamond-logo-primary-ivory-2000.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><div class="art" style="background:var(--charcoal)"><img src="logo/diamond-logo-primary-black.svg" alt="Logo utama hitam premium"></div>
+        <figcaption><b>Logo utama · Hitam premium</b>Alternatif untuk kemasan, undangan, dan materi malam. <a href="logo/diamond-logo-primary-black.svg" download>SVG</a> · <a href="png/diamond-logo-primary-black-2000.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><div class="art" style="background:var(--emerald)"><img src="logo/diamond-logo-horizontal-emerald.svg" alt="Logo horizontal"></div>
+        <figcaption><b>Logo horizontal</b>Untuk header website, kop surat, dan spanduk memanjang. <a href="logo/diamond-logo-horizontal-emerald.svg" download>SVG</a> · <a href="png/diamond-logo-horizontal-emerald-2400.png" download>PNG</a></figcaption></figure>
+    </div>
+
+    <div class="grid g4">
+      <figure class="tile"><div class="art check"><img src="logo/diamond-monogram-emerald.svg" alt="Monogram emerald"></div>
+        <figcaption><b>Monogram</b>Foto profil Instagram, WhatsApp, stempel. <a href="png/diamond-monogram-emerald-1080.png" download>PNG</a></figcaption></figure>
+      <figure class="tile"><div class="art check"><img src="logo/diamond-symbol-gold.svg" alt="Simbol berlian"></div>
+        <figcaption><b>Simbol berlian</b>Favicon, aksen, watermark foto. <a href="logo/diamond-symbol-gold.svg" download>SVG</a></figcaption></figure>
+      <figure class="tile"><div class="art check"><img src="logo/diamond-logo-gold-mono.svg" alt="Logo satu warna emas"></div>
+        <figcaption><b>Satu warna · Emas</b>Sticker cutting, bordir, hot stamp. <a href="logo/diamond-logo-gold-mono.svg" download>SVG</a></figcaption></figure>
+      <figure class="tile"><div class="art" style="background:#3c4a52"><img src="logo/diamond-logo-white-mono.svg" alt="Logo satu warna putih"></div>
+        <figcaption><b>Satu warna · Putih</b>Sticker kaca mobil, sablon. <a href="logo/diamond-logo-white-mono.svg" download>SVG</a></figcaption></figure>
+    </div>
+
+    <div class="grid g2" style="margin-top:44px">
+      <div class="card">
+        <h3>Ruang bebas &amp; ukuran minimum</h3>
+        <ul class="rules">
+          <li>Sisakan ruang kosong di sekeliling logo minimal setinggi huruf “D” pada DIAMOND.</li>
+          <li>Logo utama minimal 30 mm (cetak) atau 160 px (layar) lebarnya.</li>
+          <li>Di bawah ukuran itu, pakai logo horizontal atau monogram.</li>
+          <li>Logo pada sticker pintu mobil: lebar 35–45 cm.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Yang tidak boleh dilakukan</h3>
+        <ul class="rules">
+          <li>Mengubah warna di luar palet brand atau memberi gradasi pelangi.</li>
+          <li>Merenggangkan, memiringkan, atau memutar logo.</li>
+          <li>Menambahkan gambar mobil, bayangan tebal, atau efek 3D.</li>
+          <li>Meletakkan logo di atas foto ramai tanpa lapisan gelap.</li>
+          <li>Mengetik ulang tulisan logo dengan font lain. Selalu pakai file resmi.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 WARNA -->
+<section id="warna">
+  <div class="wrap">
+    <p class="num">03 · STANDAR WARNA</p>
+    <h2>Emerald, Champagne, Ivory</h2>
+    <p class="lead">Emerald memberi kesan mewah dan tenang, Champagne Gold menjadi aksen kemewahan, Ivory menjaga nuansa pernikahan yang lembut.</p>
+    <div class="grid g4">
+      <div class="sw"><div class="chip" style="background:#10392E"></div><div class="info"><b>Emerald</b>HEX #10392E<br>RGB 16 57 46<br>CMYK 85 45 75 55<br>Warna utama</div></div>
+      <div class="sw"><div class="chip" style="background:#C6A15B"></div><div class="info"><b>Champagne</b>HEX #C6A15B<br>RGB 198 161 91<br>CMYK 20 35 75 5<br>Aksen &amp; logo · Pantone 7562 C (acuan)</div></div>
+      <div class="sw"><div class="chip" style="background:#F5F0E6"></div><div class="info"><b>Ivory</b>HEX #F5F0E6<br>RGB 245 240 230<br>CMYK 3 4 9 0<br>Latar terang &amp; teks di atas emerald</div></div>
+      <div class="sw"><div class="chip" style="background:#242424"></div><div class="info"><b>Charcoal</b>HEX #242424<br>RGB 36 36 36<br>CMYK 70 65 64 75<br>Teks badan &amp; seragam</div></div>
+    </div>
+    <div class="ratio" aria-label="Proporsi penggunaan warna">
+      <span style="flex:60;background:#10392E;color:#F5F0E6">EMERALD 60%</span>
+      <span style="flex:25;background:#F5F0E6">IVORY 25%</span>
+      <span style="flex:10;background:#C6A15B;color:#10392E">GOLD 10%</span>
+      <span style="flex:5;background:#242424"></span>
+    </div>
+    <p class="note">Nilai CMYK adalah titik awal. Minta proof cetak dari percetakan, terutama untuk Champagne Gold. Untuk sticker mobil, pilih vinyl emas metalik atau champagne gold yang paling mendekati.</p>
+  </div>
+</section>
+
+<!-- 04 TIPOGRAFI -->
+<section id="tipografi">
+  <div class="wrap">
+    <p class="num">04 · TIPOGRAFI</p>
+    <h2>Tiga huruf, satu karakter</h2>
+    <div class="grid g3">
+      <div class="type"><p class="spec">JUDUL · CINZEL</p><p class="t-display">DIAMOND</p><p style="margin-top:12px;font-size:14px">Huruf kapital klasik untuk nama brand, nama paket, dan judul besar.</p></div>
+      <div class="type"><p class="spec">AKSEN · CORMORANT GARAMOND ITALIC</p><p class="t-serif">Arrive in Elegance</p><p style="margin-top:12px;font-size:14px">Untuk slogan, kutipan, dan nama pengantin pada plat nama.</p></div>
+      <div class="type"><p class="spec">TEKS · MONTSERRAT</p><p class="t-sans">WEDDING CAR</p><p style="margin-top:12px;font-size:14px">Untuk teks badan, harga, detail paket. Kapital berjarak lebar untuk label.</p></div>
+    </div>
+    <p class="note">Ketiga font gratis (SIL Open Font License) dan tersedia di Google Fonts. Salinannya ada di folder <code>fonts/</code>.</p>
+  </div>
+</section>
+
+<!-- 05 LAYANAN -->
+<section id="layanan" class="dark">
+  <div class="wrap">
+    <p class="num">05 · KONSEP LAYANAN</p>
+    <h2>Tiga tingkat pengalaman</h2>
+    <p class="lead">Unit awal: Toyota Alphard putih dengan dekorasi bunga putih, blush pink, dan sedikit greenery.</p>
+    <div class="grid g3">
+      <div class="pkg"><p class="tier">TIER I</p><h3>Diamond Signature</h3><p>Wedding car dengan dekorasi bunga.</p>
+        <ul><li>Toyota Alphard putih</li><li>Dekorasi bunga pengantin</li><li>Plat nama DIAMOND</li></ul></div>
+      <div class="pkg featured"><p class="tier">TIER II · PALING DIMINATI</p><h3>Diamond Prestige</h3><p>Wedding car lengkap tanpa repot.</p>
+        <ul><li>Toyota Alphard putih</li><li>Driver profesional berseragam</li><li>BBM termasuk</li><li>Dekorasi bunga pengantin</li></ul></div>
+      <div class="pkg"><p class="tier">TIER III</p><h3>Diamond Royal</h3><p>Pengalaman eksklusif, disesuaikan dengan kebutuhan pengantin.</p>
+        <ul><li>Semua isi Diamond Prestige</li><li>Plat nama pengantin</li><li>Layanan tambahan sesuai kebutuhan</li><li>Paket bersama Diamond Makeup Artist</li></ul></div>
+    </div>
+    <p class="note">Harga belum dicantumkan. Isi paket Diamond Signature dan Diamond Royal di atas adalah usulan awal yang bisa disesuaikan.</p>
+  </div>
+</section>
+
+<!-- 06 PENERAPAN -->
+<section id="penerapan">
+  <div class="wrap">
+    <p class="num">06 · PENERAPAN BRAND</p>
+    <h2>Konsisten dari mobil sampai Instagram</h2>
+    <div class="grid g2">
+      <div class="mock"><div class="stage door"><img src="logo/diamond-logo-gold-mono.svg" alt=""></div>
+        <div class="txt"><h3>Sticker pintu mobil</h3>Logo satu warna emas, vinyl cutting, lebar 35–45 cm di pintu geser tengah. Mobil tetap putih bersih: cukup satu logo di tiap sisi.</div></div>
+      <div class="mock"><div class="stage plate-stage"><img src="logo/diamond-plate-brand.svg" alt=""></div>
+        <div class="txt"><h3>Plat nama mobil</h3>Emerald dengan bingkai emas ganda. Versi brand untuk sehari-hari, dan versi nama pengantin (<a href="logo/diamond-plate-couple.svg">template</a>) untuk hari H. Cetak akrilik atau aluminium, ± 43 × 13,5 cm.</div></div>
+      <div class="mock"><div class="stage uniform"><div class="shirt"><i></i><img src="logo/diamond-symbol-gold.svg" alt=""></div></div>
+        <div class="txt"><h3>Seragam driver</h3>Kemeja atau jas charcoal, bordir simbol berlian emas di dada kiri (± 6 cm). Tambahkan tulisan DIAMOND WEDDING CAR kecil di punggung bawah kerah bila perlu. Sarung tangan putih untuk membukakan pintu.</div></div>
+      <div class="mock"><div class="stage" style="background:linear-gradient(180deg,#efe9dc,#d7cdb9)"><div class="phone">
+          <div class="row"><img src="logo/diamond-monogram-emerald.svg" alt=""><div class="bio"><b>diamond.weddingcar</b><br>Luxury Wedding Transportation<br><i>Arrive in Elegance, Remember Forever.</i><br>📍 Reservasi via WhatsApp</div></div>
+          <div class="feed"><span><img src="logo/diamond-symbol-gold.svg" alt=""></span><span><img src="logo/diamond-symbol-emerald.svg" alt=""></span><span><img src="logo/diamond-symbol-gold.svg" alt=""></span><span><img src="logo/diamond-symbol-emerald.svg" alt=""></span><span><img src="logo/diamond-symbol-gold.svg" alt=""></span><span><img src="logo/diamond-symbol-emerald.svg" alt=""></span></div>
+        </div></div>
+        <div class="txt"><h3>Instagram</h3>Foto profil memakai monogram. Feed berselang antara foto mobil berdekorasi (latar terang) dan kartu teks emerald. Username yang disarankan: <b>@diamond.weddingcar</b>, <b>@diamondweddingcar.id</b>, atau <b>@diamond.wedding</b>. Ketersediaannya perlu dicek dulu.</div></div>
+      <div class="mock"><div class="stage bcard-stage"><div class="bcard front"><img src="logo/diamond-logo-primary-reverse.svg" alt=""></div>
+          <div class="bcard back"><div><strong>DIAMOND WEDDING CAR</strong><br><em>Arrive in Elegance, Remember Forever.</em><br><br>WhatsApp · 08xx-xxxx-xxxx<br>Instagram · @diamond.weddingcar</div></div></div>
+        <div class="txt"><h3>Kartu nama</h3>85 × 55 mm. Depan emerald dengan logo, belakang ivory dengan kontak. Bila memungkinkan, logo dicetak hot stamp emas.</div></div>
+      <div class="mock"><div class="stage poster-stage"><img src="png/instagram-campaign-1080x1350.png" alt="Poster campaign Your Wedding, Your Diamond Moment"></div>
+        <div class="txt"><h3>Campaign Instagram</h3>“YOUR WEDDING, YOUR DIAMOND MOMENT”, ukuran 1080 × 1350. Teks bisa diubah di <a href="templates/instagram-campaign.html">templates/instagram-campaign.html</a>. <a href="png/instagram-campaign-1080x1350.png" download>Unduh PNG</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 SUARA BRAND -->
+<section id="suara">
+  <div class="wrap">
+    <p class="num">07 · SUARA BRAND &amp; PEMASARAN</p>
+    <h2>Cara DIAMOND berbicara</h2>
+    <div class="grid g2">
+      <div class="card"><h3>Slogan</h3>
+        <p><em style="font-family:var(--f-serif);font-size:22px">Arrive in Elegance, Remember Forever.</em></p>
+        <p style="margin-top:14px;font-size:14px">Alternatif Bahasa Indonesia:</p>
+        <ul class="rules" style="font-size:14px"><li>Hadirkan Kemewahan di Hari Istimewa.</li><li>Setiap Perjalanan Memiliki Cerita.</li><li>Kesempurnaan Dimulai dari Kedatangan.</li></ul></div>
+      <div class="card"><h3>Gaya bahasa</h3>
+        <ul class="rules" style="font-size:14px"><li>Sapa calon pengantin dengan “Anda”, hangat namun sopan.</li><li>Jual pengalaman: kedatangan, momen, kenangan. Mobil adalah pendukungnya.</li><li>Promo ditulis sebagai hadiah (“bonus”, “voucher”), bukan “obral”.</li><li>Emoji secukupnya: ✨ 🤍 💍</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 EKOSISTEM -->
+<section id="ekosistem" class="dark">
+  <div class="wrap">
+    <p class="num">08 · KELUARGA DIAMOND</p>
+    <h2>Satu ekosistem wedding premium</h2>
+    <p class="lead">Simbol berlian dan palet yang sama dipakai di seluruh layanan, sehingga pelanggan yang menyewa mobil juga mengenali dan mempercayai layanan DIAMOND lainnya.</p>
+    <div class="family">
+      <div><img class="gem" src="logo/diamond-symbol-gold.svg" alt=""><strong>DIAMOND</strong><span>WEDDING CAR</span><p>Luxury wedding transportation.</p><em class="tag">BARU</em></div>
+      <div><img class="gem" src="logo/diamond-symbol-gold.svg" alt=""><strong>DIAMOND</strong><span>MAKEUP ARTIST</span><p>Makeup pengantin. Sudah berjalan.</p><em class="tag">AKTIF</em></div>
+      <div><img class="gem" src="logo/diamond-symbol-gold.svg" alt=""><strong>DIAMOND</strong><span>WEDDING SERVICE</span><p>Potensi pengembangan wedding organizer.</p><em class="tag">RENCANA</em></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 FILE -->
+<section id="file">
+  <div class="wrap">
+    <p class="num">09 · DAFTAR FILE</p>
+    <h2>File siap pakai</h2>
+    <p>SVG dipakai untuk percetakan, sticker, dan bordir (teks sudah dikonversi menjadi outline). PNG dipakai untuk media sosial dan dokumen.</p>
+    <ul class="files">
+      <li><code>logo/diamond-logo-primary-*.svg</code> · logo utama</li>
+      <li><code>logo/diamond-logo-horizontal-*.svg</code> · logo horizontal</li>
+      <li><code>logo/diamond-logo-gold-mono.svg</code> · satu warna emas</li>
+      <li><code>logo/diamond-logo-white-mono.svg</code> · satu warna putih</li>
+      <li><code>logo/diamond-monogram-*.svg</code> · avatar &amp; stempel</li>
+      <li><code>logo/diamond-symbol-*.svg</code> · simbol berlian</li>
+      <li><code>logo/diamond-plate-*.svg</code> · plat nama mobil</li>
+      <li><code>png/</code> · ekspor PNG resolusi tinggi</li>
+      <li><code>templates/instagram-campaign.html</code> · poster campaign</li>
+      <li><code>fonts/</code> · Cinzel, Cormorant Garamond, Montserrat</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <img src="logo/diamond-logo-primary-reverse.svg" alt="DIAMOND WEDDING CAR">
+  <p>Your special day deserves the best.</p>
+</footer>
+
+</body>
+</html>

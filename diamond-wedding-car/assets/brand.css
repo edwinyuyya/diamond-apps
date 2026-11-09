@@ -1,0 +1,22 @@
+/* DIAMOND WEDDING CAR — token brand bersama (brand guide & template) */
+@font-face { font-family: 'Cinzel'; font-weight: 500; font-display: swap; src: url(../fonts/cinzel-latin-500-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Cinzel'; font-weight: 600; font-display: swap; src: url(../fonts/cinzel-latin-600-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 400; font-display: swap; src: url(../fonts/cormorant-garamond-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 500; font-display: swap; src: url(../fonts/cormorant-garamond-latin-500-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 400; font-style: italic; font-display: swap; src: url(../fonts/cormorant-garamond-latin-400-italic.woff2) format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 500; font-style: italic; font-display: swap; src: url(../fonts/cormorant-garamond-latin-500-italic.woff2) format('woff2'); }
+@font-face { font-family: 'Montserrat'; font-weight: 300; font-display: swap; src: url(../fonts/montserrat-latin-300-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Montserrat'; font-weight: 400; font-display: swap; src: url(../fonts/montserrat-latin-400-normal.woff2) format('woff2'); }
+@font-face { font-family: 'Montserrat'; font-weight: 500; font-display: swap; src: url(../fonts/montserrat-latin-500-normal.woff2) format('woff2'); }
+
+:root {
+  --emerald: #10392E;
+  --emerald-deep: #0A261F;
+  --champagne: #C6A15B;
+  --champagne-light: #E3C98E;
+  --ivory: #F5F0E6;
+  --charcoal: #242424;
+  --f-display: 'Cinzel', 'Times New Roman', serif;
+  --f-serif: 'Cormorant Garamond', Georgia, serif;
+  --f-sans: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+}

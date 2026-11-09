@@ -1,0 +1,13 @@
+{
+  "name": "diamond-wedding-car-brand-tools",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "logo": "node build-logo.mjs",
+    "png": "node export-png.mjs",
+    "build": "node build-logo.mjs && node export-png.mjs"
+  },
+  "dependencies": {
+    "opentype.js": "^1.3.4"
+  }
+}
