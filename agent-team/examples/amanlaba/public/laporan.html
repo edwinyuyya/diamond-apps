@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex">
+  <title>Laporan Simulasi — AmanLaba</title>
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <style>
+    /* Gaya khusus laporan — hanya selector berawalan .halaman-laporan. */
+    .halaman-laporan {
+      background: #EEF1F5;
+    }
+
+    .halaman-laporan .laporan-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid var(--warna-garis);
+      background: rgba(255, 255, 255, 0.95);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    .halaman-laporan .laporan-header__dalam {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 64px;
+    }
+
+    .halaman-laporan .laporan-header__aksi {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .halaman-laporan .laporan-utama {
+      max-width: 1020px;
+      padding-block: 28px 56px;
+    }
+
+    .halaman-laporan .laporan {
+      padding: clamp(22px, 4.5vw, 52px);
+      border: 1px solid var(--warna-garis);
+      border-radius: var(--radius-besar);
+      background: var(--warna-permukaan);
+      box-shadow: var(--bayang-1);
+    }
+
+    .halaman-laporan .laporan-kop {
+      padding-bottom: 22px;
+      border-bottom: 2px solid var(--warna-tinta);
+    }
+
+    .halaman-laporan .laporan-kop__atas {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .halaman-laporan .laporan-kop h1 {
+      max-width: 22ch;
+      font-size: clamp(1.65rem, 3.6vw, 2.5rem);
+      line-height: 1.12;
+    }
+
+    .halaman-laporan .laporan-kop__sub {
+      margin-top: 8px;
+      color: var(--warna-tinta-lembut);
+      font-size: 0.92rem;
+    }
+
+    .halaman-laporan .laporan-meta {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) repeat(4, minmax(0, 1fr));
+      gap: 12px 18px;
+      margin-top: 22px;
+      padding: 16px 18px;
+      border-radius: var(--radius-kecil);
+      background: var(--warna-permukaan-lembut);
+    }
+
+    .halaman-laporan .laporan-meta dt {
+      color: var(--warna-tinta-lembut);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .halaman-laporan .laporan-meta dd {
+      margin: 2px 0 0;
+      font-size: 0.92rem;
+      font-weight: 650;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .halaman-laporan .laporan-bagian {
+      margin-top: 34px;
+      scroll-margin-top: 88px;
+    }
+
+    .halaman-laporan .laporan-bagian > h2 {
+      margin-bottom: 4px;
+      font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+    }
+
+    .halaman-laporan .laporan-bagian__ket {
+      margin-bottom: 16px;
+      color: var(--warna-tinta-lembut);
+      font-size: 0.88rem;
+    }
+
+    .halaman-laporan .laporan-metrik {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .halaman-laporan .laporan-kartu {
+      padding: 14px 15px;
+      border: 1px solid var(--warna-garis);
+      border-radius: var(--radius-kecil);
+      background: var(--warna-permukaan);
+      min-width: 0;
+    }
+
+    .halaman-laporan .laporan-kartu--bahaya {
+      background: #FFF7F7;
+      border-color: rgba(220, 38, 38, 0.22);
+    }
+
+    .halaman-laporan .laporan-kartu--utama {
+      background: #F4FBFA;
+      border-color: rgba(15, 118, 110, 0.24);
+    }
+
+    .halaman-laporan .laporan-kartu__label {
+      color: var(--warna-tinta-lembut);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1.3;
+    }
+
+    .halaman-laporan .laporan-kartu__nilai {
+      margin-top: 4px;
+      color: var(--warna-tinta);
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .halaman-laporan .laporan-kartu--bahaya .laporan-kartu__nilai {
+      color: var(--warna-bahaya);
+    }
+
+    .halaman-laporan .laporan-kartu--utama .laporan-kartu__nilai {
+      color: var(--warna-utama-gelap);
+    }
+
+    .halaman-laporan .laporan-kartu__ket {
+      margin-top: 3px;
+      color: var(--warna-tinta-lembut);
+      font-size: 0.72rem;
+      line-height: 1.35;
+    }
+
+    .halaman-laporan .laporan-tabel-bungkus {
+      margin-top: 14px;
+      overflow-x: auto;
+      border: 1px solid var(--warna-garis);
+      border-radius: var(--radius-kecil);
+    }
+
+    .halaman-laporan .laporan-tabel-bungkus .tabel {
+      min-width: 560px;
+    }
+
+    .halaman-laporan .laporan-tabel-bungkus .tabel th:first-child,
+    .halaman-laporan .laporan-tabel-bungkus .tabel td:first-child {
+      padding-left: 16px;
+    }
+
+    .halaman-laporan .laporan-asumsi-catatan {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: var(--radius-kecil);
+      background: #FFFCF3;
+      color: var(--warna-tinta-lembut);
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+
+    .halaman-laporan .laporan-asumsi-catatan strong {
+      color: var(--warna-tinta);
+    }
+
+    .halaman-laporan .laporan-grafik {
+      margin: 16px 0 0;
+      padding: 12px;
+      overflow-x: auto;
+      border: 1px solid var(--warna-garis);
+      border-radius: var(--radius-kecil);
+      background: var(--warna-permukaan);
+    }
+
+    .halaman-laporan .laporan-grafik svg {
+      display: block;
+      width: 100%;
+      min-width: 560px;
+      height: auto;
+    }
+
+    .halaman-laporan .laporan-grafik-kosong {
+      display: grid;
+      place-items: center;
+      min-height: 140px;
+      margin: 0;
+      padding: 20px;
+      color: var(--warna-tinta-lembut);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .halaman-laporan .laporan-grafik figcaption {
+      margin-top: 8px;
+      color: var(--warna-tinta-lembut);
+      font-size: 0.76rem;
+      line-height: 1.45;
+    }
+
+    .halaman-laporan .laporan-rekomendasi {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .halaman-laporan .laporan-rekomendasi-kartu {
+      padding: 18px;
+      border: 1px solid var(--warna-garis);
+      border-radius: var(--radius-kecil);
+      background: var(--warna-permukaan);
+    }
+
+    .halaman-laporan .laporan-rekomendasi-kartu--aman {
+      border-color: rgba(245, 158, 11, 0.36);
+      background: #FFFCF3;
+    }
+
+    .halaman-laporan .laporan-rekomendasi__harga {
+      margin-top: 10px;
+      font-size: clamp(1.35rem, 2.8vw, 1.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .halaman-laporan .laporan-rekomendasi__rugi {
+      margin-top: 4px;
+      color: var(--warna-tinta-lembut);
+      font-size: 0.82rem;
+    }
+
+    .halaman-laporan .laporan-rekomendasi__rugi strong {
+      color: var(--warna-tinta);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .halaman-laporan .laporan-rekomendasi__alasan {
+      margin-top: 10px;
+      color: var(--warna-tinta-lembut);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .halaman-laporan .laporan-kesimpulan {
+      padding: 18px 20px;
+      border: 1px solid rgba(15, 118, 110, 0.22);
+      border-left: 4px solid var(--warna-utama);
+      border-radius: var(--radius-kecil);
+      background: #F4FBFA;
+      font-size: 0.98rem;
+      line-height: 1.65;
+    }
+
+    .halaman-laporan .laporan-penutup {
+      margin-top: 36px;
+      padding-top: 18px;
+      border-top: 1px solid var(--warna-garis);
+    }
+
+    .halaman-laporan .laporan-disclaimer {
+      color: var(--warna-tinta-lembut);
+      font-size: 0.8rem;
+      line-height: 1.55;
+    }
+
+    .halaman-laporan .laporan-tanda {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      color: var(--warna-tinta-lembut);
+      font-size: 0.78rem;
+    }
+
+    .halaman-laporan .laporan-tanda .merek__lambang {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+    }
+
+    .halaman-laporan .laporan-tanda .merek__lambang svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .halaman-laporan .laporan-muatan {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      min-height: 320px;
+      padding: 48px 20px;
+      border: 1px solid var(--warna-garis);
+      border-radius: var(--radius-besar);
+      background: var(--warna-permukaan);
+      box-shadow: var(--bayang-1);
+      color: var(--warna-tinta-lembut);
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    .halaman-laporan .laporan-muatan__spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid var(--warna-garis);
+      border-top-color: var(--warna-utama);
+      border-radius: 50%;
+      animation: halaman-laporan-putar 900ms linear infinite;
+    }
+
+    @keyframes halaman-laporan-putar {
+      to { transform: rotate(360deg); }
+    }
+
+    .halaman-laporan .laporan-galat {
+      padding: 28px;
+      border-radius: var(--radius-besar);
+      background: var(--warna-bahaya-lembut);
+      color: var(--warna-bahaya);
+    }
+
+    .halaman-laporan .laporan-galat__judul {
+      color: var(--warna-bahaya);
+      font-size: clamp(1.2rem, 2.5vw, 1.55rem);
+      line-height: 1.2;
+    }
+
+    .halaman-laporan .laporan-galat p {
+      max-width: 56ch;
+      margin-top: 8px;
+      color: #7F1D1D;
+      font-size: 0.92rem;
+    }
+
+    .halaman-laporan .laporan-galat__aksi {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .halaman-laporan .laporan-galat__detail {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(220, 38, 38, 0.25);
+      font-size: 0.8rem;
+    }
+
+    .halaman-laporan .laporan-galat__detail[hidden] {
+      display: none;
+    }
+
+    .halaman-laporan .laporan-footer {
+      padding-block: 20px 36px;
+      color: var(--warna-tinta-lembut);
+      font-size: 0.78rem;
+      text-align: center;
+    }
+
+    .halaman-laporan .laporan-footer__tautan {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px 18px;
+      margin-top: 6px;
+    }
+
+    .halaman-laporan .laporan-footer__tautan a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      color: var(--warna-tinta-lembut);
+      text-decoration: none;
+    }
+
+    .halaman-laporan .laporan-footer__tautan a:hover {
+      color: var(--warna-utama-gelap);
+      text-decoration: underline;
+    }
+
+    /* Grafik: kelas presentasi dipakai oleh laporan.js */
+    .halaman-laporan .graf-grid {
+      stroke: var(--warna-garis);
+      stroke-width: 1;
+      stroke-dasharray: 3 4;
+    }
+
+    .halaman-laporan .graf-sumbu {
+      stroke: #C9D2DC;
+      stroke-width: 1;
+    }
+
+    .halaman-laporan .graf-teks {
+      fill: var(--warna-tinta-lembut);
+      font-family: var(--font-utama);
+      font-size: 12px;
+    }
+
+    .halaman-laporan .graf-teks-kecil {
+      fill: var(--warna-tinta-lembut);
+      font-family: var(--font-utama);
+      font-size: 10.5px;
+    }
+
+    .halaman-laporan .graf-teks-kuat {
+      fill: var(--warna-tinta);
+      font-family: var(--font-utama);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .halaman-laporan .graf-judul {
+      fill: var(--warna-tinta);
+      font-family: var(--font-utama);
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+
+    .halaman-laporan .graf-rugi {
+      fill: var(--warna-bahaya);
+    }
+
+    .halaman-laporan .graf-untung {
+      fill: var(--warna-utama);
+    }
+
+    .halaman-laporan .graf-garis {
+      fill: none;
+      stroke: var(--warna-utama);
+      stroke-width: 2.5;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+
+    .halaman-laporan .graf-area {
+      fill: var(--warna-utama);
+      opacity: 0.12;
+    }
+
+    .halaman-laporan .graf-nol {
+      stroke: var(--warna-tinta-lembut);
+      stroke-width: 1.2;
+      stroke-dasharray: 5 4;
+      opacity: 0.6;
+    }
+
+    .halaman-laporan .graf-median {
+      stroke: var(--warna-tinta);
+      stroke-width: 1.2;
+      stroke-dasharray: 4 4;
+      opacity: 0.6;
+    }
+
+    .halaman-laporan .graf-titik-terbaik {
+      fill: var(--warna-utama);
+      stroke: #FFFFFF;
+      stroke-width: 2;
+    }
+
+    .halaman-laporan .graf-titik-teraman {
+      fill: var(--warna-aksen);
+      stroke: #FFFFFF;
+      stroke-width: 2;
+    }
+
+    .halaman-laporan .graf-tanda-terbaik {
+      fill: #F4FBFA;
+      stroke: var(--warna-utama);
+      stroke-width: 1;
+    }
+
+    .halaman-laporan .graf-tanda-teraman {
+      fill: #FFFCF3;
+      stroke: var(--warna-aksen);
+      stroke-width: 1;
+    }
+
+    .halaman-laporan .graf-legend {
+      fill: var(--warna-tinta-lembut);
+      font-family: var(--font-utama);
+      font-size: 10.5px;
+    }
+
+    @media (max-width: 960px) {
+      .halaman-laporan .laporan-meta {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .halaman-laporan .laporan-metrik {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .halaman-laporan .laporan-header__dalam {
+        min-height: 58px;
+      }
+
+      .halaman-laporan .laporan-header__aksi .tombol--garis {
+        display: none;
+      }
+
+      .halaman-laporan .laporan-utama {
+        padding-block: 16px 40px;
+      }
+
+      .halaman-laporan .laporan {
+        padding: 20px 16px;
+        border-radius: var(--radius-sedang);
+      }
+
+      .halaman-laporan .laporan-kop__atas {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .halaman-laporan .laporan-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 14px;
+      }
+
+      .halaman-laporan .laporan-metrik {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .halaman-laporan .laporan-kartu__nilai {
+        font-size: 1.05rem;
+      }
+
+      .halaman-laporan .laporan-rekomendasi {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .halaman-laporan .laporan-grafik svg {
+        min-width: 520px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .halaman-laporan .laporan-muatan__spinner {
+        animation: none;
+        border-top-color: var(--warna-utama);
+      }
+    }
+
+    /* Cetak A4 — pelengkap aturan global di base.css */
+    @media print {
+      @page {
+        size: A4;
+        margin: 14mm;
+      }
+
+      .halaman-laporan {
+        background: #FFFFFF !important;
+      }
+
+      .halaman-laporan .tanpa-cetak,
+      .halaman-laporan button,
+      .halaman-laporan nav {
+        display: none !important;
+      }
+
+      .halaman-laporan .laporan-header,
+      .halaman-laporan .laporan-footer,
+      .halaman-laporan .laporan-muatan,
+      .halaman-laporan .laporan-galat {
+        display: none !important;
+      }
+
+      .halaman-laporan .laporan-utama {
+        max-width: none;
+        padding: 0;
+      }
+
+      .halaman-laporan .laporan {
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: #FFFFFF !important;
+        box-shadow: none;
+      }
+
+      .halaman-laporan .laporan-kop {
+        padding-bottom: 5mm;
+        border-bottom: 1.5pt solid #000000;
+      }
+
+      .halaman-laporan .laporan-kop__atas {
+        margin-bottom: 4mm;
+      }
+
+      .halaman-laporan .laporan-kop h1 {
+        font-size: 19pt;
+      }
+
+      .halaman-laporan .laporan-kop__sub {
+        font-size: 9pt;
+      }
+
+      .halaman-laporan .laporan-meta {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: 4mm;
+        padding: 3mm 4mm;
+        border: 1px solid #C9D2DC;
+        background: #FFFFFF !important;
+      }
+
+      .halaman-laporan .laporan-meta dt {
+        color: #4B5563;
+      }
+
+      .halaman-laporan .laporan-meta dd {
+        color: #000000;
+      }
+
+      .halaman-laporan .laporan-bagian {
+        margin-top: 7mm;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .halaman-laporan .laporan-bagian > h2 {
+        margin-bottom: 2mm;
+        font-size: 12.5pt;
+      }
+
+      .halaman-laporan .laporan-bagian__ket {
+        margin-bottom: 3mm;
+        font-size: 8.5pt;
+      }
+
+      .halaman-laporan .laporan-metrik {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 3mm;
+        margin-top: 3mm;
+      }
+
+      .halaman-laporan .laporan-kartu {
+        padding: 3mm;
+        border: 1px solid #9CA3AF !important;
+        background: #FFFFFF !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .halaman-laporan .laporan-kartu__label {
+        font-size: 7pt;
+        color: #4B5563;
+      }
+
+      .halaman-laporan .laporan-kartu__nilai {
+        font-size: 12pt;
+        color: #000000 !important;
+      }
+
+      .halaman-laporan .laporan-kartu__ket {
+        font-size: 7pt;
+        color: #4B5563;
+      }
+
+      .halaman-laporan .laporan-tabel-bungkus {
+        margin-top: 3mm;
+        overflow: visible;
+        border: 1px solid #9CA3AF;
+      }
+
+      .halaman-laporan .laporan-tabel-bungkus .tabel {
+        min-width: 0;
+        font-size: 8.5pt;
+      }
+
+      .halaman-laporan .laporan-tabel-bungkus .tabel th {
+        background: #F0F4F4 !important;
+        color: #000000;
+      }
+
+      .halaman-laporan .laporan-tabel-bungkus .tabel th,
+      .halaman-laporan .laporan-tabel-bungkus .tabel td {
+        padding: 2mm 3mm;
+        border-bottom: 1px solid #C9D2DC;
+      }
+
+      .halaman-laporan .laporan-asumsi-catatan {
+        margin-top: 3mm;
+        padding: 3mm 4mm;
+        border: 1px solid #C9D2DC;
+        background: #FFFFFF !important;
+        color: #1F2937;
+        font-size: 8pt;
+      }
+
+      .halaman-laporan .laporan-grafik {
+        margin-top: 3mm;
+        padding: 2mm;
+        overflow: visible;
+        border: 1px solid #C9D2DC;
+        background: #FFFFFF !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .halaman-laporan .laporan-grafik svg {
+        width: 100%;
+        min-width: 0;
+        height: auto;
+        max-height: 62mm;
+      }
+
+      .halaman-laporan .laporan-bagian > h2,
+      .halaman-laporan .laporan-kartu__nilai,
+      .halaman-laporan .laporan-rekomendasi__harga {
+        white-space: nowrap;
+      }
+
+      .halaman-laporan #laporan-harga svg {
+        max-height: 68mm;
+      }
+
+      .halaman-laporan .laporan-grafik figcaption {
+        font-size: 7.5pt;
+        color: #4B5563;
+      }
+
+      .halaman-laporan .laporan-rekomendasi {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 3mm;
+        margin-top: 3mm;
+      }
+
+      .halaman-laporan .laporan-rekomendasi-kartu {
+        padding: 3mm;
+        border: 1px solid #9CA3AF !important;
+        background: #FFFFFF !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .halaman-laporan .laporan-rekomendasi__harga {
+        font-size: 12pt;
+      }
+
+      .halaman-laporan .laporan-rekomendasi__rugi,
+      .halaman-laporan .laporan-rekomendasi__alasan {
+        font-size: 8pt;
+        color: #1F2937;
+      }
+
+      .halaman-laporan .laporan-kesimpulan {
+        padding: 3mm 4mm;
+        border: 1px solid #9CA3AF !important;
+        border-left: 2pt solid #0F766E !important;
+        background: #FFFFFF !important;
+        font-size: 9.5pt;
+        color: #000000;
+      }
+
+      .halaman-laporan .laporan-penutup {
+        margin-top: 7mm;
+        padding-top: 3mm;
+        border-top: 1px solid #9CA3AF;
+      }
+
+      .halaman-laporan .laporan-disclaimer,
+      .halaman-laporan .laporan-tanda {
+        font-size: 7.5pt;
+        color: #4B5563;
+      }
+
+      .halaman-laporan .laporan-tanda .merek__lambang {
+        background: #0F766E !important;
+        color: #FFFFFF !important;
+      }
+    }
+  </style>
+</head>
+<body class="halaman-laporan">
+  <a class="lompat" href="#konten-utama">Lewati ke konten utama</a>
+
+  <header class="laporan-header tanpa-cetak">
+    <div class="wadah laporan-header__dalam">
+      <a class="merek" href="/" aria-label="AmanLaba — beranda">
+        <span class="merek__lambang" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19V5"></path>
+            <path d="M4 19h16"></path>
+            <path d="M7.5 15.5l3.8-4.7 3 2.7 4.7-6.3"></path>
+            <path d="M15.5 7.2H19v3.4"></path>
+          </svg>
+        </span>
+        <span class="merek__teks">AmanLaba</span>
+      </a>
+      <div class="laporan-header__aksi">
+        <a class="tombol tombol--garis tombol--kecil" href="/app">Buka Aplikasi</a>
+        <button class="tombol tombol--utama tombol--kecil" id="tombol-cetak" type="button">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6 9V3h12v6"></path>
+            <rect x="3" y="9" width="18" height="8" rx="2"></rect>
+            <path d="M7 17h10v4H7z"></path>
+          </svg>
+          Cetak / Simpan PDF
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wadah laporan-utama" id="konten-utama">
+    <div class="laporan-muatan" id="laporan-muatan" role="status" aria-live="polite">
+      <span class="laporan-muatan__spinner" aria-hidden="true"></span>
+      <p>Menyiapkan laporan dari skenario tersimpan…</p>
+    </div>
+
+    <div class="galat laporan-galat" id="laporan-galat" role="alert" hidden>
+      <h1 class="laporan-galat__judul">Laporan tidak dapat ditampilkan</h1>
+      <p id="laporan-galat-pesan">Skenario tidak ditemukan. Kembali ke aplikasi untuk memilih skenario.</p>
+      <div class="laporan-galat__aksi">
+        <a class="tombol tombol--utama" href="/app">Kembali ke aplikasi</a>
+        <button class="tombol tombol--garis" id="tombol-muat-ulang" type="button">Muat ulang halaman</button>
+      </div>
+      <p class="laporan-galat__detail" id="laporan-galat-detail" hidden></p>
+    </div>
+
+    <article class="laporan" id="laporan" aria-labelledby="judul-laporan" hidden>
+      <header class="laporan-kop">
+        <div class="laporan-kop__atas">
+          <span class="merek" aria-hidden="true">
+            <span class="merek__lambang">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19V5"></path>
+                <path d="M4 19h16"></path>
+                <path d="M7.5 15.5l3.8-4.7 3 2.7 4.7-6.3"></path>
+                <path d="M15.5 7.2H19v3.4"></path>
+              </svg>
+            </span>
+            <span class="merek__teks">AmanLaba</span>
+          </span>
+          <span class="badge badge--netral">Laporan simulasi risiko usaha</span>
+        </div>
+        <h1 id="judul-laporan" tabindex="-1">Laporan Simulasi Risiko Usaha</h1>
+        <p class="laporan-kop__sub">Ringkasan hasil Monte Carlo berdasarkan asumsi yang tersimpan di browser Anda.</p>
+
+        <dl class="laporan-meta">
+          <div>
+            <dt>Nama skenario</dt>
+            <dd id="laporan-nama">—</dd>
+          </div>
+          <div>
+            <dt>Tanggal cetak</dt>
+            <dd id="laporan-tanggal">—</dd>
+          </div>
+          <div>
+            <dt>Seed</dt>
+            <dd id="laporan-seed">—</dd>
+          </div>
+          <div>
+            <dt>Iterasi</dt>
+            <dd id="laporan-iterasi">—</dd>
+          </div>
+          <div>
+            <dt>Versi mesin</dt>
+            <dd id="laporan-versi">—</dd>
+          </div>
+        </dl>
+      </header>
+
+      <section class="laporan-bagian" aria-labelledby="judul-ringkasan">
+        <h2 id="judul-ringkasan">Ringkasan hasil</h2>
+        <p class="laporan-bagian__ket">Semua nilai dihitung dari 10.000 kemungkinan atau sesuai iterasi yang tersimpan.</p>
+        <div class="laporan-metrik">
+          <div class="laporan-kartu laporan-kartu--bahaya">
+            <p class="laporan-kartu__label">Peluang rugi</p>
+            <p class="laporan-kartu__nilai" id="laporan-peluang-rugi">—</p>
+            <p class="laporan-kartu__ket">Peluang untung <span id="laporan-peluang-untung">—</span></p>
+          </div>
+          <div class="laporan-kartu">
+            <p class="laporan-kartu__label">P5</p>
+            <p class="laporan-kartu__nilai" id="laporan-p5">—</p>
+            <p class="laporan-kartu__ket">5% hasil terburuk berada di bawah nilai ini</p>
+          </div>
+          <div class="laporan-kartu laporan-kartu--utama">
+            <p class="laporan-kartu__label">P50 · median</p>
+            <p class="laporan-kartu__nilai" id="laporan-p50">—</p>
+            <p class="laporan-kartu__ket">Laba tengah dari seluruh kemungkinan</p>
+          </div>
+          <div class="laporan-kartu">
+            <p class="laporan-kartu__label">P95</p>
+            <p class="laporan-kartu__nilai" id="laporan-p95">—</p>
+            <p class="laporan-kartu__ket">5% hasil terbaik berada di atas nilai ini</p>
+          </div>
+          <div class="laporan-kartu">
+            <p class="laporan-kartu__label">Titik impas</p>
+            <p class="laporan-kartu__nilai" id="laporan-impas">—</p>
+            <p class="laporan-kartu__ket" id="laporan-impas-ket">—</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="laporan-bagian" aria-labelledby="judul-asumsi">
+        <h2 id="judul-asumsi">Asumsi yang digunakan</h2>
+        <p class="laporan-bagian__ket">Setiap variabel dimasukkan sebagai rentang dan disampel dengan distribusi triangular.</p>
+        <div class="laporan-tabel-bungkus">
+          <table class="tabel" id="laporan-asumsi">
+            <caption>Tabel asumsi: minimum, mode (paling mungkin), dan maksimum.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Variabel</th>
+                <th scope="col">Minimum</th>
+                <th scope="col">Mode</th>
+                <th scope="col">Maksimum</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="4">Memuat asumsi…</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="laporan-asumsi-catatan">
+          <strong>Respons permintaan terhadap harga bersifat linear.</strong>
+          Permintaan pada tabel adalah permintaan <em>pada harga mode</em>. Pada harga lain, faktor permintaan bernilai 1 di harga mode, 0,5 di harga maksimum, dan 0 di harga choke (2 × harga maksimum − harga mode). Faktor dibatasi pada rentang 0–2. Jika harga maksimum sama dengan harga mode, faktor selalu 1. Asumsi ini dipakai pada simulasi utama, sensitivitas harga, dan sapuan harga.
+        </div>
+      </section>
+
+      <section class="laporan-bagian" aria-labelledby="judul-histogram">
+        <h2 id="judul-histogram">Distribusi laba</h2>
+        <p class="laporan-bagian__ket">Batang merah menunjukkan hasil rugi; batang teal menunjukkan hasil untung.</p>
+        <figure class="laporan-grafik" id="laporan-histogram" aria-label="Histogram distribusi laba">
+          <p class="laporan-grafik-kosong">Jalankan simulasi untuk melihat grafik.</p>
+        </figure>
+      </section>
+
+      <section class="laporan-bagian" aria-labelledby="judul-tornado">
+        <h2 id="judul-tornado">Variabel paling berpengaruh</h2>
+        <p class="laporan-bagian__ket">Perubahan laba saat setiap variabel digerakkan dari P10 ke P90, diurutkan dari dampak terbesar.</p>
+        <figure class="laporan-grafik" id="laporan-tornado" aria-label="Diagram tornado sensitivitas">
+          <p class="laporan-grafik-kosong">Jalankan simulasi untuk melihat grafik.</p>
+        </figure>
+      </section>
+
+      <section class="laporan-bagian" aria-labelledby="judul-harga">
+        <h2 id="judul-harga">Pencari harga jual</h2>
+        <p class="laporan-bagian__ket">Laba rata-rata pada setiap titik harga. Permintaan diskalakan dengan respons linear seperti pada tabel asumsi.</p>
+        <figure class="laporan-grafik" id="laporan-harga" aria-label="Grafik sapuan harga jual">
+          <p class="laporan-grafik-kosong">Jalankan simulasi untuk melihat grafik.</p>
+        </figure>
+
+        <div class="laporan-rekomendasi">
+          <article class="laporan-rekomendasi-kartu">
+            <span class="badge badge--aman">Laba rata-rata tertinggi</span>
+            <p class="laporan-rekomendasi__harga" id="laporan-terbaik-harga">—</p>
+            <p class="laporan-rekomendasi__rugi">Peluang rugi <strong id="laporan-terbaik-rugi">—</strong></p>
+            <p class="laporan-rekomendasi__alasan" id="laporan-terbaik-alasan">—</p>
+          </article>
+          <article class="laporan-rekomendasi-kartu laporan-rekomendasi-kartu--aman">
+            <span class="badge badge--aksen">Risiko terendah</span>
+            <p class="laporan-rekomendasi__harga" id="laporan-teraman-harga">—</p>
+            <p class="laporan-rekomendasi__rugi">Peluang rugi <strong id="laporan-teraman-rugi">—</strong></p>
+            <p class="laporan-rekomendasi__alasan" id="laporan-teraman-alasan">—</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="laporan-bagian" aria-labelledby="judul-kesimpulan">
+        <h2 id="judul-kesimpulan">Kesimpulan</h2>
+        <p class="laporan-kesimpulan" id="laporan-kesimpulan">—</p>
+      </section>
+
+      <footer class="laporan-penutup">
+        <p class="laporan-disclaimer" id="laporan-disclaimer">Hasil ini adalah simulasi berdasarkan asumsi pengguna, bukan jaminan atau nasihat keuangan.</p>
+        <p class="laporan-tanda">
+          <span class="merek__lambang" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19V5"></path>
+              <path d="M4 19h16"></path>
+              <path d="M7.5 15.5l3.8-4.7 3 2.7 4.7-6.3"></path>
+              <path d="M15.5 7.2H19v3.4"></path>
+            </svg>
+          </span>
+          Dibuat dengan AmanLaba · <span id="laporan-tanggal-kaki">—</span>
+        </p>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="laporan-footer tanpa-cetak">
+    <div class="wadah">
+      <p>AmanLaba adalah alat bantu simulasi, bukan nasihat keuangan.</p>
+      <nav class="laporan-footer__tautan" aria-label="Tautan laporan">
+        <a href="/">Beranda</a>
+        <a href="/app">Aplikasi</a>
+        <a href="/#fitur">Fitur</a>
+        <a href="/#harga">Harga</a>
+      </nav>
+    </div>
+  </footer>
+
+  <noscript>
+    <p class="wadah" style="padding-block: 24px;">Laporan memerlukan JavaScript untuk membaca skenario tersimpan dan menghitung simulasi. Aktifkan JavaScript lalu muat ulang halaman, atau kembali ke aplikasi di <a href="/app">/app</a>.</p>
+  </noscript>
+
+  <script type="module" src="/assets/js/laporan.js"></script>
+</body>
+</html>

@@ -267,17 +267,32 @@ function render(s){
 }
 async function load(){
   if(window.__STATIC__)return window.__INIT__;
-  return await (await fetch('api/state',{cache:'no-store'})).json();
+  var r=await fetch('api/state',{cache:'no-store'});
+  if(!/json/.test(r.headers.get('content-type')||''))throw new Error('tidak ada server dashboard');
+  return await r.json();
 }
+var NOW=Date.now();
+var DEMO={demo:true,ws:'contoh',now:NOW,phase:2,allDone:false,startedAt:NOW-14*60000,endedAt:null,
+ idea:'Contoh: simulator risiko usaha untuk UMKM (data fiktif untuk pratinjau tampilan).',specTitle:'SPEC - Contoh',stack:'Node.js + HTML/CSS/JS vanilla',
+ architect:{name:'architect',status:'done',tools:14,cost:1.2,turns:15,durationMs:200000,startedAt:NOW-14*60000,mtime:NOW-11*60000,last:'Write plan.json',events:[{kind:'Write',text:'SPEC.md',ts:null},{kind:'Write',text:'plan.json',ts:null}],files:['SPEC.md','CONTRACT.md','plan.json'],summary:'Rencana 4 tugas dibuat. (contoh)'},
+ tasks:[
+  {id:'t1',role:'backend',title:'Mesin simulasi dan API',description:'Bangun mesin Monte Carlo dan API HTTP sesuai CONTRACT.md.',owns:['backend/'],dependsOn:[],agent:{name:'t1-backend',status:'done',tools:31,cost:2.4,turns:22,durationMs:420000,startedAt:NOW-10*60000,mtime:NOW-4*60000,last:'Bash node --check backend/server.js',events:[{kind:'Write',text:'backend/server.js',ts:null},{kind:'Bash',text:'node --check backend/server.js',ts:null}],files:['backend/server.js','backend/engine/simulasi.js'],summary:'Backend selesai dan lolos pemeriksaan sintaks. (contoh)'}},
+  {id:'t2',role:'frontend',title:'Halaman aplikasi',description:'Bangun UI form dan grafik.',owns:['public/'],dependsOn:[],agent:{name:'t2-frontend',status:'running',tools:12,cost:0.9,turns:0,durationMs:null,startedAt:NOW-5*60000,mtime:NOW-5000,last:'Write public/app/index.html',events:[{kind:'Write',text:'public/app/index.html',ts:null}],files:['public/app/index.html'],summary:''}},
+  {id:'t3',role:'devops',title:'Konfigurasi dan README',description:'package.json, skrip, dokumentasi.',owns:['package.json','README.md'],dependsOn:[],agent:null},
+  {id:'t4',role:'qa',title:'Test dan verify.sh',description:'Tulis test otomatis dan verify.sh.',owns:['test/','verify.sh'],dependsOn:['t1','t2','t3'],agent:null}],
+ debuggers:[],reviewer:null,verifies:[],commits:[['abc1234','plan'],['def5678','init']],
+ files:[{f:'SPEC.md',ok:true},{f:'CONTRACT.md',ok:true},{f:'plan.json',ok:true},{f:'verify.sh',ok:false},{f:'REPORT.md',ok:false}],
+ feed:[{agent:'t2-frontend',kind:'Write',text:'public/app/index.html',ts:NOW-5000},{agent:'t1-backend',kind:'Bash',text:'node --check backend/server.js',ts:NOW-240000}],
+ producedFiles:{'SPEC.md':'architect','backend/server.js':'t1-backend','public/app/index.html':'t2-frontend'},cost:4.5,totalActions:57};
 var first=true;
 async function tick(){
   var s;
   try{s=await load()}
   catch(e){ if(first&&window.__INIT__){s=window.__INIT__;$("err").textContent="⚠ pembaruan live gagal ("+e+"); menampilkan data awal, muat ulang halaman."}
-            else{$("err").textContent="⚠ gagal mengambil data: "+e;return} }
+            else{s=DEMO;$("err").innerHTML="ℹ <b>Mode contoh (data fiktif).</b> Berkas ini hanyalah templat dan tidak terhubung ke run apa pun. Jalankan <code>node src/dashboard.js projects/&lt;nama&gt;</code> lalu buka <code>http://localhost:4000</code> di komputer yang sama, atau buka berkas docs/dashboard-snapshot.html untuk melihat snapshot run nyata.";$("err").style.color="var(--muted)";window.__DEMO_SHOWN=true} }
   first=false;
   if(s.error){$("err").textContent="⚠ "+s.error;return}
-  if(!/data awal/.test($("err").textContent))$("err").textContent="";
+  if(!/data awal/.test($("err").textContent)&&!window.__DEMO_SHOWN)$("err").textContent="";
   S=s;render(s);
 }
 tick();

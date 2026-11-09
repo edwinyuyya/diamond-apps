@@ -1,0 +1,107 @@
+{
+  "stack": "Node.js >=18.17 (disarankan 20 LTS) ESM tanpa dependency npm; HTTP bawaan Node; HTML/CSS/JS statis; grafik SVG murni; localStorage; node:test; port 3000",
+  "tasks": [
+    {
+      "id": "t1",
+      "role": "backend",
+      "title": "Mesin Monte Carlo ber-seed, API HTTP, dan stub Panel Pelanggan AI",
+      "description": "Bangun seluruh isi backend/ sesuai CONTRACT.md bagian 3-7, 12, dan 14. Implementasikan modul mesin murni: RNG mulberry32 ber-seed, sampler dan kuantil triangular, persentil interpolasi linear, histogram 30 bin, titik impas dari nilai mode, sensitivitas tornado P10/P90, sapuan harga otomatis 21 titik x 1500 iterasi dengan seed turunan (seed + 104729*k), serta jalankanSimulasi dengan urutan pengambilan acak tetap: harga, biaya tetap, biaya variabel, permintaan. Semua fungsi wajib deterministik dan tanpa I/O. Terapkan faktor respons permintaan linear: permintaan adalah permintaan pada harga mode; faktor 1 di mode, 0,5 di harga maksimum, 0 di harga choke (2*max-mode), di-clamp 0..2, dan 1 jika max=mode; pakai faktor yang sama pada simulasi utama, sensitivitas harga, dan sapuan harga. Ekspor faktorPermintaanHarga(harga, hargaJual). Implementasikan validasi skenario/opsi dengan pesan Indonesia dan galat ber-field. Buat server HTTP tanpa framework: GET /api/health, GET /api/template (4 template persis), POST /api/simulasi, POST /api/harga, envelope {data} / {error}, batas body 128 KB, status 400/404/405/413/500, serta rute statis /, /app, /laporan, /assets dengan whitelist ekstensi dan proteksi path traversal. Ekspor buatServer dan mulaiServer; jangan listen saat diimpor. Sertakan stub backend/extensions/panel-pelanggan-ai/ beserta README yang menyatakan status belum-diimplementasikan dan melempar error E_BELUM_DIIMPLEMENTASIKAN; jangan impor stub itu di server. Tanpa dependency npm dan tanpa menulis di luar backend/. Kriteria selesai: server jalan di port 3000; seluruh endpoint dan bentuk JSON cocok kontrak; seed sama menghasilkan angka identik; template tepat 4; rute statis aman; stub tidak aktif; self-check manual lulus.",
+      "owns": [
+        "backend/"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t4",
+      "role": "devops",
+      "title": "Konfigurasi root, skrip npm, dokumentasi, dan pemeriksaan Node",
+      "description": "Sediakan package.json, README.md, .nvmrc, .gitignore, dan scripts/cek-node.sh sesuai CONTRACT.md bagian 12. package.json wajib: name amanlaba, versi 1.0.0, private, type module, engines Node >=18.17, dependencies dan devDependencies kosong, serta skrip start (node backend/server.js), dev (node --watch backend/server.js), test (node --test test/*.test.js), dan verify (bash verify.sh). Jangan menambahkan dependency apa pun dan jangan membuat lockfile yang mengunduh paket. README harus menjelaskan nilai produk singkat, cara menjalankan tanpa npm install, daftar perintah, environment variable PORT/HOST/NODE_ENV, struktur singkat, endpoint API, alur landing/app/laporan, dan status titik ekstensi Panel Pelanggan AI yang belum aktif. .nvmrc berisi versi Node yang didukung. .gitignore mencakup node_modules, .env, log, dan artefak lokal tanpa menghapus .team yang sudah ada. scripts/cek-node.sh memeriksa Node >=18.17 dan keluar dengan pesan jelas bila gagal. Jangan menulis kode aplikasi, test, verify.sh, atau file frontend/backend. Kriteria selesai: npm install tidak diperlukan; npm start/test/verify ter-resolve ke perintah yang benar; README akurat terhadap kontrak; pemeriksaan Node berfungsi; tidak ada dependency.",
+      "owns": [
+        "package.json",
+        "README.md",
+        ".gitignore",
+        ".nvmrc",
+        "scripts/"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t2a",
+      "role": "frontend",
+      "title": "Halaman /app: HTML dan CSS aplikasi simulasi",
+      "owns": [
+        "public/app/",
+        "public/assets/css/app.css"
+      ],
+      "dependsOn": [],
+      "description": "KONTEKS: berkas milikmu SUDAH ADA dari percobaan sebelumnya yang kehabisan budget. JANGAN menulis ulang dari nol. Langkah: (1) baca CONTRACT.md bagian yang disebut dan berkas yang kamu miliki; (2) bandingkan dengan kontrak, lengkapi yang kurang dan perbaiki bug; (3) verifikasi ringan saja: node --check untuk JS, grep untuk ID DOM/kelas yang diwajibkan; DILARANG membuat server uji panjang atau browser otomatis; (4) selesai dalam sekitar 25 langkah alat, lalu tulis ringkasan singkat. Hanya tulis di berkas milikmu (OWNS). Lengkapi public/app/index.html dan public/assets/css/app.css sesuai CONTRACT.md bagian 8-11: seluruh ID DOM pada 9.4 wajib ada, label permintaan menyebut 'pada harga paling mungkin', penjelasan asumsi respons harga linear, aksesibel, responsif 360/768/1280 px, memakai token dan kelas dari base.css tanpa mendefinisikan ulang palet, gaya khusus dengan awalan app- atau scope .halaman-app, tanpa request eksternal."
+    },
+    {
+      "id": "t2b",
+      "role": "frontend",
+      "title": "Logika aplikasi: utama, form, format, penyimpanan",
+      "owns": [
+        "public/assets/js/app/utama.js",
+        "public/assets/js/app/form.js",
+        "public/assets/js/app/format.js",
+        "public/assets/js/app/penyimpanan.js"
+      ],
+      "dependsOn": [],
+      "description": "KONTEKS: berkas milikmu SUDAH ADA dari percobaan sebelumnya yang kehabisan budget. JANGAN menulis ulang dari nol. Langkah: (1) baca CONTRACT.md bagian yang disebut dan berkas yang kamu miliki; (2) bandingkan dengan kontrak, lengkapi yang kurang dan perbaiki bug; (3) verifikasi ringan saja: node --check untuk JS, grep untuk ID DOM/kelas yang diwajibkan; DILARANG membuat server uji panjang atau browser otomatis; (4) selesai dalam sekitar 25 langkah alat, lalu tulis ringkasan singkat. Hanya tulis di berkas milikmu (OWNS). Lengkapi utama.js, form.js, format.js, penyimpanan.js sesuai CONTRACT.md bagian 8-11: saat dimuat ambil GET /api/template dan localStorage secara paralel, terapkan template warung-makan lalu jalankan simulasi otomatis; kirim POST /api/simulasi; simpan/muat/hapus skenario pada key amanlaba:skenario:v1 (maks 50); tautan /laporan?id= aktif hanya setelah tersimpan; state loading, penanganan error, toast; format Rupiah/persen Indonesia. Pakai ID DOM dari CONTRACT.md 9.4 (jangan ubah HTML)."
+    },
+    {
+      "id": "t2c",
+      "role": "frontend",
+      "title": "Tampilan hasil dan grafik SVG",
+      "owns": [
+        "public/assets/js/app/hasil.js",
+        "public/assets/js/app/grafik.js"
+      ],
+      "dependsOn": [],
+      "description": "KONTEKS: berkas milikmu SUDAH ADA dari percobaan sebelumnya yang kehabisan budget. JANGAN menulis ulang dari nol. Langkah: (1) baca CONTRACT.md bagian yang disebut dan berkas yang kamu miliki; (2) bandingkan dengan kontrak, lengkapi yang kurang dan perbaiki bug; (3) verifikasi ringan saja: node --check untuk JS, grep untuk ID DOM/kelas yang diwajibkan; DILARANG membuat server uji panjang atau browser otomatis; (4) selesai dalam sekitar 25 langkah alat, lalu tulis ringkasan singkat. Hanya tulis di berkas milikmu (OWNS). Lengkapi hasil.js dan grafik.js sesuai CONTRACT.md bagian 8-11: render peluang rugi/untung, P5/P50/P95, rata-rata, min/maks, deviasi standar, titik impas (unit dan pendapatan), histogram SVG, tornado SVG, sapuan harga SVG, serta rekomendasi harga laba terbaik dan risiko terendah beserta alasannya. SVG murni tanpa library, aksesibel (judul/deskripsi)."
+    },
+    {
+      "id": "t3a",
+      "role": "frontend",
+      "title": "Landing page, sistem desain, dan skrip landing",
+      "owns": [
+        "public/index.html",
+        "public/assets/css/base.css",
+        "public/assets/js/landing.js",
+        "public/assets/img/"
+      ],
+      "dependsOn": [],
+      "description": "KONTEKS: berkas milikmu SUDAH ADA dari percobaan sebelumnya yang kehabisan budget. JANGAN menulis ulang dari nol. Langkah: (1) baca CONTRACT.md bagian yang disebut dan berkas yang kamu miliki; (2) bandingkan dengan kontrak, lengkapi yang kurang dan perbaiki bug; (3) verifikasi ringan saja: node --check untuk JS, grep untuk ID DOM/kelas yang diwajibkan; DILARANG membuat server uji panjang atau browser otomatis; (4) selesai dalam sekitar 25 langkah alat, lalu tulis ringkasan singkat. Hanya tulis di berkas milikmu (OWNS). Lengkapi public/index.html, base.css, landing.js sesuai CONTRACT.md bagian 9.1-9.3 dan 10-11: header lengket, hero (H1 dan subjudul persis kontrak), kartu cuplikan hasil, masalah, cara kerja, minimal 6 fitur, 4 template, 3 paket harga Gratis/Pro/Bisnis (tombol Pro/Bisnis hanya notifikasi demo, tanpa transaksi), minimal 5 FAQ, CTA akhir, footer dan disclaimer, penjelasan asumsi respons linear; tanpa testimoni atau logo fiktif. base.css wajib memuat token dan kelas bersama (.wadah, .tombol, .kartu, .input, .badge, .grid-2, .grid-3, dst.)."
+    },
+    {
+      "id": "t3b",
+      "role": "frontend",
+      "title": "Laporan cetak",
+      "owns": [
+        "public/laporan.html",
+        "public/assets/js/laporan.js"
+      ],
+      "dependsOn": [],
+      "description": "KONTEKS: berkas milikmu SUDAH ADA dari percobaan sebelumnya yang kehabisan budget. JANGAN menulis ulang dari nol. Langkah: (1) baca CONTRACT.md bagian yang disebut dan berkas yang kamu miliki; (2) bandingkan dengan kontrak, lengkapi yang kurang dan perbaiki bug; (3) verifikasi ringan saja: node --check untuk JS, grep untuk ID DOM/kelas yang diwajibkan; DILARANG membuat server uji panjang atau browser otomatis; (4) selesai dalam sekitar 25 langkah alat, lalu tulis ringkasan singkat. Hanya tulis di berkas milikmu (OWNS). Lengkapi public/laporan.html dan laporan.js sesuai CONTRACT.md bagian 9.4-9.6 dan 10-11: baca /laporan?id= dari localStorage key amanlaba:skenario:v1, panggil POST /api/simulasi, tampilkan metadata, metrik, tabel asumsi, histogram, tornado, sapuan harga, dua rekomendasi, kesimpulan otomatis, disclaimer, tombol cetak; tangani id hilang/rusak, loading, error API; query cetak=1 memicu window.print satu kali; @media print A4 menyembunyikan navigasi/tombol dan menjaga kartu/grafik tidak terpotong. Pakai kelas dari base.css."
+    },
+    {
+      "id": "t5",
+      "role": "qa",
+      "title": "Test otomatis statistik/API/statis/kontrak dan verify.sh",
+      "description": "Setelah t1-t4 selesai, tulis test di test/ dan verify.sh sesuai CONTRACT.md bagian 13. engine-statistik.test.js: uji uniformitas RNG 100.000 sampel (rata-rata 0,5 +/-0,01; desil 0,1 +/-0,02), inverse CDF triangular, kasus analitik (harga 15000, biaya tetap 4.000.000, biaya variabel 5.000, permintaan triangular 200/400/800, N=20.000, seed 12345) dengan toleransi rata-rata 2 persen, peluang rugi 1/3 +/-0,02, P5 -1.225.403 +/-150.000, P50 535.900 +/-150.000, P95 2.904.555 +/-150.000, titik impas 400 unit/Rp6.000.000; determinisme, histogram 30 bin, sensitivitas 4 item terurut, sapuan harga 21 titik, kasus margin tidak valid, seed 0, serta faktor respons permintaan (1 di mode, 0,5 di max, 0 di choke, clamp 0..2, max=mode => 1) dan trade-off sapuan pada template warung-makan (terbaik/teraman bukan harga maksimum). api.test.js: health, 4 template, simulasi valid, validasi 400, JSON rusak, body 413, 404, 405+Allow, /api/harga, determinisme via HTTP (kecuali durasiMs/dihitungPada), dan path traversal. statis.test.js: rute /, /app, /laporan, aset CSS/JS, MIME, seluruh ID DOM wajib, lang=id, serta larangan aset eksternal. kontrak.test.js: stub Panel Pelanggan AI (status dan error E_BELUM_DIIMPLEMENTASIKAN), versi mesin, dan nol dependency. Gunakan node:test/assert, port ephemeral 0, tanpa browser automation. verify.sh wajib set -euo pipefail, cek Node, jalankan npm test, start server sementara port 3456, tunggu health, curl halaman dan template, trap kill, lalu cetak VERIFIKASI LULUS. Jangan mengubah kode implementasi; laporkan kegagalan. Kriteria selesai: semua test deterministik dan lulus; verify.sh executable dan lulus dari root; tidak ada dependency baru dan tidak ada file di luar test/ dan verify.sh.",
+      "owns": [
+        "test/",
+        "verify.sh"
+      ],
+      "dependsOn": [
+        "t1",
+        "t2a",
+        "t2b",
+        "t2c",
+        "t3a",
+        "t3b",
+        "t4"
+      ]
+    }
+  ]
+}
