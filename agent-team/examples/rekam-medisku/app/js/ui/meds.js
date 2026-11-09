@@ -32,6 +32,7 @@ import {
 } from '../logic/safety.js';
 import { buildBarChartSVG, renderChart } from './chart.js';
 import { attachmentDataUrl } from './attachments.js';
+import { barisStatusPemeriksaan } from './status-pemeriksaan.js';
 
 const STOCK_UNITS = ['tablet', 'kapsul', 'ml', 'sachet', 'tetes', 'sendok'];
 const DOSE_UNITS = ['mg', 'mcg', 'g', 'ml', 'tablet', 'kapsul', 'tetes', 'sendok'];
@@ -701,6 +702,12 @@ export async function render(root, ctx) {
         heading.appendChild(h('span', { class: 'badge badge-verified' }, 'Diverifikasi dari resep'));
       }
       item.appendChild(heading);
+
+      // Status Pemeriksaan Pendamping selalu tampil sebagai teks, bukan warna
+      // saja, dan menautkan ke layar yang menjadi satu-satunya jalur perubahan.
+      item.appendChild(barisStatusPemeriksaan(med, {
+        kelas: 'med-row pemeriksaan-row'
+      }));
 
       if (med.activeIngredient) {
         item.appendChild(h('p', { class: 'med-row' },

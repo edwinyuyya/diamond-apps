@@ -244,7 +244,7 @@ export const RESEP_CASES = [
       satuanTakaran: 'tablet',
       waktuMinum: ['sebelum-tidur'],
       jadwalJam: ['07:00'],
-      teksTerjemahan: 'Diminum 1 kali sehari, 1 tablet',
+      teksTerjemahan: 'Diminum 1 kali sehari, 1 tablet, sebelum tidur',
       kepercayaan: 0.95
     })
   },
@@ -292,7 +292,7 @@ export const RESEP_CASES = [
       satuanTakaran: 'tablet',
       waktuMinum: ['pagi'],
       jadwalJam: ['07:00'],
-      teksTerjemahan: 'Diminum 1 kali sehari, 1 tablet',
+      teksTerjemahan: 'Diminum 1 kali sehari, 1 tablet, pagi hari',
       kepercayaan: 0.95
     })
   },
@@ -308,7 +308,7 @@ export const RESEP_CASES = [
       satuanTakaran: 'tablet',
       waktuMinum: ['malam'],
       jadwalJam: ['07:00'],
-      teksTerjemahan: 'Diminum 1 kali sehari, 1 tablet',
+      teksTerjemahan: 'Diminum 1 kali sehari, 1 tablet, malam hari',
       kepercayaan: 0.95
     })
   },
@@ -824,7 +824,7 @@ export const RESEP_CASES = [
         satuanTakaran: 'tablet',
         waktuMinum: ['malam'],
         jadwalJam: ['07:00'],
-        teksTerjemahan: 'Diminum 1 kali sehari, 1 tablet',
+        teksTerjemahan: 'Diminum 1 kali sehari, 1 tablet, malam hari',
         kepercayaan: 0.95
       })
     ],

@@ -8,6 +8,7 @@ import { DISCLAIMERS, EMERGENCY_NUMBERS } from '../model.js';
 import { buildDoctorSummary } from '../logic/summary.js';
 import { formatDateID, formatDateTimeID } from '../logic/dates.js';
 import { attachmentDataUrl } from './attachments.js';
+import { barisStatusPemeriksaan } from './status-pemeriksaan.js';
 
 function text(value) {
   return value == null ? '' : String(value);
@@ -128,7 +129,7 @@ function renderProfile(profile) {
   );
 }
 
-function renderMedications(summary, loadPhoto) {
+function renderMedications(summary, loadPhoto, pemeriksaanById = null) {
   const children = [];
 
   if (Array.isArray(summary.duplicates) && summary.duplicates.length > 0) {
@@ -163,6 +164,19 @@ function renderMedications(summary, loadPhoto) {
           h('strong', {}, str(med.name) || 'Obat'),
           details.length > 0 ? ` — ${details.join(', ')}` : ''
         ];
+
+        // Baris status pemeriksaan pendamping, termasuk obat yang masih
+        // "Belum diperiksa pendamping/apoteker". Ringkasan dokter hanya
+        // menampilkan status; tidak pernah mengubahnya.
+        const sumberPemeriksaan = pemeriksaanById?.get(med.id) || {
+          name: med.name,
+          pemeriksaanOrangLain: med.pemeriksaanOrangLain
+        };
+        nodes.push(barisStatusPemeriksaan(sumberPemeriksaan, {
+          kelas: 'pemeriksaan-row report-pemeriksaan',
+          tautanLabel: 'Buka Pemeriksaan Pendamping'
+        }));
+
         const src = med.source;
         if (src && (src.photoId || src.translatedText)) {
           const blok = h('div', { class: 'source-block', style: 'display:block' });
@@ -189,7 +203,7 @@ function renderMedications(summary, loadPhoto) {
           }
           nodes.push(blok);
         }
-        return h('li', { class: 'list-item', style: src ? 'display:block' : undefined }, ...nodes);
+        return h('li', { class: 'list-item', style: 'display:block' }, ...nodes);
       })
     ));
   }
@@ -427,6 +441,14 @@ export async function render(root, ctx) {
     void error;
   }
 
+  // `buildDoctorSummary` tidak membawa status pemeriksaan; ambil Medication
+  // asli agar baris status (termasuk yang belum) tetap jujur.
+  const pemeriksaanById = new Map(
+    (Array.isArray(stateData?.medications) ? stateData.medications : [])
+      .filter((med) => med && typeof med.id === 'string')
+      .map((med) => [med.id, med])
+  );
+
   let summary = null;
   try {
     summary = buildDoctorSummary(stateData, { profileId, now });
@@ -501,7 +523,8 @@ export async function render(root, ctx) {
         [list(nonEmpty(summary.profile?.chronicConditions))])
     ),
 
-    section('Obat aktif', 'summary-medications', renderMedications(summary, muatFotoResep)),
+    section('Obat aktif', 'summary-medications',
+      renderMedications(summary, muatFotoResep, pemeriksaanById)),
     section('Vital terakhir', 'summary-vitals', renderVitals(summary)),
     section('Hasil lab terakhir', 'summary-labs', renderLabs(summary)),
     section('Kunjungan terakhir', 'summary-visits', renderVisits(summary)),

@@ -256,6 +256,26 @@ function frasaTakaran(obat) {
 }
 
 /**
+ * Kata waktu yang BENAR-BENAR tertulis di teks resep (`h.s.`, `pagi`, `mane`, `siang`, `sore`, `malam`, `nocte`).
+ * Sengaja tidak memakai `waktuMinum`: itu diisi dari jadwal bawaan dan bukan fakta dari resep.
+ * Hanya dikembalikan bila ada TEPAT SATU penanda berbeda; bila bertentangan/ganda, tidak ditampilkan.
+ *
+ * @param {string|undefined} teksAsli
+ * @returns {string|null}
+ */
+export function waktuYangTertulis(teksAsli) {
+  if (typeof teksAsli !== 'string' || teksAsli.trim() === '') return null;
+  const t = teksAsli.toLowerCase();
+  const ditemukan = new Set();
+  if (/\bh\.?\s?s\.?(?![a-z])|\bsebelum\s+tidur\b|\bmenjelang\s+tidur\b/.test(t)) ditemukan.add('sebelum tidur');
+  if (/\b(?:mane|pagi)\b/.test(t)) ditemukan.add('pagi hari');
+  if (/\bsiang\b/.test(t)) ditemukan.add('siang hari');
+  if (/\bsore\b/.test(t)) ditemukan.add('sore hari');
+  if (/\b(?:nocte|malam)\b/.test(t)) ditemukan.add('malam hari');
+  return ditemukan.size === 1 ? [...ditemukan][0] : null;
+}
+
+/**
  * Susun kalimat Indonesia awam dari satu `ObatTerjemahan`.
  *
  * Template persis CONTRACT.md 7.8.1:
@@ -294,6 +314,8 @@ export function frasaTerjemahan(obat) {
   let kalimat = `Diminum ${angkaID(kali)} kali sehari`;
   if (dosis) kalimat += `, ${dosis}`;
   if (aturan) kalimat += `, ${LABEL_ATURAN_MAKAN[aturan] || aturan}`;
+  const waktuTertulis = waktuYangTertulis(obat.teksAsli);
+  if (waktuTertulis) kalimat += `, ${waktuTertulis}`;
   kalimat += potonganDurasi;
   return kalimat;
 }

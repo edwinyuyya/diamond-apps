@@ -1,5 +1,5 @@
 {
-  "stack": "Vanilla JS ES modules + Node.js http static server; IndexedDB/localStorage, Web Crypto AES-GCM/PBKDF2, SVG charts, QR encoder murni, PWA service worker; OCR lokal Tesseract.js yang di-vendor ke public/vendor (npm hanya untuk vendoring: tesseract.js, @tesseract.js-data/ind, @tesseract.js-data/eng); parser resep dan rekam medis deterministik; node:test; tanpa framework dan tanpa layanan eksternal saat runtime",
+  "stack": "Vanilla JS ES modules + Node.js http static server; IndexedDB/localStorage, Web Crypto AES-GCM/PBKDF2, SVG charts, QR encoder murni, PWA service worker; OCR lokal Tesseract.js dan ASR offline Whisper (Xenova/whisper-base q8, @huggingface/transformers 4.3.2 + ONNX Runtime WASM) yang di-vendor ke public/vendor; alur obat tanya satu per satu (kosakata tertutup + pencocok fuzzy deterministik) dengan nama obat dari daftar/pindai/ketik/ejaan, bukan ASR bebas; penjaga ASR (maks. 8 detik, token kecil, tolak keluaran berulang); Web Speech API hanya opt-in dengan persetujuan; TTS speechSynthesis id-ID; parser resep, rekam medis, dan ucapan angka deterministik; node:test; tanpa framework dan tanpa layanan eksternal saat runtime (satu-satunya pengecualian: Web Speech API setelah persetujuan eksplisit)",
   "tasks": [
     {
       "id": "t1",
@@ -236,6 +236,331 @@
         "t13",
         "t14",
         "t15"
+      ]
+    },
+    {
+      "id": "t17",
+      "role": "backend",
+      "title": "Parser ucapan angka/satuan Indonesia deterministik + korpus 40+",
+      "description": "Implementasikan app/js/logic/ucapanAngka.js, app/js/logic/ucapanObat.js, app/js/logic/ucapanVital.js, tests/fixtures/ucapan-cases.js, dan tests/ucapan.test.js persis CONTRACT.md 8B.7. ucapanAngka.js: normalisasiUcapan, ucapkanKeAngka, ucapkanAngka, parseAngkaDalamTeks, parseDeretAngka; dukung nol..sembilan, belas, puluh, ratus, ribu, koma, setengah, seperempat, 'dua setengah', 'seratus empat puluh per sembilan puluh', digit dan desimal koma/titik; frasa ambigu -> null. ucapanObat.js: PAGAR_TAKARAN_MAKS=4, PAGAR_FREKUENSI_MAKS=8, pagarKewajaranDosis (takaran>4 tablet/kapsul -> TAKARAN_TIDAK_WAJAR; kali>8 -> FREKUENSI_TIDAK_WAJAR), parseDikteObat, dikteKeTeksResep, dikteKeObat; susun teks resep kanonik (takaran pecahan memakai pola '2 x 0.5 tablet' agar dikenali parser resep) lalu WAJIB memakai kenaliResep/jadwalUntukObat yang sudah ada (bukan parser kedua); contoh 'Captopril dua belas koma lima miligram, dua kali sehari, setengah tablet, sebelum makan' -> 12,5 mg, 2x, 0,5 tablet, sebelum makan. ucapanVital.js: parseDikteVital untuk tension/glucose/weight/temperature/pulse/spo2, termasuk 'tensi seratus empat puluh per sembilan puluh' -> {systolic:140,diastolic:90}; tidak menilai normal/tinggi. Fixture berisi minimal 40 ucapan (angka, 10+ obat, semua vital, kasus pagar); test memakai node:test + node:assert/strict, memverifikasi determinisme, hasil ObatTerjemahan, dan ucapkanAngka. Tanpa DOM/AI/dependency, tanpa diagnosis/saran dosis. Selesai bila >=40 kasus lulus, pagar menolak nilai tidak wajar, dan hanya menulis 5 berkas owns.",
+      "owns": [
+        "app/js/logic/ucapanAngka.js",
+        "app/js/logic/ucapanObat.js",
+        "app/js/logic/ucapanVital.js",
+        "tests/fixtures/ucapan-cases.js",
+        "tests/ucapan.test.js"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t18",
+      "role": "frontend",
+      "title": "Satu adaptor suara, pemilih mesin, dan layar Pengaturan Suara",
+      "description": "Implementasikan app/js/suara/adaptor.js, app/js/suara/mesin.js, dan app/js/ui/suara-pengaturan.js sesuai CONTRACT.md 8B.2, 8B.10, 9.4.9. adaptor.js: MESIN_SUARA (offline enabled, web-speech metadata enabled:false), DISCLAIMERS_SUARA, SuaraError dengan kode kontrak, suaraTersedia, createAdaptorSuara, dan kenaliSuara(opsi) -> {teks,kepercayaan,mesin,durasiMs,alternatif,peringatan}; normalisasi confidence 0..100, start/stop/terminate di finally, SUARA_KOSONG/SUARA_TIMEOUT/abort, engineImpl injectable untuk test, tanpa storage/jaringan. mesin.js: mesinAktif, pilihMesin, normalisasiPengaturanSuara yang tidak pernah mengaktifkan web-speech, dan integrasi settings.suara. suara-pengaturan.js: radio offline default, opsi web-speech disembunyikan bila API tidak ada dengan pesan jelas, peringatan pihak ketiga selalu terlihat, checkbox + tombol setuju, tombol cabut, status persetujuan (waktu/versi), TTS on/off dan kecepatan via state.setSettings tanpa reload, serta live region/role alert. Semua ID DOM persis kontrak; target sentuh >=48 px; tanpa request eksternal. Selesai bila kenaliSuara dapat diuji dengan fake engine, persetujuan tidak bisa implisit, dan hanya menulis 3 berkas owns.",
+      "owns": [
+        "app/js/suara/adaptor.js",
+        "app/js/suara/mesin.js",
+        "app/js/ui/suara-pengaturan.js"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t19",
+      "role": "frontend",
+      "title": "Mesin Web Speech opsional + persetujuan pihak ketiga",
+      "description": "Implementasikan app/js/suara/webSpeech.js dan app/js/suara/persetujuan.js sesuai CONTRACT.md 8B.4. webSpeech.js: WEB_SPEECH_LANG='id-ID', webSpeechTersedia(), buatWebSpeechEngine() memakai SpeechRecognition/webkitSpeechRecognition dengan interimResults false, maxAlternatives 3, continuous false; satu ucapan per recognize; map error not-allowed -> MIKROFON_DITOLAK, no-speech -> SUARA_KOSONG, lain -> SUARA_GAGAL; tidak menyimpan audio/transkrip; API tidak ada -> null. persetujuan.js: WEB_SPEECH_CONSENT_VERSION 'web-speech-v1', PERINGATAN_WEB_SPEECH (audio dikirim ke pihak ketiga, di Chrome ke Google), statusPersetujuan, bolehPakaiWebSpeech (API ada + versi berlaku), berikanPersetujuan(state,{now,versi,aktifkan}) yang mencatat diberikan/diberikanPada/versi via state.setSettings, cabutPersetujuan yang memaksa mesin offline, dan normalisasiPengaturanSuara. Tidak ada persetujuan implisit; versi lama dianggap tidak berlaku. Selesai bila tanpa API opsi disembunyikan, tanpa persetujuan adaptor menolak PERSETUJUAN_DIPERLUKAN, pencabutan langsung berlaku, dan hanya menulis 2 berkas owns.",
+      "owns": [
+        "app/js/suara/webSpeech.js",
+        "app/js/suara/persetujuan.js"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t20",
+      "role": "devops",
+      "title": "Vendor Vosk WASM + model Indonesia, offlineEngine, service worker, skrip root",
+      "description": "Implementasikan scripts/vendor-suara.mjs, app/js/suara/offlineEngine.js, isi public/vendor/suara/, perbarui package.json (script vendor:suara + devDependency vosk-browser), dan app/sw.js sesuai CONTRACT.md 2, 3, 8B.3, 11.2. vendor-suara.mjs: resolve vosk-browser dari node_modules (gagal jelas bila belum npm install), salin vosk.js/vosk.wasm ke public/vendor/suara/vosk/, unduh model vosk-model-small-id-0.22 HANYA saat vendoring dari VOSK_MODEL_URL dengan verifikasi VOSK_MODEL_SHA256 (atau salin vendor-src/suara), ekstrak ke model-id/, tulis manifest.json {generatedAt,model,packages,entry,files,runtimeExternalRequests:0}, idempoten dan verifikasi entry non-kosong. offlineEngine.js: SUARA_VENDOR, SUARA_SAMPLE_RATE 16000, SUARA_MODEL_ID, offlineTersedia, createOfflineEngine dengan dynamic import same-origin hanya saat dipakai, getUserMedia mono 16 kHz, stop track di stop/terminate, MODEL_TIDAK_TERSEDIA bila aset hilang, tanpa fallback cloud. package.json tetap tanpa dependencies runtime. sw.js menambahkan semua modul suara/logika/layar baru dan css/suara.css ke PRECACHE; /vendor/suara/* memakai runtime cache same-origin. Selesai bila runtime tidak pernah mengunduh apa pun, manifest + .wasm tersaji, dan hanya menulis 5 path owns.",
+      "owns": [
+        "package.json",
+        "scripts/vendor-suara.mjs",
+        "app/js/suara/offlineEngine.js",
+        "public/vendor/suara/",
+        "app/sw.js"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t21",
+      "role": "frontend",
+      "title": "TTS pembaca ulang + mesin keadaan konfirmasi ya/tidak",
+      "description": "Implementasikan app/js/logic/konfirmasiSuara.js, app/js/suara/tts.js, dan app/js/suara/konfirmasi.js sesuai CONTRACT.md 8B.5-8B.6. konfirmasiSuara.js murni tanpa DOM/timer: PERTANYAAN_KONFIRMASI='Apakah benar yang sudah dicatat?', MAKS_PERTANYAAN_ULANG=2, klasifikasiJawaban (ya/benar/betul/oke -> ya; tidak/nggak/bukan/salah -> tidak; selain itu -> lain; cocok seluruh ucapan, bukan substring), buatSesiKonfirmasi, jawabKonfirmasi -> {sesi,aksi,ucapan} dengan aturan: ya=simpan, tidak=ulangi-entri, lain diulang maks 2 lalu batal, status selesai idempoten, objek tidak dimutasi. tts.js: TTS_LANG id-ID, ttsTersedia, pilihSuaraIndonesia, bacakan (cancel sebelumnya, voice id-ID, resolve onend, abort/cancel -> dibatalkan, TTS_TIDAK_TERSEDIA bila tidak ada), hentikanBacaan, teksUlangObat (nama, dosis, frekuensi, takaran, aturan, jam, durasi, status 'belum diperiksa'), teksUlangVital, teksUlangMinum, teksUlangJadwal (semua dosis + status pemeriksaan), memakai ucapkanAngka. konfirmasi.js: jalankanKonfirmasiSuara WAJIB adaptor.berhenti() sebelum setiap TTS dan mulai lagi setelahnya, membacakan ringkasan + pertanyaan, mendengar jawaban, maks 2 pengulangan, mengembalikan keputusan; tidak menyimpan. Selesai bila skenario ya/tidak/lain lulus node:test dan hanya menulis 3 berkas owns.",
+      "owns": [
+        "app/js/logic/konfirmasiSuara.js",
+        "app/js/suara/tts.js",
+        "app/js/suara/konfirmasi.js"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t22",
+      "role": "frontend",
+      "title": "Layar Isi dengan Suara: obat, vital, minum obat, dan jadwal",
+      "description": "Implementasikan app/js/ui/isi-suara.js, isi-suara-obat.js, isi-suara-vital.js, dan isi-suara-minum.js sesuai CONTRACT.md 8B.2-8B.7 dan 9.4.10. Layar #/suara dengan tab obat/vital/minum/jadwal, tombol besar Mulai/Berhenti, transkrip, live region, error role alert, dan mesin aktif. Obat: kenaliSuara -> dikteKeObat -> isi field #suara-obat-* -> pagarKewajaranDosis (tolak/tandai >4 tablet atau >8 kali, nonaktifkan simpan otomatis). Vital: parseDikteVital -> isi field tensi/nilai. Minum: cocokkan dengan jadwal hari ini lalu logDose setelah konfirmasi. Jadwal: bacakan teksUlangJadwal termasuk status pemeriksaan. WAJIB sebelum simpan: hentikan mikrofon, bacakan ulang semua isian via teksUlang*, tanyakan persis 'Apakah benar yang sudah dicatat?', tangani ya/tidak/lain (maks 2 ulang lalu batal), sediakan tombol besar 'Ya, benar' dan 'Tidak'. Simpan obat hanya lewat obatKeMedication + dibuatDengan/dikonfirmasiDengan 'suara' + pemeriksaanOrangLain status 'belum'; jangan pernah mengisi verifiedByUser dari suara. Fokus pindah ke hasil/error; setiap status diumumkan. Cleanup menghentikan mikrofon/TTS. Selesai bila tidak ada jalur simpan tanpa konfirmasi, entri suara selalu belum diperiksa, dan hanya menulis 4 berkas owns.",
+      "owns": [
+        "app/js/ui/isi-suara.js",
+        "app/js/ui/isi-suara-obat.js",
+        "app/js/ui/isi-suara-vital.js",
+        "app/js/ui/isi-suara-minum.js"
+      ],
+      "dependsOn": [
+        "t17",
+        "t18",
+        "t19",
+        "t21"
+      ]
+    },
+    {
+      "id": "t23",
+      "role": "frontend",
+      "title": "Perintah navigasi suara + bantuan perintah",
+      "description": "Implementasikan app/js/logic/perintahNavigasi.js dan app/js/suara/navigasiSuara.js sesuai CONTRACT.md 8B.8. perintahNavigasi.js: PERINTAH_NAVIGASI persis kontrak (buka obat, ringkasan dokter, kartu darurat, beranda, isi dengan suara, pemeriksaan pendamping, pengaturan suara, bantuan, berhenti), normalisasiPerintah, kenaliPerintah deterministik (cocok persis lalu Jaccard token >=0.6, seri -> null), daftarBantuan, teksBantuan. navigasiSuara.js: createNavigasiSuara({adaptor,navigate,tts,umumkan}) dan jalankanPerintahSuara; dengarkan satu ucapan, umumkan hasil, navigate(route) atau aksi berhenti; perintah bantuan membacakan daftar via TTS; perintah tak dikenal dijawab 'Perintah tidak dikenali. Ucapkan bantuan untuk daftar perintah.' tanpa aksi; tidak ada perintah medis; mikrofon berhenti sebelum TTS. Semua aksesibel dan tanpa dependency/AI. Selesai bila semua frasa kontrak dikenali, ambigu/tak dikenal aman, dan hanya menulis 2 berkas owns.",
+      "owns": [
+        "app/js/logic/perintahNavigasi.js",
+        "app/js/suara/navigasiSuara.js"
+      ],
+      "dependsOn": [
+        "t17",
+        "t18"
+      ]
+    },
+    {
+      "id": "t24",
+      "role": "backend",
+      "title": "Model status Pemeriksaan Pendamping + penanda teks/aria",
+      "description": "Implementasikan app/js/logic/pemeriksaan.js dan app/js/suara/penandaPemeriksaan.js sesuai CONTRACT.md 4.4 dan 8B.9. pemeriksaan.js: PEMERIKSAAN_STATUS, PERNYATAAN_PEMERIKSAAN persis kontrak, LABEL_BELUM_DIPERIKSA, defaultPemeriksaan, normalisasiPemeriksaan (tidak pernah menaikkan status; 'sudah' tanpa oleh+waktu+pernyataan valid -> 'belum'), pastikanPemeriksaan (item lama -> belum), tandaiBelumDiperiksa, tandaiSudahDiperiksa (tolak nama kosong/waktu invalid/pernyataan tidak persis dengan PEMERIKSAAN_TIDAK_VALID), butuhPemeriksaan, labelPemeriksaan, ringkasPemeriksaan, teksPemeriksaanUntukDibacakan. penandaPemeriksaan.js: penandaPemeriksaan -> {status,label,kelas,ariaLabel,butuhPemeriksaan}, teksPemeriksaanJadwal(dose,medication) untuk pengingat yang ikut dibacakan, ringkasPenanda. Helper murni bebas DOM; tidak menggunakan kata 'terverifikasi' untuk suara/OCR. Selesai bila transisi status hanya bisa lewat tandaiSudahDiperiksa, normalisasi aman untuk data lama, dan hanya menulis 2 berkas owns.",
+      "owns": [
+        "app/js/logic/pemeriksaan.js",
+        "app/js/suara/penandaPemeriksaan.js"
+      ],
+      "dependsOn": []
+    },
+    {
+      "id": "t25",
+      "role": "frontend",
+      "title": "Layar Pemeriksaan Pendamping + penanda di daftar obat, pengingat, dan ringkasan",
+      "description": "Implementasikan app/js/ui/pemeriksaan.js dan app/js/ui/status-pemeriksaan.js, serta tambahan aditif pada app/js/ui/meds.js, app/js/ui/dashboard.js, dan app/js/ui/report.js sesuai CONTRACT.md 8B.9 dan 9.4.11. pemeriksaan.js: daftar obat butuhPemeriksaan + filter belum/sudah/semua; detail menampilkan foto resep asli (state.getSourcePhoto -> photoDataUrl) di samping terjemahan/field; input nama pendamping wajib; checkbox dengan label persis PERNYATAAN_PEMERIKSAAN; tombol sahkan disabled sampai nama + checkbox valid; simpan lewat tandaiSudahDiperiksa + state.upsert, toast, refresh, live region; pesan 'Tidak ada foto resep sumber' bila kosong; tanpa klaim medis dan tanpa kata 'terverifikasi' untuk suara. status-pemeriksaan.js: komponen badge/teks memakai penandaPemeriksaan. meds.js: badge 'Belum diperiksa pendamping/apoteker' pada setiap item daftar obat + tautan ke #/pemeriksaan. dashboard.js: status yang sama pada pengingat obat hari ini, ikut dibacakan saat jadwal. report.js: baris status pemeriksaan pada ringkasan dokter (termasuk yang belum). Perubahan pada berkas lama hanya aditif dan tidak menghapus ID/perilaku kontrak sebelumnya. Selesai bila ketiga tempat menampilkan status jelas, status hanya berubah lewat layar Pemeriksaan, dan hanya menulis 5 berkas owns.",
+      "owns": [
+        "app/js/ui/pemeriksaan.js",
+        "app/js/ui/status-pemeriksaan.js",
+        "app/js/ui/meds.js",
+        "app/js/ui/dashboard.js",
+        "app/js/ui/report.js"
+      ],
+      "dependsOn": [
+        "t24",
+        "t22"
+      ]
+    },
+    {
+      "id": "t26",
+      "role": "frontend",
+      "title": "Aksesibilitas penuh, rute suara, bantuan terdengar, dan CSS suara",
+      "description": "Implementasikan app/css/suara.css, app/js/a11y.js, app/js/ui/bantuan-suara.js, serta tambahan aditif pada app/index.html dan app/js/app.js sesuai CONTRACT.md 9.3, 9.4.12, 10.1, 10.3. app.js: daftarkan ROUTES #/suara, #/suara/pengaturan, #/bantuan-suara, #/pemeriksaan dengan dynamic import; pertahankan semua route/ID lama; tidak ada request eksternal. index.html: tautkan css/suara.css, pastikan live region global/toast tetap ada, tanpa inline script/onclick. a11y.js: umumkan(pesan,{politeness}), fokuskan(el), pasangLiveRegion, helper label/aria dan pengelolaan fokus; tidak menyimpan data. bantuan-suara.js: render daftarBantuan/teksBantuan, tombol 'Bacakan bantuan' via TTS, kembali, warning DISCLAIMERS_SUARA + 'perintah hanya navigasi/pengisian, bukan pertanyaan medis', live region. suara.css: token target sentuh besar (>=48 px, tombol utama >=56 px), mode is-large-text/high contrast, .sr-only, kelas voice-*/pemeriksaan-*/badge-pemeriksaan-*, fokus terlihat, tidak mengandalkan warna. Seluruh alur inti harus bisa dijalankan tanpa melihat layar: label ARIA, urutan tab logis (mulai -> hasil -> konfirmasi -> simpan/batal), live region setiap hasil, tombol besar Ya/Tidak. Selesai bila rute baru termuat, bantuan dapat didengar, dan hanya menulis 5 berkas owns.",
+      "owns": [
+        "app/index.html",
+        "app/js/app.js",
+        "app/js/a11y.js",
+        "app/js/ui/bantuan-suara.js",
+        "app/css/suara.css"
+      ],
+      "dependsOn": [
+        "t18",
+        "t21",
+        "t22",
+        "t23",
+        "t25"
+      ]
+    },
+    {
+      "id": "t27",
+      "role": "qa",
+      "title": "QA fitur suara: tes otomatis, pemeriksaan DOM a11y, dan verify.sh",
+      "description": "Tulis tests/suara.test.js, tests/dom-a11y.test.js, tests/helpers/fake-dom.js, dan perbarui verify.sh sesuai CONTRACT.md 8B, 10.3, 14. Gunakan node:test + node:assert/strict tanpa dependency; waktu tetap; tanpa jaringan/model nyata. suara.test.js: adaptor dengan fake engine (teks/kepercayaan/mesin, start/stop/terminate, SUARA_KOSONG/TIMEOUT/abort), tidak ada storage/URL eksternal; web-speech nonaktif + PERSETUJUAN_DIPERLUKAN tanpa persetujuan; berikan/cabut persetujuan dan versi; klasifikasiJawaban + jawabKonfirmasi (ya=simpan, tidak=ulangi-entri, lain ke-1/ke-2=tanya-ulang, lain ke-3=batal, tidak pernah simpan pada jawaban ambigu), jalankanKonfirmasiSuara memanggil berhenti sebelum TTS dan mulai setelahnya; tts teksUlang* memuat status pemeriksaan; kenaliPerintah semua frasa + bantuan/berhenti/tak dikenal; pemeriksaan tidak pernah menaikkan status otomatis dan entri suara tetap 'belum'; pagar dosis >4 tablet/>8 kali. dom-a11y.test.js + fake-dom.js: render layar suara/pemeriksaan/bantuan, periksa label for/aria-label tiap kontrol, nama aksesibel tombol, role=status/aria-live dan role=alert, urutan fokus mulai->hasil->konfirmasi->simpan/batal, tombol 'Ya, benar'/'Tidak' ada, ID wajib 9.4.9-9.4.12, tanpa onclick/innerHTML data pengguna, SpeechRecognition hanya di modul suara. verify.sh executable set -euo pipefail: cek manifest OCR + suara dan entry non-kosong, jalankan seluruh node --test, start server PORT=3210 + trap kill, smoke /health, /, /js/app.js, manifest, /vendor/manifest.json, MIME .wasm OCR dan suara, /vendor/suara/manifest.json (entry, runtimeExternalRequests:0), 404/POST 405, traversal; cetak SEMUA VERIFIKASI LULUS. Tidak mengubah kode implementasi; hanya menulis 4 berkas owns. Selesai bila verify.sh lulus penuh tanpa jaringan eksternal.",
+      "owns": [
+        "tests/suara.test.js",
+        "tests/dom-a11y.test.js",
+        "tests/helpers/fake-dom.js",
+        "verify.sh"
+      ],
+      "dependsOn": [
+        "t17",
+        "t18",
+        "t19",
+        "t20",
+        "t21",
+        "t22",
+        "t23",
+        "t24",
+        "t25",
+        "t26"
+      ]
+    },
+    {
+      "id": "t28",
+      "role": "devops",
+      "title": "Vendor Whisper: hapus artefak ASR lama, salin transformers + ONNX WASM + model q8",
+      "description": "Implementasikan scripts/vendor-whisper.mjs, perbarui package.json, app/sw.js, dan README.md sesuai CONTRACT.md 2, 3, 8B.3, 11.2. Hapus seluruh artefak ASR lama dari public/vendor/suara (folder mesin/model lama, skrip model, placeholder) dan hapus scripts/vendor-suara.mjs; package.json: hapus devDependency/script ASR lama, tambah devDependency @huggingface/transformers 4.3.2 dan script vendor:whisper; pertahankan tesseract.js, @tesseract.js-data/ind, @tesseract.js-data/eng, vendor:ocr, start, test, verify. vendor-whisper.mjs: resolve package 4.3.2 dari node_modules (gagal jelas bila belum npm install), salin dist/transformers.min.js ke public/vendor/suara/transformers/, salin ort-wasm-simd-threaded.wasm/.mjs (dan .jsep.* bila ada) dari onnxruntime-web ke public/vendor/suara/onnx/, salin 12 berkas model dari WHISPER_MODEL_SOURCE atau unduh HANYA saat build-time dari huggingface.co/us.aws.cdn.hf.co sesuai WHISPER_MODEL_BASE_URL, tolak host lain/redirect keluar allowlist; tulis ke models/Xenova/whisper-base/ dengan 12 berkas persis (config.json, generation_config.json, preprocessor_config.json, tokenizer.json, tokenizer_config.json, vocab.json, merges.txt, normalizer.json, added_tokens.json, special_tokens_map.json, onnx/encoder_model_quantized.onnx 23,2 MB, onnx/decoder_model_merged_quantized.onnx 53,7 MB); hitung bytes+sha256; tulis manifest {engine:'whisper', license:'Apache-2.0', packages, model:{id,quantization:'q8',sampleRate:16000,language:'indonesian',bytes}, entry:{module,wasmPath,modelPath,modelId}, files, runtimeExternalRequests:0}; idempoten, bersihkan berkas asing, verifikasi module+2 WASM+12 model non-kosong dan .onnx >1 MB; tidak pernah mengunduh saat runtime. app/sw.js: tambah css/suara.css, whisperEngine.js, penjagaAsr.js, offlineEngine.js, alurTanya.js, ttsTanya.js, logic/kosakataTertutup.js, pencocokJawaban.js, tanyaSatuPerSatu.js, pemilihNamaObat.js, layar tanya-suara.js/pemilih-nama-obat.js dan modul suara lain ke PRECACHE; /vendor/suara/* tetap runtime cache dan jangan precache ±80 MB. README: perintah install/vendor:whisper/start/test/verify. Selesai bila: npm install && npm run vendor:whisper sukses; manifest engine whisper; 12 model + 2 WASM + transformers ada non-kosong; tidak ada artefak ASR lama/placeholder; app/sw.js precache valid; grep app/scripts/package/README/verify bersih dari nama mesin/skrip/perintah lama; npm test tetap lulus.",
+      "owns": [
+        "package.json",
+        "scripts/vendor-whisper.mjs",
+        "scripts/vendor-suara.mjs",
+        "public/vendor/suara/",
+        "app/sw.js",
+        "README.md"
+      ],
+      "dependsOn": [
+        "t12",
+        "t20",
+        "t8"
+      ]
+    },
+    {
+      "id": "t29",
+      "role": "backend",
+      "title": "Mesin Whisper offline, penjaga ASR, adaptor, dan MIME server",
+      "description": "Implementasikan app/js/suara/whisperEngine.js, app/js/suara/penjagaAsr.js, ganti app/js/suara/offlineEngine.js menjadi alias tipis, perbarui app/js/suara/adaptor.js dan server.js sesuai CONTRACT.md 3.2, 8B.2, 8B.3, 8B.11, 12.1. whisperEngine.js: ekspor WHISPER_VENDOR (modulePath /vendor/suara/transformers/transformers.min.js, wasmPath /vendor/suara/onnx/, modelPath /vendor/suara/models/, manifestPath), WHISPER_MODEL_ID 'Xenova/whisper-base', WHISPER_SAMPLE_RATE 16000, WHISPER_DTYPE {encoder_model:'q8',decoder_model_merged:'q8'}, WHISPER_LANGUAGE 'indonesian', STATUS_MODEL, whisperTersedia, statusModel (baca manifest same-origin; 12 files -> siap, kurang -> belum, hilang/rusak -> tidak-ada; tanpa muat model), muatModel (import same-origin malas; env.allowRemoteModels=false, allowLocalModels=true, localModelPath, wasmPaths, numThreads=1; pipeline automatic-speech-recognition Xenova/whisper-base dtype q8), transkripsi (asr(Float32Array,{language:'indonesian',task:'transcribe',max_new_tokens:48}), kepercayaan null), createWhisperEngine/offlineEngine alias dengan start/stop/recognize/terminate, getUserMedia mono 16 kHz, rekaman berhenti otomatis 8000 ms, audio dibuang, tidak ada storage/jaringan. penjagaAsr.js murni: MAKS_DURASI_REKAM_MS 8000, TOLERANSI_DURASI_MS 500, MAKS_TOKEN_KELUARAN 48, MAKS_KARAKTER 240, RASIO_HURUF_MIN 0.55, PENGULANGAN_MAKS 3; periksaDurasi, deteksiPengulangan, periksaKeluaranAsr, periksaHasilAsr, ringkasTolakAsr; tolak kosong, >48 token/>240 karakter, pengulangan (termasuk '2.2.2.2.2.2.2.2'), rasio huruf rendah; izinkan angka pendek; tidak memutasi input. adaptor.js: setiap hasil engine wajib lewat periksaHasilAsr; tambah kode ASR_TIDAK_TERDENGAR/ASR_TERLALU_LAMA/ASR_BERULANG; teruskan maksDurasiMs ke engine; durasi >8500 -> ASR_TERLALU_LAMA; hasil ditolak tidak di-parse; tetap tanpa storage/jaringan. server.js: sajikan .wasm application/wasm, .onnx application/octet-stream, .mjs text/javascript; pertahankan header keamanan/traversal. Selesai bila: fake engine '2.2.2.2...' ditolak adaptor; statusModel benar; pipeline hanya memuat dari /vendor/suara; server mengirim MIME benar; tes t18/t22 lama tetap lulus; hanya menulis berkas owns.",
+      "owns": [
+        "app/js/suara/whisperEngine.js",
+        "app/js/suara/penjagaAsr.js",
+        "app/js/suara/offlineEngine.js",
+        "app/js/suara/adaptor.js",
+        "server.js"
+      ],
+      "dependsOn": [
+        "t8",
+        "t18",
+        "t20"
+      ]
+    },
+    {
+      "id": "t30",
+      "role": "backend",
+      "title": "Kosakata jawaban tertutup dan pencocok fuzzy deterministik",
+      "description": "Implementasikan app/js/logic/kosakataTertutup.js dan app/js/logic/pencocokJawaban.js persis CONTRACT.md 8B.12. kosakataTertutup.js: PERTANYAAN_TANYA dengan lima pertanyaan persis ('Berapa kali sehari?', 'Berapa tablet sekali minum?', 'Sebelum, sesudah, atau saat makan?', 'Pagi, siang, sore, malam, atau sebelum tidur?', 'Hanya kalau perlu?'); pilihan frekuensi 1-8, takaran 0.5-4 (setengah..empat), aturanMakan sebelum/sesudah/saat, waktu multi pagi/siang/sore/malam/sebelum-tidur, bilaPerlu true/false; label dan sinonim Indonesia termasuk varian salah dengar; URUTAN_PERTANYAAN; pertanyaanUntuk/pilihanUntuk/labelPilihan/semuaNilai. pencocokJawaban.js murni: AMBANG_COCOK 0.72, MARGIN_AMBIGU 0.08; normalisasiJawaban, jarakEdit (Levenshtein), kodeFonetis (ph->f, v->f, sy->s, kh->k, dj->j, tj->c, oe->u, hapus spasi/huruf kembar), skorKemiripan (max edit + fonetis), cocokkanJawaban, cocokkanBanyak; hasil {status:'cocok'|'ambigu'|'tidak-cocok', nilai, pilihan, skor, kandidat, alasan}. Aturan: sinonim persis skor 1; angka via ucapkanKeAngka/parseAngkaDalamTeks; kandidat <0.72 -> tidak-cocok; dua kandidat berbeda dalam margin -> ambigu; jawaban pertanyaan lain tidak boleh dipetakan; 'sahurabla' tidak-cocok, 'Semelum'->sebelum, 'Dua Kalisahari'->2, 'pagi dan malam'->['pagi','malam']; deterministik tanpa DOM/model/jaringan; tidak pernah mengembalikan nilai di luar pilihan. Selesai bila semua contoh dan kasus negatif kontrak lulus, tidak ada pemaksaan jawaban, hanya menulis 2 berkas owns.",
+      "owns": [
+        "app/js/logic/kosakataTertutup.js",
+        "app/js/logic/pencocokJawaban.js"
+      ],
+      "dependsOn": [
+        "t17"
+      ]
+    },
+    {
+      "id": "t31",
+      "role": "backend",
+      "title": "Mesin keadaan tanya satu per satu dan pemilih nama obat",
+      "description": "Implementasikan app/js/logic/tanyaSatuPerSatu.js dan app/js/logic/pemilihNamaObat.js sesuai CONTRACT.md 8B.13-8B.14. tanyaSatuPerSatu.js murni: LANGKAH_TANYA ['nama','frekuensi','takaran','aturanMakan','waktu','bilaPerlu','konfirmasi','selesai'], MAKS_GAGAL_PAHAM 2; buatSesiTanya, pertanyaanSaatIni, jawabTanya, pilihJawabanTombol, ketikJawaban, lanjutKeKonfirmasi, ringkasSesi, selesaikanSesi; sesi {langkah,status,nama,sumberNama,jawaban,gagalPaham,modeTombol,riwayat}; objek lama tidak dimutasi; langkah nama menolak jawabTanya sumber suara dengan aksi tolak-nama-dari-suara/NAMA_TIDAK_VALID; lima langkah memakai pencocok; gagal ke-1 ulangi, gagal ke-2 tombol+ketik (maks 2, tidak memaksa); tombol/ketikan selalu bisa menyelesaikan; waktu multi unik terurut; bilaPerlu true -> times [] saat bangun medication; lanjutKeKonfirmasi memakai PERTANYAAN_KONFIRMASI; ringkasSesi menyebut semua isian + 'belum diperiksa'; selesaikanSesi(simpan:true) memakai bangunMedicationDariSesi (diekspor modul ini) dan pagarKewajaranDosis (tolak >4 tablet/>8 kali dengan TANYA_TIDAK_VALID) serta mengembalikan Medication dengan dibuatDengan/dikonfirmasiDengan 'suara', pemeriksaanOrangLain default 'belum', source null, stock.unitsPerDose benar; tidak menyimpan sendiri. pemilihNamaObat.js murni: SUMBER_NAMA_OBAT ['daftar','pindai','ketik','ejaan'], HURUF_EJAAN, NAMA_HURUF, PERTANYAAN_EJAAN; validasiNamaObat (2-80 karakter, minimal 2 huruf, bukan hanya angka), daftarNamaDariObat, daftarNamaDariPindai, bacaSatuPerSatu ('<nama>? ya atau tidak'), cocokkanYaTidak, buatSesiNama, pilihNama, jawabNama, ketikNama, mulaiEjaan, tambahHuruf, hapusHuruf, selesaiEjaan, konfirmasiEjaan; ejaan menerima huruf/nama huruf dari alfabet tertutup, invalid -> NAMA_TIDAK_VALID; konfirmasi ya/tidak dengan maks 2 ulang; tidak pernah menerima teks ASR bebas sebagai nama. Selesai bila transisi dan bentuk data kontrak lulus, nama tidak pernah dari ASR, tidak ada mutasi/storage/DOM/jaringan, hanya menulis 2 berkas owns.",
+      "owns": [
+        "app/js/logic/tanyaSatuPerSatu.js",
+        "app/js/logic/pemilihNamaObat.js"
+      ],
+      "dependsOn": [
+        "t10",
+        "t17",
+        "t21",
+        "t24",
+        "t30"
+      ]
+    },
+    {
+      "id": "t32",
+      "role": "frontend",
+      "title": "Layar tanya satu per satu, pemilih nama, dan pengaturan model yang jujur",
+      "description": "Implementasikan app/js/ui/tanya-suara.js, app/js/ui/pemilih-nama-obat.js, perbarui app/js/ui/suara-pengaturan.js, app/css/suara.css, dan daftarkan rute app/js/app.js sesuai CONTRACT.md 9.3, 9.4.9, 9.4.13, 10.1, 10.3. app.js: tambah route '#/suara/tanya' -> './ui/tanya-suara.js', pertahankan semua route lama. tanya-suara.js: layar #screen-tanya-suara dengan ID kontrak; pilih nama dulu (daftar/pindai/ketik/ejaan) tanpa ASR bebas; baca satu per satu '<nama>? ya atau tidak'; ketik/pasta pendamping; ejaan huruf-per-huruf + read-back + konfirmasi; lalu lima pertanyaan dengan tombol pilihan (aria-pressed untuk waktu multi), tombol bacakan, mulai/berhenti, transkrip, ketikan; setelah 2 gagal paham fokus ke tombol/ketikan; ringkasan + PERTANYAAN_KONFIRMASI persis + tombol 'Ya, benar'/'Tidak' 56 px; simpan hanya setelah ya via selesaikanSesi/state.upsert; batal membuang sesi; error role alert, live region, fokus, label; tanpa innerHTML data pengguna/storage sebelum simpan/request eksternal. pemilih-nama-obat.js: komponen UI untuk empat sumber + ejaan, memanggil fungsi logic, tidak menerima transkrip ASR sebagai nama. suara-pengaturan.js: tampilkan statusModel (siap/belum/tidak-ada) + ukuran + cara npm run vendor:whisper, peringatan 'Whisper base lebih lambat dan kurang akurat untuk dikte obat', tombol muat model hanya bila siap (muat dari disk, bukan unduh), pertahankan persetujuan web-speech. suara.css: kelas .tanya-*, target 48/56 px, teks pertanyaan besar, kontras/huruf besar. Selesai bila semua ID kontrak ada, alur dapat diselesaikan tanpa mikrofon, tidak ada simpan sebelum konfirmasi, status model jujur, pemeriksaan DOM a11y lulus, hanya menulis berkas owns.",
+      "owns": [
+        "app/js/ui/tanya-suara.js",
+        "app/js/ui/pemilih-nama-obat.js",
+        "app/js/ui/suara-pengaturan.js",
+        "app/css/suara.css",
+        "app/js/app.js"
+      ],
+      "dependsOn": [
+        "t18",
+        "t26",
+        "t29",
+        "t31",
+        "t33",
+        "t4"
+      ]
+    },
+    {
+      "id": "t33",
+      "role": "frontend",
+      "title": "Integrasi alur tanya ke Isi dengan Suara dan konfirmasi wajib",
+      "description": "Implementasikan app/js/suara/alurTanya.js, app/js/suara/ttsTanya.js, dan perbarui app/js/ui/isi-suara.js serta app/js/ui/isi-suara-obat.js sesuai CONTRACT.md 8B.15, 8B.6, 9.4.10. ttsTanya.js: PERTANYAAN_TANYA_TEKS persis lima pertanyaan; teksPertanyaan, teksPilihan, teksNamaDariDaftar ('<nama>? ya atau tidak'), teksEjaan, teksKonfirmasiTanya (ringkasan + PERTANYAAN_KONFIRMASI), bacakanPertanyaan memakai bacakan/hentikanBacaan; TTS tidak berbunyi saat mikrofon mendengarkan. alurTanya.js: jalankanTanyaSatuPerSatu mengatur urutan hentikan mikrofon -> TTS pertanyaan -> mulai -> kenaliSuara maks 8 detik -> guard -> jawabTanya; guard/ASR error dihitung gagal paham dan diulang/tombol; setelah lima jawaban lanjutKeKonfirmasi + jalankanKonfirmasiSuara/jawabKonfirmasi dengan pertanyaan persis; hanya keputusan simpan memanggil selesaikanSesi + state.upsert; ulangi/batal tidak menulis; memakai bangunMedicationDariSesi dari t31 (re-export boleh) untuk menghasilkan Medication kontrak (name dari sesi, instructions lengkap, times dari peta waktu atau [] bila bilaPerlu, stock.unitsPerDose, daysOfWeek, startDate, source null, dibuatDengan/dikonfirmasiDengan 'suara', pemeriksaanOrangLain default 'belum'); pemetaan pagi 07:00/siang 13:00/sore 17:00/malam 19:00/sebelum-tidur 21:00; tanpa audio/transkrip/storage/jaringan. isi-suara.js/isi-suara-obat.js: mode obat tidak memakai dikte bebas; panel obat menampilkan sumber nama + tombol besar '#btn-suara-tanya-obat' ke #/suara/tanya, status sesi, catatan bahwa dikte bebas tidak dipakai untuk nama obat; field obat lama hanya ringkasan/sunting pendamping; pertahankan mode vital/minum/jadwal dan konfirmasi lamanya; jangan dobel konfirmasi obat. Selesai bila alur obat hanya lewat tanya, TTS/mikrofon tidak tumpang tindih, konfirmasi tidak bisa dilewati, hanya simpan setelah ya, semua tes lama tetap lulus, hanya menulis berkas owns.",
+      "owns": [
+        "app/js/suara/alurTanya.js",
+        "app/js/suara/ttsTanya.js",
+        "app/js/ui/isi-suara.js",
+        "app/js/ui/isi-suara-obat.js"
+      ],
+      "dependsOn": [
+        "t1",
+        "t17",
+        "t18",
+        "t21",
+        "t22",
+        "t24",
+        "t29",
+        "t31"
+      ]
+    },
+    {
+      "id": "t34",
+      "role": "qa",
+      "title": "QA Whisper + tanya satu per satu: korpus 60+, penjaga ASR, integrasi, verify.sh",
+      "description": "Tulis tests/tanya.test.js, tests/fixtures/tanya-cases.js, tests/penjaga-asr.test.js, tests/whisper-integration.test.js, dan perbarui verify.sh sesuai CONTRACT.md 8B.11-8B.16 dan 14. Gunakan node:test + node:assert/strict, tanpa dependency/jaringan. tanya-cases.js minimal 60 jawaban realistis termasuk varian salah dengar: 'Dua Kalisahari'->2, 'Semelum'->sebelum, 'sahurabla'->tidak-cocok, 'dua kali sehari'/'2 kali', setengah/satu setengah/dua koma lima, 'pagi dan malam', 'sebelum tidur', 'kalau perlu'/'tidak perlu', minimal 8 negatif lintas-pertanyaan, minimal 4 ambigu. tanya.test.js: korpus + tidak pernah nilai di luar pilihan + determinisme; state machine nama menolak ASR, lima langkah maju, gagal maks 2 lalu tombol/ketik, tombol/ketikan menyelesaikan, ringkasan lengkap + 'belum diperiksa', selesaikanSesi hanya setelah lengkap, Medication status belum/source null/times [] bila PRN/unitsPerDose, pagar >4/>8 ditolak; pemilih nama daftar/pindai/ketik/ejaan/read-back; alurTanya fake adaptor+tts+state: berhenti sebelum TTS, mulai setelah, guard ditolak dihitung gagal, state.upsert hanya saat simpan, batal tidak menulis; ttsTanya lima pertanyaan persis. penjaga-asr.test.js: durasi 8000 vs 8501, kosong, token/karakter, pengulangan '2.2.2.2...'/'bla bla...', rasio huruf, angka pendek, periksaHasilAsr, ringkasTolakAsr, adaptor menolak fake output. whisper-integration.test.js: skip jelas bila model/transformers tidak ada; bila ada muat pipeline lokal q8 dari public/vendor/suara/models, transkripsi Float32Array sintetis, fetch eksternal dilarang, statusModel fake fetch siap/belum/tidak-ada. verify.sh: cek OCR + manifest Whisper engine/id/q8/runtimeExternalRequests 0/entry, 12 berkas model + transformer + 2 ONNX WASM non-kosong, tidak ada artefak/placeholder, grep aplikasi bersih, jalankan node --test, smoke server /health/statis/vendor, MIME .wasm application/wasm dan .onnx application/octet-stream, path lama 404, cetak SEMUA VERIFIKASI LULUS. Selesai bila npm test lulus (tes lama juga), integration test skip jelas tanpa model, bash verify.sh lulus setelah npm run vendor:whisper, tidak ada unduhan saat verifikasi, hanya menulis berkas owns.",
+      "owns": [
+        "tests/tanya.test.js",
+        "tests/fixtures/tanya-cases.js",
+        "tests/penjaga-asr.test.js",
+        "tests/whisper-integration.test.js",
+        "verify.sh"
+      ],
+      "dependsOn": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6",
+        "t7",
+        "t8",
+        "t9",
+        "t10",
+        "t11",
+        "t12",
+        "t13",
+        "t14",
+        "t15",
+        "t16",
+        "t17",
+        "t18",
+        "t19",
+        "t20",
+        "t21",
+        "t22",
+        "t23",
+        "t24",
+        "t25",
+        "t26",
+        "t27",
+        "t28",
+        "t29",
+        "t30",
+        "t31",
+        "t32",
+        "t33"
       ]
     }
   ]

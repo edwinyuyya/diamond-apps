@@ -10,11 +10,13 @@
     "start": "node server.js",
     "test": "node --test tests/*.test.js",
     "verify": "bash verify.sh",
-    "vendor:ocr": "node scripts/vendor-ocr.mjs"
+    "vendor:ocr": "node scripts/vendor-ocr.mjs",
+    "vendor:whisper": "node scripts/vendor-whisper.mjs"
   },
   "devDependencies": {
     "tesseract.js": "^6.0.1",
     "@tesseract.js-data/ind": "^1.0.0",
-    "@tesseract.js-data/eng": "^1.0.0"
+    "@tesseract.js-data/eng": "^1.0.0",
+    "@huggingface/transformers": "4.3.2"
   }
 }

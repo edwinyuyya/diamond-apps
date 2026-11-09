@@ -1,11 +1,12 @@
 // app/sw.js — service worker Rekam Medisku.
 // Cache-first untuk app shell dan aset /vendor/ same-origin. Tanpa request eksternal,
-// tanpa push, tanpa background sync. Aset OCR besar TIDAK di-precache saat install.
+// tanpa push, tanpa background sync. Aset OCR/ASR besar TIDAK di-precache saat install.
 
 const CACHE_NAME = 'rawatku-v1';
 const VENDOR_CACHE = 'rawatku-vendor-v1';
 
-// Daftar precache persis sesuai CONTRACT.md bagian 11.2 (semua path harus ada).
+// Daftar precache sesuai CONTRACT.md 11.2 + modul suara/logika/layar baru (8B.3.6).
+// Semua path harus ada; aset vendor besar TIDAK di-precache.
 const PRECACHE = [
   './',
   './index.html',
@@ -13,6 +14,7 @@ const PRECACHE = [
   './icons/icon.svg',
   './css/style.css',
   './css/print.css',
+  './css/suara.css',
   './js/app.js',
   './js/dom.js',
   './js/model.js',
@@ -38,6 +40,29 @@ const PRECACHE = [
   './js/logic/resepJadwal.js',
   './js/logic/rekam.js',
   './js/logic/labParse.js',
+  './js/logic/ucapanAngka.js',
+  './js/logic/ucapanObat.js',
+  './js/logic/ucapanVital.js',
+  './js/logic/konfirmasiSuara.js',
+  './js/logic/perintahNavigasi.js',
+  './js/logic/pemeriksaan.js',
+  './js/logic/kosakataTertutup.js',
+  './js/logic/pencocokJawaban.js',
+  './js/logic/tanyaSatuPerSatu.js',
+  './js/logic/pemilihNamaObat.js',
+  './js/suara/adaptor.js',
+  './js/suara/mesin.js',
+  './js/suara/whisperEngine.js',
+  './js/suara/penjagaAsr.js',
+  './js/suara/offlineEngine.js',
+  './js/suara/webSpeech.js',
+  './js/suara/persetujuan.js',
+  './js/suara/tts.js',
+  './js/suara/konfirmasi.js',
+  './js/suara/ttsTanya.js',
+  './js/suara/alurTanya.js',
+  './js/suara/navigasiSuara.js',
+  './js/suara/penandaPemeriksaan.js',
   './js/ui/dashboard.js',
   './js/ui/profile.js',
   './js/ui/settings.js',
@@ -51,7 +76,17 @@ const PRECACHE = [
   './js/ui/report.js',
   './js/ui/scan.js',
   './js/ui/photo-capture.js',
-  './js/ui/scan-review.js'
+  './js/ui/scan-review.js',
+  './js/ui/suara-pengaturan.js',
+  './js/ui/isi-suara.js',
+  './js/ui/isi-suara-obat.js',
+  './js/ui/isi-suara-vital.js',
+  './js/ui/isi-suara-minum.js',
+  './js/ui/tanya-suara.js',
+  './js/ui/pemilih-nama-obat.js',
+  './js/ui/pemeriksaan.js',
+  './js/ui/status-pemeriksaan.js',
+  './js/ui/bantuan-suara.js'
 ];
 
 self.addEventListener('install', (event) => {

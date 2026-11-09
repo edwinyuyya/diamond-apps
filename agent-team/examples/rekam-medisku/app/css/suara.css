@@ -1,0 +1,740 @@
+/* Rekam Medisku — gaya suara, aksesibilitas, dan Pemeriksaan Pendamping.
+   CONTRACT.md 10.1 & 10.3.
+
+   Prinsip:
+   - target sentuh >= 48px, tombol utama suara >= 56px;
+   - fokus selalu terlihat (outline tebal, bukan hanya warna);
+   - status selalu disertai teks/ikon, bukan warna saja;
+   - mode is-large-text dan data-contrast="high" memperbesar kontrol dan
+     mempertahankan kontras AA;
+   - tidak ada animasi wajib (prefers-reduced-motion dimatikan);
+   - tanpa aset/url eksternal. */
+
+:root {
+  --touch-suara: 48px;
+  --touch-suara-utama: 56px;
+  --suara-gap: 12px;
+  --suara-fokus: 3px solid var(--color-primary, #0f766e);
+  --suara-fokus-offset: 2px;
+}
+
+:root.is-large-text {
+  --touch-suara: 56px;
+  --touch-suara-utama: 64px;
+  --suara-gap: 16px;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Utilitas aksesibilitas                                                    */
+/* ------------------------------------------------------------------------- */
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Fokus terlihat untuk semua kontrol pada layar suara/pemeriksaan, termasuk
+   daftar bantuan yang dapat difokus keyboard. Outline tidak mengandalkan
+   perbedaan warna saja: ketebalan dan offset ikut berubah. */
+#screen-isi-suara :focus-visible,
+#screen-bantuan-suara :focus-visible,
+#screen-pemeriksaan :focus-visible,
+.voice-actions :focus-visible,
+.voice-tabs :focus-visible,
+.voice-panel :focus-visible,
+.pemeriksaan-layout :focus-visible,
+#bantuan-suara-daftar :focus-visible,
+#bantuan-suara-daftar li:focus-visible {
+  outline: var(--suara-fokus);
+  outline-offset: var(--suara-fokus-offset);
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+#bantuan-suara-daftar li:focus {
+  outline: var(--suara-fokus);
+  outline-offset: var(--suara-fokus-offset);
+  background: #ecfdf5;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Target sentuh                                                             */
+/* ------------------------------------------------------------------------- */
+
+#screen-isi-suara button,
+#screen-isi-suara a.button,
+#screen-isi-suara input,
+#screen-isi-suara select,
+#screen-isi-suara textarea,
+#screen-bantuan-suara button,
+#screen-bantuan-suara a,
+#screen-pemeriksaan button,
+#screen-pemeriksaan a.button,
+#screen-pemeriksaan input,
+#screen-pemeriksaan select,
+.pemeriksaan-layout button,
+.pemeriksaan-layout a.button,
+.voice-actions button,
+.voice-actions a.button,
+.voice-tabs button,
+.voice-tabs a {
+  min-height: var(--touch-suara);
+  min-width: var(--touch-suara);
+}
+
+.voice-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 var(--suara-gap);
+  padding: 0;
+  list-style: none;
+}
+
+.voice-tabs > button,
+.voice-tabs > a {
+  flex: 1 1 10rem;
+  padding: 10px 14px;
+  border: 2px solid var(--color-border, #cbd5e1);
+  border-radius: var(--radius, 12px);
+  background: var(--color-surface, #ffffff);
+  color: var(--color-text, #0f172a);
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.voice-tabs > button[aria-selected="true"],
+.voice-tabs > button.is-active,
+.voice-tabs > a[aria-current="page"] {
+  border-color: var(--color-primary, #0f766e);
+  border-width: 3px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.voice-panel {
+  display: block;
+  padding: var(--suara-gap);
+  border: 1px solid var(--color-border, #cbd5e1);
+  border-radius: var(--radius, 12px);
+  background: var(--color-surface, #ffffff);
+}
+
+.voice-panel[hidden] {
+  display: none;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Tombol besar & aksi suara                                                 */
+/* ------------------------------------------------------------------------- */
+
+.voice-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--suara-gap);
+  margin: var(--suara-gap) 0;
+}
+
+.voice-actions > button,
+.voice-actions > a.button {
+  width: 100%;
+}
+
+.voice-big-button,
+#btn-bacakan-bantuan,
+#bantuan-kembali,
+#btn-suara-mulai,
+#btn-suara-berhenti,
+#btn-suara-konfirmasi,
+#btn-suara-batal,
+#btn-pemeriksaan-sahkan,
+[data-konfirmasi="ya"],
+[data-konfirmasi="tidak"] {
+  min-height: var(--touch-suara-utama);
+  padding: 14px 20px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  border-radius: var(--radius, 12px);
+}
+
+:root.is-large-text .voice-big-button,
+:root.is-large-text #btn-bacakan-bantuan,
+:root.is-large-text #bantuan-kembali,
+:root.is-large-text #btn-suara-mulai,
+:root.is-large-text #btn-suara-berhenti,
+:root.is-large-text #btn-pemeriksaan-sahkan {
+  font-size: 1.25rem;
+  min-height: var(--touch-suara-utama);
+}
+
+.voice-big-button + .voice-big-button {
+  margin-top: 0;
+}
+
+/* Tombol besar Ya/Tidak harus mudah dibedakan tanpa warna saja. */
+[data-konfirmasi="ya"]::before {
+  content: "✓ ";
+}
+
+[data-konfirmasi="tidak"]::before {
+  content: "✕ ";
+}
+
+/* ------------------------------------------------------------------------- */
+/* Status, transkrip, peringatan, live region                                */
+/* ------------------------------------------------------------------------- */
+
+.voice-transcript {
+  min-height: 1.5em;
+  padding: 10px 12px;
+  border-left: 4px solid var(--color-border, #cbd5e1);
+  border-radius: 0 var(--radius, 12px) var(--radius, 12px) 0;
+  background: var(--color-bg, #f8fafc);
+  color: var(--color-text, #0f172a);
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.voice-status {
+  margin: 8px 0;
+  color: var(--color-text, #0f172a);
+  font-weight: 600;
+}
+
+.voice-status[data-tone="error"]::before,
+.voice-status.is-error::before {
+  content: "Kesalahan: ";
+  font-weight: 700;
+}
+
+.voice-warning,
+.voice-warning--fallback {
+  padding: 12px 14px;
+  border: 2px solid var(--color-warning, #92400e);
+  border-left-width: 8px;
+  border-radius: var(--radius, 12px);
+  background: #fffbeb;
+  color: #3f2504;
+  font-weight: 600;
+}
+
+.voice-warning::before {
+  content: "Peringatan. ";
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.voice-warning--fallback {
+  border-style: dashed;
+}
+
+.voice-live {
+  min-height: 1.5em;
+}
+
+.voice-result {
+  padding: var(--suara-gap);
+  border: 2px solid var(--color-border, #cbd5e1);
+  border-radius: var(--radius, 12px);
+  background: var(--color-surface, #ffffff);
+}
+
+.voice-result:focus-visible {
+  outline: var(--suara-fokus);
+  outline-offset: var(--suara-fokus-offset);
+}
+
+.voice-required,
+.required {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.voice-required::after {
+  content: " (wajib)";
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Bantuan suara                                                             */
+/* ------------------------------------------------------------------------- */
+
+#screen-bantuan-suara .voice-help-list {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 var(--suara-gap);
+  padding: 0;
+  list-style: none;
+}
+
+#screen-bantuan-suara .voice-help-item {
+  min-height: var(--touch-suara);
+  padding: 12px 14px;
+  border: 1px solid var(--color-border, #cbd5e1);
+  border-left: 6px solid var(--color-primary, #0f766e);
+  border-radius: var(--radius, 12px);
+  background: var(--color-surface, #ffffff);
+  color: var(--color-text, #0f172a);
+  overflow-wrap: anywhere;
+  cursor: text;
+}
+
+#screen-bantuan-suara .voice-help-item::before {
+  content: "▸ ";
+  font-weight: 800;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Pemeriksaan Pendamping                                                    */
+/* ------------------------------------------------------------------------- */
+
+.pemeriksaan-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--suara-gap);
+  align-items: start;
+}
+
+@media (min-width: 800px) {
+  .pemeriksaan-layout,
+  .pemeriksaan-detail-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+.pemeriksaan-source,
+.pemeriksaan-fields {
+  min-width: 0;
+  padding: var(--suara-gap);
+  border: 1px solid var(--color-border, #cbd5e1);
+  border-radius: var(--radius, 12px);
+  background: var(--color-surface, #ffffff);
+}
+
+.pemeriksaan-source {
+  border-left: 6px solid var(--color-primary, #0f766e);
+}
+
+.pemeriksaan-field-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.pemeriksaan-field-list dt {
+  font-weight: 700;
+}
+
+.pemeriksaan-field-list dd {
+  margin: 0 0 8px;
+  overflow-wrap: anywhere;
+}
+
+.pemeriksaan-resep-foto {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid var(--color-border, #cbd5e1);
+  border-radius: var(--radius, 12px);
+}
+
+.pemeriksaan-list-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  min-height: var(--touch-suara);
+}
+
+.pemeriksaan-status,
+.pemeriksaan-status-badge {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Badge pemeriksaan: selalu membawa teks status di dalamnya; ikon dan
+   garis tepi memastikan status tidak bergantung pada warna. */
+.badge-pemeriksaan-belum,
+.badge-pemeriksaan-sudah {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 2px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.35;
+  white-space: normal;
+}
+
+.badge-pemeriksaan-belum {
+  border-style: dashed;
+  background: #fffbeb;
+  color: #78350f;
+}
+
+.badge-pemeriksaan-belum::before {
+  content: "⚠";
+  font-size: 1.1em;
+}
+
+.badge-pemeriksaan-sudah {
+  border-style: solid;
+  background: #f0fdf4;
+  color: #14532d;
+}
+
+.badge-pemeriksaan-sudah::before {
+  content: "✓";
+  font-size: 1.1em;
+}
+
+/* Tautan tindakan pada daftar/badge. */
+.pemeriksaan-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--touch-suara);
+  padding: 4px 8px;
+  color: var(--color-primary, #0f766e);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+:root[data-contrast="high"] .pemeriksaan-link {
+  color: #000000;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Mode huruf besar                                                          */
+/* ------------------------------------------------------------------------- */
+
+:root.is-large-text #screen-bantuan-suara .voice-help-item,
+:root.is-large-text .voice-transcript,
+:root.is-large-text .voice-warning,
+:root.is-large-text .pemeriksaan-field-list,
+:root.is-large-text .badge-pemeriksaan-belum,
+:root.is-large-text .badge-pemeriksaan-sudah {
+  font-size: 1.1rem;
+}
+
+:root.is-large-text .voice-panel,
+:root.is-large-text .voice-result,
+:root.is-large-text .pemeriksaan-source,
+:root.is-large-text .pemeriksaan-fields {
+  padding: 1rem;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Mode kontras tinggi                                                       */
+/* ------------------------------------------------------------------------- */
+
+:root[data-contrast="high"] .voice-tabs > button,
+:root[data-contrast="high"] .voice-tabs > a,
+:root[data-contrast="high"] .voice-panel,
+:root[data-contrast="high"] .voice-transcript,
+:root[data-contrast="high"] .voice-result,
+:root[data-contrast="high"] .voice-help-item,
+:root[data-contrast="high"] .pemeriksaan-source,
+:root[data-contrast="high"] .pemeriksaan-fields {
+  border-color: #000000;
+  border-width: 3px;
+  background: #ffffff;
+  color: #000000;
+}
+
+:root[data-contrast="high"] .voice-warning,
+:root[data-contrast="high"] .voice-warning--fallback {
+  border-color: #000000;
+  background: #ffffff;
+  color: #000000;
+}
+
+:root[data-contrast="high"] .voice-warning::before {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+}
+
+:root[data-contrast="high"] #screen-isi-suara button,
+:root[data-contrast="high"] #screen-bantuan-suara button,
+:root[data-contrast="high"] #screen-pemeriksaan button,
+:root[data-contrast="high"] .voice-big-button {
+  border: 3px solid #000000;
+  background: #ffffff;
+  color: #000000;
+}
+
+:root[data-contrast="high"] .badge-pemeriksaan-belum,
+:root[data-contrast="high"] .badge-pemeriksaan-sudah {
+  border-color: #000000;
+  background: #ffffff;
+  color: #000000;
+}
+
+:root[data-contrast="high"] #bantuan-suara-daftar li:focus,
+:root[data-contrast="high"] #bantuan-suara-daftar li:focus-visible,
+:root[data-contrast="high"] #screen-isi-suara :focus-visible,
+:root[data-contrast="high"] #screen-bantuan-suara :focus-visible,
+:root[data-contrast="high"] #screen-pemeriksaan :focus-visible {
+  outline: 4px solid #000000;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px #ffffff;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Preferensi gerak                                                          */
+/* ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  #screen-isi-suara *,
+  #screen-bantuan-suara *,
+  #screen-pemeriksaan *,
+  .voice-actions *,
+  .voice-panel *,
+  .pemeriksaan-layout * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ------------------------------------------------------------------------- */
+/* Alur tanya satu per satu — CONTRACT.md 9.4.13 & 10.1                     */
+/* ------------------------------------------------------------------------- */
+
+#screen-tanya-suara,
+#screen-suara-pengaturan {
+  max-width: 720px;
+}
+
+#screen-tanya-suara {
+  display: flex;
+  flex-direction: column;
+  gap: var(--suara-gap);
+}
+
+#screen-tanya-suara button,
+#screen-tanya-suara input,
+#screen-tanya-suara select,
+#screen-tanya-suara textarea,
+#screen-suara-pengaturan button,
+#screen-suara-pengaturan input,
+#screen-suara-pengaturan select {
+  min-height: var(--touch-suara);
+}
+
+#screen-tanya-suara :focus-visible,
+#screen-suara-pengaturan :focus-visible,
+.tanya-layout :focus-visible {
+  outline: var(--suara-fokus);
+  outline-offset: var(--suara-fokus-offset);
+  box-shadow: 0 0 0 2px #ffffff;
+}
+
+.tanya-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--suara-gap);
+}
+
+.tanya-progress {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--color-text, #0f172a);
+}
+
+.tanya-question {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.45;
+  font-weight: 700;
+  color: var(--color-text, #0f172a);
+}
+
+.tanya-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 8px;
+}
+
+/* Pilihan aktif tidak hanya dibedakan warna: ada border lebih tebal + tanda ✓. */
+.tanya-choice {
+  min-height: 48px;
+  padding: 8px 12px;
+  border: 2px solid var(--color-border, #cbd5e1);
+  border-radius: var(--radius, 12px);
+  background: var(--color-surface, #ffffff);
+  color: var(--color-text, #0f172a);
+  font-size: 1rem;
+  line-height: 1.3;
+  text-align: center;
+  cursor: pointer;
+}
+
+.tanya-choice[aria-pressed="true"] {
+  border: 3px solid var(--color-primary, #0f766e);
+  background: #ccfbf1;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.tanya-choice[aria-pressed="true"]::before {
+  content: "✓ ";
+  font-weight: 700;
+}
+
+.tanya-name-sources {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tanya-name-sources__buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 8px;
+}
+
+.tanya-name-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 8px;
+}
+
+.tanya-name-list__item {
+  width: 100%;
+}
+
+.tanya-spell input {
+  font-size: 1.25rem;
+  letter-spacing: 0.08em;
+}
+
+.tanya-spell__result {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.tanya-summary {
+  margin: 0;
+  padding: 12px;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  background: #f1f5f9;
+  border-left: 4px solid var(--color-primary, #0f766e);
+  border-radius: 8px;
+  color: var(--color-text, #0f172a);
+}
+
+.tanya-confirm {
+  gap: var(--suara-gap);
+}
+
+.tanya-confirm__question {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.tanya-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.tanya-actions > button {
+  flex: 1 1 10rem;
+  min-height: var(--touch-suara);
+}
+
+.tanya-actions--confirm {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+}
+
+/* Tombol konfirmasi akhir wajib minimal 56 px. */
+#btn-tanya-konfirmasi-ya,
+#btn-tanya-konfirmasi-tidak {
+  min-height: var(--touch-suara-utama);
+  font-size: 1.1rem;
+}
+
+#btn-tanya-konfirmasi-ya::before {
+  content: "✓ ";
+}
+
+#btn-tanya-konfirmasi-tidak::before {
+  content: "✕ ";
+}
+
+/* ------------------------------------------------------------------------- */
+/* Mode huruf besar & kontras tinggi                                         */
+/* ------------------------------------------------------------------------- */
+
+:root.is-large-text .tanya-question {
+  font-size: 1.5rem;
+}
+
+:root.is-large-text .tanya-choice,
+:root.is-large-text .tanya-actions > button {
+  min-height: 56px;
+  font-size: 1.1rem;
+}
+
+:root.is-large-text #btn-tanya-konfirmasi-ya,
+:root.is-large-text #btn-tanya-konfirmasi-tidak {
+  min-height: 64px;
+}
+
+:root[data-contrast="high"] .tanya-choice,
+:root[data-contrast="high"] .tanya-summary {
+  border-color: #000000;
+  background: #ffffff;
+  color: #000000;
+}
+
+:root[data-contrast="high"] .tanya-choice[aria-pressed="true"] {
+  border: 4px solid #000000;
+  background: #ffffff;
+  color: #000000;
+}
+
+:root[data-contrast="high"] #screen-tanya-suara :focus-visible,
+:root[data-contrast="high"] #screen-suara-pengaturan :focus-visible {
+  outline: 4px solid #000000;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #screen-tanya-suara *,
+  #screen-suara-pengaturan *,
+  .tanya-layout * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

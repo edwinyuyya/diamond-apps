@@ -39,6 +39,7 @@ const MIME_TYPES = new Map([
   ['.pdf', 'application/pdf'],
   ['.wasm', 'application/wasm'],
   ['.gz', 'application/gzip'],
+  ['.onnx', 'application/octet-stream'],
   ['.traineddata', 'application/octet-stream'],
   ['.data', 'application/octet-stream']
 ]);

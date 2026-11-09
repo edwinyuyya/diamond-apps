@@ -25,6 +25,7 @@ import {
 import { predictRefills } from '../logic/stock.js';
 import { latestFor, formatVital } from '../logic/vitals.js';
 import { flagVital, FLAG_LABELS } from '../logic/safety.js';
+import { barisStatusPemeriksaan } from './status-pemeriksaan.js';
 
 // Dimuat dinamis agar Beranda tetap dapat tampil bila modul grafik belum tersedia;
 // saat tersedia, bagan tetap dibangun oleh buildBarChartSVG sesuai kontrak.
@@ -227,11 +228,21 @@ function renderTodayDoses(ctx, data) {
   const settings = data.settings || {};
   const nowMs = now instanceof Date ? now.getTime() : Date.now();
   const reminders = settings.reminders !== false;
+  // Status pemeriksaan diambil dari Medication sumber, bukan dari DoseLog.
+  const medicationById = new Map(
+    (Array.isArray(medications) ? medications : [])
+      .filter((med) => med && typeof med.id === 'string')
+      .map((med) => [med.id, med])
+  );
 
   for (const dose of doses) {
     const due = isDoseDue(dose, { reminders, nowMs });
+    const medication = medicationById.get(dose.medicationId) || null;
     const itemClass = `dose-item list-item ${statusClass(dose, due)}`.trim();
-    const item = create('li', { class: itemClass });
+    const item = create('li', {
+      class: itemClass,
+      'data-medication-id': dose.medicationId || undefined
+    });
 
     const info = create('div', { class: 'dose-info' });
     info.appendChild(create('strong', { class: 'dose-name' }, dose.name || 'Obat'));
@@ -239,6 +250,13 @@ function renderTodayDoses(ctx, data) {
       .filter(Boolean)
       .join(' · ');
     info.appendChild(create('div', { class: 'hint dose-detail' }, detail || 'Tanpa dosis tertulis'));
+    // Ikut tampil pada pengingat hari ini; teks label dibacakan saat jadwal
+    // melalui teksUlangJadwal yang memakai teksPemeriksaanJadwal.
+    if (medication) {
+      info.appendChild(barisStatusPemeriksaan(medication, {
+        kelas: 'hint dash-pemeriksaan'
+      }));
+    }
     item.appendChild(info);
 
     const status = create('span', { class: `badge dose-status ${statusClass(dose, due)}` },

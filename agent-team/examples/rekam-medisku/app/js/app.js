@@ -4,6 +4,7 @@
 
 import { DISCLAIMERS } from './model.js';
 import { h, qs, qsa, clear, on, setText } from './dom.js';
+import { pasangLiveRegion } from './a11y.js';
 
 export const ROUTES = {
   '#/':          { title: 'Beranda',                 module: './ui/dashboard.js' },
@@ -16,7 +17,12 @@ export const ROUTES = {
   '#/darurat':   { title: 'Kartu Darurat',           module: './ui/emergency.js' },
   '#/ringkasan': { title: 'Ringkasan Dokter',        module: './ui/report.js' },
   '#/pengaturan':{ title: 'Pengaturan',              module: './ui/settings.js' },
-  '#/kunci':     { title: 'Terkunci',                module: './ui/lock.js' }
+  '#/kunci':     { title: 'Terkunci',                module: './ui/lock.js' },
+  '#/suara':     { title: 'Isi dengan Suara',        module: './ui/isi-suara.js' },
+  '#/suara/tanya':      { title: 'Tanya Obat Satu per Satu', module: './ui/tanya-suara.js' },
+  '#/suara/pengaturan': { title: 'Pengaturan Suara', module: './ui/suara-pengaturan.js' },
+  '#/bantuan-suara':    { title: 'Bantuan Suara',    module: './ui/bantuan-suara.js' },
+  '#/pemeriksaan':      { title: 'Pemeriksaan Pendamping', module: './ui/pemeriksaan.js' }
 };
 
 const NAV_ITEMS = [
@@ -26,7 +32,10 @@ const NAV_ITEMS = [
   ['#nav-vitals', '#/vital']
 ];
 
-const SECONDARY_ROUTES = new Set(['#/profil', '#/pindai', '#/darurat', '#/ringkasan', '#/pengaturan']);
+const SECONDARY_ROUTES = new Set([
+  '#/profil', '#/pindai', '#/darurat', '#/ringkasan', '#/pengaturan',
+  '#/suara', '#/suara/tanya', '#/suara/pengaturan', '#/bantuan-suara', '#/pemeriksaan'
+]);
 
 const TOAST_DURATION_MS = 4000;
 
@@ -564,7 +573,16 @@ function registerServiceWorker() {
   }
 }
 
+function siapkanAksesibilitas() {
+  try {
+    pasangLiveRegion({ id: 'live-region', politeness: 'polite', atomic: true });
+  } catch {
+    // Live region global bersifat tambahan; kegagalannya tidak menghalangi boot.
+  }
+}
+
 async function bootInternal() {
+  siapkanAksesibilitas();
   bindShell();
   registerServiceWorker();
 
