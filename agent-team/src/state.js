@@ -68,7 +68,14 @@ function state() {
   });
   const debuggers = agents.filter((a) => a.name.startsWith("debugger") || a.name.startsWith("qa-fix"));
   const reviewer = byName["reviewer"] ?? null;
-  const architect = byName["architect"] ?? null;
+  let architect = byName["architect"] ?? null;
+  // Log architect lama bisa tertinggal tanpa hasil (run dihentikan di tengah). Bila rencana sudah ada dan
+  // ada revisi architect yang selesai atau tugas yang sudah selesai, architect jelas sudah selesai.
+  if (architect && architect.status === "running" && plan &&
+      (byName["architect-revisi"]?.status === "done" || tasks.some((t) => t.agent?.status === "done"))) {
+    architect = { ...architect, status: "done", restored: true,
+      summary: architect.summary || "Selesai (log asli terputus saat run dihentikan; rencana sudah ada)." };
+  }
   const phase = !plan ? 1 : reviewer ? 4 : (verifies.length || debuggers.length) ? 3 : 2;
   const allDone = reviewer?.status === "done";
   const startedAt = agents.length ? Math.min(...agents.map((a) => a.startedAt)) : null;
