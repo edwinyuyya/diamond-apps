@@ -92,7 +92,7 @@ await new Promise((resolve) => {
       log("team", `mulai ${t.id}:${t.role}`);
       run({
         name: `${t.id}-${t.role}`, role: ROLES[t.role], owns: t.owns ?? [],
-        task: `TUGAS ${t.id}: ${t.title}\n\n${t.description}\n\nOWNS (boleh ditulis): ${(t.owns ?? []).join(", ")}\nStack: ${plan.stack}${resume ? "\n\nCATATAN: run ini lanjutan; sebagian file mungkin sudah ada dari percobaan sebelumnya yang terputus. Periksa dulu, pertahankan yang benar, lanjutkan yang kurang — jangan mulai dari nol." : ""}`,
+        task: `TUGAS ${t.id}: ${t.title}\n\n${t.description}\n\nOWNS (boleh ditulis): ${(t.owns ?? []).join(", ")}\nStack: ${plan.stack}${resume ? "\n\nCATATAN: run ini lanjutan; sebagian file mungkin sudah ada dari percobaan sebelumnya yang terputus. Periksa dulu, pertahankan yang benar, lanjutkan yang kurang — jangan mulai dari nol. HEMAT LANGKAH: verifikasi cukup node --check untuk JS dan grep untuk ID DOM/fungsi yang diwajibkan kontrak; DILARANG membuat server uji panjang, browser otomatis, atau menulis skrip uji besar (QA yang menguji nanti); targetkan selesai dalam sekitar 40 langkah alat dan tulis ringkasan singkat." : ""}`,
       }).then(async (r) => {
         (r.ok ? done : failed).add(t.id); if (r.ok) markDone(t.id); sem.running--;
         await checkpoint(`task ${t.id}`);
