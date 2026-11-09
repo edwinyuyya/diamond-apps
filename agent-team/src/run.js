@@ -13,6 +13,7 @@ const model = flag("model", useDeepseek ? "deepseek-chat" : undefined);
 const parallel = Number(flag("parallel", 4));
 const maxFix = Number(flag("max-fix", 5));
 const budget = Number(flag("budget", 5)); // USD per agent
+const revise = flag("revise", null);
 const resume = args.includes("--resume") && args.splice(args.indexOf("--resume"), 1).length > 0;
 const idea = args.join(" ").trim();
 
@@ -38,7 +39,13 @@ console.log(`Workspace: ${ws}\n`);
 log("team", "FASE 1 — perencanaan");
 const planPath = path.join(ws, "plan.json");
 let arch = { text: "" };
-if (resume && fs.existsSync(planPath)) log("team", "resume: architect dilewati, memakai plan.json yang ada");
+if (resume && revise && fs.existsSync(planPath)) {
+  log("team", "revisi rencana oleh architect");
+  arch = await run({
+    name: "architect-revisi", role: ROLES.architect,
+    task: `REVISI RENCANA. SPEC.md, CONTRACT.md, dan plan.json sudah ada di workspace ini. Baca ketiganya, lalu REVISI (ubah berkas yang ada, jangan mulai dari nol) agar memenuhi tambahan kebutuhan berikut, tetap dengan aturan tugas kecil dan format plan.json yang sama. Pastikan CONTRACT.md memuat kontrak baru yang rinci (fungsi, bentuk data, ID DOM) dan plan.json tetap valid:\n\n${revise}`,
+  });
+} else if (resume && fs.existsSync(planPath)) log("team", "resume: architect dilewati, memakai plan.json yang ada");
 else arch = await run({
   name: "architect", role: ROLES.architect,
   task: `Ide user:\n\n${idea}\n\nBuat SPEC.md, CONTRACT.md, dan plan.json di workspace ini.`,
