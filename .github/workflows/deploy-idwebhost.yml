@@ -1,4 +1,6 @@
-# Deploy website muasolo.com ke hosting IDwebhost (cPanel) lewat FTP.
+# Deploy website muasolo.com ke hosting IDwebhost (cPanel).
+# Firewall hosting membatasi banyak koneksi FTP, jadi seluruh situs dikirim sebagai SATU zip
+# lalu dibongkar di server oleh unpack.php (token acak sekali pakai) lewat HTTPS.
 # Butuh GitHub Secrets: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_DIR,
 # ADMIN_KEY, ANTHROPIC_API_KEY, IG_ACCESS_TOKEN (opsional: NOTIFY_EMAIL, FTP_PROTOCOL).
 name: Deploy ke IDwebhost
@@ -11,12 +13,12 @@ on:
 
 concurrency:
   group: deploy-idwebhost
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 30
     env:
       FTP_SERVER: ${{ secrets.FTP_SERVER }}
     steps:
@@ -47,18 +49,40 @@ jobs:
         run: |
           php -r '$k=["ADMIN_KEY","ANTHROPIC_API_KEY","IG_ACCESS_TOKEN","NOTIFY_EMAIL"]; $o=[]; foreach($k as $x){$o[$x]=(string)getenv($x);} file_put_contents("website/dist-host/api/secrets.php", "<?php\nreturn ".var_export($o,true).";\n");'
 
-      - name: Upload ke hosting
+      - name: Bungkus situs jadi satu zip + siapkan pembongkar
         if: env.FTP_SERVER != ''
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ${{ secrets.FTP_PROTOCOL || 'ftps' }}
-          local-dir: website/dist-host/
-          server-dir: ${{ secrets.FTP_DIR }}
-          log-level: standard
-          timeout: 120000
-          exclude: |
-            **/.git*
-            **/.git*/**
+        run: |
+          cd website/dist-host
+          zip -q -r -0 ../../site.zip . -x 'm/.keep'
+          cd ../..
+          TOKEN=$(openssl rand -hex 24)
+          echo "::add-mask::$TOKEN"
+          echo "DEPLOY_TOKEN=$TOKEN" >> "$GITHUB_ENV"
+          sed "s/__DEPLOY_TOKEN__/$TOKEN/" website/server/unpack.php > unpack.php
+          ls -la site.zip unpack.php
+
+      - name: Upload 2 file lewat FTP
+        if: env.FTP_SERVER != ''
+        env:
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_DIR: ${{ secrets.FTP_DIR }}
+          FTP_PROTOCOL: ${{ secrets.FTP_PROTOCOL }}
+        run: |
+          sudo apt-get install -y -qq lftp >/dev/null
+          SSL="set ftp:ssl-allow yes; set ssl:verify-certificate no;"
+          [ "$FTP_PROTOCOL" = "ftp" ] && SSL="set ftp:ssl-allow no;"
+          lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "$FTP_SERVER" -e "$SSL set net:timeout 30; set net:max-retries 4; set net:reconnect-interval-base 10; set ftp:passive-mode yes; cd ${FTP_DIR:-./}; put site.zip; put unpack.php; bye"
+
+      - name: Bongkar di server
+        if: env.FTP_SERVER != ''
+        run: |
+          IP=$(getent hosts "$FTP_SERVER" | awk '{print $1; exit}')
+          echo "Server hosting: $IP"
+          # Sebelum DNS dipindah, muasolo.com diarahkan langsung ke IP hosting; sertifikat bisa belum terbit (-k).
+          curl -sS -k -L --fail-with-body --max-time 600 --resolve "muasolo.com:443:$IP" --resolve "muasolo.com:80:$IP" \
+            "https://muasolo.com/unpack.php?t=$DEPLOY_TOKEN" \
+          || curl -sS -k -L --fail-with-body --max-time 600 --resolve "muasolo.com:443:$IP" --resolve "muasolo.com:80:$IP" \
+            "http://muasolo.com/unpack.php?t=$DEPLOY_TOKEN"
+          echo
+          curl -sS -k -o /dev/null -w "Cek halaman utama: HTTP %{http_code}\n" --resolve "muasolo.com:443:$IP" https://muasolo.com/
