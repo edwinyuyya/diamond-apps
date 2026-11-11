@@ -10,6 +10,8 @@ RewriteRule ^ https://muasolo.com%{REQUEST_URI} [L,R=301]
 
 # API Instagram Studio
 RewriteRule ^api/ig(/.*)?$ api/ig.php [L,QSA]
+# API CRM
+RewriteRule ^api/crm(/.*)?$ api/crm.php [L,QSA]
 
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options "nosniff"

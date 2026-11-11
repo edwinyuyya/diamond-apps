@@ -72,7 +72,7 @@
 <body>
     <header><div class="wrap">
         <div class="wm"><b>DIAMOND</b><small>Instagram Studio</small></div>
-        <button class="btn ghost small" id="logout" hidden>Keluar</button>
+        <div style="display:flex;gap:.4rem"><a class="btn ghost small" href="/admin/crm.html">CRM</a><button class="btn ghost small" id="logout" hidden>Keluar</button></div>
     </div></header>
 
     <main class="wrap">
@@ -175,6 +175,7 @@
             box.innerHTML = msgs.map(([c, m]) => `<p class="note ${c}">${m}</p>`).join('');
             await loadQueue();
             loadSubs();
+            if (location.hash === '#forms') showTab('forms');
         }
 
         // ---------- Kiriman form ----------
@@ -195,9 +196,18 @@
                 const photos = Object.entries(s.file_urls || {}).map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt=""><small>${k === 'foto_bare_face' ? 'Bare face' : 'Referensi'}</small></a>`).join('');
                 return `<div class="sub" data-sid="${s.id}"><div class="meta"><span class="pill ${s.form === 'kelas' ? 'scheduled' : 'published'}">${s.form === 'kelas' ? 'Daftar kelas' : 'Reservasi'}</span>${wib(s.created_at)}</div>
                     <dl>${rows}</dl>${photos ? `<div class="photos">${photos}</div>` : ''}
-                    <div class="acts" style="display:flex;gap:.4rem;margin-top:.6rem"><a class="btn small" href="${waLink(s.data.whatsapp)}" target="_blank" rel="noopener">Balas via WA</a><button class="btn ghost small" data-del-sub>Hapus</button></div></div>`;
+                    <div class="acts" style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem"><a class="btn small" href="${waLink(s.data.whatsapp)}" target="_blank" rel="noopener">Balas via WA</a>${s.imported ? '<span class="pill published">Sudah di CRM</span>' : '<button class="btn ghost small" data-import-sub>Masukkan ke CRM</button>'}<button class="btn ghost small" data-del-sub>Hapus</button></div></div>`;
             }).join('');
         }
+        document.addEventListener('click', async e => {
+            const b = e.target.closest('[data-import-sub]'); if (!b) return;
+            b.disabled = true;
+            try {
+                const r = await fetch('/api/crm/import/' + b.closest('.sub').dataset.sid, { method: 'POST', headers: { 'x-admin-key': KEY } });
+                const d = await r.json(); if (!r.ok) throw new Error(d.error || 'Gagal');
+                toast(d.imported.type === 'student' ? 'Masuk ke CRM sebagai murid' : 'Masuk ke CRM: klien + job (tentatif)'); loadSubs();
+            } catch (err) { toast(err.message); b.disabled = false; }
+        });
         document.addEventListener('click', async e => {
             const b = e.target.closest('[data-del-sub]'); if (!b) return;
             if (!confirm('Hapus kiriman ini?')) return;

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Diamond — CRM</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root { --ivory:#FAF6F1; --porcelain:#F2EBE3; --nude:#E7D5CB; --champagne:#B89A7E; --mocha:#2F2522; --ink:#2F2522; --muted:#85766F; --line:rgba(47,37,34,.14); --ok:#5E7F62; --bad:#A3473B; --warn:#B07A2A; --serif:'Cormorant Garamond',Georgia,serif; --sans:'Jost',Arial,sans-serif; }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:var(--sans); font-weight:300; color:var(--ink); background:var(--ivory); line-height:1.55; -webkit-font-smoothing:antialiased; }
+        button, input, select, textarea { font:inherit; color:inherit; }
+        button { cursor:pointer; background:none; border:0; }
+        a { color:inherit; }
+        .wrap { max-width:860px; margin:0 auto; padding:0 1.2rem 5rem; }
+        header { position:sticky; top:0; z-index:5; background:rgba(250,246,241,.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+        header .wrap { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.9rem 1.2rem; }
+        .wm b { font-family:var(--serif); font-weight:400; letter-spacing:.3em; font-size:1.15rem; display:block; line-height:1; }
+        .wm small { font-size:.55rem; letter-spacing:.35em; text-transform:uppercase; color:var(--muted); }
+        .navlinks { display:flex; gap:.4rem; }
+        .eyebrow { font-size:.62rem; letter-spacing:.28em; text-transform:uppercase; color:var(--champagne); }
+        h1 { font-family:var(--serif); font-weight:400; font-size:2.1rem; line-height:1.1; margin:.4rem 0 .4rem; }
+        h2 { font-family:var(--serif); font-weight:400; font-size:1.45rem; margin:1.8rem 0 .7rem; }
+        .muted { color:var(--muted); font-size:.86rem; }
+        .btn { display:inline-flex; align-items:center; justify-content:center; gap:.4rem; font-size:.64rem; letter-spacing:.18em; text-transform:uppercase; padding:.8rem 1.1rem; border:1px solid var(--mocha); background:var(--mocha); color:var(--ivory); text-decoration:none; }
+        .btn.ghost { background:transparent; color:var(--ink); border-color:var(--line); }
+        .btn.small { padding:.5rem .75rem; font-size:.58rem; }
+        .btn.danger { background:transparent; color:var(--bad); border-color:#E6B9B2; }
+        .btn[disabled] { opacity:.5; pointer-events:none; }
+        .tabs { display:grid; grid-template-columns:repeat(4,1fr); border:1px solid var(--line); margin:1.2rem 0; }
+        .tabs button { padding:.85rem .3rem; font-size:.6rem; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); }
+        .tabs button.on { background:var(--mocha); color:var(--ivory); }
+        .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:.6rem; margin:1rem 0; }
+        .stat { background:#fff; border:1px solid var(--line); padding:.9rem; }
+        .stat b { display:block; font-family:var(--serif); font-weight:500; font-size:1.6rem; line-height:1.1; }
+        .stat span { font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
+        .row { display:flex; align-items:center; justify-content:space-between; gap:.8rem; background:#fff; border:1px solid var(--line); padding:.85rem 1rem; margin:.5rem 0; cursor:pointer; }
+        .row:hover { border-color:var(--champagne); }
+        .row .main b { font-weight:500; }
+        .row .main small { display:block; color:var(--muted); font-size:.78rem; }
+        .row .side { text-align:right; font-size:.8rem; white-space:nowrap; }
+        .date-h { font-size:.66rem; letter-spacing:.2em; text-transform:uppercase; color:var(--champagne); margin:1.2rem 0 .3rem; }
+        .pill { display:inline-block; font-size:.56rem; letter-spacing:.14em; text-transform:uppercase; padding:.18rem .45rem; border:1px solid var(--line); }
+        .pill.tentatif, .pill.daftar { color:var(--warn); border-color:#E2C9A0; }
+        .pill.konfirmasi, .pill.berjalan { color:var(--champagne); border-color:var(--champagne); }
+        .pill.selesai, .pill.lulus, .pill.lunas { color:var(--ok); border-color:#C7D9C8; }
+        .pill.batal { color:var(--bad); border-color:#E6B9B2; }
+        .sisa { color:var(--bad); }
+        .toolbar { display:flex; gap:.5rem; align-items:center; flex-wrap:wrap; margin:.6rem 0; }
+        .toolbar input { flex:1; min-width:10rem; border:1px solid var(--line); background:#fff; padding:.6rem .7rem; }
+        .month { font-family:var(--serif); font-size:1.3rem; min-width:9rem; text-align:center; }
+        .empty { text-align:center; padding:1.6rem 1rem; color:var(--muted); font-size:.88rem; border:1px dashed var(--line); }
+        .note { border:1px solid var(--line); background:#fff; padding:.8rem 1rem; margin:.8rem 0; font-size:.86rem; }
+        .note.warn { border-color:#E2C9A0; background:#FFF9EE; } .note.err { border-color:#E6B9B2; background:#FFF4F2; color:var(--bad); }
+        /* Lembar edit */
+        .sheet { position:fixed; inset:0; z-index:30; background:rgba(47,37,34,.45); display:flex; justify-content:flex-end; }
+        .sheet .panel { width:min(560px,100%); height:100%; overflow:auto; background:var(--ivory); padding:1.2rem 1.2rem 6rem; }
+        .sheet .top { display:flex; justify-content:space-between; align-items:center; margin-bottom:.6rem; }
+        .f { display:block; margin:.8rem 0; }
+        .f span { display:block; font-size:.58rem; letter-spacing:.2em; text-transform:uppercase; color:var(--champagne); margin-bottom:.3rem; }
+        .f input, .f select, .f textarea { width:100%; background:#fff; border:1px solid var(--line); padding:.65rem .75rem; font-size:.95rem; outline:none; }
+        .f textarea { min-height:5rem; resize:vertical; }
+        .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:.7rem; }
+        .money { display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem; margin:.6rem 0; }
+        .money div { background:#fff; border:1px solid var(--line); padding:.6rem; } .money small { display:block; font-size:.58rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); } .money b { font-weight:500; }
+        .pay { display:flex; justify-content:space-between; gap:.6rem; font-size:.85rem; padding:.5rem 0; border-bottom:1px solid var(--line); }
+        .photos { display:flex; gap:.5rem; flex-wrap:wrap; } .photos img { width:90px; aspect-ratio:4/5; object-fit:cover; border:1px solid var(--line); }
+        .actions { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:1rem; }
+        .toast { position:fixed; left:50%; bottom:1.2rem; transform:translateX(-50%); background:var(--mocha); color:var(--ivory); padding:.8rem 1.2rem; font-size:.85rem; z-index:40; max-width:90vw; }
+        [hidden] { display:none !important; }
+        @media (max-width:600px) { .stats { grid-template-columns:1fr 1fr; } .grid2 { grid-template-columns:1fr; } h1 { font-size:1.8rem; } .tabs button { font-size:.54rem; letter-spacing:.1em; } }
+    </style>
+</head>
+<body>
+    <header><div class="wrap">
+        <div class="wm"><b>DIAMOND</b><small>CRM</small></div>
+        <div class="navlinks"><a class="btn ghost small" href="/admin/">Instagram Studio</a><button class="btn ghost small" id="logout" hidden>Keluar</button></div>
+    </div></header>
+
+    <main class="wrap">
+        <section id="login">
+            <div style="margin-top:3rem" class="eyebrow">Admin</div>
+            <h1>Masuk ke CRM</h1>
+            <form id="loginForm">
+                <label class="f"><span>Kata sandi admin</span><input type="password" id="key" required autocomplete="current-password"></label>
+                <button class="btn" type="submit">Masuk</button>
+                <p class="note err" id="loginErr" hidden></p>
+            </form>
+        </section>
+
+        <section id="app" hidden>
+            <div style="margin-top:1.4rem" class="eyebrow">Diamond Make Up Artist</div>
+            <h1>CRM</h1>
+            <div class="tabs">
+                <button data-t="home" class="on">Ringkasan</button>
+                <button data-t="jobs">Jadwal</button>
+                <button data-t="clients">Klien</button>
+                <button data-t="students">Murid</button>
+            </div>
+
+            <div data-p="home">
+                <div class="stats" id="stats"></div>
+                <div id="pendingNote"></div>
+                <h2>Job mendatang</h2><div id="upcoming"></div>
+                <h2>Belum lunas</h2><div id="unpaid"></div>
+            </div>
+
+            <div data-p="jobs" hidden>
+                <div class="toolbar">
+                    <button class="btn ghost small" id="prevM">&larr;</button><span class="month" id="monthLbl"></span><button class="btn ghost small" id="nextM">&rarr;</button>
+                    <span style="flex:1"></span><button class="btn small" id="addJob">+ Job baru</button>
+                </div>
+                <div id="jobList"></div>
+            </div>
+
+            <div data-p="clients" hidden>
+                <div class="toolbar"><input id="clientSearch" placeholder="Cari nama atau nomor WA"><button class="btn small" id="addClient">+ Klien</button></div>
+                <div id="clientList"></div>
+            </div>
+
+            <div data-p="students" hidden>
+                <div class="toolbar"><input id="studentSearch" placeholder="Cari murid"><button class="btn small" id="addStudent">+ Murid</button></div>
+                <div id="studentList"></div>
+            </div>
+        </section>
+    </main>
+
+    <div class="sheet" id="sheet" hidden><div class="panel" id="panel"></div></div>
+
+    <script>
+        const $ = s => document.querySelector(s);
+        let KEY = ''; try { KEY = sessionStorage.getItem('dk') || ''; } catch (e) {}
+        let TEAM = [];
+        const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+        const rp = n => 'Rp' + Number(n || 0).toLocaleString('id-ID');
+        const toast = m => { const t = document.createElement('div'); t.className = 'toast'; t.textContent = m; document.body.appendChild(t); setTimeout(() => t.remove(), 3500); };
+        const tgl = d => d ? new Date(d + 'T00:00:00').toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '(tanpa tanggal)';
+        const waLink = n => { let d = String(n || '').replace(/\D/g, ''); if (d.startsWith('0')) d = '62' + d.slice(1); return 'https://wa.me/' + d; };
+        const today = () => new Date(Date.now() + 7 * 3600e3).toISOString().slice(0, 10);
+
+        const LAYANAN = ['Wedding Bride (akad/resepsi)', 'Engagement / Lamaran', 'Prewedding', 'Sweet Seventeen', 'Pre Sweet 17', 'Party / Wisuda / Kondangan', 'Maternity', 'Mature Makeup', 'Photoshoot', 'Kids Makeup', 'Hair & Hijab Do saja', 'Lainnya'];
+        const KELAS = ['Basic MUA (3 Hari)', 'Wedding Advance (Privat)', 'Monolid Technique (1 Sesi)', 'Mature & Facelift (1 Sesi)'];
+        const JOB_STATUS = ['tentatif', 'konfirmasi', 'selesai', 'batal'];
+        const STU_STATUS = ['daftar', 'berjalan', 'lulus', 'batal'];
+
+        async function api(path, opts = {}) {
+            const r = await fetch('/api/crm' + path, { ...opts, headers: { 'content-type': 'application/json', 'x-admin-key': KEY } });
+            const d = await r.json().catch(() => ({ error: 'Server tidak merespons dengan benar' }));
+            if (!r.ok) throw new Error(d.error || 'Gagal');
+            return d;
+        }
+
+        $('#loginForm').onsubmit = async e => {
+            e.preventDefault(); KEY = $('#key').value;
+            try { await start(); try { sessionStorage.setItem('dk', KEY); } catch (e) {} }
+            catch (err) { $('#loginErr').hidden = false; $('#loginErr').textContent = err.message; }
+        };
+        $('#logout').onclick = () => { try { sessionStorage.removeItem('dk'); } catch (e) {} location.reload(); };
+
+        async function start() {
+            TEAM = (await api('/meta')).team;
+            $('#login').hidden = true; $('#app').hidden = false; $('#logout').hidden = false;
+            await loadHome();
+        }
+
+        document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => {
+            document.querySelectorAll('.tabs button').forEach(x => x.classList.toggle('on', x === b));
+            document.querySelectorAll('[data-p]').forEach(p => p.hidden = p.dataset.p !== b.dataset.t);
+            ({ home: loadHome, jobs: loadJobs, clients: loadClients, students: loadStudents })[b.dataset.t]();
+        });
+
+        const jobRow = j => `<div class="row" data-open="job" data-id="${j.id}">
+            <div class="main"><b>${esc(j.client?.nama || 'Klien?')}</b> <span class="pill ${j.status}">${j.status}</span>${j.bentrok?.length ? ' <span class="pill batal">bentrok</span>' : ''}
+                <small>${esc([j.jam_mulai && (j.jam_mulai + (j.jam_selesai ? '–' + j.jam_selesai : '')), j.layanan, j.mua, j.hairdo && 'Hair: ' + j.hairdo].filter(Boolean).join(' · '))}</small>
+                <small>${esc(j.lokasi || '')}</small></div>
+            <div class="side">${j.harga ? rp(j.harga) : ''}${j.sisa > 0 ? `<br><span class="sisa">sisa ${rp(j.sisa)}</span>` : (j.harga ? '<br><span class="pill lunas">lunas</span>' : '')}</div></div>`;
+
+        // ---------- Ringkasan ----------
+        async function loadHome() {
+            const s = await api('/summary');
+            $('#stats').innerHTML = [
+                [s.upcoming.length, 'Job mendatang'], [rp(s.total_sisa), 'Belum dibayar'], [s.active_students, 'Murid aktif'], [s.clients, 'Klien'],
+            ].map(([v, l]) => `<div class="stat"><b>${v}</b><span>${l}</span></div>`).join('');
+            $('#pendingNote').innerHTML = s.pending_submissions ? `<p class="note warn">Ada <b>${s.pending_submissions}</b> kiriman form website yang belum dimasukkan ke CRM. <a href="/admin/#forms">Buka Kiriman Form &rarr;</a></p>` : '';
+            let last = '';
+            $('#upcoming').innerHTML = s.upcoming.length ? s.upcoming.map(j => { const h = j.tanggal !== last ? `<div class="date-h">${tgl(j.tanggal)}</div>` : ''; last = j.tanggal; return h + jobRow(j); }).join('') : '<div class="empty">Belum ada job mendatang.</div>';
+            $('#unpaid').innerHTML = s.unpaid.length ? s.unpaid.map(r => r.jenis === 'job' ? jobRow(r)
+                : `<div class="row" data-open="student" data-id="${r.id}"><div class="main"><b>${esc(r.nama)}</b> <span class="pill">murid</span><small>${esc(r.kelas || '')}</small></div><div class="side">${rp(r.harga)}<br><span class="sisa">sisa ${rp(r.sisa)}</span></div></div>`).join('') : '<div class="empty">Semua sudah lunas.</div>';
+        }
+
+        // ---------- Jadwal ----------
+        let month = today().slice(0, 7);
+        const shiftMonth = d => { const [y, m] = month.split('-').map(Number); const t = new Date(Date.UTC(y, m - 1 + d, 1)); month = t.toISOString().slice(0, 7); loadJobs(); };
+        $('#prevM').onclick = () => shiftMonth(-1); $('#nextM').onclick = () => shiftMonth(1);
+        async function loadJobs() {
+            $('#monthLbl').textContent = new Date(month + '-01T00:00:00').toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+            const { jobs } = await api('/jobs?month=' + month);
+            let last = '';
+            $('#jobList').innerHTML = jobs.length ? jobs.map(j => { const h = j.tanggal !== last ? `<div class="date-h">${tgl(j.tanggal)}</div>` : ''; last = j.tanggal; return h + jobRow(j); }).join('') : '<div class="empty">Belum ada job di bulan ini.</div>';
+        }
+
+        // ---------- Klien & Murid ----------
+        let clientsCache = [], studentsCache = [];
+        async function loadClients() { clientsCache = (await api('/clients')).clients; renderClients(); }
+        function renderClients() {
+            const q = $('#clientSearch').value.toLowerCase();
+            const list = clientsCache.filter(c => !q || (c.nama + ' ' + (c.whatsapp || '')).toLowerCase().includes(q));
+            $('#clientList').innerHTML = list.length ? list.map(c => `<div class="row" data-open="client" data-id="${c.id}"><div class="main"><b>${esc(c.nama)}</b><small>${esc(c.whatsapp || '')}${c.alamat ? ' · ' + esc(c.alamat) : ''}</small></div><div class="side">&rsaquo;</div></div>`).join('') : '<div class="empty">Belum ada klien.</div>';
+        }
+        $('#clientSearch').oninput = renderClients;
+        async function loadStudents() { studentsCache = (await api('/students')).students; renderStudents(); }
+        function renderStudents() {
+            const q = $('#studentSearch').value.toLowerCase();
+            const list = studentsCache.filter(s => !q || (s.nama + ' ' + (s.whatsapp || '') + ' ' + (s.kelas || '')).toLowerCase().includes(q));
+            $('#studentList').innerHTML = list.length ? list.map(s => `<div class="row" data-open="student" data-id="${s.id}"><div class="main"><b>${esc(s.nama)}</b> <span class="pill ${s.status}">${s.status}</span><small>${esc(s.kelas || '')}${s.jadwal_sesi ? ' · ' + esc(s.jadwal_sesi) : ''}</small></div><div class="side">${s.harga ? rp(s.harga) : ''}${s.sisa > 0 ? `<br><span class="sisa">sisa ${rp(s.sisa)}</span>` : ''}</div></div>`).join('') : '<div class="empty">Belum ada murid.</div>';
+        }
+        $('#studentSearch').oninput = renderStudents;
+
+        // ---------- Lembar edit ----------
+        const sheet = $('#sheet'), panel = $('#panel');
+        const closeSheet = () => { sheet.hidden = true; panel.innerHTML = ''; };
+        sheet.addEventListener('click', e => { if (e.target === sheet) closeSheet(); });
+        const input = (name, label, v = '', type = 'text', extra = '') => `<label class="f"><span>${label}</span><input name="${name}" type="${type}" value="${esc(v)}" ${extra}></label>`;
+        const select = (name, label, opts, v = '', blank = '') => `<label class="f"><span>${label}</span><select name="${name}">${blank ? `<option value="">${blank}</option>` : ''}${opts.map(o => `<option ${o === v ? 'selected' : ''}>${esc(o)}</option>`).join('')}${v && !opts.includes(v) ? `<option selected>${esc(v)}</option>` : ''}</select></label>`;
+        const area = (name, label, v = '') => `<label class="f"><span>${label}</span><textarea name="${name}">${esc(v)}</textarea></label>`;
+        const formData = () => Object.fromEntries([...panel.querySelectorAll('[name]')].filter(e => !e.closest('[data-payform]')).map(e => [e.name, e.value]));
+
+        function moneyBlock(r, kind) {
+            if (!r.id) return '';
+            const pays = (r.pembayaran || []).map(p => `<div class="pay"><span>${esc(p.tanggal)} · ${esc(p.metode || '')} ${p.ket ? '· ' + esc(p.ket) : ''}</span><span>${rp(p.jumlah)} <button class="btn ghost small" data-delpay="${p.id}">&times;</button></span></div>`).join('') || '<p class="muted">Belum ada pembayaran.</p>';
+            return `<h2>Pembayaran</h2><div class="money"><div><small>Harga</small><b>${rp(r.harga)}</b></div><div><small>Dibayar</small><b>${rp(r.dibayar)}</b></div><div><small>Sisa</small><b class="${r.sisa > 0 ? 'sisa' : ''}">${rp(r.sisa)}</b></div></div>${pays}
+                <div data-payform data-kind="${kind}" data-id="${r.id}" class="grid2" style="margin-top:.6rem">
+                    ${input('p_tanggal', 'Tanggal bayar', today(), 'date')}${input('p_jumlah', 'Jumlah (Rp)', '', 'text', 'inputmode="numeric" placeholder="500000"')}
+                    ${select('p_metode', 'Metode', ['Transfer', 'Tunai', 'QRIS'], 'Transfer')}${input('p_ket', 'Keterangan', '', 'text', 'placeholder="DP / pelunasan"')}
+                </div><button class="btn ghost small" data-addpay>+ Catat pembayaran</button>`;
+        }
+
+        async function openJob(id, preset = {}) {
+            const [{ clients }, rec] = await Promise.all([api('/clients'), id ? api('/jobs/' + id).then(d => d.record) : Promise.resolve({ status: 'tentatif', ...preset })]);
+            const j = rec;
+            panel.innerHTML = `<div class="top"><div><div class="eyebrow">${id ? 'Edit job' : 'Job baru'}</div><h1 style="font-size:1.6rem">${esc(j.client?.nama || 'Booking makeup')}</h1></div><button class="btn ghost small" data-close>Tutup</button></div>
+                ${j.bentrok?.length ? `<p class="note err">Bentrok: ${j.bentrok.map(b => esc(b.orang.join(' & ')) + ' sudah ada job jam ' + esc(b.jam || '?')).join('; ')}.</p>` : ''}
+                ${j.client?.whatsapp ? `<p><a class="btn small" href="${waLink(j.client.whatsapp)}" target="_blank" rel="noopener">Chat klien via WA</a></p>` : ''}
+                <label class="f"><span>Klien</span><select name="client_id"><option value="">Pilih klien…</option>${clients.map(c => `<option value="${c.id}" ${c.id === j.client_id ? 'selected' : ''}>${esc(c.nama)} — ${esc(c.whatsapp || '')}</option>`).join('')}</select></label>
+                <p class="muted" style="margin-top:-.4rem">Klien belum ada? <a href="#" data-newclient>Tambah klien baru</a></p>
+                <div class="grid2">${input('tanggal', 'Tanggal', j.tanggal, 'date')}${select('status', 'Status', JOB_STATUS, j.status)}
+                ${input('jam_mulai', 'Jam mulai', j.jam_mulai, 'time')}${input('jam_selesai', 'Jam selesai', j.jam_selesai, 'time')}</div>
+                ${select('layanan', 'Layanan', LAYANAN, j.layanan, 'Pilih layanan')}
+                <div class="grid2">${select('mua', 'MUA', TEAM.filter(t => t !== 'Clara'), j.mua, '—')}${select('hairdo', 'Hair / hijab do', TEAM, j.hairdo, '—')}
+                ${input('jumlah_orang', 'Jumlah orang', j.jumlah_orang || '', 'number', 'min="1"')}${input('harga', 'Harga total (Rp)', j.harga || '', 'text', 'inputmode="numeric"')}</div>
+                ${input('lokasi', 'Lokasi', j.lokasi)}${input('lokasi_maps', 'Link Google Maps', j.lokasi_maps, 'url')}
+                ${input('gaya_makeup', 'Gaya makeup', j.gaya_makeup)}${area('catatan', 'Catatan', j.catatan)}
+                ${j.foto_urls?.length ? `<div class="f"><span>Foto dari klien</span><div class="photos">${j.foto_urls.map(u => `<a href="${esc(u)}" target="_blank"><img src="${esc(u)}" alt=""></a>`).join('')}</div></div>` : ''}
+                <div class="actions"><button class="btn" data-save="jobs" data-id="${id || ''}">Simpan</button>${id ? `<button class="btn danger small" data-del="jobs" data-id="${id}">Hapus job</button>` : ''}</div>
+                ${moneyBlock(j, 'jobs')}`;
+            sheet.hidden = false;
+        }
+
+        async function openClient(id) {
+            const c = id ? (await api('/clients/' + id)).record : {};
+            const jobs = id ? (await api('/jobs?client=' + id)).jobs : [];
+            panel.innerHTML = `<div class="top"><div><div class="eyebrow">${id ? 'Klien' : 'Klien baru'}</div><h1 style="font-size:1.6rem">${esc(c.nama || 'Klien baru')}</h1></div><button class="btn ghost small" data-close>Tutup</button></div>
+                ${c.whatsapp ? `<p><a class="btn small" href="${waLink(c.whatsapp)}" target="_blank" rel="noopener">Chat via WA</a></p>` : ''}
+                ${input('nama', 'Nama', c.nama)}${input('whatsapp', 'No. WhatsApp', c.whatsapp, 'tel')}${input('instagram', 'Instagram', c.instagram)}
+                ${area('alamat', 'Alamat', c.alamat)}${area('catatan', 'Catatan (warna kulit, alergi, preferensi…)', c.catatan)}
+                <div class="actions"><button class="btn" data-save="clients" data-id="${id || ''}">Simpan</button>${id ? `<button class="btn ghost small" data-newjob="${id}">+ Job untuk klien ini</button><button class="btn danger small" data-del="clients" data-id="${id}">Hapus</button>` : ''}</div>
+                ${id ? `<h2>Riwayat job</h2>${jobs.length ? jobs.map(jobRow).join('') : '<div class="empty">Belum ada job.</div>'}` : ''}`;
+            sheet.hidden = false;
+        }
+
+        async function openStudent(id) {
+            const s = id ? (await api('/students/' + id)).record : { status: 'daftar' };
+            panel.innerHTML = `<div class="top"><div><div class="eyebrow">${id ? 'Murid' : 'Murid baru'}</div><h1 style="font-size:1.6rem">${esc(s.nama || 'Murid baru')}</h1></div><button class="btn ghost small" data-close>Tutup</button></div>
+                ${s.whatsapp ? `<p><a class="btn small" href="${waLink(s.whatsapp)}" target="_blank" rel="noopener">Chat via WA</a></p>` : ''}
+                ${input('nama', 'Nama', s.nama)}<div class="grid2">${input('whatsapp', 'No. WhatsApp', s.whatsapp, 'tel')}${input('domisili', 'Domisili', s.domisili)}</div>
+                <div class="grid2">${select('kelas', 'Kelas', KELAS, s.kelas, 'Pilih kelas')}${select('status', 'Status', STU_STATUS, s.status)}</div>
+                ${input('jadwal_sesi', 'Jadwal sesi', s.jadwal_sesi, 'text', 'placeholder="Mis. 12, 13, 14 Des 2026 pukul 09.00"')}
+                <div class="grid2">${input('pengalaman', 'Pengalaman', s.pengalaman)}${input('harga', 'Biaya kelas (Rp)', s.harga || '', 'text', 'inputmode="numeric"')}</div>
+                ${area('catatan', 'Catatan', s.catatan)}
+                <div class="actions"><button class="btn" data-save="students" data-id="${id || ''}">Simpan</button>${id ? `<button class="btn danger small" data-del="students" data-id="${id}">Hapus</button>` : ''}</div>
+                ${moneyBlock(s, 'students')}`;
+            sheet.hidden = false;
+        }
+
+        const OPEN = { job: openJob, client: openClient, student: openStudent };
+        const refresh = () => { const t = document.querySelector('.tabs .on').dataset.t; ({ home: loadHome, jobs: loadJobs, clients: loadClients, students: loadStudents })[t](); };
+        $('#addJob').onclick = () => openJob(null, { tanggal: today().slice(0, 7) === month ? '' : month + '-01' });
+        $('#addClient').onclick = () => openClient(null);
+        $('#addStudent').onclick = () => openStudent(null);
+
+        document.addEventListener('click', async e => {
+            const t = e.target.closest('[data-open],[data-close],[data-save],[data-del],[data-addpay],[data-delpay],[data-newjob],[data-newclient]');
+            if (!t) return;
+            e.preventDefault();
+            try {
+                if (t.dataset.open) return OPEN[t.dataset.open](t.dataset.id);
+                if (t.hasAttribute('data-close')) return closeSheet();
+                if (t.dataset.newjob) return openJob(null, { client_id: t.dataset.newjob });
+                if (t.hasAttribute('data-newclient')) return openClient(null);
+                if (t.dataset.save) {
+                    const col = t.dataset.save, id = t.dataset.id; t.disabled = true;
+                    const { record } = await api('/' + col + (id ? '/' + id : ''), { method: id ? 'PATCH' : 'POST', body: JSON.stringify(formData()) });
+                    toast('Tersimpan'); refresh();
+                    if (col === 'jobs') return openJob(record.id);
+                    if (col === 'clients') return openClient(record.id);
+                    return openStudent(record.id);
+                }
+                if (t.dataset.del) {
+                    if (!confirm('Hapus data ini?')) return;
+                    await api('/' + t.dataset.del + '/' + t.dataset.id, { method: 'DELETE' }); toast('Dihapus'); closeSheet(); refresh(); return;
+                }
+                if (t.hasAttribute('data-addpay') || t.dataset.delpay) {
+                    const box = panel.querySelector('[data-payform]'), kind = box.dataset.kind, id = box.dataset.id;
+                    const v = n => box.querySelector(`[name=${n}]`).value;
+                    if (t.dataset.delpay && !confirm('Hapus pembayaran ini?')) return;
+                    if (t.dataset.delpay) await api(`/${kind}/${id}/payments?pid=${t.dataset.delpay}`, { method: 'DELETE' });
+                    else await api(`/${kind}/${id}/payments`, { method: 'POST', body: JSON.stringify({ tanggal: v('p_tanggal'), jumlah: v('p_jumlah'), metode: v('p_metode'), ket: v('p_ket') }) });
+                    toast('Pembayaran diperbarui'); refresh();
+                    return kind === 'jobs' ? openJob(id) : openStudent(id);
+                }
+            } catch (err) { toast(err.message); t.disabled = false; }
+        });
+
+        if (KEY) start().catch(() => { KEY = ''; });
+    </script>
+</body>
+</html>

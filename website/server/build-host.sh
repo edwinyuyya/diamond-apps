@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 OUT=dist-host
 rm -rf "$OUT" && mkdir -p "$OUT/api" "$OUT/data" "$OUT/m"
 cp -r index.html admin media favicon.svg favicon-48.png apple-touch-icon.png og-image.jpg robots.txt sitemap.xml "$OUT/"
-cp server/lib.php server/ig.php server/form.php server/cron.php "$OUT/api/"
+cp server/lib.php server/ig.php server/crm.php server/form.php server/cron.php "$OUT/api/"
 (cd server && composer install --no-dev --optimize-autoloader --no-interaction --quiet)
 cp -r server/vendor "$OUT/api/vendor"
 # Buang file tes/contoh dari library supaya upload FTP ringan
