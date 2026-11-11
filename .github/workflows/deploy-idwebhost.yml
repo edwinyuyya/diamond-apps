@@ -69,10 +69,15 @@ jobs:
           FTP_DIR: ${{ secrets.FTP_DIR }}
           FTP_PROTOCOL: ${{ secrets.FTP_PROTOCOL }}
         run: |
-          sudo apt-get install -y -qq lftp >/dev/null
-          SSL="set ftp:ssl-allow yes; set ssl:verify-certificate no;"
-          [ "$FTP_PROTOCOL" = "ftp" ] && SSL="set ftp:ssl-allow no;"
-          lftp -u "$FTP_USERNAME","$FTP_PASSWORD" "$FTP_SERVER" -e "$SSL set net:timeout 30; set net:max-retries 4; set net:reconnect-interval-base 10; set ftp:passive-mode yes; cd ${FTP_DIR:-./}; put site.zip; put unpack.php; bye"
+          # curl sudah tersedia di runner (tanpa apt). FTP dengan TLS wajib (sertifikat diverifikasi),
+          # kecuali secret FTP_PROTOCOL diisi "ftp".
+          TLS="--ssl-reqd"; [ "$FTP_PROTOCOL" = "ftp" ] && TLS=""
+          DIR="${FTP_DIR#./}"; DIR="${DIR#/}"
+          for f in site.zip unpack.php; do
+            curl -sS $TLS --ftp-pasv --retry 4 --retry-delay 10 --connect-timeout 30 \
+              --user "$FTP_USERNAME:$FTP_PASSWORD" -T "$f" "ftp://$FTP_SERVER/$DIR"
+            echo "terkirim: $f"
+          done
 
       - name: Bongkar di server
         if: env.FTP_SERVER != ''
