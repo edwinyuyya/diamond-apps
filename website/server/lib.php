@@ -3,7 +3,8 @@
 // caption AI (Claude), Instagram API, dan kiriman form reservasi/kelas.
 declare(strict_types=1);
 
-require __DIR__ . '/vendor/autoload.php';
+// Di hosting, pustaka dibungkus jadi satu file vendor.phar supaya upload FTP cepat
+require is_file(__DIR__ . '/vendor.phar') ? 'phar://' . __DIR__ . '/vendor.phar/autoload.php' : __DIR__ . '/vendor/autoload.php';
 
 const SITE = 'https://muasolo.com';
 const SLOT_DAYS = [1, 3, 5];      // Senin, Rabu, Jumat

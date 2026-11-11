@@ -16,6 +16,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     env:
       FTP_SERVER: ${{ secrets.FTP_SERVER }}
     steps:
@@ -56,6 +57,8 @@ jobs:
           protocol: ${{ secrets.FTP_PROTOCOL || 'ftps' }}
           local-dir: website/dist-host/
           server-dir: ${{ secrets.FTP_DIR }}
+          log-level: standard
+          timeout: 120000
           exclude: |
             **/.git*
             **/.git*/**
