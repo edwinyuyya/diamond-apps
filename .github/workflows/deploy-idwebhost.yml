@@ -73,9 +73,20 @@ jobs:
           # kecuali secret FTP_PROTOCOL diisi "ftp".
           TLS="--ssl-reqd"; [ "$FTP_PROTOCOL" = "ftp" ] && TLS=""
           DIR="${FTP_DIR#./}"; DIR="${DIR#/}"
+          # Sertifikat FTP hosting bersama memakai nama server (bukan nama domain kita):
+          # ambil nama di sertifikat, lalu sambungkan nama itu ke server yang sama agar verifikasi tetap jalan.
+          HOST="$FTP_SERVER"
+          if [ -n "$TLS" ]; then
+            CN=$(echo | openssl s_client -starttls ftp -connect "$FTP_SERVER:21" 2>/dev/null \
+                 | openssl x509 -noout -subject -nameopt multiline 2>/dev/null | awk -F' = ' '/commonName/{print $2; exit}')
+            echo "Nama di sertifikat FTP: ${CN:-tidak terbaca}"
+            CN="${CN/#\*./deploy.}"   # sertifikat wildcard (*.contoh.com) -> deploy.contoh.com
+            [ -n "$CN" ] && HOST="$CN"
+          fi
           for f in site.zip unpack.php; do
             curl -sS $TLS --ftp-pasv --retry 4 --retry-delay 10 --connect-timeout 30 \
-              --user "$FTP_USERNAME:$FTP_PASSWORD" -T "$f" "ftp://$FTP_SERVER/$DIR"
+              --connect-to "$HOST:21:$FTP_SERVER:21" \
+              --user "$FTP_USERNAME:$FTP_PASSWORD" -T "$f" "ftp://$HOST/$DIR"
             echo "terkirim: $f"
           done
 
