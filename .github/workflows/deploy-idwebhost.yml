@@ -96,11 +96,16 @@ jobs:
           IP=$(getent hosts "$FTP_SERVER" | awk '{print $1; exit}')
           echo "Server hosting: $IP"
           # Sebelum DNS dipindah, muasolo.com diarahkan langsung ke IP hosting; sertifikat bisa belum terbit (-k).
-          curl -sS -k -L --fail-with-body --max-time 600 --resolve "muasolo.com:443:$IP" --resolve "muasolo.com:80:$IP" \
+          OUT=$(curl -sS -k -L --fail-with-body --max-time 600 --resolve "muasolo.com:443:$IP" --resolve "muasolo.com:80:$IP" \
             "https://muasolo.com/unpack.php?t=$DEPLOY_TOKEN" \
           || curl -sS -k -L --fail-with-body --max-time 600 --resolve "muasolo.com:443:$IP" --resolve "muasolo.com:80:$IP" \
-            "http://muasolo.com/unpack.php?t=$DEPLOY_TOKEN"
-          echo
+            "http://muasolo.com/unpack.php?t=$DEPLOY_TOKEN") || { echo "$OUT"; exit 1; }
+          echo "$OUT"
+          PHPV=$(echo "$OUT" | grep -o '"php":"[0-9.]*"' | head -1 | grep -o '[0-9][0-9.]*')
+          if [ -n "$PHPV" ] && [ "$(printf '%s\n8.1\n' "$PHPV" | sort -V | head -1)" != "8.1" ]; then
+            echo "::error::muasolo.com memakai PHP $PHPV. Buka cPanel > MultiPHP Manager, pilih muasolo.com, set PHP 8.2/8.3, Apply."
+            exit 1
+          fi
           curl -sS -k -o /dev/null -w "Cek halaman utama: HTTP %{http_code}\n" --resolve "muasolo.com:443:$IP" https://muasolo.com/
 
       - name: Cek server PHP (form, admin, CRM)

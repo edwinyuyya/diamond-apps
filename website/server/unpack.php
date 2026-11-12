@@ -53,7 +53,7 @@ function extract_zip(string $zip, string $dest): int
         $name = str_replace('\\', '/', $name);
         if ($name === '' || $name[0] === '/' || preg_match('#(^|/)\.\.(/|$)#', $name)) throw new RuntimeException("Nama file tidak aman: $name");
         $target = "$dest/$name";
-        if (str_ends_with($name, '/')) { if (!is_dir($target)) mkdir($target, 0755, true); continue; }
+        if (substr($name, -1) === '/') { if (!is_dir($target)) mkdir($target, 0755, true); continue; }
 
         fseek($fh, $h['offset']);
         $lh = unpack('Vsig/vneed/vflag/vmethod/vtime/vdate/Vcrc/Vcsize/Vusize/vnlen/vxlen', fread($fh, 30));
@@ -76,8 +76,15 @@ function extract_zip(string $zip, string $dest): int
 
 try {
     // Pustaka PHP dikirim utuh sebagai folder api/vendor: ganti versi lama sepenuhnya
+    // Pengaturan versi PHP dari cPanel (MultiPHP) ada di .htaccess: simpan dan pasang lagi
+    // setelah .htaccess situs ditimpa, supaya hosting tidak kembali ke PHP bawaan.
+    $keep = '';
+    if (is_file("$dir/.htaccess") && preg_match_all('/^#[^\n]*BEGIN cPanel-generated.*?^#[^\n]*END cPanel-generated[^\n]*\n?/ms', (string) file_get_contents("$dir/.htaccess"), $m)) {
+        $keep = implode('', $m[0]);
+    }
     rrmdir("$dir/api/vendor");
     $count = extract_zip($zip, $dir);
+    if ($keep !== '') file_put_contents("$dir/.htaccess", rtrim($keep) . "\n\n" . file_get_contents("$dir/.htaccess"));
     @unlink("$dir/api/vendor.phar");
     @unlink("$dir/.ftp-deploy-sync-state.json");
     @unlink($zip);
@@ -99,7 +106,7 @@ try {
         $w = is_writable("$dir/data") ? 'ok' : 'tidak bisa ditulis';
     }
     echo json_encode(['ok' => true, 'files' => $count, 'php' => PHP_VERSION, 'ext' => $ext, 'lib' => $lib, 'data_dir' => $w,
-        'sapi' => PHP_SAPI, 'open_basedir' => (string) ini_get('open_basedir')]);
+        'cpanel_php_handler' => $keep !== '', 'sapi' => PHP_SAPI, 'open_basedir' => (string) ini_get('open_basedir')]);
 } catch (Throwable $e) {
     http_response_code(500);
     echo json_encode(['error' => $e->getMessage(), 'php' => PHP_VERSION, 'ext' => $ext]);
