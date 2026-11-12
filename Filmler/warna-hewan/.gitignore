@@ -1,0 +1,8 @@
+renders/
+audio/
+logs/
+research/
+__pycache__/
+*.mp4
+review/stills-*/
+review/qc-*/
