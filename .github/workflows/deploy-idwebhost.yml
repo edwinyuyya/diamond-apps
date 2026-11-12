@@ -102,3 +102,20 @@ jobs:
             "http://muasolo.com/unpack.php?t=$DEPLOY_TOKEN"
           echo
           curl -sS -k -o /dev/null -w "Cek halaman utama: HTTP %{http_code}\n" --resolve "muasolo.com:443:$IP" https://muasolo.com/
+
+      - name: Cek server PHP (form, admin, CRM)
+        if: env.FTP_SERVER != ''
+        run: |
+          IP=$(getent hosts "$FTP_SERVER" | awk '{print $1; exit}')
+          check() { # url, kode HTTP yang diharapkan
+            code=$(curl -sS -k -o body.txt -w "%{http_code}" --resolve "muasolo.com:443:$IP" "https://muasolo.com$1")
+            echo "$1 -> HTTP $code: $(head -c 150 body.txt)"
+            [ "$code" = "$2" ] || { echo "::error::$1 seharusnya HTTP $2 (versi PHP hosting minimal 8.1?)"; FAIL=1; }
+          }
+          FAIL=0
+          check /api/form.php 405
+          check /api/ig/status 401
+          check /api/crm/meta 401
+          check /api/secrets.php 403
+          check /data/.htaccess 403
+          exit $FAIL
