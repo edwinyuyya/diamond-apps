@@ -3,6 +3,6 @@ audio/
 logs/
 research/
 __pycache__/
-*.mp4
+*-draft.mp4
 review/stills-*/
 review/qc-*/

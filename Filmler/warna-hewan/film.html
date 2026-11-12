@@ -142,11 +142,11 @@ const SCENES = [
   { chapter: 'KUNING', from: 35.625, to: 39.375, draw: s08, action: 'yellow floods the sunflower field', in: { type: 'cut' }, amb: { kind: 'air', gain: 0.05 } },
   { chapter: 'KUNING', from: 39.375, to: 46.875, draw: s09, action: 'Pio and Kiko hop through the flowers', in: { type: 'cut' }, amb: { kind: 'air', gain: 0.05 } },
   { chapter: 'KUNING', from: 46.875, to: 50, draw: s10, action: 'the yellow band joins the rainbow', in: { type: 'wipe', dur: 0.5, dir: 1 }, amb: { kind: 'air', gain: 0.05 } },
-  { chapter: 'BIRU', from: 50, to: 53.75, draw: s11, action: 'Bibi flutters over the pale pond', in: { type: 'dissolve', dur: 0.4 }, amb: { kind: 'water', gain: 0.05 } },
-  { chapter: 'BIRU', from: 53.75, to: 59.375, draw: s12, action: 'blue fills the pond ripple by ripple', in: { type: 'cut' }, amb: { kind: 'water', gain: 0.05 } },
-  { chapter: 'BIRU', from: 59.375, to: 66.25, draw: s13, action: 'Bibi lands on Kiko\'s nose', in: { type: 'cut' }, amb: { kind: 'water', gain: 0.05 } },
-  { chapter: 'BIRU', from: 66.25, to: 70, draw: s14, action: 'the blue band joins the rainbow', in: { type: 'wipe', dur: 0.5, dir: 1 }, amb: { kind: 'water', gain: 0.05 } },
-  { chapter: 'HIJAU', from: 70, to: 77.5, draw: s15, action: 'Koko leaps from pad to pad', in: { type: 'dissolve', dur: 0.4 }, amb: { kind: 'water', gain: 0.05 } },
+  { chapter: 'BIRU', from: 50, to: 53.75, draw: s11, action: 'Bibi flutters over the pale pond', in: { type: 'dissolve', dur: 0.4 }, amb: { kind: 'water', gain: 0.022 } },
+  { chapter: 'BIRU', from: 53.75, to: 59.375, draw: s12, action: 'blue fills the pond ripple by ripple', in: { type: 'cut' }, amb: { kind: 'water', gain: 0.022 } },
+  { chapter: 'BIRU', from: 59.375, to: 66.25, draw: s13, action: 'Bibi lands on Kiko\'s nose', in: { type: 'cut' }, amb: { kind: 'water', gain: 0.022 } },
+  { chapter: 'BIRU', from: 66.25, to: 70, draw: s14, action: 'the blue band joins the rainbow', in: { type: 'wipe', dur: 0.5, dir: 1 }, amb: { kind: 'water', gain: 0.022 } },
+  { chapter: 'HIJAU', from: 70, to: 77.5, draw: s15, action: 'Koko leaps from pad to pad', in: { type: 'dissolve', dur: 0.4 }, amb: { kind: 'water', gain: 0.022 } },
   { chapter: 'HIJAU', from: 77.5, to: 81.25, draw: s16, action: 'green rolls over the meadow', in: { type: 'cut' }, amb: { kind: 'air', gain: 0.05 } },
   { chapter: 'HIJAU', from: 81.25, to: 86.25, draw: s17, action: 'Koko leapfrogs over Kiko', in: { type: 'cut' }, amb: { kind: 'air', gain: 0.05 } },
   { chapter: 'HIJAU', from: 86.25, to: 90, draw: s18, action: 'the green band joins the rainbow', in: { type: 'wipe', dur: 0.5, dir: 1 }, amb: { kind: 'air', gain: 0.05 } },
@@ -161,27 +161,27 @@ const SCENES = [
 // Picture-locked effects: soft landings, little pops. Hops land every 1.25 s from their start.
 const hopLands = (t0, n, p = 1.25) => Array.from({ length: n }, (_, i) => t0 + p * (i + 1));
 const SFX = [
-  ...hopLands(-0.25, 3).map((at) => ({ at, voice: 'foley', kind: 'tap', gain: 0.3, wet: 0.2 })),          // Kiko lands (S01)
-  { at: 12.2, voice: 'foley', kind: 'tap', gain: 0.35, wet: 0.2 },                                          // Lala lands on the leaf
-  { at: 14.0, voice: 'tick', gain: 0.45, wet: 0.3 }, { at: 15.0, voice: 'tick', gain: 0.35, wet: 0.3 },     // red spreads
-  ...hopLands(20.2, 3).map((at) => ({ at, voice: 'foley', kind: 'tap', gain: 0.25, wet: 0.2 })),           // dance
-  { at: 26.5, voice: 'tick', gain: 0.4, wet: 0.3 },
-  { at: 32.0, voice: 'foley', kind: 'tap', gain: 0.4, wet: 0.2 },                                           // sunflower shell cracks
-  { at: 34.0, voice: 'tick', gain: 0.45, wet: 0.3 }, { at: 35.0, voice: 'tick', gain: 0.35, wet: 0.3 },
-  ...hopLands(40.2, 3).map((at) => ({ at, voice: 'foley', kind: 'tap', gain: 0.25, wet: 0.2 })),
-  { at: 46.5, voice: 'tick', gain: 0.4, wet: 0.3 },
-  { at: 54.0, voice: 'tick', gain: 0.45, wet: 0.3 }, { at: 55.0, voice: 'tick', gain: 0.35, wet: 0.3 },
-  { at: 62.0, voice: 'foley', kind: 'tap', gain: 0.25, wet: 0.2 },                                          // Bibi lands on Kiko's nose
-  { at: 66.5, voice: 'tick', gain: 0.4, wet: 0.3 },
-  ...hopLands(70.1, 3, 1.5).map((at) => ({ at, voice: 'foley', kind: 'tap', gain: 0.3, wet: 0.25 })),      // Koko pad to pad
-  { at: 74.0, voice: 'tick', gain: 0.45, wet: 0.3 }, { at: 75.0, voice: 'tick', gain: 0.35, wet: 0.3 },
-  ...hopLands(80.2, 3).map((at) => ({ at, voice: 'foley', kind: 'tap', gain: 0.25, wet: 0.2 })),
-  { at: 86.5, voice: 'tick', gain: 0.4, wet: 0.3 },
+  ...hopLands(-0.25, 3).map((at) => ({ at, voice: 'foley', kind: 'step', gain: 0.3, wet: 0.2 })),          // Kiko lands (S01)
+  { at: 12.2, voice: 'foley', kind: 'step', gain: 0.35, wet: 0.2 },                                          // Lala lands on the leaf
+  { at: 14.0, voice: 'tick', gain: 0.28, wet: 0.3 }, { at: 15.0, voice: 'tick', gain: 0.22, wet: 0.3 },     // red spreads
+  ...hopLands(20.2, 3).map((at) => ({ at, voice: 'foley', kind: 'step', gain: 0.25, wet: 0.2 })),           // dance
+  { at: 26.5, voice: 'tick', gain: 0.25, wet: 0.3 },
+  { at: 32.0, voice: 'foley', kind: 'step', gain: 0.4, wet: 0.2 },                                           // sunflower shell cracks
+  { at: 34.0, voice: 'tick', gain: 0.28, wet: 0.3 }, { at: 35.0, voice: 'tick', gain: 0.22, wet: 0.3 },
+  ...hopLands(40.2, 3).map((at) => ({ at, voice: 'foley', kind: 'step', gain: 0.25, wet: 0.2 })),
+  { at: 46.5, voice: 'tick', gain: 0.25, wet: 0.3 },
+  { at: 54.0, voice: 'tick', gain: 0.28, wet: 0.3 }, { at: 55.0, voice: 'tick', gain: 0.22, wet: 0.3 },
+  { at: 62.0, voice: 'foley', kind: 'step', gain: 0.25, wet: 0.2 },                                          // Bibi lands on Kiko's nose
+  { at: 66.5, voice: 'tick', gain: 0.25, wet: 0.3 },
+  ...hopLands(70.1, 3, 1.5).map((at) => ({ at, voice: 'foley', kind: 'step', gain: 0.3, wet: 0.25 })),      // Koko pad to pad
+  { at: 74.0, voice: 'tick', gain: 0.28, wet: 0.3 }, { at: 75.0, voice: 'tick', gain: 0.22, wet: 0.3 },
+  ...hopLands(80.2, 3).map((at) => ({ at, voice: 'foley', kind: 'step', gain: 0.25, wet: 0.2 })),
+  { at: 86.5, voice: 'tick', gain: 0.25, wet: 0.3 },
   { at: 96.0, voice: 'foley', kind: 'cloth', gain: 0.3, wet: 0.2 },                                         // the hug
-  { at: CUES.bloom, voice: 'hit', gain: 0.35, wet: 0.35 },                                                  // orange is born
-  { at: 100.6, voice: 'tick', gain: 0.4, wet: 0.3 },
-  ...hopLands(105.2, 3).map((at) => ({ at, voice: 'foley', kind: 'tap', gain: 0.25, wet: 0.2 })),
-  { at: 111.0, voice: 'tick', gain: 0.4, wet: 0.3 },
+  { at: CUES.bloom, voice: 'hit', gain: 0.18, wet: 0.35 },                                                  // orange is born
+  { at: 100.6, voice: 'tick', gain: 0.25, wet: 0.3 },
+  ...hopLands(105.2, 3).map((at) => ({ at, voice: 'foley', kind: 'step', gain: 0.25, wet: 0.2 })),
+  { at: 111.0, voice: 'tick', gain: 0.25, wet: 0.3 },
 ];
 const ROOM = { secs: 1.6, decay: 2.4, tone: 6000 };
 
@@ -280,7 +280,7 @@ function pio(g, t, o) {
   gloss(g, 0, -0.52, 0.5, 0.48, y);
   for (const [dx, a] of [[-0.08, -0.5], [0.02, 0], [0.1, 0.5]]) gloss(g, dx, -1.0, 0.05, 0.11, y, { rot: a, shine: false });
   const fl = o.flap ? Math.sin(t * 22) * 0.5 : Math.sin(t * 3) * 0.08;
-  for (const s of [-1, 1]) { g.save(); g.translate(s * 0.46, -0.5); g.rotate(s * (0.4 + fl)); gloss(g, 0, 0.05, 0.12, 0.2, shade(y, 0.45), { shine: false }); g.restore(); }
+  for (const s of [-1, 1]) { g.save(); g.translate(s * 0.46, -0.5); g.rotate(s * (0.4 + fl)); gloss(g, 0, 0.05, 0.12, 0.2, '#FFB43C', { shine: false }); g.restore(); }
   eye(g, -0.17, -0.58, 0.07, blinkAt(t, 0.7)); eye(g, 0.17, -0.58, 0.07, blinkAt(t, 0.7));
   g.fillStyle = '#FF9A3C'; g.beginPath(); g.moveTo(-0.08, -0.46); g.lineTo(0.08, -0.46); g.lineTo(0, -0.34 + 0.04 * (o.mouth ?? 0)); g.closePath(); g.fill();
   blush(g, -0.3, -0.46, 0.07, 0.045); blush(g, 0.3, -0.46, 0.07, 0.045);
@@ -432,9 +432,9 @@ function words(g, S, t) {
   if (t >= 96 && t < 100) {                           // Kuning + Merah = Jingga
     const p = (t - 96) / 4, sc = MOTION.back(clamp(p / 0.12), 1.7) * (1 - EASE.in(clamp((p - 0.9) / 0.1)));
     plane(g, S, CAM.base(), 0, (g) => { g.save(); g.translate(0, -0.33); g.scale(sc, sc);
-      const parts = [['Kuning', FULL.yellow, -0.62], ['+', PLUM, -0.3], ['Merah', FULL.red, -0.08], ['=', PLUM, 0.2], ['Jingga', FULL.orange, 0.62]];
-      g.fillStyle = 'rgba(255,255,255,0.82)'; g.beginPath(); g.roundRect(-0.9, -0.1, 1.8, 0.2, 0.1); g.fill();
-      for (const [s, c, x] of parts) outlined(g, S, s, x, 0, 0.125, c);
+      const parts = [['Kuning', FULL.yellow, -0.575], ['+', '#FFFFFF', -0.2975], ['Merah', FULL.red, -0.02], ['=', '#FFFFFF', 0.2575], ['Jingga', FULL.orange, 0.545]];
+      g.fillStyle = 'rgba(88,44,76,0.94)'; g.beginPath(); g.roundRect(-0.9, -0.1, 1.8, 0.2, 0.1); g.fill();
+      for (const [s, c, x] of parts) outlined(g, S, s, x, 0, 0.115, c);
       g.restore(); });
   }
 }
@@ -587,7 +587,7 @@ function s19(g, k, t, S) {   // pan, 5 s, ease-in-out, along the line
 }
 function s20(g, k, t, S) {   // dolly in, 5 s, ease-in-out, on the hug
   const cam = CAM.base(); CAM.pushTo(cam, EASE.inOut(k), 0.0, 0.1, 1.0, 0.6); world(g, S, cam, t);
-  plane(g, S, cam, 0, (g) => { const hug = EASE.inOut(clamp((t - 96.2) / 0.6)), lx = lerp(-0.2, -0.045, hug), px = lerp(0.2, 0.045, hug);
+  plane(g, S, cam, 0, (g) => { const hug = EASE.inOut(clamp((t - 96.2) / 0.6)), lx = lerp(-0.2, -0.09, hug), px = lerp(0.2, 0.09, hug);
     const b = clamp((t - CUES.bloom) / 2.6);
     if (b > 0) { const r = 0.9 * EASE.out(b), gr = g.createRadialGradient(0, 0.15, 0, 0, 0.15, r); gr.addColorStop(0, '#FFFFFFcc'); gr.addColorStop(0.35, FULL.orange + 'cc'); gr.addColorStop(1, FULL.orange + '00');
       g.save(); g.globalAlpha = 1 - EASE.in(clamp((b - 0.6) / 0.4)) * 0.5; g.fillStyle = gr; g.fillRect(-r, -r + 0.15, 2 * r, 2 * r); g.restore(); }
@@ -608,7 +608,7 @@ function s22(g, k, t, S) {   // zoom out, 5 s, ease-out, the dance
   plane(g, S, cam, 0, (g) => { const a = hop(t, 105.2), b = hop(t, 105.45), c = hop(t, 105.7);
     kiko(g, t, { x: -0.45, y: GY + 0.12 - a.up * 0.12, sq: a.sq, mouth: 0.9, orange: 1, wave: 1, h: 0.4 });
     lala(g, t, { x: -0.1, y: GY + 0.12 - b.up * 0.1, fly: b.up > 0.4, mouth: 0.9, h: 0.24 }); pio(g, t, { x: 0.22, y: GY + 0.12 - c.up * 0.1, sq: c.sq, flap: true, mouth: 0.9, h: 0.24 });
-    koko(g, t, { x: 0.58, y: GY + 0.12 - a.up * 0.1, sq: a.sq, mouth: 0.9, h: 0.26 }); bibi(g, t, { x: 0.9, y: -0.04 + 0.05 * Math.sin(t * 2.2), h: 0.22, mouth: 0.8 }); });
+    koko(g, t, { x: 0.58, y: GY + 0.12 - a.up * 0.1, sq: a.sq, mouth: 0.9, h: 0.26 }); bibi(g, t, { x: 0.72, y: -0.04 + 0.05 * Math.sin(t * 2.2), h: 0.22, mouth: 0.8 }); });
 }
 function s23(g, k, t, S) {   // zoom out, 5 s, ease-out, the full rainbow
   const cam = CAM.base(); CAM.zoom(cam, EASE.out(k), 1.2, 1.0); world(g, S, cam, t);
@@ -616,7 +616,7 @@ function s23(g, k, t, S) {   // zoom out, 5 s, ease-out, the full rainbow
   plane(g, S, cam, 0, (g) => { const a = hop(t, 110.3);
     kiko(g, t, { x: -0.45, y: GY + 0.12 - a.up * 0.06, sq: a.sq, mouth: 0.9, orange: 1, wave: 1, h: 0.4 });
     lala(g, t, { x: -0.12, y: GY + 0.12, mouth: 0.9, h: 0.24 }); pio(g, t, { x: 0.2, y: GY + 0.12, flap: t % 0.5 < 0.25, mouth: 0.9, h: 0.24 });
-    koko(g, t, { x: 0.55, y: GY + 0.12, mouth: 0.9, h: 0.26 }); bibi(g, t, { x: 0.9, y: -0.04 + 0.05 * Math.sin(t * 2.2), h: 0.22, mouth: 0.8 });
+    koko(g, t, { x: 0.55, y: GY + 0.12, mouth: 0.9, h: 0.26 }); bibi(g, t, { x: 0.72, y: -0.04 + 0.05 * Math.sin(t * 2.2), h: 0.22, mouth: 0.8 });
     sparkles(g, t, 111.0, 0, -0.25, '#FFFFFF', 26, 0.8); });
   words(g, S, t);
 }
@@ -626,17 +626,17 @@ function s24(g, k, t, S) {   // dolly out, 5 s, ease-in-out, sunset
   plane(g, S, cam, 0, (g) => { const s = (xx, f) => xx;
     kiko(g, t, { x: -0.45, y: GY + 0.12, mouth: 0.6, orange: 1, wave: t < 119 ? 1 : 0, h: 0.4 });
     lala(g, t, { x: -0.12, y: GY + 0.12, mouth: 0.5, h: 0.24 }); pio(g, t, { x: 0.2, y: GY + 0.12, mouth: 0.5, h: 0.24 });
-    koko(g, t, { x: 0.55, y: GY + 0.12, mouth: 0.5, h: 0.26 }); bibi(g, t, { x: 0.9, y: -0.04 + 0.04 * Math.sin(t * 1.6), h: 0.22, speed: 0.5, mouth: 0.5 });
+    koko(g, t, { x: 0.55, y: GY + 0.12, mouth: 0.5, h: 0.26 }); bibi(g, t, { x: 0.72, y: -0.04 + 0.04 * Math.sin(t * 1.6), h: 0.22, speed: 0.5, mouth: 0.5 });
     sparkles(g, t, 114.6, 0, -0.1, '#FFFFFF', 22, 0.9); sparkles(g, t, 117.0, 0, -0.15, '#FFE9F2', 18, 0.8); });
 }
 
 // ---------- music: a toy orchestra in C major, a four bar progression, one bell note for each colour ----------
 function bell(ctx, out, t, f, gain, dur = 1.4) {
   const v = ctx.createGain(); env(v.gain, t, 0.003, gain, dur); v.connect(out);
-  for (const [m, a] of [[1, 1], [2.76, 0.16], [5.4, 0.03]]) { const o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = f * m; const x = ctx.createGain(); x.gain.value = a; o.connect(x).connect(v); o.start(t); o.stop(t + dur + 0.1); }
+  for (const [m, a] of [[1, 1], [2.76, 0.16], [5.4, 0.03]]) { const o = ctx.createOscillator(); o.type = 'sine'; o.frequency.value = f * m; const x = ctx.createGain(); x.gain.value = m > 1 && f > 700 ? a * 0.25 : a; o.connect(x).connect(v); o.start(t); o.stop(t + dur + 0.1); }
 }
 function xylo(ctx, out, t, f, gain) {
-  const v = ctx.createGain(), lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2200; env(v.gain, t, 0.002, gain, 0.2); v.connect(lp).connect(out);
+  const v = ctx.createGain(), lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1700; env(v.gain, t, 0.002, gain, 0.2); v.connect(lp).connect(out);
   for (const [m, a] of [[1, 1], [3, 0.1]]) { const o = ctx.createOscillator(); o.type = 'triangle'; o.frequency.value = f * m; const x = ctx.createGain(); x.gain.value = a; o.connect(x).connect(v); o.start(t); o.stop(t + 0.35); }
 }
 function pizz(ctx, out, t, f, gain) {

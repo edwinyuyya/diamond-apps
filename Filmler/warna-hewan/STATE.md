@@ -15,7 +15,7 @@ Method: this chat coordinates and builds what it holds the context for; a fresh 
 
 ## Now
 - **Step:** 1 Interview
-- **Gate:** draft v2 delivered; waiting for user: Final / Notes / Jury. Known flags left on purpose: quiet and slightly bright intro to 27 s (sparse toy orchestra), 2 scenes with little subject motion (90-93.75 s, 114-120 s sunset hold)
+- **Gate:** final delivered (v2). Open: spoken colour names need GEMINI_API_KEY added by the user in the environment settings; then voice candidates by ear, then a new final. Flags left: 2-5 kHz brightness relative to other scenes at 53-59 s, 70-77 s, 94-100 s; little subject motion at 90-93.75 s
 - **Next step:** <one concrete line>
 - **Waiting for:** <user / background job / nothing>
 - **Profile:** quality
@@ -27,7 +27,7 @@ Method: this chat coordinates and builds what it holds the context for; a fresh 
 - **Music:** code (user): toy orchestra (pizzicato, glockenspiel, xylophone), four-note theme, one note per colour; voice: colour names spoken only, candidates to be picked by ear (not yet made) <!-- always asked, the recording picked by ear -->
 - **Type:** Fredoka 500/700 (display + text), rounded and friendly for toddlers; picked as the star because Pace is through (OFL, jsDelivr)
 - **Subtitles:** off
-- **Last output:** Pelangi di Taman-draft.mp4 (renders/draft-v2.mp4, 960x540); independent viewer running -> review/critique-v2.md
+- **Last output:** Pelangi di Taman.mp4 (final v2, 1920x1080, 120 s, -14.0 LUFS), no spoken voice yet
 - **Disk free at last check:** <GB, date>
 
 ## Running jobs
@@ -44,7 +44,7 @@ Method: this chat coordinates and builds what it holds the context for; a fresh 
 | 4b | type pairing picked | | | |
 | 5 | animatic approved | | | |
 | 6a | draft cut approved | delivered v2, waiting | 2026-11-12 | no spoken voice yet |
-| 6 | final delivered | | | |
+| 6 | final delivered | v2 delivered | 2026-11-12 | no spoken voice |
 
 ## Decisions
 | Date | Decision | Why | Who |
