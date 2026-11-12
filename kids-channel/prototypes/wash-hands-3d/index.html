@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/three.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: #bfeaff; }
+      #root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Nunito", sans-serif; }
+      #sky { position: absolute; inset: 0; background: linear-gradient(180deg, #7fd6ff 0%, #bfeaff 45%, #eafaff 70%, #d9f5c8 100%); }
+      #sun { position: absolute; left: 800px; top: 130px; width: 190px; height: 190px; border-radius: 50%; background: #ffd23f;
+             box-shadow: 0 0 0 26px rgba(255, 210, 63, 0.28), 0 0 0 56px rgba(255, 210, 63, 0.14); }
+      .cloud { position: absolute; width: 260px; height: 90px; border-radius: 60px; background: #ffffff; opacity: 0.95; }
+      .cloud::before, .cloud::after { content: ""; position: absolute; background: #ffffff; border-radius: 50%; }
+      .cloud::before { width: 120px; height: 120px; left: 40px; top: -55px; }
+      .cloud::after { width: 90px; height: 90px; left: 130px; top: -35px; }
+      #cloud-a { left: -300px; top: 560px; }
+      #cloud-b { left: 700px; top: 470px; transform: scale(0.8); }
+      #gl { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+      .cap { position: absolute; left: 60px; top: 215px; width: 960px; text-align: center; font-weight: 900; font-size: 84px; line-height: 1.05;
+             paint-order: stroke fill; -webkit-text-stroke: 14px #ffffff; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="16.5" data-width="1080" data-height="1920">
+      <div id="sky" data-layout-ignore>
+        <div id="sun"></div>
+        <div id="cloud-a" class="cloud"></div>
+        <div id="cloud-b" class="cloud"></div>
+      </div>
+      <canvas id="gl" width="1080" height="1920" data-layout-ignore></canvas>
+
+      <div id="st-c1" class="clip cap" style="color: #d6246e" data-start="0" data-duration="2.2">Oh no,<br />look at my hands!</div>
+      <div id="st-c2" class="clip cap" style="color: #7a3fd0" data-start="2.2" data-duration="2.0">Muddy, messy hands!</div>
+      <div id="st-c3" class="clip cap" style="color: #0a6fe0" data-start="4.2" data-duration="2.2">Wash, wash,<br />wash your hands!</div>
+      <div id="st-c4" class="clip cap" style="color: #c2410c" data-start="6.4" data-duration="2.0">Scrub, scrub,<br />scrub-a-dub!</div>
+      <div id="st-c5" class="clip cap" style="color: #0a6fe0" data-start="8.4" data-duration="2.0">Rinse, rinse,<br />splish splash!</div>
+      <div id="st-c6" class="clip cap" style="color: #137a45" data-start="10.4" data-duration="2.0">Clean and shiny!</div>
+      <div id="st-c7" class="clip cap" style="color: #d6246e" data-start="12.4" data-duration="4.1">Clean hands,<br />happy hands, hooray!</div>
+
+      <audio id="voice-v1" class="clip" src="assets/audio/v1.wav" data-start="0.15" data-duration="1.75" data-track-index="2" data-volume="1.7"></audio>
+      <audio id="voice-v2" class="clip" src="assets/audio/v2.wav" data-start="2.3" data-duration="1.6" data-track-index="2" data-volume="1.7"></audio>
+      <audio id="voice-v3" class="clip" src="assets/audio/v3.wav" data-start="4.3" data-duration="2.05" data-track-index="2" data-volume="1.7"></audio>
+      <audio id="voice-v4" class="clip" src="assets/audio/v4.wav" data-start="6.5" data-duration="1.88" data-track-index="2" data-volume="1.7"></audio>
+      <audio id="voice-v5" class="clip" src="assets/audio/v5.wav" data-start="8.5" data-duration="1.94" data-track-index="2" data-volume="1.7"></audio>
+      <audio id="voice-v6" class="clip" src="assets/audio/v6.wav" data-start="10.5" data-duration="1.28" data-track-index="2" data-volume="1.7"></audio>
+      <audio id="voice-v7" class="clip" src="assets/audio/v7.wav" data-start="12.5" data-duration="2.12" data-track-index="2" data-volume="1.7"></audio>
+      <audio id="sfx-1" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="4.0" data-duration="0.575" data-track-index="4" data-volume="0.45"></audio>
+      <audio id="sfx-2" class="clip" src="assets/sfx/whoosh-short.mp3" data-start="12.0" data-duration="0.575" data-track-index="5" data-volume="0.45"></audio>
+      <audio id="sfx-3" class="clip" src="assets/sfx/pop.mp3" data-start="4.55" data-duration="0.72" data-track-index="6" data-volume="0.5"></audio>
+      <audio id="sfx-4" class="clip" src="assets/sfx/pop.mp3" data-start="5.5" data-duration="0.72" data-track-index="7" data-volume="0.45"></audio>
+      <audio id="sfx-5" class="clip" src="assets/sfx/pop.mp3" data-start="5.95" data-duration="0.72" data-track-index="8" data-volume="0.45"></audio>
+      <audio id="sfx-6" class="clip" src="assets/sfx/pop.mp3" data-start="6.4" data-duration="0.72" data-track-index="9" data-volume="0.45"></audio>
+      <audio id="sfx-7" class="clip" src="assets/sfx/pop.mp3" data-start="6.85" data-duration="0.72" data-track-index="10" data-volume="0.45"></audio>
+      <audio id="sfx-8" class="clip" src="assets/sfx/sparkle.mp3" data-start="10.7" data-duration="1.8" data-track-index="11" data-volume="0.45"></audio>
+      <audio id="sfx-9" class="clip" src="assets/sfx/pop.mp3" data-start="13.0" data-duration="0.72" data-track-index="12" data-volume="0.5"></audio>
+      <audio id="sfx-10" class="clip" src="assets/sfx/sparkle.mp3" data-start="13.2" data-duration="1.8" data-track-index="13" data-volume="0.5"></audio>
+    </div>
+    <script src="assets/scene3d.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#cloud-a", { x: 0 }, { x: 1500, duration: 16.5, ease: "none" }, 0);
+      tl.fromTo("#cloud-b", { x: 0 }, { x: -900, duration: 16.5, ease: "none" }, 0);
+      const caps = [["#st-c1", 0], ["#st-c2", 2.2], ["#st-c3", 4.2], ["#st-c4", 6.4], ["#st-c5", 8.4], ["#st-c6", 10.4], ["#st-c7", 12.4]];
+      caps.forEach(([s, t], i) => {
+        if (i === 0) tl.fromTo(s, { opacity: 1, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.5)" }, t);
+        else tl.fromTo(s, { opacity: 0, scale: 0.8, y: 20 }, { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: "back.out(2.5)" }, t);
+      });
+      window.__timelines["main"] = tl;
+      tl.seek(0);
+    </script>
+  </body>
+</html>

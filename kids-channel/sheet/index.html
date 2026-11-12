@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <script src="assets/vendor/three.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: #eef7ff; }
+      #root { position: relative; width: 1920px; height: 1080px; font-family: "Nunito", sans-serif; color: #12315f; background: linear-gradient(180deg, #ffffff 0%, #e6f2ff 100%); }
+      #gl { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; }
+      .row-title { position: absolute; left: 48px; font-weight: 900; font-size: 44px; }
+      .row-sub { position: absolute; left: 48px; width: 230px; font-weight: 700; font-size: 22px; line-height: 1.25; color: #3d5a85; }
+      .view { position: absolute; font-weight: 800; font-size: 24px; color: #3d5a85; width: 440px; text-align: center; }
+      #chips { position: absolute; left: 48px; bottom: 26px; display: flex; gap: 14px; }
+      .chip { display: flex; flex-direction: column; align-items: center; font-weight: 800; font-size: 16px; }
+      .chip i { display: block; width: 46px; height: 46px; border-radius: 16px; border: 3px solid #ffffff; box-shadow: 0 4px 10px rgba(18, 49, 95, 0.2); margin-bottom: 6px; }
+      #ver { position: absolute; right: 48px; bottom: 28px; font-weight: 800; font-size: 22px; color: #3d5a85; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="1" data-width="1920" data-height="1080">
+      <canvas id="gl" width="1920" height="1080" data-layout-ignore></canvas>
+
+      <div class="clip row-title" style="top: 28px" data-start="0" data-duration="1">LUMO</div>
+      <div class="clip row-sub" style="top: 84px" data-start="0" data-duration="1">Anak laki-laki 3–4 tahun · sanggul bulat + pelangi di dada</div>
+      <div class="clip row-title" style="top: 560px" data-start="0" data-duration="1">GAJA</div>
+      <div class="clip row-sub" style="top: 616px" data-start="0" data-duration="1">Bayi gajah teal · bintang di dahi + telinga pink</div>
+
+      <div id="chips" class="clip" data-start="0" data-duration="1">
+        <div class="chip"><i style="background:#c78556"></i>Kulit</div>
+        <div class="chip"><i style="background:#2a1c15"></i>Rambut</div>
+        <div class="chip"><i style="background:#fff1d6"></i>Baju</div>
+        <div class="chip"><i style="background:#e0453a"></i>Celana</div>
+        <div class="chip"><i style="background:#4fc3c9"></i>Gaja</div>
+        <div class="chip"><i style="background:#c6f1ee"></i>Perut</div>
+        <div class="chip"><i style="background:#ff9fb6"></i>Telinga</div>
+        <div class="chip"><i style="background:#ffc61a"></i>Bintang</div>
+      </div>
+      <div id="ver" class="clip" data-start="0" data-duration="1">Character sheet · design v1.0</div>
+
+      <div class="clip view" style="left: 80px; top: 502px" data-start="0" data-duration="1">Depan</div>
+      <div class="clip view" style="left: 560px; top: 502px" data-start="0" data-duration="1">3/4</div>
+      <div class="clip view" style="left: 1040px; top: 502px" data-start="0" data-duration="1">Samping</div>
+      <div class="clip view" style="left: 1500px; top: 502px" data-start="0" data-duration="1">Belakang</div>
+    </div>
+    <script src="assets/characters.js"></script>
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines["main"] = tl;
+
+      const W = 1920, H = 1080;
+      const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById("gl"), antialias: true, alpha: true, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1); renderer.setSize(W, H, false); renderer.setClearColor(0x000000, 0);
+      renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.NoToneMapping;
+
+      const scene = new THREE.Scene();
+      const cam = new THREE.PerspectiveCamera(26, W / H, 0.1, 100);
+      cam.position.set(0, 1.7, 21.5); cam.lookAt(0, 1.7, 0);
+
+      scene.add(new THREE.HemisphereLight(0xffffff, 0xcfe0f5, 1.5));
+      const key = new THREE.DirectionalLight(0xfff3e0, 2.4); key.position.set(-4, 9, 8); key.castShadow = true;
+      key.shadow.mapSize.set(2048, 2048); key.shadow.camera.left = -10; key.shadow.camera.right = 10; key.shadow.camera.top = 9; key.shadow.camera.bottom = -6;
+      key.shadow.camera.near = 1; key.shadow.camera.far = 40; key.shadow.radius = 5; key.shadow.bias = -0.0004; scene.add(key);
+      const fill = new THREE.DirectionalLight(0xbfe0ff, 0.9); fill.position.set(6, 3, 8); scene.add(fill);
+
+      const xs = [-5.4, -1.8, 1.8, 5.4], rots = [0, 0.75, 1.5708, 3.1416];
+      const rowY = [3.15, -1.6];
+      const pedM = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 1 });
+      function pedestal(x, y) { const m = new THREE.Mesh(new THREE.CylinderGeometry(1.35, 1.35, 0.1, 48), pedM); m.position.set(x, y - 0.05, 0); m.receiveShadow = true; scene.add(m); }
+
+      xs.forEach((x, i) => {
+        const L = KC.makeLumo(); L.g.position.set(x, rowY[0], 0); L.g.rotation.y = rots[i];
+        KC.aim(L.armL, KC.V(-0.22, -0.95, 0.1)); KC.aim(L.armR, KC.V(0.22, -0.95, 0.1));
+        L.mouthH.visible = true; scene.add(L.g); pedestal(x, rowY[0]);
+        const G = KC.makeGaja(); G.g.position.set(x, rowY[1], 0); G.g.rotation.y = rots[i]; G.g.scale.setScalar(1.0);
+        KC.aim(G.trunk, KC.V(0.05, -0.8, 0.6)); scene.add(G.g); pedestal(x, rowY[1]);
+      });
+      renderer.render(scene, cam);
+      window.addEventListener("hf-seek", () => renderer.render(scene, cam));
+    </script>
+  </body>
+</html>
