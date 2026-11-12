@@ -16,7 +16,7 @@ if ($route === 'file' && $method === 'GET') {
     }
     $f = DATA . "/uploads/$n";
     if (!is_file($f)) json_out(['error' => 'File tidak ditemukan'], 404);
-    header('Content-Type: ' . (mime_content_type($f) ?: 'image/jpeg'));
+    header('Content-Type: ' . ((function_exists('mime_content_type') ? mime_content_type($f) : '') ?: 'image/jpeg'));
     header('Cache-Control: private, max-age=3600');
     readfile($f);
     exit;
