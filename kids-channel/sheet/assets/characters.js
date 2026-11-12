@@ -5,11 +5,11 @@
  * and updating CHARACTERS.md (and re-rendering the character sheet).
  */
 (function () {
-  const DESIGN_VERSION = "1.0";
+  const DESIGN_VERSION = "1.1";
 
   // ---- design tokens (single source of truth for colours) ----
   const PALETTE = {
-    lumoSkin: 0xc78556,
+    lumoSkin: 0xf0c58f,
     lumoHair: 0x2a1c15,
     lumoShirt: 0xfff1d6,
     lumoShorts: 0xe0453a,
@@ -60,13 +60,13 @@
       const toe = sph(0.13, M(PALETTE.lumoShoeToe), 1, 0.7, 0.9); toe.position.set(s * 0.22, 0.14, 0.34); g.add(toe);
     });
     // shorts: one tapered body + two leg tubes (reads as shorts, never as a skirt)
-    const waist = new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.37, 0.52, 40), shorts); waist.position.y = 0.76; waist.castShadow = true; g.add(waist);
+    const waist = new THREE.Mesh(new THREE.CylinderGeometry(0.43, 0.4, 0.46, 40), shorts); waist.position.y = 0.73; waist.castShadow = true; g.add(waist);
     [-1, 1].forEach((s) => { const lt = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.18, 0.3, 28), shorts); lt.position.set(s * 0.2, 0.5, 0.02); lt.castShadow = true; g.add(lt); });
     const torso = cap(0.4, 0.36, shirt); torso.position.y = 1.04; torso.scale.set(1, 1, 0.9); g.add(torso);
     // rainbow patch on the chest (three concentric arcs)
     [[0.15, 0xe0453a], [0.11, 0xffc61a], [0.07, 0x2f8fe6]].forEach(([r, c], i) => {
       const arc = new THREE.Mesh(new THREE.TorusGeometry(r, 0.022, 12, 28, Math.PI), M(c, { roughness: 0.4, clearcoat: 0.6 }));
-      arc.position.set(0, 0.99, 0.36 + i * 0.002); g.add(arc);
+      arc.position.set(0, 1.12, 0.36 + i * 0.002); g.add(arc);
     });
 
     const head = sph(0.62, skin, 1, 0.95, 0.97, 48); head.position.y = 1.86; g.add(head);
@@ -90,7 +90,7 @@
       const br = cap(0.02, 0.12, hairM); br.rotation.z = Math.PI / 2 + s * 0.12; br.position.set(s * 0.21, 2.1, 0.5); g.add(br);
       const ch = sph(0.1, M(PALETTE.cheek, { roughness: 0.7, clearcoat: 0 }), 1, 0.75, 0.3); ch.position.set(s * 0.37, 1.72, 0.46); g.add(ch);
     });
-    const nose = sph(0.045, M(0xb06c42), 1, 1, 0.9); nose.position.set(0, 1.8, 0.6); g.add(nose);
+    const nose = sph(0.045, M(0xe0a577), 1, 1, 0.9); nose.position.set(0, 1.8, 0.6); g.add(nose);
     const mouthO = sph(0.075, M(0x8a2418, { roughness: 0.5 }), 1, 1.25, 0.4); mouthO.position.set(0, 1.62, 0.58); g.add(mouthO);
     const mouthH = new THREE.Group(); mouthH.position.set(0, 1.64, 0.57);
     const mh = new THREE.Mesh(new THREE.SphereGeometry(0.13, 32, 16, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), M(0x8a2418, { roughness: 0.5 }));
