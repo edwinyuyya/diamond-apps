@@ -1,0 +1,121 @@
+'use client';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useMemo, useState } from 'react';
+import ProductCard from '../../components/ProductCard';
+import { AGE_GROUPS, PRICE_RANGES, finalPrice } from '../../lib/products';
+import { useCatalog } from '../../components/CatalogProvider';
+import { useLang } from '../../components/LangProvider';
+import { pick, AGE_NAMES, PRICE_NAMES } from '../../lib/i18n';
+
+const SORTS = ['rekomendasi', 'terbaru', 'terlaris', 'termurah', 'termahal', 'rating'];
+const TAGS = ['baru', 'terlaris', 'eksklusif', 'diskon', 'terbatas'];
+
+export default function Catalog() {
+  const { products: PRODUCTS, categories: CATEGORIES } = useCatalog();
+  const { lang, t } = useLang();
+  const tagName = (k) => (TAGS.includes(k) ? t(`tag.${k}`) : k);
+  const ages = AGE_GROUPS.map((a) => ({ ...a, name: pick(lang, AGE_NAMES[a.slug]) || a.name }));
+  const prices = PRICE_RANGES.map((h) => ({ ...h, name: pick(lang, PRICE_NAMES[h.slug]) || h.name }));
+  const getCategory = (slug) => CATEGORIES.find((c) => c.slug === slug);
+  const sp = useSearchParams();
+  const router = useRouter();
+  const [showFilter, setShowFilter] = useState(false);
+
+  const list = (k) => (sp.get(k) ? sp.get(k).split(',') : []);
+  const kat = list('kategori'), umur = list('umur'), harga = list('harga');
+  const q = sp.get('q') || '', tag = sp.get('tag') || '', sort = sp.get('sort') || 'rekomendasi';
+  const stok = sp.get('stok') === '1';
+
+  const update = (k, v) => {
+    const p = new URLSearchParams(sp.toString());
+    if (v === '' || v == null || (Array.isArray(v) && !v.length)) p.delete(k);
+    else p.set(k, Array.isArray(v) ? v.join(',') : v);
+    router.push(`/produk${p.toString() ? `?${p}` : ''}`, { scroll: false });
+  };
+  const toggle = (k, cur, v) => update(k, cur.includes(v) ? cur.filter((x) => x !== v) : [...cur, v]);
+
+  const result = useMemo(() => {
+    let r = PRODUCTS.filter((p) => {
+      if (q && !`${p.name} ${p.description} ${getCategory(p.category)?.name}`.toLowerCase().includes(q.toLowerCase())) return false;
+      if (kat.length && !kat.includes(p.category)) return false;
+      if (tag === 'terbatas' ? !(p.stock > 0 && p.stock <= 5) : tag && p.badge.toLowerCase() !== tag && !(tag === 'diskon' && p.salePrice)) return false;
+      if (stok && p.stock <= 0) return false;
+      if (umur.length && !AGE_GROUPS.filter((a) => umur.includes(a.slug)).some((a) => p.age >= a.min && p.age <= a.max)) return false;
+      if (harga.length && !PRICE_RANGES.filter((h) => harga.includes(h.slug)).some((h) => finalPrice(p) != null && finalPrice(p) >= h.min && finalPrice(p) < h.max)) return false;
+      return true;
+    });
+    const s = {
+      terbaru: (a, b) => (b.badge === 'Baru') - (a.badge === 'Baru'),
+      terlaris: (a, b) => b.sold - a.sold,
+      termurah: (a, b) => (finalPrice(a) ?? Infinity) - (finalPrice(b) ?? Infinity),
+      termahal: (a, b) => (finalPrice(b) ?? -1) - (finalPrice(a) ?? -1),
+      rating: (a, b) => b.rating - a.rating,
+    }[sort];
+    if (s) r = [...r].sort(s);
+    return r;
+  }, [sp, PRODUCTS]); // eslint-disable-line
+
+  const title = q ? t('cat.searchResult', { q })
+    : kat.length === 1 ? getCategory(kat[0])?.name
+    : tag ? tagName(tag) : t('common.allProducts');
+  const active = kat.length + umur.length + harga.length + (stok ? 1 : 0) + (tag ? 1 : 0) + (q ? 1 : 0);
+
+  const Group = ({ title, k, cur, opts }) => (
+    <div className="fgroup">
+      <h4>{title}</h4>
+      {opts.map((o) => (
+        <label key={o.slug} className="fcheck">
+          <input type="checkbox" checked={cur.includes(o.slug)} onChange={() => toggle(k, cur, o.slug)} />
+          <span>{o.name}</span>
+        </label>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className="wrap pad">
+      <div className="crumbs"><Link href="/">{t('common.home')}</Link><i>/</i><span>{title}</span></div>
+      <div className="cat-head">
+        <h1>{title}</h1>
+      </div>
+      <p className="count-txt">{t('cat.count', { n: result.length })}</p>
+      <div className="catalog">
+        <aside className={`filters ${showFilter ? 'open' : ''}`}>
+          <div className="filters-top">
+            <b>Filter</b>
+            {active > 0 && <Link href="/produk" className="link-btn">{t('cat.clearAll')}</Link>}
+            <button className="filters-close" onClick={() => setShowFilter(false)}>✕</button>
+          </div>
+          <Group title={t('cat.category')} k="kategori" cur={kat} opts={CATEGORIES} />
+          <Group title={t('hdr.age')} k="umur" cur={umur} opts={ages} />
+          <Group title={t('hdr.price')} k="harga" cur={harga} opts={prices} />
+          <div className="fgroup">
+            <h4>{t('cat.availability')}</h4>
+            <label className="fcheck"><input type="checkbox" checked={stok} onChange={() => update('stok', stok ? '' : '1')} /><span>{t('cat.inStock')}</span></label>
+          </div>
+          <button className="btn-orange wide filters-apply" onClick={() => setShowFilter(false)}>{t('cat.showN', { n: result.length })}</button>
+        </aside>
+        <div>
+          <div className="toolbar">
+            <button className="btn-orange-outline filter-toggle" onClick={() => setShowFilter(true)}>⚙ Filter {active > 0 && `(${active})`}</button>
+            <div className="chips">
+              {tag && <button className="chip" onClick={() => update('tag', '')}>{tagName(tag)} ✕</button>}
+              {q && <button className="chip" onClick={() => update('q', '')}>"{q}" ✕</button>}
+            </div>
+            <label className="sort">{t('cat.sortBy')}
+              <select value={sort} onChange={(e) => update('sort', e.target.value === 'rekomendasi' ? '' : e.target.value)}>
+                {SORTS.map((v) => <option key={v} value={v}>{t(`sort.${v}`)}</option>)}
+              </select>
+            </label>
+          </div>
+          {result.length === 0 ? (
+            <div className="empty"><div style={{ fontSize: 56 }}>🔍</div><p>{t('cat.notFound')}</p><Link href="/produk" className="btn-orange">{t('cat.seeAll')}</Link></div>
+          ) : (
+            <div className="grid">{result.map((p) => <ProductCard key={p.id} product={p} />)}</div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
