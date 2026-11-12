@@ -1,7 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 
-export default function Carousel({ slides, onCta }) {
+export default function Carousel({ slides: base, onCta, promo }) {
+  // Slide promo (desain Canva) disisipkan sebagai slide ke-2
+  const slides = promo && base.length ? [base[0], { type: 'promo', src: 'promo' }, ...base.slice(1)] : promo ? [{ type: 'promo', src: 'promo' }] : base;
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
   const n = slides.length;
@@ -9,13 +11,14 @@ export default function Carousel({ slides, onCta }) {
   useEffect(() => {
     if (n < 2 || paused) return;
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
-    const t = setInterval(() => setI((x) => (x + 1) % n), 5000);
-    return () => clearInterval(t);
-  }, [n, paused]);
+    // slide promo ditampilkan lebih lama supaya sempat dibaca
+    const t = setTimeout(() => setI((x) => (x + 1) % n), slides[i]?.type === 'promo' ? 8000 : 5000);
+    return () => clearTimeout(t);
+  }, [n, paused, i]);
 
   return (
     <section
-      className="car"
+      className={'car' + (slides[i]?.type === 'promo' ? ' promo-on' : '')}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={(e) => { e.currentTarget._x = e.touches[0].clientX; }}
@@ -26,6 +29,16 @@ export default function Carousel({ slides, onCta }) {
     >
       {slides.map((s, k) => {
         const on = k === i;
+        if (s.type === 'promo') {
+          return (
+            <a key="promo" className={'car-img car-promo' + (on ? ' on' : '')} href={promo.href} target="_blank" rel="noopener noreferrer" aria-label={promo.label} tabIndex={on ? 0 : -1}>
+              <picture>
+                <source media="(max-width: 700px)" srcSet={promo.mobile} />
+                <img src={promo.desktop} alt={promo.alt} loading="lazy" draggable={false} />
+              </picture>
+            </a>
+          );
+        }
         const src = s.type === 'video' ? s.poster : s.src;
         return (
           <div key={s.src} className={'car-img' + (on ? ' on' : '')}>

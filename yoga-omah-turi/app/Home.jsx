@@ -11,6 +11,14 @@ const mondayOf = (str) => addDays(str, -((new Date(str + 'T00:00:00Z').getUTCDay
 const DOW = ['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'];
 const MONTH = (str) => new Date(str + 'T00:00:00Z').toLocaleDateString('id-ID', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const fmtAcc = (a) => String(a || '').replace(/(\d{3})(\d{3})(\d+)/, '$1 $2 $3');
+// Slide promo di carousel: desain Canva -> website The Higher Soul Blueprint
+const BLUEPRINT_PROMO = {
+  href: 'https://the-higher-soul-commerce.vercel.app',
+  desktop: '/promo/blueprint-desktop.jpg',
+  mobile: '/promo/blueprint-mobile.jpg',
+  alt: 'The Higher Soul Blueprint: apakah Anda merasa hidup berjalan tanpa arah, belum sejalan dengan pekerjaan, dan penasaran dengan pasangan hidup yang cocok? Klik di sini.',
+  label: 'Buka website The Higher Soul Blueprint',
+};
 const QUICK = [25000, 50000, 100000, 200000];
 
 function MediaItem({ m, className = '' }) {
@@ -135,7 +143,7 @@ export default function Home({ slides = [], media = {} }) {
 
   const landing = (
     <>
-      <Carousel slides={slides} onCta={() => pick('venue')} />
+      <Carousel slides={slides} onCta={() => pick('venue')} promo={BLUEPRINT_PROMO} />
 
       <section className="sec" id="layanan">
         <div className="container">
