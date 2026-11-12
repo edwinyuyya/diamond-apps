@@ -82,7 +82,24 @@ try {
     @unlink("$dir/.ftp-deploy-sync-state.json");
     @unlink($zip);
     @unlink(__FILE__);
-    echo json_encode(['ok' => true, 'files' => $count, 'php' => PHP_VERSION, 'ext' => $ext]);
+    // Uji muat pustaka backend supaya kesalahan server terbaca di log deploy
+    $lib = 'ok';
+    register_shutdown_function(function () use (&$lib) {
+        $e = error_get_last();
+        if ($lib !== 'ok' && $lib !== 'loading') return;
+        if ($lib === 'loading') echo json_encode(['lib_fatal' => $e ? $e['message'] . ' @ ' . str_replace(__DIR__, '', $e['file']) . ':' . $e['line'] : 'unknown']);
+    });
+    try {
+        $lib = 'loading';
+        require "$dir/api/lib.php";
+        $lib = 'ok';
+        $w = is_writable("$dir/data") ? 'ok' : 'tidak bisa ditulis';
+    } catch (Throwable $e) {
+        $lib = get_class($e) . ': ' . $e->getMessage() . ' @ ' . str_replace($dir, '', $e->getFile()) . ':' . $e->getLine();
+        $w = is_writable("$dir/data") ? 'ok' : 'tidak bisa ditulis';
+    }
+    echo json_encode(['ok' => true, 'files' => $count, 'php' => PHP_VERSION, 'ext' => $ext, 'lib' => $lib, 'data_dir' => $w,
+        'sapi' => PHP_SAPI, 'open_basedir' => (string) ini_get('open_basedir')]);
 } catch (Throwable $e) {
     http_response_code(500);
     echo json_encode(['error' => $e->getMessage(), 'php' => PHP_VERSION, 'ext' => $ext]);
