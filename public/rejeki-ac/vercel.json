@@ -3,5 +3,9 @@
   "redirects": [
     { "source": "/ar", "destination": "/", "permanent": true },
     { "source": "/ar.html", "destination": "/", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/", "has": [{ "type": "host", "value": "rejekiutamaac.com" }], "destination": "/web/index.html" },
+    { "source": "/", "has": [{ "type": "host", "value": "www.rejekiutamaac.com" }], "destination": "/web/index.html" }
   ]
 }
