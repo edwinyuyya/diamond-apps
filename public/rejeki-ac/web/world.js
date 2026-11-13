@@ -206,6 +206,8 @@ function buildSite(key) {
   S.bubble = label(ORDER_TEXT[key], { tail: true, icon: "✓", scale: 0.0075 }); S.bubble.position.set(3.7, 2.75, 1.4); g.add(S.bubble);
   S.happy = label("Terima kasih", { tail: true, bg: "#0DAEF1", fg: "#ffffff", scale: 0.0075 }); S.happy.position.set(3.7, 2.75, 1.4); g.add(S.happy);
 
+  const GAR = { ac: "Garansi 30 hari", apar: "Garansi sampai 2 tahun", jet: "Pasti bersih atau tidak dibayar", hunian: "Pasti bersih atau tidak dibayar" };
+  if (GAR[key]) { S.badge = label(GAR[key], { icon: "✓", iconBg: "#FEDE04", bg: "#0A86BD", fg: "#ffffff", scale: 0.0065 }); S.badge.position.set(0, key === "hunian" ? 4.4 : 4.0, -0.4); g.add(S.badge); }
   const t = new THREE.Vector3();
   if (key === "ac") { // ---------- service AC: semprot unit indoor
     g.add(roomShell());
@@ -405,18 +407,23 @@ export function createWorld(canvas, opts = {}) {
     const tx = new THREE.CanvasTexture(cv); tx.colorSpace = THREE.SRGBColorSpace; return { tx, cv, c }; })();
   const signFace = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 1.05), new THREE.MeshBasicMaterial({ map: signTex.tx })); signFace.position.z = 0.11; sign.add(signFace);
   if (window.RU_LOGO) { const im = new Image(); im.onload = () => { signTex.c.drawImage(im, 40, 30, 160, 160); signTex.tx.needsUpdate = true; }; im.src = window.RU_LOGO; }
-  // meja CS + CS
-  office.add(rbox(2.6, 0.12, 1.1, 0.04, mat(C.white), -0.4, 1.0, -1.0));
-  office.add(box(0.1, 0.9, 0.9, mat(C.grey), -1.6, 0.5, -1.0)); office.add(box(0.1, 0.9, 0.9, mat(C.grey), 0.8, 0.5, -1.0));
-  const monitor = new THREE.Group(); monitor.position.set(-0.4, 1.5, -1.35);
-  monitor.add(rbox(1.1, 0.7, 0.06, 0.03, mat(C.dark), 0, 0, 0));
-  const screenMat = new THREE.MeshBasicMaterial({ color: 0x0daef1 }); const screen = new THREE.Mesh(new THREE.PlaneGeometry(1.0, 0.6), screenMat); screen.position.z = 0.035; monitor.add(screen);
-  monitor.add(box(0.08, 0.3, 0.08, mat(C.grey), 0, -0.45, 0)); office.add(monitor);
-  const cs = person({ shirt: C.deep, hair: 0x2a1f1a }); cs.g.position.set(-0.4, 0, -0.1); cs.g.rotation.y = Math.PI; office.add(cs.g);
-  cs.head.add(mesh(new THREE.TorusGeometry(0.22, 0.03, 8, 20, Math.PI), mat(C.dark), 0, 0.02, 0));
-  cs.head.add(sph(0.05, mat(C.dark), 0.2, -0.02, 0.06));
-  office.add(cyl(0.3, 0.3, 0.5, mat(0x5fa86b), 2.3, 0.45, -1.8)); office.add(plant(2.4, 1.8, 0.9));
-  const csBubble = label("Pesanan diterima", { tail: true, icon: "✓", iconBg: "#0DAEF1", scale: 0.007 }); csBubble.position.set(-0.4, 2.9, 0.2); office.add(csBubble);
+  // 3 admin CS, masing-masing dengan meja dan monitor
+  const ADMIN_X = [-2.0, 0, 2.0];
+  const admins = ADMIN_X.map((x, i) => {
+    office.add(rbox(1.7, 0.12, 1.0, 0.04, mat(C.white), x, 1.0, -1.0));
+    office.add(box(0.08, 0.9, 0.8, mat(C.grey), x - 0.75, 0.5, -1.0)); office.add(box(0.08, 0.9, 0.8, mat(C.grey), x + 0.75, 0.5, -1.0));
+    const mon = new THREE.Group(); mon.position.set(x, 1.48, -1.3);
+    mon.add(rbox(0.9, 0.58, 0.06, 0.03, mat(C.dark), 0, 0, 0));
+    const sm = new THREE.MeshBasicMaterial({ color: 0x0daef1 }); const sc = new THREE.Mesh(new THREE.PlaneGeometry(0.82, 0.5), sm); sc.position.z = 0.035; mon.add(sc);
+    mon.add(box(0.07, 0.26, 0.07, mat(C.grey), 0, -0.4, 0)); office.add(mon);
+    const p = person({ shirt: C.deep, hair: [0x2a1f1a, 0x1c1c1c, 0x4a2f22][i] }); p.g.position.set(x, 0, -0.15); p.g.rotation.y = Math.PI; office.add(p.g);
+    p.head.add(mesh(new THREE.TorusGeometry(0.22, 0.03, 8, 20, Math.PI), mat(C.dark), 0, 0.02, 0));
+    p.head.add(sph(0.05, mat(C.dark), 0.2, -0.02, 0.06));
+    office.add(box(0.5, 0.45, 0.5, mat(0x9cc7e0), x, 0.35, 0.35)); // kursi
+    return { p, sm, x };
+  });
+  office.add(plant(2.6, 1.9, 0.8)); office.add(plant(-2.6, 1.9, 0.8));
+  const csBubble = label("Pesanan diterima", { tail: true, icon: "✓", iconBg: "#0DAEF1", scale: 0.007 }); csBubble.position.set(0, 3.0, 0.3); office.add(csBubble);
   // tiket pekerjaan melayang di atas kantor
   const tickets = JOB_ORDER.map((k, i) => { const sp = label(ORDER_TEXT[k], { bg: "#ffffff", stroke: "#0DAEF1", scale: 0.0048 }); sp.position.set(-3.9 + (i % 4) * 2.6, 6.4 + Math.floor(i / 4) * 0.6, -1.5); office.add(sp); return sp; });
 
@@ -431,7 +438,7 @@ export function createWorld(canvas, opts = {}) {
     S.custWorld = S.cust.g.getWorldPosition(new THREE.Vector3());
     S.workWorld = S.g.localToWorld(S.work.clone());
     // garis sinyal: lengkung dari kepala pelanggan ke papan kantor
-    const a = S.custWorld.clone().add(new THREE.Vector3(0, 2.2, 0)), b = new THREE.Vector3(0, 5.2, -2.2);
+    const a = S.custWorld.clone().add(new THREE.Vector3(0, 2.2, 0)), b = new THREE.Vector3(ADMIN_X[i % 3], 2.3, -1.3);
     const mid = a.clone().lerp(b, 0.5); mid.y += 6;
     S.curve = new THREE.QuadraticBezierCurve3(a, mid, b);
     const tube = new THREE.Mesh(new THREE.TubeGeometry(S.curve, 48, 0.035, 6), new THREE.MeshBasicMaterial({ color: C.brand, transparent: true, opacity: 0 }));
@@ -491,8 +498,12 @@ export function createWorld(canvas, opts = {}) {
     const uOrder = phaseU("order", t), uCs = phaseU("cs", t), uDisp = phaseU("dispatch", t), uDone = phaseU("done", t);
     // CS
     const csTalk = uCs > 0 && uCs < 1;
-    idlePose(cs); phonePose(cs, 0); cs.armR.rotation.x = csTalk ? -0.9 + Math.sin(time * 6) * 0.15 : -0.5; cs.armL.rotation.x = csTalk ? -0.9 + Math.cos(time * 6) * 0.15 : -0.5;
-    screenMat.color.setHex(csTalk ? (Math.floor(time * 3) % 2 ? 0x0daef1 : 0x25d366) : 0x0daef1);
+    admins.forEach((A, k) => {
+      idlePose(A.p);
+      A.p.armR.rotation.x = csTalk ? -0.9 + Math.sin(time * 6 + k * 2) * 0.15 : -0.5;
+      A.p.armL.rotation.x = csTalk ? -0.9 + Math.cos(time * 6 + k * 2) * 0.15 : -0.5;
+      A.sm.color.setHex(csTalk ? (Math.floor(time * 3 + k) % 2 ? 0x0daef1 : 0x25d366) : 0x0daef1);
+    });
     showSprite(csBubble, seg(uCs, 0.15, 0.3) * (1 - seg(uCs, 0.9, 1)));
 
     sites.forEach((S, i) => {
@@ -526,6 +537,7 @@ export function createWorld(canvas, opts = {}) {
         tg.rotation.set(0, S.g.rotation.y + S.techYaw, 0);
       }
       JOBS[S.key](S, uJob, time, atWork, t);
+      if (S.badge) showSprite(S.badge, seg(uJob, 0.55, 0.68) * (1 - seg(uDone, 0, 0.15)));
       // --- selesai: pelanggan senang
       const hK = seg(uDone, 0.1 + stag * 0.4, 0.3 + stag * 0.4);
       showSprite(S.happy, hK);
