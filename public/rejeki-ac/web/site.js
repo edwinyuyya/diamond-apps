@@ -7,14 +7,18 @@ const waLink = (text) => `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
 const JOBS = {
   ac: { n: 1, t: "Service AC", h: "Teknisi menyemprot AC sampai bersih", p: "Unit dicuci dengan semprotan air, kotoran ditampung plastik dan ember. Setelah selesai, udara dingin kembali keluar.", tags: ["Cuci AC", "Cek freon", "Perbaikan"],
     g: { h: "Garansi 30 hari", p: "Di Rejeki Utama AC, Anda mendapat garansi 30 hari: garansi netes dan garansi tidak dingin!" } },
-  pasang: { n: 2, t: "Pasang AC", h: "AC baru terpasang rapi di dinding", p: "Bracket dipasang, unit diangkat ke posisinya, outdoor ditempatkan dan pipa disambung. Begitu dinyalakan, ruangan langsung sejuk.", tags: ["Penjualan unit", "Instalasi", "Bongkar pasang"] },
-  toren: { n: 3, t: "Pembersihan toren", h: "Toren dikuras sampai air kembali jernih", p: "Teknisi naik ke atap, membuka tutup toren dan menyikat endapan. Air keruh dibuang sampai yang keluar benar-benar bersih.", tags: ["Bebas endapan", "Air lebih sehat"] },
+  pasang: { n: 2, t: "Pasang AC", h: "AC baru terpasang rapi di dinding", p: "Bracket dipasang, unit diangkat ke posisinya, outdoor ditempatkan dan pipa disambung. Begitu dinyalakan, ruangan langsung sejuk.", tags: ["Penjualan unit", "Instalasi", "Bongkar pasang"],
+    g: { i: "snowflake", h: "Sekali pasang, langsung sejuk", p: "Unit bergaransi resmi, dipasang rapi oleh teknisi berpengalaman. Anda tinggal nyalakan dan nikmati dinginnya." } },
+  toren: { n: 3, t: "Pembersihan toren", h: "Toren dikuras sampai air kembali jernih", p: "Teknisi naik ke atap, membuka tutup toren dan menyikat endapan. Air keruh dibuang sampai yang keluar benar-benar bersih.", tags: ["Bebas endapan", "Air lebih sehat"],
+    g: { i: "drop", h: "Air bersih, keluarga sehat", p: "Air untuk mandi, mencuci dan memasak berasal dari toren. Pastikan tempatnya bersih, bukan sarang lumut dan endapan." } },
   jet: { n: 4, t: "High pressure cleaning", h: "Jalan berlumut kembali bersih", p: "Semprotan air bertekanan tinggi mengangkat lumut dan kotoran dari lantai, paving dan dinding.", tags: ["Paving", "Lantai", "Dinding", "Area industri"],
     g: { h: "Pasti bersih atau tidak dibayar!", p: "Dengan jasa kami, masalah bersih-bersih Anda beres. Kami jamin pasti bersih atau tidak dibayar!" } },
-  cctv: { n: 5, t: "CCTV", h: "Kamera terpasang, area terpantau", p: "CCTV dipasang di titik yang tepat lalu diatur sudut pandangnya, supaya rumah, kantor atau area bisnis Anda terpantau.", tags: ["Paket lengkap", "Perbaikan"] },
+  cctv: { n: 5, t: "CCTV", h: "Kamera terpasang, area terpantau", p: "CCTV dipasang di titik yang tepat lalu diatur sudut pandangnya, supaya rumah, kantor atau area bisnis Anda terpantau.", tags: ["Paket lengkap", "Perbaikan"],
+    g: { i: "security-camera", h: "Tetap tenang, walau sedang tidak di tempat", p: "Rumah, toko atau kantor tetap terpantau. Kami bantu pilih titik kamera yang pas, supaya tidak ada sudut yang terlewat." } },
   apar: { n: 6, t: "APAR", h: "Tabung pemadam siap dipakai", p: "Tekanan tabung diperiksa dan diisi ulang sampai jarum kembali di zona hijau, lalu APAR dipasang lagi di tempatnya.", tags: ["Penjualan", "Isi ulang", "Perawatan"],
     g: { h: "Keamanan dan kenyamanan nomor 1", p: "Pembelian tabung pemadam kami beri garansi 2 tahun, isi ulang kami garansi 6 bulan. Worry free!" } },
-  solar: { n: 7, t: "Solar water heater", h: "Pemanas air tenaga surya kembali maksimal", p: "Tabung kolektor yang kusam dibersihkan satu per satu agar panas matahari terserap penuh dan air panas kembali lancar.", tags: ["Perawatan rutin", "Lebih awet"] },
+  solar: { n: 7, t: "Solar water heater", h: "Pemanas air tenaga surya kembali maksimal", p: "Tabung kolektor yang kusam dibersihkan satu per satu agar panas matahari terserap penuh dan air panas kembali lancar.", tags: ["Perawatan rutin", "Lebih awet"],
+    g: { i: "sun", h: "Panas matahari gratis, manfaatkan sepenuhnya", p: "Tabung kolektor yang bersih menyerap panas lebih banyak. Air panas lancar setiap hari dan pemanas Anda lebih awet." } },
   hunian: { n: 8, t: "Pembersihan hunian kosong", h: "Rumah kosong rapi dan siap ditempati", p: "Rumput liar dipangkas, sampah dikumpulkan ke kantong dan halaman dibersihkan sampai rumah siap digunakan lagi.", tags: ["Rumput liar", "Sampah", "Debu"],
     g: { h: "Pasti bersih atau tidak dibayar!", p: "Dengan jasa kami, masalah bersih-bersih Anda beres. Kami jamin pasti bersih atau tidak dibayar!" } },
 };
@@ -39,7 +43,7 @@ function slideHtml(id) {
   const j = JOBS[id.slice(4)];
   return `<p class="eyebrow"><span class="n">${j.n}/8</span>${j.t}</p>
     <h2>${j.h}</h2><p class="body">${j.p}</p>
-    <div class="tags">${j.tags.map((x) => `<span>${x}</span>`).join("")}</div>${j.g ? `<div class="gar"><i data-i="shield-check"></i><div><b>${j.g.h}</b><p>${j.g.p}</p></div></div>` : ""}`;
+    <div class="tags">${j.tags.map((x) => `<span>${x}</span>`).join("")}</div>${j.g ? `<div class="gar"><i data-i="${j.g.i || "shield-check"}"></i><div><b>${j.g.h}</b><p>${j.g.p}</p></div></div>` : ""}`;
 }
 
 // ---------------------------------------------------------------- layanan, keunggulan, segmen

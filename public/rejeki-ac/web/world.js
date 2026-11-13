@@ -206,8 +206,8 @@ function buildSite(key) {
   S.bubble = label(ORDER_TEXT[key], { tail: true, icon: "✓", scale: 0.0075 }); S.bubble.position.set(3.7, 2.75, 1.4); g.add(S.bubble);
   S.happy = label("Terima kasih", { tail: true, bg: "#0DAEF1", fg: "#ffffff", scale: 0.0075 }); S.happy.position.set(3.7, 2.75, 1.4); g.add(S.happy);
 
-  const GAR = { ac: "Garansi 30 hari", apar: "Garansi sampai 2 tahun", jet: "Pasti bersih atau tidak dibayar", hunian: "Pasti bersih atau tidak dibayar" };
-  if (GAR[key]) { S.badge = label(GAR[key], { icon: "✓", iconBg: "#FEDE04", bg: "#0A86BD", fg: "#ffffff", scale: 0.0065 }); S.badge.position.set(0, key === "hunian" ? 4.4 : 4.0, -0.4); g.add(S.badge); }
+  const GAR = { ac: "Garansi 30 hari", apar: "Garansi sampai 2 tahun", jet: "Pasti bersih atau tidak dibayar", hunian: "Pasti bersih atau tidak dibayar", pasang: "Unit bergaransi resmi", toren: "Air jernih lagi", cctv: "Area terpantau" };
+  if (GAR[key]) { S.badge = label(GAR[key], { icon: "✓", iconBg: "#FEDE04", bg: "#0A86BD", fg: "#ffffff", scale: 0.0065 }); S.badge.position.set(key === "toren" ? -1.4 : 0, key === "toren" ? 4.3 : key === "hunian" ? 4.4 : key === "cctv" ? 4.7 : 4.0, -0.4); g.add(S.badge); }
   const t = new THREE.Vector3();
   if (key === "ac") { // ---------- service AC: semprot unit indoor
     g.add(roomShell());
@@ -537,7 +537,7 @@ export function createWorld(canvas, opts = {}) {
         tg.rotation.set(0, S.g.rotation.y + S.techYaw, 0);
       }
       JOBS[S.key](S, uJob, time, atWork, t);
-      if (S.badge) showSprite(S.badge, seg(uJob, 0.55, 0.68) * (1 - seg(uDone, 0, 0.15)));
+      if (S.badge) showSprite(S.badge, seg(uJob, 0.55, 0.68) * (1 - seg(t, P[jobId].end + 0.1, P[jobId].end + 0.35)));
       // --- selesai: pelanggan senang
       const hK = seg(uDone, 0.1 + stag * 0.4, 0.3 + stag * 0.4);
       showSprite(S.happy, hK);
