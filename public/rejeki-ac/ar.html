@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0AA0D2">
+<link rel="icon" href="data:,">
+<title>Rejeki Utama AC — Kartu AR</title>
+<meta name="description" content="Arahkan kamera ke kartu nama Rejeki Utama AC dan lihat apa yang sebenarnya terjadi di dalam AC Anda.">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="presentasi.css">
+<style>
+  :root{--ink:#0B4A6B;--muted:#3F6D86;--blue:#0AA0D2;--deep:#0A86BD;--ice:#19C6F0;--frost:#EAF7FD;--line:#CDEBF7}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;background:#F4FBFE;color:var(--ink);font-family:Poppins,system-ui,sans-serif;overflow:hidden}
+  button{font-family:inherit;cursor:pointer;border:0}
+
+  /* layar awal */
+  #intro{position:fixed;inset:0;z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:safe center;text-align:center;padding:20px 20px calc(20px + env(safe-area-inset-bottom));overflow-y:auto;
+    background:radial-gradient(120% 70% at 75% 0%,#D8F1FC,#F4FBFE 45%,#FFFFFF 85%)}
+  #intro .brand{display:flex;align-items:center;gap:12px;animation:rise .9s cubic-bezier(.2,.9,.2,1) both}
+  #intro .brand > svg{width:72px;height:72px;flex:none;filter:drop-shadow(0 6px 14px rgba(10,110,160,.2))}
+  #intro .brand b{display:block;font:900 22px/1 Montserrat;text-align:left;color:#0DAEF1}
+  #intro .brand small{display:block;font:italic 900 14px Montserrat;text-align:left;margin-top:7px;color:#0DAEF1}
+  #intro .brand small span{color:#FEDE04;text-shadow:0 0 1px rgba(150,120,0,.5);font-style:normal;letter-spacing:2px;margin-left:4px}
+  @keyframes rise{from{opacity:0;transform:translateY(20px)}}
+  #intro p.s{color:var(--deep);margin-top:16px;font-size:15px;font-weight:600;max-width:300px;text-wrap:balance;animation:rise .9s .1s cubic-bezier(.2,.9,.2,1) both}
+  #intro .rule{width:56px;height:2px;background:var(--blue);opacity:.6;margin-top:16px;border-radius:2px}
+  /* kontak langsung: nomor WhatsApp + tombol chat */
+  .unlock{margin-top:16px;width:min(340px,100%);display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;text-align:left;box-shadow:0 8px 22px rgba(10,110,160,.12);animation:rise .9s .2s cubic-bezier(.2,.9,.2,1) both}
+  .unlock .ic{flex:none;width:40px;height:40px;border-radius:12px;background:#25D366;display:grid;place-items:center}
+  .unlock .ic svg{width:22px;height:22px}
+  .unlock small{display:block;font:800 11px Montserrat;letter-spacing:1.5px;color:var(--blue)}
+  .unlock b{display:block;font:800 19px Montserrat;color:var(--ink);letter-spacing:.3px}
+  .unlock a{margin-left:auto;flex:none;background:#25D366;color:#fff;text-decoration:none;font:800 13px Montserrat;padding:10px 12px;border-radius:12px}
+  .demo{position:relative;width:min(170px,44vw);aspect-ratio:55/90;margin:30px 0 18px;perspective:700px}
+  .demo .card{position:absolute;inset:0;border-radius:10px;overflow:hidden;transform:rotateX(28deg);box-shadow:0 18px 30px rgba(10,90,140,.25)}
+  .demo .card svg{width:100%;height:100%;display:block}
+  .demo .phone{position:absolute;left:50%;top:-6%;width:70%;aspect-ratio:9/17;border:4px solid var(--ink);border-radius:16px;transform:translateX(-50%);animation:hover 2.4s ease-in-out infinite;background:rgba(10,160,210,.08)}
+  .demo .phone:after{content:"";position:absolute;inset:18% 10%;border:3px dashed var(--blue);border-radius:6px}
+  @keyframes hover{50%{transform:translate(-50%,-10px)}}
+  .steps{font-size:14px;line-height:1.6;max-width:330px;color:var(--muted);text-wrap:balance}
+  .steps b{color:var(--deep)}
+  .go{margin-top:18px;width:min(340px,100%);display:flex;flex-direction:column;gap:10px}
+  .go button{height:54px;border-radius:14px;font:800 16px Montserrat;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s}
+  .go button:active{transform:scale(.97)}
+  .go svg,#dock .sw svg{width:20px;height:20px;flex:none}
+  #btnQuiz{font-weight:700;font-size:15px}
+  #btnAR{background:linear-gradient(90deg,var(--deep),#19B5E8,var(--deep));color:#fff;box-shadow:0 10px 30px rgba(10,160,210,.3)}
+  #btnScreen{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--blue)}
+  #btnQuiz{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+  .err{margin-top:12px;color:#C9343A;font-size:13px;max-width:340px;min-height:1em}
+
+  /* AR */
+  #ar{position:fixed;inset:0;z-index:1;overflow:hidden;display:none}
+  #ar video{object-fit:cover}
+  .pw.pop .ru-stage{animation:arPop .8s cubic-bezier(.3,1.5,.5,1) .2s both}
+  @keyframes arPop{from{transform:scale(.15) translateY(500px);opacity:0}}
+  #scan{position:fixed;inset:0;z-index:10;display:none;align-items:center;justify-content:center;flex-direction:column;pointer-events:none}
+  #scan .frame{width:min(56vw,280px);aspect-ratio:55/90;border-radius:16px;position:relative;box-shadow:0 0 0 200vmax rgba(230,246,252,.35)}
+  #scan .frame i{position:absolute;width:34px;height:34px;border:5px solid #fff;filter:drop-shadow(0 0 4px rgba(10,110,160,.6))}
+  #scan .frame i:nth-child(1){left:-4px;top:-4px;border-right:0;border-bottom:0;border-radius:14px 0 0 0}
+  #scan .frame i:nth-child(2){right:-4px;top:-4px;border-left:0;border-bottom:0;border-radius:0 14px 0 0}
+  #scan .frame i:nth-child(3){left:-4px;bottom:-4px;border-right:0;border-top:0;border-radius:0 0 0 14px}
+  #scan .frame i:nth-child(4){right:-4px;bottom:-4px;border-left:0;border-top:0;border-radius:0 0 14px 0}
+  #scan .frame:after{content:"";position:absolute;left:6%;right:6%;height:3px;background:var(--ice);box-shadow:0 0 16px var(--ice);animation:line 2s ease-in-out infinite alternate;top:8%}
+  @keyframes line{to{top:90%}}
+  #scan p{margin-top:22px;background:rgba(255,255,255,.94);color:var(--ink);padding:10px 18px;border-radius:99px;font-weight:600;font-size:14px;text-align:center;max-width:92vw;box-shadow:0 6px 18px rgba(10,90,140,.2)}
+  #scan p b{color:var(--blue)}
+
+  /* bar bawah */
+  #dock{position:fixed;left:0;right:0;bottom:0;z-index:40;display:none;gap:10px;padding:12px 14px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(244,251,254,.96) 35%)}
+  #dock a,#dock button{flex:1;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font:800 14px Montserrat;text-decoration:none}
+  #dock .wa{background:#25D366;color:#fff;flex:1.4}
+  #dock .sw{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--blue)}
+  #dock svg{width:22px;height:22px}
+
+  /* mode layar */
+  #screen{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:radial-gradient(100% 60% at 50% 0%,#D8F1FC,#F4FBFE 60%,#FFFFFF);padding-bottom:76px}
+  #holder{flex:none;transform-origin:center center}
+  .scene{display:flex;flex-direction:column;align-items:center;gap:50px}
+  .scene.row{flex-direction:row}
+  /* potongan kartu tegak (bagian judul + AC); .cardin = kartu utuh 1000 x 1636 */
+  .cardbox{position:relative;flex:none;width:1000px;height:745px;overflow:hidden;border-radius:30px;box-shadow:0 40px 80px rgba(10,90,140,.22)}
+  .cardin{position:absolute;left:0;top:-364px;width:1000px;height:1636px}
+  .cardin > svg{position:absolute;inset:0;width:100%;height:100%}
+  .cardin .ru-ov{position:absolute;left:0;top:0}
+  #toast{position:fixed;left:50%;top:calc(16px + env(safe-area-inset-top));transform:translateX(-50%);z-index:50;background:rgba(255,255,255,.96);color:var(--ink);border:1px solid var(--line);padding:10px 16px;border-radius:99px;font-size:13px;display:none;max-width:92vw;text-align:center;box-shadow:0 6px 18px rgba(10,90,140,.15)}
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "./vendor/three/three.module.min.js",
+  "three/addons/": "./vendor/three/addons/"
+} }
+</script>
+</head>
+<body>
+
+<div id="intro">
+  <div class="brand"><svg id="introLogo" viewBox="0 0 100 100"></svg><div><b>REJEKI UTAMA AC</b><small>SERVICE EXCELLENT <span>★★★★★</span></small></div></div>
+  <div class="rule"></div>
+  <div class="unlock"><span class="ic"><svg viewBox="0 0 32 32" fill="#fff"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm5.8 15.7c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg></span><span><small>WHATSAPP KAMI</small><b id="unlockNum"></b></span><a id="unlockWa" target="_blank" rel="noopener">Chat</a></div>
+  <p class="s">Lihat apa yang sebenarnya terjadi di dalam AC Anda.</p>
+  <div class="demo"><div class="card" id="demoCard"></div><div class="phone"></div></div>
+  <div class="steps">Tekan <b>Mulai AR</b>, izinkan kamera, lalu arahkan ke <b>kartu nama</b> kami. Pegang HP tepat di atas kartu, sampai seluruh kartu terlihat.</div>
+  <div class="go">
+    <button id="btnAR"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M3 8.5A1.5 1.5 0 0 1 4.5 7h2.8l1.6-2.2h6.2L16.7 7h2.8A1.5 1.5 0 0 1 21 8.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5z"/><circle cx="12" cy="12.8" r="3.6"/></svg><span>Mulai AR</span></button>
+    <button id="btnScreen"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8v14.4a.8.8 0 0 0 1.2.7l11.3-7.2a.8.8 0 0 0 0-1.4L8.2 4.1A.8.8 0 0 0 7 4.8z"/></svg>Lihat tanpa kamera</button>
+    <button id="btnQuiz"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2.5-6 4 12 2.5-6H22"/></svg>Cek kesehatan AC Anda (30 detik)</button>
+  </div>
+  <p class="err" id="err"></p>
+</div>
+
+<div id="ar"></div>
+<div id="scan"><div class="frame"><i></i><i></i><i></i><i></i></div><p>Arahkan ke <b>kartu nama</b> • seluruh kartu masuk bingkai</p></div>
+<div id="screen"><div id="holder"></div></div>
+<div id="toast"></div>
+
+<div id="dock">
+  <a class="wa" id="dockWa" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" fill="currentColor"><path d="M16 3a13 13 0 0 0-11.2 19.6L3 29l6.6-1.7A13 13 0 1 0 16 3zm5.8 15.7c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7 0a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5 1-1.7.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.6 3.6 0 0 0-1.1 2.7 6.3 6.3 0 0 0 1.3 3.3 14.4 14.4 0 0 0 5.5 4.9c2 .9 2.8 1 3.9.8a3.3 3.3 0 0 0 2.1-1.5 2.7 2.7 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3z"/></svg>WhatsApp</a>
+  <button class="sw" id="dockSwitch">Mode layar</button>
+</div>
+
+<script src="config.js"></script>
+<script src="vendor/qrcode.js"></script>
+<script src="logo-data.js"></script>
+<script src="nexora-data.js"></script>
+<script src="card.js"></script>
+<script src="presentasi.js"></script>
+<script type="module">
+  import { MindARThree } from "./vendor/mindar/mindar-image-three.prod.js";
+  import { CSS3DObject } from "three/addons/renderers/CSS3DRenderer.js";
+
+  const cfg = window.RU;
+  const $ = (id) => document.getElementById(id);
+  const CAM_ICON = $("btnAR").querySelector("svg").outerHTML;
+  const arLabel = (t) => ($("btnAR").querySelector("span").textContent = t);
+  $("introLogo").innerHTML = RUCard.logo(0, 0, 100);
+  $("unlockNum").textContent = cfg.telepon;
+  $("demoCard").innerHTML = RUCard.front(cfg, RUCard.qrInner(location.href, 112));
+  $("dockWa").href = "https://wa.me/" + cfg.whatsapp + "?text=" +
+    encodeURIComponent("Halo " + cfg.perusahaan + ", saya dapat kartu nama Anda dan mau konsultasi/booking layanan.");
+  $("unlockWa").href = $("dockWa").href;
+
+  let mode = null, mindar = null, arShow = null, screenShow = null, lostTimer = null;
+
+  function toast(msg, ms = 3500) {
+    const t = $("toast"); t.textContent = msg; t.style.display = "block";
+    clearTimeout(toast.t); toast.t = setTimeout(() => (t.style.display = "none"), ms);
+  }
+
+  // ---------- Mode layar (tanpa kamera): panel + kartu yang ikut hidup ----------
+  let scene = null;
+  function buildScreen() {
+    scene = document.createElement("div");
+    scene.className = "scene";
+    const panel = document.createElement("div");
+    const card = document.createElement("div");
+    card.className = "cardbox";
+    const cardIn = document.createElement("div");
+    cardIn.className = "cardin";
+    cardIn.innerHTML = RUCard.front(cfg, RUCard.qrInner(RUCard.arUrl(cfg), 112));
+    card.appendChild(cardIn);
+    scene.append(panel, card);
+    $("holder").appendChild(scene);
+    screenShow = RUShow.mount(panel, cardIn);
+  }
+  function fitScreen() {
+    const row = innerWidth > innerHeight * 1.1;
+    scene.classList.toggle("row", row);
+    const W = row ? 2050 : 1000, H = row ? 1100 : 1895;
+    const k = Math.min((innerWidth - 24) / W, (innerHeight - 96) / H);
+    const h = $("holder");
+    h.style.width = W + "px"; h.style.height = H + "px";
+    h.style.transform = "scale(" + k + ")";
+    h.style.margin = (-(H - H * k) / 2) + "px " + (-(W - W * k) / 2) + "px";
+  }
+  addEventListener("resize", () => mode === "screen" && fitScreen());
+  addEventListener("keydown", (e) => {
+    const s = mode === "screen" ? screenShow : mode === "ar" ? arShow : null;
+    if (!s) return;
+    if (e.key === "ArrowRight") s.next();
+    if (e.key === "ArrowLeft") s.prev();
+  });
+
+  async function openScreen(fromIndex) {
+    if (mindar && mode === "ar") { try { await mindar.stop(); } catch (e) {} mindar.renderer.setAnimationLoop(null); }
+    if (arShow) arShow.pause();
+    mode = "screen";
+    $("intro").style.display = "none"; $("scan").style.display = "none"; $("ar").style.display = "none";
+    $("screen").style.display = "flex"; $("dock").style.display = "flex";
+    $("dockSwitch").innerHTML = CAM_ICON + "Mode AR";
+    if (!screenShow) buildScreen();
+    fitScreen();
+    screenShow.start(fromIndex || 0);
+  }
+
+  // ---------- Mode AR ----------
+  async function openAR() {
+    $("err").textContent = "";
+    arLabel("Menyalakan kamera…");
+    if (screenShow) screenShow.pause();
+    try {
+      if (!mindar) {
+        mindar = new MindARThree({
+          container: $("ar"),
+          imageTargetSrc: "targets/kartu-ac.mind",
+          uiLoading: "no", uiScanning: "no", uiError: "no",
+          filterMinCF: 0.0001, filterBeta: 0.001, // gerakan lebih halus
+        });
+        const anchor = mindar.addCSSAnchor(0);
+        // Lapisan 1: animasi yang menempel tepat di atas gambar AC di kartu (1000 x 1636 px = kartu tegak)
+        const ovWrap = document.createElement("div");
+        ovWrap.style.cssText = "width:1000px;height:1636px;visibility:hidden";
+        // Lapisan 2: panel presentasi yang muncul di atas kartu
+        const pWrap = document.createElement("div");
+        pWrap.className = "pw";
+        pWrap.style.visibility = "hidden"; // MindAR menampilkannya saat kartu terdeteksi
+        arShow = RUShow.mount(pWrap, ovWrap);
+        const ovObj = new CSS3DObject(ovWrap);
+        ovObj.position.set(0, 0, 2);
+        const pObj = new CSS3DObject(pWrap);
+        // panel menutup separuh bawah kartu (kode & nomor WA), judul + AC tetap terlihat
+        pObj.scale.setScalar(0.8);
+        pObj.position.set(0, -666, 40);
+        anchor.group.add(ovObj, pObj);
+        let started = false;
+        anchor.onTargetFound = () => {
+          clearTimeout(lostTimer);
+          $("scan").style.display = "none";
+          $("toast").style.display = "none";
+          pWrap.classList.remove("pop"); void pWrap.offsetWidth; pWrap.classList.add("pop");
+          if (navigator.vibrate) navigator.vibrate(40);
+          if (!started) { started = true; arShow.start(); } else arShow.resume();
+        };
+        anchor.onTargetLost = () => {
+          arShow.pause();
+          lostTimer = setTimeout(() => {
+            if (mode !== "ar") return;
+            $("scan").style.display = "flex";
+            toast("Kartu tidak terlihat — atau tekan \"Mode layar\" untuk lanjut tanpa kamera", 5000);
+          }, 900);
+        };
+      }
+      mode = "ar";
+      $("screen").style.display = "none";
+      $("ar").style.display = "block";
+      await mindar.start();
+      const { renderer, cssRenderer, scene, cssScene, camera } = mindar;
+      renderer.setAnimationLoop(() => {
+        renderer.render(scene, camera);
+        cssRenderer.render(cssScene, camera);
+      });
+      $("intro").style.display = "none";
+      $("scan").style.display = "flex";
+      $("dock").style.display = "flex";
+      $("dockSwitch").textContent = "Mode layar";
+      arLabel("Mulai AR");
+    } catch (e) {
+      console.error(e);
+      mode = null;
+      arLabel("Mulai AR");
+      $("ar").style.display = "none";
+      const msg = location.protocol !== "https:" && location.hostname !== "localhost"
+        ? "AR butuh alamat https://."
+        : "Kamera tidak bisa dibuka (izin ditolak atau tidak tersedia).";
+      $("err").textContent = msg + " Silakan pakai \"Lihat tanpa kamera\".";
+      if ($("intro").style.display === "none") openScreen(0);
+    }
+  }
+
+  $("btnAR").onclick = openAR;
+  $("btnScreen").onclick = () => openScreen(0);
+  $("btnQuiz").onclick = async () => { await openScreen(0); screenShow.go(screenShow.quizIndex); };
+  $("dockSwitch").onclick = () => {
+    if (mode === "ar") openScreen(arShow ? Math.max(0, arShow.index) : 0);
+    else openAR();
+  };
+  if (location.hash === "#layar") openScreen(0);
+  if (location.hash === "#kuis") $("btnQuiz").click();
+</script>
+</body>
+</html>
