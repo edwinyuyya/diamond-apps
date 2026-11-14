@@ -1,0 +1,21 @@
+[
+  {"file": "sparkle", "at": "L04", "offset": 0.2, "vol": 0.5},
+  {"file": "pop", "at": "L05", "offset": 0.15, "vol": 0.5},
+  {"file": "pop", "at": "L09", "offset": 0.45, "vol": 0.5},
+  {"file": "whoosh-short", "at": "L15", "offset": -0.15, "vol": 0.4},
+  {"file": "pop", "at": "L15", "offset": 0.1, "vol": 0.5},
+  {"file": "sparkle", "at": "L19", "offset": 0.1, "vol": 0.5},
+  {"file": "whoosh-short", "at": "L25", "offset": 0.0, "vol": 0.4},
+  {"file": "pop", "at": "L29", "offset": 0.1, "vol": 0.5},
+  {"file": "pop", "at": "L35", "offset": 0.0, "vol": 0.5},
+  {"file": "pop", "at": "L35", "offset": 0.18, "vol": 0.45},
+  {"file": "pop", "at": "L35", "offset": 0.36, "vol": 0.5},
+  {"file": "sparkle", "at": "L37", "offset": 0.05, "vol": 0.5},
+  {"file": "sparkle", "at": "L40", "offset": 0.05, "vol": 0.5},
+  {"file": "sparkle", "at": "L43", "offset": 0.05, "vol": 0.5},
+  {"file": "whoosh-short", "at": "L44", "offset": 0.0, "vol": 0.4},
+  {"file": "pop", "at": "L47", "offset": 0.1, "vol": 0.5},
+  {"file": "pop", "at": "L50", "offset": 0.1, "vol": 0.5},
+  {"file": "pop", "at": "L53", "offset": 0.1, "vol": 0.5},
+  {"file": "sparkle", "at": "L56", "offset": 0.3, "vol": 0.55}
+]

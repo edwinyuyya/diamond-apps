@@ -1,0 +1,12 @@
+{
+  "title": {"from": "start", "to": "L02"},
+  "end": {"from": "L58", "to": "end"},
+  "cards": [
+    {"text": "MERAH", "color": "#d6241f", "size": 210, "from": "L06", "to": "L11"},
+    {"text": "RED", "color": "#d6241f", "size": 110, "sub": true, "from": "L07", "to": "L11"},
+    {"text": "KUNING", "color": "#9a6200", "size": 210, "from": "L16", "to": "L21"},
+    {"text": "YELLOW", "color": "#9a6200", "size": 110, "sub": true, "from": "L17", "to": "L21"},
+    {"text": "BIRU", "color": "#1a5fcf", "size": 210, "from": "L26", "to": "L31"},
+    {"text": "BLUE", "color": "#1a5fcf", "size": 110, "sub": true, "from": "L27", "to": "L31"}
+  ]
+}

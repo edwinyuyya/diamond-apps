@@ -1,0 +1,195 @@
+1
+00:00:01,000 --> 00:00:04,994
+Halo adik-adik! Selamat datang di Lumo & Gaja!
+
+2
+00:00:05,344 --> 00:00:07,062
+Halo! Aku Lumo!
+
+3
+00:00:07,412 --> 00:00:09,734
+Ini temanku, Gaja si gajah!
+
+4
+00:00:10,084 --> 00:00:13,114
+Hari ini kita belajar warna. Ayo!
+
+5
+00:00:14,264 --> 00:00:15,971
+Lihat! Apa ini?
+
+6
+00:00:16,321 --> 00:00:18,457
+Ini apel. Warnanya merah!
+
+7
+00:00:18,807 --> 00:00:20,746
+Merah. In English, red!
+
+8
+00:00:21,096 --> 00:00:21,827
+Merah... red!
+
+9
+00:00:22,177 --> 00:00:23,768
+Stroberi juga merah!
+
+10
+00:00:24,118 --> 00:00:26,243
+Ayo ulangi bersama: merah!
+
+11
+00:00:29,793 --> 00:00:32,893
+Apel merah, apel merah, manis sekali!
+
+12
+00:00:33,243 --> 00:00:36,622
+Stroberi merah, stroberi merah, segar sekali!
+
+13
+00:00:36,972 --> 00:00:39,468
+Merah, merah, merah! Hore!
+
+14
+00:00:40,618 --> 00:00:42,092
+Wah, lihat itu!
+
+15
+00:00:42,442 --> 00:00:44,915
+Ini pisang. Warnanya kuning!
+
+16
+00:00:45,265 --> 00:00:47,459
+Kuning. In English, yellow!
+
+17
+00:00:47,809 --> 00:00:48,900
+Kuning... yellow!
+
+18
+00:00:49,250 --> 00:00:50,829
+Matahari juga kuning!
+
+19
+00:00:51,179 --> 00:00:53,304
+Ayo ulangi bersama: kuning!
+
+20
+00:00:56,854 --> 00:00:59,977
+Pisang kuning, pisang kuning, lezat sekali!
+
+21
+00:01:00,327 --> 00:01:03,659
+Matahari kuning, matahari kuning, hangat sekali!
+
+22
+00:01:04,009 --> 00:01:06,459
+Kuning, kuning, kuning! Hore!
+
+23
+00:01:07,609 --> 00:01:09,745
+Gaja, lihat ke atas!
+
+24
+00:01:10,095 --> 00:01:12,347
+Itu langit. Warnanya biru!
+
+25
+00:01:12,697 --> 00:01:14,868
+Biru. In English, blue!
+
+26
+00:01:15,218 --> 00:01:16,182
+Biru... blue!
+
+27
+00:01:16,532 --> 00:01:17,867
+Air juga biru!
+
+28
+00:01:18,217 --> 00:01:20,353
+Ayo ulangi bersama: biru!
+
+29
+00:01:23,903 --> 00:01:26,887
+Langit biru, langit biru, tinggi sekali!
+
+30
+00:01:27,237 --> 00:01:29,896
+Air biru, air biru, sejuk sekali!
+
+31
+00:01:30,246 --> 00:01:32,533
+Biru, biru, biru! Hore!
+
+32
+00:01:33,683 --> 00:01:36,887
+Sekarang permainan! Mana yang warna merah?
+
+33
+00:01:40,437 --> 00:01:42,446
+Betul! Apel itu merah!
+
+34
+00:01:42,796 --> 00:01:44,329
+Mana yang warna kuning?
+
+35
+00:01:47,879 --> 00:01:49,783
+Hebat! Pisang itu kuning!
+
+36
+00:01:50,133 --> 00:01:51,747
+Mana yang warna biru?
+
+37
+00:01:55,297 --> 00:01:57,364
+Pintar! Bola itu biru!
+
+38
+00:01:58,514 --> 00:02:00,894
+Sekarang ayo cari warna di taman!
+
+39
+00:02:01,244 --> 00:02:03,427
+Gaja, mana bunga yang merah?
+
+40
+00:02:06,977 --> 00:02:08,869
+Ketemu! Bunga merah!
+
+41
+00:02:09,219 --> 00:02:11,169
+Sekarang, mana bunga yang kuning?
+
+42
+00:02:14,719 --> 00:02:16,658
+Ketemu! Bunga kuning!
+
+43
+00:02:17,008 --> 00:02:19,040
+Terakhir, mana bunga yang biru?
+
+44
+00:02:22,590 --> 00:02:24,517
+Ketemu! Bunga biru!
+
+45
+00:02:25,667 --> 00:02:28,152
+Hari ini kita belajar tiga warna.
+
+46
+00:02:28,502 --> 00:02:33,181
+Merah seperti apel. Kuning seperti pisang. Biru seperti langit.
+
+47
+00:02:33,531 --> 00:02:37,084
+Merah, kuning, biru! Warna-warni itu indah!
+
+48
+00:02:37,434 --> 00:02:39,489
+Sampai jumpa, teman-teman!
+
+49
+00:02:39,839 --> 00:02:42,846
+Sampai jumpa lagi di Lumo & Gaja!
