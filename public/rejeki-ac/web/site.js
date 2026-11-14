@@ -5,27 +5,35 @@ const waLink = (text) => `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
 
 // ---------------------------------------------------------------- isi cerita per fase
 const JOBS = {
-  ac: { n: 1, t: "Service AC", h: "Teknisi menyemprot AC sampai bersih", p: "Unit dicuci dengan semprotan air, kotoran ditampung plastik dan ember. Setelah selesai, udara dingin kembali keluar.", tags: ["Cuci AC", "Cek freon", "Perbaikan"] },
-  pasang: { n: 2, t: "Pasang AC", h: "AC baru terpasang rapi di dinding", p: "Bracket dipasang, unit diangkat ke posisinya, outdoor ditempatkan dan pipa disambung. Begitu dinyalakan, ruangan langsung sejuk.", tags: ["Penjualan unit", "Instalasi", "Bongkar pasang"] },
-  toren: { n: 3, t: "Pembersihan toren", h: "Toren dikuras sampai air kembali jernih", p: "Teknisi naik ke atap, membuka tutup toren dan menyikat endapan. Air keruh dibuang sampai yang keluar benar benar bersih.", tags: ["Bebas endapan", "Air lebih sehat"] },
-  jet: { n: 4, t: "High pressure cleaning", h: "Jalan berlumut kembali bersih", p: "Semprotan air bertekanan tinggi mengangkat lumut dan kotoran dari lantai, paving dan dinding, jalur demi jalur.", tags: ["Paving", "Lantai", "Dinding", "Area industri"] },
-  cctv: { n: 5, t: "CCTV", h: "Kamera terpasang, area terpantau", p: "CCTV dipasang di titik yang tepat lalu diatur sudut pandangnya, supaya rumah, kantor atau area bisnis Anda terpantau.", tags: ["Paket lengkap", "Perbaikan"] },
-  apar: { n: 6, t: "APAR", h: "Tabung pemadam siap dipakai", p: "Tekanan tabung diperiksa dan diisi ulang sampai jarum kembali di zona hijau, lalu APAR dipasang lagi di tempatnya.", tags: ["Penjualan", "Isi ulang", "Perawatan"] },
-  solar: { n: 7, t: "Solar water heater", h: "Pemanas air tenaga surya kembali maksimal", p: "Tabung kolektor yang kusam dibersihkan satu per satu agar panas matahari terserap penuh dan air panas kembali lancar.", tags: ["Perawatan rutin", "Lebih awet"] },
-  hunian: { n: 8, t: "Pembersihan hunian kosong", h: "Rumah kosong rapi dan siap ditempati", p: "Rumput liar dipangkas, sampah dikumpulkan ke kantong dan halaman dibersihkan sampai rumah siap digunakan lagi.", tags: ["Rumput liar", "Sampah", "Debu"] },
+  ac: { n: 1, t: "Service AC", h: "Teknisi menyemprot AC sampai bersih", p: "Unit dicuci dengan semprotan air, kotoran ditampung plastik dan ember. Setelah selesai, udara dingin kembali keluar.", tags: ["Cuci AC", "Cek freon", "Perbaikan"],
+    g: { h: "Garansi 30 hari", p: "Di Rejeki Utama AC, Anda mendapat garansi 30 hari: garansi netes dan garansi tidak dingin!" } },
+  pasang: { n: 2, t: "Pasang AC", h: "AC baru terpasang rapi di dinding", p: "Bracket dipasang, unit diangkat ke posisinya, outdoor ditempatkan dan pipa disambung. Begitu dinyalakan, ruangan langsung sejuk.", tags: ["Penjualan unit", "Instalasi", "Bongkar pasang"],
+    g: { i: "snowflake", h: "Sekali pasang, langsung sejuk", p: "Unit bergaransi resmi, dipasang rapi oleh teknisi berpengalaman. Anda tinggal nyalakan dan nikmati dinginnya." } },
+  toren: { n: 3, t: "Pembersihan toren", h: "Toren dikuras sampai air kembali jernih", p: "Teknisi naik ke atap, membuka tutup toren dan menyikat endapan. Air keruh dibuang sampai yang keluar benar-benar bersih.", tags: ["Bebas endapan", "Air lebih sehat"],
+    g: { i: "drop", h: "Air bersih, keluarga sehat", p: "Air untuk mandi, mencuci dan memasak berasal dari toren. Pastikan tempatnya bersih, bukan sarang lumut dan endapan." } },
+  jet: { n: 4, t: "High pressure cleaning", h: "Jalan berlumut kembali bersih", p: "Semprotan air bertekanan tinggi mengangkat lumut dan kotoran dari lantai, paving dan dinding.", tags: ["Paving", "Lantai", "Dinding", "Area industri"],
+    g: { h: "Pasti bersih atau tidak dibayar!", p: "Dengan jasa kami, masalah bersih-bersih Anda beres. Kami jamin pasti bersih atau tidak dibayar!" } },
+  cctv: { n: 5, t: "CCTV", h: "Kamera terpasang, area terpantau", p: "CCTV dipasang di titik yang tepat lalu diatur sudut pandangnya, supaya rumah, kantor atau area bisnis Anda terpantau.", tags: ["Paket lengkap", "Perbaikan"],
+    g: { i: "security-camera", h: "Tetap tenang, walau sedang tidak di tempat", p: "Rumah, toko atau kantor tetap terpantau. Kami bantu pilih titik kamera yang pas, supaya tidak ada sudut yang terlewat." } },
+  apar: { n: 6, t: "APAR", h: "Tabung pemadam siap dipakai", p: "Tekanan tabung diperiksa dan diisi ulang sampai jarum kembali di zona hijau, lalu APAR dipasang lagi di tempatnya.", tags: ["Penjualan", "Isi ulang", "Perawatan"],
+    g: { h: "Keamanan dan kenyamanan nomor 1", p: "Pembelian tabung pemadam kami beri garansi 2 tahun, isi ulang kami garansi 6 bulan. Worry free!" } },
+  solar: { n: 7, t: "Solar water heater", h: "Pemanas air tenaga surya kembali maksimal", p: "Tabung kolektor yang kusam dibersihkan satu per satu agar panas matahari terserap penuh dan air panas kembali lancar.", tags: ["Perawatan rutin", "Lebih awet"],
+    g: { i: "sun", h: "Panas matahari gratis, manfaatkan sepenuhnya", p: "Tabung kolektor yang bersih menyerap panas lebih banyak. Air panas lancar setiap hari dan pemanas Anda lebih awet." } },
+  hunian: { n: 8, t: "Pembersihan hunian kosong", h: "Rumah kosong rapi dan siap ditempati", p: "Rumput liar dipangkas, sampah dikumpulkan ke kantong dan halaman dibersihkan sampai rumah siap digunakan lagi.", tags: ["Rumput liar", "Sampah", "Debu"],
+    g: { h: "Pasti bersih atau tidak dibayar!", p: "Dengan jasa kami, masalah bersih-bersih Anda beres. Kami jamin pasti bersih atau tidak dibayar!" } },
 };
 function slideHtml(id) {
   if (id === "intro") return `<p class="eyebrow">Rejeki Utama AC, sejak 1996</p>
     <h1 class="h1">Satu pesan WhatsApp, teknisi berangkat.</h1>
-    <p class="body">Scroll pelan pelan dan lihat bagaimana pesanan pelanggan kami dikerjakan, dari chat pertama sampai beres.</p>`;
+    <p class="body">Scroll pelan-pelan dan lihat bagaimana pesanan pelanggan kami dikerjakan, dari chat pertama sampai beres.</p>`;
   if (id === "order") return `<p class="eyebrow"><i data-i="chat-circle-dots"></i>Pesanan masuk</p>
     <h2>Pelanggan memesan dari rumah, kantor dan toko</h2>
     <p class="body">Ada yang minta service AC, pasang AC baru, bersihkan toren, sampai cuci jalan dengan air bertekanan tinggi.</p>`;
   if (id === "cs") return `<p class="eyebrow"><i data-i="headset"></i>Customer service</p>
-    <h2>Semua pesanan terhubung ke satu CS</h2>
-    <p class="body">CS kami mencatat kebutuhan, menyampaikan biaya di depan dan membagi tugas ke teknisi yang tepat.</p>`;
+    <h2>Tiga admin CS siap menerima pesanan</h2>
+    <p class="body">Pesanan langsung dicatat, biaya disampaikan di depan, lalu tugas dibagi ke teknisi yang tepat. Tidak ada pesan yang menunggu lama.</p>`;
   if (id === "dispatch") return `<p class="eyebrow"><i data-i="person-simple-walk"></i>Teknisi berangkat</p>
-    <h2>Setiap teknisi menuju pekerjaannya masing masing</h2>
+    <h2>Setiap teknisi menuju pekerjaannya masing-masing</h2>
     <p class="body">Seragam, alat dan jadwal sudah siap. Satu tim, delapan pekerjaan berbeda, berjalan bersamaan.</p>`;
   if (id === "done") return `<p class="eyebrow"><i data-i="seal-check"></i>Semua beres</p>
     <h2>Pekerjaan selesai, pelanggan tenang</h2>
@@ -35,7 +43,7 @@ function slideHtml(id) {
   const j = JOBS[id.slice(4)];
   return `<p class="eyebrow"><span class="n">${j.n}/8</span>${j.t}</p>
     <h2>${j.h}</h2><p class="body">${j.p}</p>
-    <div class="tags">${j.tags.map((x) => `<span>${x}</span>`).join("")}</div>`;
+    <div class="tags">${j.tags.map((x) => `<span>${x}</span>`).join("")}</div>${j.g ? `<div class="gar"><i data-i="${j.g.i || "shield-check"}"></i><div><b>${j.g.h}</b><p>${j.g.p}</p></div></div>` : ""}`;
 }
 
 // ---------------------------------------------------------------- layanan, keunggulan, segmen
@@ -143,6 +151,8 @@ readScroll(); tSmooth = tTarget;
 function setActive(t) {
   if (!phases) return;
   let i = phases.findIndex((p) => t < p.end); if (i < 0) i = phases.length - 1;
+  const ph = phases[i], u = (t - ph.start) / (ph.end - ph.start);
+  slides[i].classList.toggle("g-on", u > 0.5);
   if (i === active) return;
   active = i;
   slides.forEach((s, j) => s.classList.toggle("on", j === i));
