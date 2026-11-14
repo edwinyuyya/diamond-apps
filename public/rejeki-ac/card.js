@@ -183,8 +183,7 @@
 
   function arUrl(cfg) {
     if (cfg.urlAR) return cfg.urlAR;
-    var here = location.href.split("#")[0].split("?")[0];
-    return here.replace(/[^/]*$/, ""); // halaman AR = halaman utama situs (index.html)
+    return location.origin + "/ar"; // halaman AR (ar.html); halaman utama situs = website
   }
 
   window.RUCard = { front: front, qrInner: qrInner, arUrl: arUrl, logo: logo, star: star, BRAND: BRAND, STAR: STAR, sparkle: sparkle,
