@@ -3,3 +3,4 @@ renders/
 node_modules/
 episodes/*/project/
 episodes/*/build/
+episodes/*/out/
