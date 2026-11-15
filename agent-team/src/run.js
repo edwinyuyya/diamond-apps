@@ -12,7 +12,9 @@ const useDeepseek = !!process.env.DEEPSEEK_API_KEY;
 const model = flag("model", useDeepseek ? "deepseek-chat" : undefined);
 const parallel = Number(flag("parallel", 4));
 const maxFix = Number(flag("max-fix", 5));
+const maxTurns = Number(flag("max-turns", 60)); // langkah alat maksimum per agent
 const budget = Number(flag("budget", 5)); // USD per agent
+const revise = flag("revise", null);
 const resume = args.includes("--resume") && args.splice(args.indexOf("--resume"), 1).length > 0;
 const idea = args.join(" ").trim();
 
@@ -29,7 +31,7 @@ await sh("git init -q && git add -A && git -c user.name=team -c user.email=team@
 const checkpoint = (m) =>
   sh(`git add -A && git -c user.name=team -c user.email=team@local commit -qm ${JSON.stringify(m)} || true`, ws);
 let total = 0;
-const run = async (o) => { const r = await runAgent({ model, budget, cwd: ws, ...o }); total += r.cost; return r; };
+const run = async (o) => { const r = await runAgent({ model, budget, maxTurns, cwd: ws, ...o }); total += r.cost; return r; };
 
 if (idea) fs.writeFileSync(path.join(ws, ".team", "idea.txt"), idea);
 console.log(`Workspace: ${ws}\n`);
@@ -38,7 +40,13 @@ console.log(`Workspace: ${ws}\n`);
 log("team", "FASE 1 — perencanaan");
 const planPath = path.join(ws, "plan.json");
 let arch = { text: "" };
-if (resume && fs.existsSync(planPath)) log("team", "resume: architect dilewati, memakai plan.json yang ada");
+if (resume && revise && fs.existsSync(planPath)) {
+  log("team", "revisi rencana oleh architect");
+  arch = await run({
+    name: "architect-revisi", role: ROLES.architect,
+    task: `REVISI RENCANA. SPEC.md, CONTRACT.md, dan plan.json sudah ada di workspace ini. Baca ketiganya, lalu REVISI (ubah berkas yang ada, jangan mulai dari nol) agar memenuhi tambahan kebutuhan berikut, tetap dengan aturan tugas kecil dan format plan.json yang sama. Pastikan CONTRACT.md memuat kontrak baru yang rinci (fungsi, bentuk data, ID DOM) dan plan.json tetap valid:\n\n${revise}`,
+  });
+} else if (resume && fs.existsSync(planPath)) log("team", "resume: architect dilewati, memakai plan.json yang ada");
 else arch = await run({
   name: "architect", role: ROLES.architect,
   task: `Ide user:\n\n${idea}\n\nBuat SPEC.md, CONTRACT.md, dan plan.json di workspace ini.`,
@@ -84,7 +92,7 @@ await new Promise((resolve) => {
       log("team", `mulai ${t.id}:${t.role}`);
       run({
         name: `${t.id}-${t.role}`, role: ROLES[t.role], owns: t.owns ?? [],
-        task: `TUGAS ${t.id}: ${t.title}\n\n${t.description}\n\nOWNS (boleh ditulis): ${(t.owns ?? []).join(", ")}\nStack: ${plan.stack}${resume ? "\n\nCATATAN: run ini lanjutan; sebagian file mungkin sudah ada dari percobaan sebelumnya yang terputus. Periksa dulu, pertahankan yang benar, lanjutkan yang kurang — jangan mulai dari nol." : ""}`,
+        task: `TUGAS ${t.id}: ${t.title}\n\n${t.description}\n\nOWNS (boleh ditulis): ${(t.owns ?? []).join(", ")}\nStack: ${plan.stack}${resume ? "\n\nCATATAN: run ini lanjutan; sebagian file mungkin sudah ada dari percobaan sebelumnya yang terputus. Periksa dulu, pertahankan yang benar, lanjutkan yang kurang — jangan mulai dari nol. HEMAT LANGKAH: verifikasi cukup node --check untuk JS dan grep untuk ID DOM/fungsi yang diwajibkan kontrak; DILARANG membuat server uji panjang, browser otomatis, atau menulis skrip uji besar (QA yang menguji nanti); targetkan selesai dalam sekitar 40 langkah alat dan tulis ringkasan singkat." : ""}`,
       }).then(async (r) => {
         (r.ok ? done : failed).add(t.id); if (r.ok) markDone(t.id); sem.running--;
         await checkpoint(`task ${t.id}`);

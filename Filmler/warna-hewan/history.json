@@ -1,0 +1,54 @@
+{
+ "deals": [
+  {
+   "category": "angle",
+   "seed": "2026-11-12:warna-hewan#1",
+   "dealt": [
+    "contradicting-message",
+    "corrected-misreading",
+    "rule-breaks-once"
+   ],
+   "redeal_reason": null,
+   "pick": "rule-breaks-once",
+   "reason": "Each animal friend is one colour; once, a friend mixes two and makes a new colour: a gentle surprise toddlers can learn from",
+   "at": "2026-11-12T06:44"
+  },
+  {
+   "category": "look",
+   "seed": "2026-11-12:warna-hewan#1",
+   "dealt": [
+    "l1",
+    "l2",
+    "l3",
+    "l4",
+    "l5",
+    "l6"
+   ],
+   "redeal_reason": null,
+   "pick": null,
+   "reason": null,
+   "at": "2026-11-12T07:17",
+   "texts": {
+    "l1": "Bong Joon-ho: architectural staging, vertical class, wit",
+    "l2": "Daido Moriyama: grainy high-contrast street",
+    "l3": "Sebastião Salgado: epic black and white, workers and earth",
+    "l4": "Hoyte van Hoytema: large-format scale, deep blacks, practical light",
+    "l5": "Pop-up book: layered paper reveals",
+    "l6": "Felt and stitch: soft handmade textures"
+   }
+  },
+  {
+   "category": "sound",
+   "seed": "2026-11-12:warna-hewan#1",
+   "dealt": [
+    "only-the-microphone",
+    "toy-orchestra",
+    "on-the-grid"
+   ],
+   "redeal_reason": null,
+   "pick": "toy-orchestra",
+   "reason": "Pizzicato and glockenspiel with a four-note theme suits a toddler colour song and is easy to write in code",
+   "at": "2026-11-12T07:28"
+  }
+ ]
+}

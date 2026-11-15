@@ -1,0 +1,12 @@
+{
+  "name": "rekam-medisku-android",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bungkus APK (Capacitor) untuk Rekam Medisku: aplikasi web yang dimuat lokal, tanpa hosting.",
+  "scripts": { "build": "bash build-apk.sh" },
+  "dependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/core": "^6.2.0"
+  }
+}
