@@ -55,7 +55,7 @@ export default function Admin() {
 
       <h2>Tambah / ubah tanggal</h2>
       <form className="card inline" onSubmit={(e) => { e.preventDefault(); act({ action: 'saveSession', ...form }); }}>
-        <div><label>Jenis</label><select value={form.kind} onChange={(e) => setForm({ ...form, kind: e.target.value })} style={{ width: '100%', padding: 12, borderRadius: 10, border: '1px solid var(--line)' }}><option value="venue">Omah Turi</option><option value="online">Online Live</option></select></div>
+        <div><label>Jenis</label><select value={form.kind} onChange={(e) => setForm({ ...form, kind: e.target.value })} style={{ width: '100%', padding: 12, borderRadius: 10, border: '1px solid var(--line)' }}><option value="venue">Rumah Turi</option><option value="online">Online Live</option></select></div>
         <div><label>Tanggal</label><input type="date" required value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} /></div>
         <div><label>Kuota</label><input type="number" min="0" required value={form.quota} onChange={(e) => setForm({ ...form, quota: e.target.value })} /></div>
         <div><label>Harga tiket</label><input type="number" min="0" placeholder="kosong = sukarela" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} /></div>
@@ -69,7 +69,7 @@ export default function Admin() {
         <thead><tr><th>Tanggal</th><th>Harga</th><th>Terisi</th><th>Status</th><th></th></tr></thead>
         <tbody>{data.sessions.map((s) => (
           <tr key={s.id}>
-            <td>{fmtDate(s.date)} <span className="tag">{s.kind === 'online' ? 'Online' : 'Omah Turi'}</span>{s.note && <div className="muted">{s.note}</div>}</td>
+            <td>{fmtDate(s.date)} <span className="tag">{s.kind === 'online' ? 'Online' : 'Rumah Turi'}</span>{s.note && <div className="muted">{s.note}</div>}</td>
             <td>{s.price ? `Tiket ${rp(s.price)}` : 'Sukarela'}</td>
             <td>{s.used} / {s.quota}</td>
             <td>{s.is_open ? 'Dibuka' : 'Ditutup'}</td>
@@ -103,7 +103,7 @@ export default function Admin() {
       <h2>Pendaftar</h2>
       <select value={filter} onChange={(e) => setFilter(e.target.value)} style={{ padding: 8, borderRadius: 8, marginBottom: 10 }}>
         <option value="all">Semua tanggal</option>
-        {data.sessions.map((s) => <option key={s.id} value={s.id}>{fmtDate(s.date)} · {s.kind === 'online' ? 'Online' : 'Omah Turi'}</option>)}
+        {data.sessions.map((s) => <option key={s.id} value={s.id}>{fmtDate(s.date)} · {s.kind === 'online' ? 'Online' : 'Rumah Turi'}</option>)}
         {data.recordings.map((r) => <option key={r.id} value={r.id}>Rekaman: {r.title}</option>)}
       </select>
       <div className="card scroll"><table>
@@ -113,7 +113,7 @@ export default function Admin() {
           return (
             <tr key={r.id}>
               <td><b>{r.full_name}</b><div className="muted"><a href={`https://wa.me/${r.whatsapp}`} target="_blank" rel="noopener noreferrer">{r.whatsapp}</a></div></td>
-              <td>{r.recording_id ? <>Rekaman<div className="muted">{recById[r.recording_id]?.title}</div></> : <>{fmtDate(byId[r.session_id]?.date || '1970-01-01')}<div className="muted">{byId[r.session_id]?.kind === 'online' ? 'Online Live' : 'Omah Turi'}</div></>}</td>
+              <td>{r.recording_id ? <>Rekaman<div className="muted">{recById[r.recording_id]?.title}</div></> : <>{fmtDate(byId[r.session_id]?.date || '1970-01-01')}<div className="muted">{byId[r.session_id]?.kind === 'online' ? 'Online Live' : 'Rumah Turi'}</div></>}</td>
               <td>{r.total === 0 ? <>Donasi sukarela<div className="muted">tanpa nominal</div></> : <>{rp(r.total)}<div className="muted">donasi {rp(r.donation)} + {r.unique_code}</div></>}</td>
               <td><span className={'tag ' + r.status}>{expired ? 'kedaluwarsa' : r.status === 'paid' && r.total === 0 ? 'terdaftar' : r.status}</span></td>
               <td style={{ whiteSpace: 'nowrap' }}>

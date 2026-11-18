@@ -51,7 +51,7 @@ export default function Carousel({ slides: base, onCta, promo }) {
       <div className="car-text">
         <div className="container">
           <h1>Harmony of <em>Life</em></h1>
-          <p>Yoga di Omah Turi, online live, dan rekaman.</p>
+          <p>Yoga di Rumah Turi, online live, dan rekaman.</p>
           {onCta && <button type="button" className="pill light" onClick={onCta}>Lihat jadwal <span aria-hidden>→</span></button>}
         </div>
       </div>

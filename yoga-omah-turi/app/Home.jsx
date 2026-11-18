@@ -19,6 +19,8 @@ const BLUEPRINT_PROMO = {
   alt: 'The Higher Soul Blueprint: apakah Anda merasa hidup berjalan tanpa arah, belum sejalan dengan pekerjaan, dan penasaran dengan pasangan hidup yang cocok? Klik di sini.',
   label: 'Buka website The Higher Soul Blueprint',
 };
+const dowOf = (d) => new Date(d + 'T00:00:00Z').getUTCDay();
+const MEDITASI = 'Pukul 17.00: Meditasi Twin Hearts (Pranic Healing)';
 const QUICK = [25000, 50000, 100000, 200000];
 
 function MediaItem({ m, className = '' }) {
@@ -39,7 +41,7 @@ const CONTENT = {
   corporate: { title: 'Corporate Yoga', desc: 'Yoga untuk tim dan perusahaan. Hubungi kami untuk penawaran.', cta: 'Minta penawaran via WhatsApp' },
   testimony: { title: 'Experience Testimony', desc: 'Cerita dan pengalaman peserta.', cta: 'Tanya via WhatsApp' },
 };
-const NAV = [['venue', 'Omah Turi'], ['online', 'Online Live Yoga'], ['record', 'Rekaman Yoga'], ['classes', 'Our Classes'], ['workshop', 'Workshop & Event'], ['private', 'Private Classes'], ['corporate', 'Corporate Yoga'], ['testimony', 'Experience Testimony']];
+const NAV = [['venue', 'Rumah Turi'], ['online', 'Online Live Yoga'], ['record', 'Rekaman Yoga'], ['classes', 'Our Classes'], ['workshop', 'Workshop & Event'], ['private', 'Private Classes'], ['corporate', 'Corporate Yoga'], ['testimony', 'Experience Testimony']];
 
 function Copy({ text }) {
   const [ok, setOk] = useState(false);
@@ -106,7 +108,7 @@ export default function Home({ slides = [], media = {} }) {
   const FAQ = [
     ['Bagaimana cara mendaftar?', 'Pilih layanan dan tanggal, isi nama lengkap dan nomor WhatsApp, lalu transfer sesuai nominal yang muncul. Setelah itu kirim bukti transfer lewat tombol WhatsApp.'],
     ['Kenapa ada kode unik pada nominal transfer?', 'Tiga digit kode unik membantu kami mencocokkan transfermu dengan pendaftaranmu. Mohon transfer tepat sesuai total yang tertera.'],
-    ['Berapa biayanya?', `Kamis di Omah Turi donasi sukarela. Jumat tiket ${ticket ? rp(ticket) : 'berbayar'} per orang. Harga kelas online dan rekaman tertera di halamannya.`],
+    ['Berapa biayanya?', `Kamis (18.30–20.00) di Rumah Turi donasi sukarela. Senin dan Jumat (18.00–19.00) tiket ${ticket ? rp(ticket) : 'berbayar'} per orang. Tiap Kamis pukul 17.00 ada Meditasi Twin Hearts (Pranic Healing). Harga kelas online dan rekaman tertera di halamannya.`],
     ['Kapan kursiku terkonfirmasi?', 'Kursi ditahan beberapa jam setelah kamu mendaftar. Setelah bukti transfer kami cek, pendaftaranmu dikonfirmasi dan kuota terpotong.'],
     ['Bagaimana dengan kelas online dan rekaman?', 'Link kelas online atau rekaman dikirim lewat WhatsApp setelah pembayaranmu kami konfirmasi.'],
     ['Apakah ada kelas privat atau corporate?', 'Ada. Hubungi kami lewat WhatsApp untuk jadwal dan penawaran.'],
@@ -152,7 +154,7 @@ export default function Home({ slides = [], media = {} }) {
             <a className="pill ghost" href="#jadwal" onClick={(e) => { e.preventDefault(); pick('venue'); }}>Semua jadwal <span aria-hidden>→</span></a>
           </div>
           <div className="svc">
-            {[['venue', 'Omah Turi', 'Datang langsung dan berlatih bersama di venue kami.'], ['online', 'Online Live Yoga', 'Yoga real time, ikut dari mana saja.'], ['record', 'Rekaman Yoga', 'Latihan kapan saja dari rekaman.']].map(([k, t, d], i) => (
+            {[['venue', 'Rumah Turi', 'Datang langsung dan berlatih bersama di venue kami.'], ['online', 'Online Live Yoga', 'Yoga real time, ikut dari mana saja.'], ['record', 'Rekaman Yoga', 'Latihan kapan saja dari rekaman.']].map(([k, t, d], i) => (
               <a key={k} className="svc-card" href="#jadwal" onClick={(e) => { e.preventDefault(); pick(k); }}>
                 <div className="svc-img">{thumbOf(k, k === 'venue' ? 1 : 0) ? <img src={thumbOf(k, k === 'venue' ? 1 : i)} alt="" loading="lazy" /> : null}</div>
                 <h3>{t}</h3><p>{d}</p><span className="more">Lihat detail <span aria-hidden>→</span></span>
@@ -164,14 +166,15 @@ export default function Home({ slides = [], media = {} }) {
 
       <section className="sec studio">
         <div className="studio-in">
-          <div className="studio-img">{thumbOf('venue', 2) && <img src={thumbOf('venue', 2)} alt="Kelas yoga di Omah Turi" loading="lazy" />}</div>
+          <div className="studio-img">{thumbOf('venue', 2) && <img src={thumbOf('venue', 2)} alt="Kelas yoga di Rumah Turi" loading="lazy" />}</div>
           <div className="studio-txt">
-            <div className="eyebrow">Omah Turi</div>
-            <h2>Berlatih bersama, <em>di Omah Turi</em></h2>
-            <p>Kelas tatap muka kami diadakan di Omah Turi setiap Kamis dan Jumat. Kuota terbatas, jadi daftar dulu secara online.</p>
+            <div className="eyebrow">Rumah Turi</div>
+            <h2>Berlatih bersama, <em>di Rumah Turi</em></h2>
+            <p>Kelas tatap muka kami diadakan di Rumah Turi setiap Senin, Kamis, dan Jumat. Kuota terbatas, jadi daftar dulu secara online.</p>
             <ul className="checks">
-              <li>Kamis: donasi sukarela</li>
-              <li>Jumat: tiket {ticket ? rp(ticket) : 'berbayar'} per orang</li>
+              <li>Kamis 18.30–20.00: donasi sukarela</li>
+              <li>Senin &amp; Jumat 18.00–19.00: tiket {ticket ? rp(ticket) : 'berbayar'} per orang</li>
+              <li>Kamis 17.00: Meditasi Twin Hearts (Pranic Healing)</li>
               <li>Daftar dan transfer online, bukti lewat WhatsApp</li>
             </ul>
             <a className="pill dark" href="#jadwal" onClick={(e) => { e.preventDefault(); pick('venue'); }}>Lihat jadwal <span aria-hidden>→</span></a>
@@ -191,8 +194,8 @@ export default function Home({ slides = [], media = {} }) {
               const full = s.remaining <= 0;
               return (
                 <div key={s.id} className="row-s">
-                  <div className="rs-name">{s.kind === 'online' ? 'Yoga Online Live' : 'Yoga di Omah Turi'}</div>
-                  <div className="rs-when">{fmtDate(s.date)}{s.note ? ` · ${s.note}` : ''}</div>
+                  <div className="rs-name">{s.kind === 'online' ? 'Yoga Online Live' : 'Yoga di Rumah Turi'}</div>
+                  <div className="rs-when">{fmtDate(s.date)}{s.note ? ` · ${s.note}` : ''}{s.kind === 'venue' && dowOf(s.date) === 4 ? ' · Meditasi 17.00' : ''}</div>
                   <div className="rs-price">{s.price ? rp(s.price) : 'Donasi sukarela'}</div>
                   <div className="rs-act"><button type="button" className="pill dark sm" disabled={full} onClick={() => go(s)}>{full ? 'Penuh' : <>Daftar <span aria-hidden>→</span></>}</button></div>
                 </div>
@@ -294,7 +297,7 @@ export default function Home({ slides = [], media = {} }) {
           <div className="eyebrow">Layanan</div>
           <h2 id="jadwal" style={{ scrollMarginTop: 110 }}>Mau yoga <em>bagaimana?</em></h2>
           <div className="tabs">
-            {[['venue', 'Omah Turi', 'Datang langsung ke venue'], ['online', 'Online Live Yoga', 'Yoga real time via online'], ['record', 'Rekaman Yoga', 'Beli & latihan kapan saja']].map(([k, t, d]) => (
+            {[['venue', 'Rumah Turi', 'Datang langsung ke venue'], ['online', 'Online Live Yoga', 'Yoga real time via online'], ['record', 'Rekaman Yoga', 'Beli & latihan kapan saja']].map(([k, t, d]) => (
               <button key={k} type="button" className={'tab' + (tab === k ? ' sel' : '')} onClick={() => { setTab(k); setSel(null); setDay(null); setErr(''); }}>
                 <b>{t}</b><small>{d}</small>
               </button>
@@ -348,11 +351,12 @@ export default function Home({ slides = [], media = {} }) {
                   <div className="tt-top">
                     {pool.length > 0 ? <img src={pool[k % pool.length]} alt="" className="tt-thumb" loading="lazy" /> : <div className="tt-thumb ph">🪷</div>}
                     <div className="tt-body">
-                      <small className="tt-kind">{tab === 'online' ? 'YOGA ONLINE LIVE' : 'YOGA DI OMAH TURI'}</small>
-                      <h3>{tab === 'online' ? 'Yoga Online (real time)' : 'Yoga di Omah Turi'}</h3>
+                      <small className="tt-kind">{tab === 'online' ? 'YOGA ONLINE LIVE' : 'YOGA DI RUMAH TURI'}</small>
+                      <h3>{tab === 'online' ? 'Yoga Online (real time)' : 'Yoga di Rumah Turi'}</h3>
                       <p className="tt-meta">{fmtDate(s.date)}</p>
                       {s.note && <p className="tt-meta">{s.note}</p>}
-                      <p className="tt-meta">{tab === 'online' ? 'Online' : 'Omah Turi'}</p>
+                      {s.kind === 'venue' && dowOf(s.date) === 4 && <p className="tt-meta">{MEDITASI}</p>}
+                      <p className="tt-meta">{tab === 'online' ? 'Online' : 'Rumah Turi'}</p>
                     </div>
                   </div>
                   <div className="tt-foot">
@@ -398,11 +402,11 @@ export default function Home({ slides = [], media = {} }) {
         <div className="foot-cta">
           <div className="eyebrow light">Mulai dari sini</div>
           <h2>Ruang kecil untuk <em>bernapas</em></h2>
-          <p>Datang ke Omah Turi, ikut kelas online, atau latihan dari rekaman. Pilih yang cocok untukmu.</p>
+          <p>Datang ke Rumah Turi, ikut kelas online, atau latihan dari rekaman. Pilih yang cocok untukmu.</p>
           <a className="pill light" href="#jadwal" onClick={(e) => { e.preventDefault(); pick('venue'); }}>Lihat jadwal <span aria-hidden>→</span></a>
         </div>
         <div className="foot-cols">
-          <div><b>Brand</b><span className="foot-brand">Harmony of Life</span><span>Venue: Omah Turi</span></div>
+          <div><b>Brand</b><span className="foot-brand">Harmony of Life</span><span>Venue: Rumah Turi</span></div>
           <div><b>Layanan</b>{NAV.slice(0, 3).map(([k, t]) => <a key={k} href="#jadwal" onClick={(e) => { e.preventDefault(); pick(k); }}>{t}</a>)}</div>
           <div><b>Lainnya</b>{NAV.slice(3).map(([k, t]) => <a key={k} href="#jadwal" onClick={(e) => { e.preventDefault(); pick(k); }}>{t}</a>)}</div>
           <div><b>Hubungi</b>{data?.wa && <a href={`https://wa.me/${data.wa}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>}<a href="https://www.instagram.com/harmonyoflife.id" target="_blank" rel="noopener noreferrer">Instagram</a></div>
