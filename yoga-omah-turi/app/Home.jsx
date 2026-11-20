@@ -1,6 +1,7 @@
 'use client';
 import { Fragment, useEffect, useState } from 'react';
 import Carousel from './Carousel';
+import { KIND_LABEL, KIND_ORDER } from '@/lib/kinds';
 
 const rp = (n) => 'Rp ' + Number(n).toLocaleString('id-ID');
 const fmtDate = (d) => new Date(d + 'T00:00:00Z').toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
@@ -19,8 +20,6 @@ const BLUEPRINT_PROMO = {
   alt: 'The Higher Soul Blueprint: apakah Anda merasa hidup berjalan tanpa arah, belum sejalan dengan pekerjaan, dan penasaran dengan pasangan hidup yang cocok? Klik di sini.',
   label: 'Buka website The Higher Soul Blueprint',
 };
-const dowOf = (d) => new Date(d + 'T00:00:00Z').getUTCDay();
-const MEDITASI = 'Pukul 17.00: Meditasi Twin Hearts (Pranic Healing)';
 const QUICK = [25000, 50000, 100000, 200000];
 
 function MediaItem({ m, className = '' }) {
@@ -82,7 +81,9 @@ export default function Home({ slides = [], media = {} }) {
   }
 
   const min = data?.minDonation || 1000;
-  const list = (data?.sessions || []).filter((x) => x.kind === (tab === 'online' ? 'online' : 'venue'));
+  const list = (data?.sessions || [])
+    .filter((x) => (tab === 'online' ? x.kind === 'online' : x.kind !== 'online'))
+    .sort((a, b) => a.date.localeCompare(b.date) || KIND_ORDER[a.kind] - KIND_ORDER[b.kind]);
 
   const items = media[tab] || [];
   const thumbs = items.map((m) => (m.type === 'video' ? m.poster : m.src));
@@ -100,7 +101,7 @@ export default function Home({ slides = [], media = {} }) {
   const imgs = (t) => (media[t] || []).filter((m) => m.type === 'image').map((m) => m.src);
   const fallbackImgs = slides.map((m) => (m.type === 'video' ? m.poster : m.src));
   const thumbOf = (t, i = 0) => imgs(t)[i] || fallbackImgs[i % Math.max(1, fallbackImgs.length)] || null;
-  const upcoming = (data?.sessions || []).slice().sort((a, b) => a.date.localeCompare(b.date) || a.kind.localeCompare(b.kind)).slice(0, 6);
+  const upcoming = (data?.sessions || []).slice().sort((a, b) => a.date.localeCompare(b.date) || KIND_ORDER[a.kind] - KIND_ORDER[b.kind]).slice(0, 6);
   const ticket = (data?.sessions || []).find((x) => x.kind === 'venue' && x.price)?.price;
   const gallery6 = [...imgs('venue').slice(0, 4), ...imgs('workshop').slice(0, 2), ...imgs('classes')].slice(0, 6);
   const testi = (media.testimony || []).filter((m) => m.type === 'video').slice(0, 4);
@@ -108,7 +109,7 @@ export default function Home({ slides = [], media = {} }) {
   const FAQ = [
     ['Bagaimana cara mendaftar?', 'Pilih layanan dan tanggal, isi nama lengkap dan nomor WhatsApp, lalu transfer sesuai nominal yang muncul. Setelah itu kirim bukti transfer lewat tombol WhatsApp.'],
     ['Kenapa ada kode unik pada nominal transfer?', 'Tiga digit kode unik membantu kami mencocokkan transfermu dengan pendaftaranmu. Mohon transfer tepat sesuai total yang tertera.'],
-    ['Berapa biayanya?', `Kamis (18.30–20.00) di Rumah Turi donasi sukarela. Senin dan Jumat (18.00–19.00) tiket ${ticket ? rp(ticket) : 'berbayar'} per orang. Tiap Kamis pukul 17.00 ada Meditasi Twin Hearts (Pranic Healing). Harga kelas online dan rekaman tertera di halamannya.`],
+    ['Berapa biayanya?', `Di Rumah Turi, hari Kamis ada dua sesi dengan biaya sukarela: Meditasi Twin Hearts oleh Pranic Healing (17.00–18.00) dan kelas yoga (18.30–selesai). Senin dan Jumat (18.00–selesai) tiket ${ticket ? rp(ticket) : 'berbayar'} per orang. Harga kelas online dan rekaman tertera di halamannya.`],
     ['Kapan kursiku terkonfirmasi?', 'Kursi ditahan beberapa jam setelah kamu mendaftar. Setelah bukti transfer kami cek, pendaftaranmu dikonfirmasi dan kuota terpotong.'],
     ['Bagaimana dengan kelas online dan rekaman?', 'Link kelas online atau rekaman dikirim lewat WhatsApp setelah pembayaranmu kami konfirmasi.'],
     ['Apakah ada kelas privat atau corporate?', 'Ada. Hubungi kami lewat WhatsApp untuk jadwal dan penawaran.'],
@@ -172,9 +173,9 @@ export default function Home({ slides = [], media = {} }) {
             <h2>Berlatih bersama, <em>di Rumah Turi</em></h2>
             <p>Kelas tatap muka kami diadakan di Rumah Turi setiap Senin, Kamis, dan Jumat. Kuota terbatas, jadi daftar dulu secara online.</p>
             <ul className="checks">
-              <li>Kamis 18.30–20.00: donasi sukarela</li>
-              <li>Senin &amp; Jumat 18.00–19.00: tiket {ticket ? rp(ticket) : 'berbayar'} per orang</li>
-              <li>Kamis 17.00: Meditasi Twin Hearts (Pranic Healing)</li>
+              <li>Kamis 17.00–18.00: Meditasi Twin Hearts oleh Pranic Healing (sukarela)</li>
+              <li>Kamis 18.30–selesai: kelas yoga (sukarela)</li>
+              <li>Senin &amp; Jumat 18.00–selesai: tiket {ticket ? rp(ticket) : 'berbayar'} per orang</li>
               <li>Daftar dan transfer online, bukti lewat WhatsApp</li>
             </ul>
             <a className="pill dark" href="#jadwal" onClick={(e) => { e.preventDefault(); pick('venue'); }}>Lihat jadwal <span aria-hidden>→</span></a>
@@ -194,8 +195,8 @@ export default function Home({ slides = [], media = {} }) {
               const full = s.remaining <= 0;
               return (
                 <div key={s.id} className="row-s">
-                  <div className="rs-name">{s.kind === 'online' ? 'Yoga Online Live' : 'Yoga di Rumah Turi'}</div>
-                  <div className="rs-when">{fmtDate(s.date)}{s.note ? ` · ${s.note}` : ''}{s.kind === 'venue' && dowOf(s.date) === 4 ? ' · Meditasi 17.00' : ''}</div>
+                  <div className="rs-name">{KIND_LABEL[s.kind]}</div>
+                  <div className="rs-when">{fmtDate(s.date)}{s.note ? ` · ${s.note}` : ''}</div>
                   <div className="rs-price">{s.price ? rp(s.price) : 'Donasi sukarela'}</div>
                   <div className="rs-act"><button type="button" className="pill dark sm" disabled={full} onClick={() => go(s)}>{full ? 'Penuh' : <>Daftar <span aria-hidden>→</span></>}</button></div>
                 </div>
@@ -351,11 +352,10 @@ export default function Home({ slides = [], media = {} }) {
                   <div className="tt-top">
                     {pool.length > 0 ? <img src={pool[k % pool.length]} alt="" className="tt-thumb" loading="lazy" /> : <div className="tt-thumb ph">🪷</div>}
                     <div className="tt-body">
-                      <small className="tt-kind">{tab === 'online' ? 'YOGA ONLINE LIVE' : 'YOGA DI RUMAH TURI'}</small>
-                      <h3>{tab === 'online' ? 'Yoga Online (real time)' : 'Yoga di Rumah Turi'}</h3>
+                      <small className="tt-kind">{s.kind === 'meditation' ? 'MEDITASI · PRANIC HEALING' : tab === 'online' ? 'YOGA ONLINE LIVE' : 'YOGA DI RUMAH TURI'}</small>
+                      <h3>{s.kind === 'meditation' ? 'Meditasi Twin Hearts' : tab === 'online' ? 'Yoga Online (real time)' : 'Yoga di Rumah Turi'}</h3>
                       <p className="tt-meta">{fmtDate(s.date)}</p>
                       {s.note && <p className="tt-meta">{s.note}</p>}
-                      {s.kind === 'venue' && dowOf(s.date) === 4 && <p className="tt-meta">{MEDITASI}</p>}
                       <p className="tt-meta">{tab === 'online' ? 'Online' : 'Rumah Turi'}</p>
                     </div>
                   </div>

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { BANK, WA } from '@/lib/config';
+import { KIND_LABEL } from '@/lib/kinds';
 
 function normalizeWA(v) {
   let d = String(v || '').replace(/[^\d]/g, '');
@@ -46,7 +47,7 @@ export async function POST(req) {
     const { data: sess } = await sb.from('sessions').select('price,date,kind').eq('id', body.sessionId).single();
     if (!sess) return bad('Tanggal tidak ditemukan.', 404);
     date = sess.date;
-    label = (sess.kind === 'online' ? 'Yoga Online Live' : 'Yoga di Rumah Turi') + ' · ' + tglID(sess.date);
+    label = (KIND_LABEL[sess.kind] || KIND_LABEL.venue) + ' · ' + tglID(sess.date);
 
     if (!sess.price) {
       // Donasi sukarela: tanpa nominal & kode unik, langsung terdaftar

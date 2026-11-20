@@ -5,8 +5,9 @@ import { BANK, WA } from '@/lib/config';
 export const dynamic = 'force-dynamic';
 
 // Jadwal tetap di Rumah Turi, dibuat otomatis 8 minggu ke depan:
-//   Kamis 18.30-20.00 = donasi sukarela; Senin & Jumat 18.00-19.00 = tiket harga tetap.
-const SLOT = { 1: '18.00 - 19.00 WIB', 4: '18.30 - 20.00 WIB', 5: '18.00 - 19.00 WIB' };
+//   Kamis 17.00-18.00 = Meditasi Twin Hearts (sukarela); Kamis 18.30-selesai = kelas (sukarela);
+//   Senin & Jumat 18.00-selesai = tiket harga tetap.
+const SLOT = { 1: '18.00 - selesai', 4: '18.30 - selesai', 5: '18.00 - selesai' };
 function buildSchedule() {
   const rows = [];
   const start = new Date(todayWIB() + 'T00:00:00Z');
@@ -21,6 +22,15 @@ function buildSchedule() {
         note: SLOT[dow],
         price: dow === 4 ? null : Number(process.env.TICKET_PRICE || 50000),
       });
+      if (dow === 4) {
+        rows.push({
+          date: d.toISOString().slice(0, 10),
+          kind: 'meditation',
+          quota: Number(process.env.DEFAULT_QUOTA || 20),
+          note: '17.00 - 18.00 WIB',
+          price: null,
+        });
+      }
     }
   }
   return rows;

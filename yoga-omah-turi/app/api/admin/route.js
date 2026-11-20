@@ -29,7 +29,7 @@ export async function POST(req) {
   if (b.action === 'saveSession') {
     const quota = Math.max(0, parseInt(b.quota, 10) || 0);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(b.date || '')) return NextResponse.json({ error: 'Tanggal tidak valid' }, { status: 400 });
-    ({ error } = await sb.from('sessions').upsert({ date: b.date, kind: b.kind === 'online' ? 'online' : 'venue', quota, note: b.note || null, price: parseInt(b.price, 10) > 0 ? parseInt(b.price, 10) : null, is_open: b.is_open !== false }, { onConflict: 'date,kind' }));
+    ({ error } = await sb.from('sessions').upsert({ date: b.date, kind: ['online', 'meditation'].includes(b.kind) ? b.kind : 'venue', quota, note: b.note || null, price: parseInt(b.price, 10) > 0 ? parseInt(b.price, 10) : null, is_open: b.is_open !== false }, { onConflict: 'date,kind' }));
   } else if (b.action === 'saveRecording') {
     const price = parseInt(b.price, 10);
     if (!b.title?.trim() || !(price > 0)) return NextResponse.json({ error: 'Judul dan harga wajib diisi' }, { status: 400 });
