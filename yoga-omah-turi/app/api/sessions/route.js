@@ -4,20 +4,33 @@ import { BANK, WA } from '@/lib/config';
 
 export const dynamic = 'force-dynamic';
 
-// Jadwal tetap: Kamis = donasi sukarela, Jumat = tiket harga tetap. Dibuat otomatis 8 minggu ke depan.
+// Jadwal tetap di Rumah Turi, dibuat otomatis 8 minggu ke depan:
+//   Kamis 17.00-18.00 = Meditasi Twin Hearts (sukarela); Kamis 18.30-selesai = kelas (sukarela);
+//   Senin & Jumat 18.00-selesai = tiket harga tetap.
+const SLOT = { 1: '18.00 - selesai', 4: '18.30 - selesai', 5: '18.00 - selesai' };
 function buildSchedule() {
   const rows = [];
   const start = new Date(todayWIB() + 'T00:00:00Z');
   for (let i = 0; i < 56; i++) {
     const d = new Date(start.getTime() + i * 86400000);
     const dow = d.getUTCDay();
-    if (dow === 4 || dow === 5) {
+    if (SLOT[dow]) {
       rows.push({
         date: d.toISOString().slice(0, 10),
         kind: 'venue',
         quota: Number(process.env.DEFAULT_QUOTA || 20),
-        price: dow === 5 ? Number(process.env.TICKET_PRICE || 50000) : null,
+        note: SLOT[dow],
+        price: dow === 4 ? null : Number(process.env.TICKET_PRICE || 50000),
       });
+      if (dow === 4) {
+        rows.push({
+          date: d.toISOString().slice(0, 10),
+          kind: 'meditation',
+          quota: Number(process.env.DEFAULT_QUOTA || 20),
+          note: '17.00 - 18.00 WIB',
+          price: null,
+        });
+      }
     }
   }
   return rows;
@@ -31,7 +44,7 @@ export async function GET() {
   // Belum ada database: tetap tampilkan halaman (jadwal kosong) agar website bisa dilihat
   if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     // Mode pratinjau: tampilkan jadwal Kamis/Jumat (kuota penuh), pendaftaran belum bisa disimpan
-    const sessions = buildSchedule().map((r) => ({ id: 'demo-' + r.date, kind: r.kind, date: r.date, note: null, quota: r.quota, price: r.price, remaining: r.quota }));
+    const sessions = buildSchedule().map((r) => ({ id: 'demo-' + r.date, kind: r.kind, date: r.date, note: r.note, quota: r.quota, price: r.price, remaining: r.quota }));
     return NextResponse.json({ demo: true, sessions, recordings: [], wa: WA, bank: BANK, minDonation: Number(process.env.MIN_DONATION || 1000) });
   }
   const sb = db();

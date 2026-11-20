@@ -4,4 +4,4 @@ export const BANK = {
   account: process.env.BANK_ACCOUNT || '3270427498',
   holder: process.env.BANK_HOLDER || 'Chandra Intania Magdalena',
 };
-export const WA = process.env.WA_NUMBER || '6285181820668';
+export const WA = process.env.WA_NUMBER || '6289603999957';

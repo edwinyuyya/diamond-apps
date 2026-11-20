@@ -1,6 +1,6 @@
 # Harmony of Life — Pendaftaran Online
 
-Next.js + Supabase. Venue Omah Turi: Kamis = donasi sukarela, Jumat = tiket Rp 50.000/orang (jadwal dibuat otomatis 8 minggu ke depan, kuota default 20).
+Next.js + Supabase. Venue Rumah Turi: Kamis = donasi sukarela, Jumat = tiket Rp 50.000/orang (jadwal dibuat otomatis 8 minggu ke depan, kuota default 20).
 
 ## Setup
 1. Supabase → SQL Editor → jalankan `schema.sql`.
@@ -13,5 +13,5 @@ Daftar → kursi ditahan (`HOLD_MINUTES`, default 3 jam) → transfer nominal + 
 
 ## Foto
 - `public/photos/` → carousel di bagian atas.
-- `public/photos/venue/`, `online/`, `record/` → galeri dokumentasi di tiap menu (Omah Turi, Online Live, Rekaman) dan foto kecil di kartunya.
+- `public/photos/venue/`, `online/`, `record/` → galeri dokumentasi di tiap menu (Rumah Turi, Online Live, Rekaman) dan foto kecil di kartunya.
 Format .jpg/.png/.webp; urut menurut nama file. Folder kosong = bagian itu tidak tampil.

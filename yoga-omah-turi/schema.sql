@@ -2,7 +2,7 @@
 create table sessions (
   id uuid default gen_random_uuid() primary key,
   date date not null,
-  kind text not null default 'venue' check (kind in ('venue','online')), -- venue = Omah Turi, online = yoga live
+  kind text not null default 'venue' check (kind in ('venue','online')), -- venue = Rumah Turi, online = yoga live
   quota int not null default 20 check (quota >= 0),
   note text,
   price int check (price is null or price > 0), -- null = donasi sukarela, angka = tiket harga tetap per orang
