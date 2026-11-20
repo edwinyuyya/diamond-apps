@@ -4,20 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import AdminBar from '../../../../components/admin/AdminBar';
 import ProductImage from '../../../../components/ProductImage';
+import { uploadImage } from '../../../../components/admin/upload';
 
 const EMPTY = { name: '', categoryName: '', series: '', price: '', compareAt: '', stock: '', age: '', badge: 'Baru', description: '', specsText: '', nameEn: '', descriptionEn: '', specsEnText: '', images: [], visible: true };
-
-// Perkecil foto di HP sebelum diunggah (maks 1600px) supaya cepat & hemat kuota
-async function shrink(file) {
-  try {
-    const bmp = await createImageBitmap(file);
-    const k = Math.min(1, 1600 / Math.max(bmp.width, bmp.height));
-    const c = document.createElement('canvas');
-    c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
-    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
-    return await new Promise((res) => c.toBlob((b) => res(b || file), 'image/jpeg', 0.88));
-  } catch { return file; }
-}
 
 export default function ProductForm({ params }) {
   const isNew = params.id === 'baru';
@@ -55,11 +44,7 @@ export default function ProductForm({ params }) {
     setUploading(list.length); setErr('');
     const urls = [];
     for (const file of list) {
-      const fd = new FormData();
-      fd.append('file', await shrink(file), 'foto.jpg');
-      const r = await fetch('/api/admin/upload', { method: 'POST', body: fd });
-      const d = await r.json().catch(() => ({}));
-      if (r.ok) urls.push(d.url); else setErr(d.error || 'Gagal mengunggah foto');
+      try { urls.push(await uploadImage(file)); } catch (e) { setErr(e.message); }
       setUploading((n) => n - 1);
     }
     setF((cur) => ({ ...cur, images: [...cur.images, ...urls] }));

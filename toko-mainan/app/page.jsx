@@ -6,6 +6,7 @@ import ProductRail from '../components/home/ProductRail';
 import GiftFinder from '../components/home/GiftFinder';
 import ProductCard from '../components/ProductCard';
 import { getCatalog } from '../lib/catalog';
+import { getVisibleSlides } from '../lib/slides';
 import { IcRight } from '../components/Icons';
 import { imgUrl } from '../lib/image';
 import FrameTag from '../components/FrameTag';
@@ -39,14 +40,14 @@ const PROMOS = [
 export default async function Home() {
   const lang = getLang();
   const t = (k, v) => tr(lang, k, v);
-  const { products: PRODUCTS } = await getCatalog(lang);
+  const [{ products: PRODUCTS }, slides] = await Promise.all([getCatalog(lang), getVisibleSlides()]);
   const popular = [...PRODUCTS].sort((a, b) => b.sold - a.sold);
   const featured = PRODUCTS.filter((p) => ['Baru', 'Eksklusif'].includes(p.badge));
   const sale = PRODUCTS.filter((p) => p.salePrice);
   const gifts = PRODUCTS;
   return (
     <>
-      <HeroSlider />
+      {slides.length > 0 && <HeroSlider slides={slides} />}
       <TileTabs />
       <Offers groups={Object.fromEntries(Object.entries({ popular, featured, sale }).filter(([, v]) => v.length))} />
 

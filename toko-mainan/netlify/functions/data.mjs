@@ -1,5 +1,5 @@
 // Fungsi Netlify untuk penyimpanan Toyzone (Netlify Blobs), alamat: /.netlify/functions/data
-//   ?media=<key>                                → foto produk (publik, cache permanen)
+//   ?media=<key>                                → foto produk/banner (publik, cache permanen)
 //   ?kind=json|bin&store=<store>&key=<key>      → baca/simpan/hapus data (khusus server, butuh secret)
 import { getStore } from '@netlify/blobs';
 
@@ -11,7 +11,7 @@ export default async (req) => {
 
   const media = q.get('media');
   if (media) {
-    if (!/^p\/[\w-]+\.webp$/.test(media)) return new Response('Not found', { status: 404 });
+    if (!/^[pb]\/[\w-]+\.webp$/.test(media)) return new Response('Not found', { status: 404 });
     const buf = await getStore('toyzone-images').get(media, { type: 'arrayBuffer' });
     if (!buf) return new Response('Not found', { status: 404 });
     return new Response(buf, { headers: { 'Content-Type': 'image/webp', 'Cache-Control': 'public, max-age=31536000, immutable' } });

@@ -28,6 +28,11 @@ Sheet harus dibagikan "Siapa saja yang memiliki link: Pelihat". Alternatif: down
 | `public/produk/` | Foto produk dari Google Drive (dikompres ke .webp), lalu isi `images: ['/produk/<slug>/01.webp']` di products.js. Bisa juga langsung paste link share Google Drive. |
 | `components/home/HeroSlider.jsx` | Teks/gambar banner beranda |
 
+## Slide banner beranda
+Diatur di **/admin → Slide Banner**: ganti gambar, link tujuan, urutan, tampil/sembunyi, tambah/hapus (maks 10).
+Ukuran gambar: komputer 1920×640 px, HP 1080×1080 px (opsional), plus versi Inggris (opsional).
+Tombol "Kembalikan bawaan" memakai lagi banner di `public/banner/`.
+
 ## Dua bahasa (Indonesia / English)
 - Pengunjung memilih bahasa lewat tombol **ID | EN** di bar atas (HP: di sebelah logo & di menu). Pilihan disimpan di cookie `lang`.
 - Semua teks website ada di `lib/i18n.js` (kolom kiri Indonesia, kanan Inggris). Teks pengumuman di `lib/config.js`.

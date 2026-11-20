@@ -679,3 +679,26 @@ body:has(.sticky-buy.show) .wa-float{bottom:100px}
   .ttabs button svg{width:18px;height:18px}
   .tcard-title b{font-size:17px}
 }
+
+/* Slide tanpa gambar versi HP: tampilkan utuh di atas latar blur */
+@media (max-width:900px){
+  .hero-img.no-m{position:relative;background:#0d2147}
+  .hero-img.no-m::before{content:'';position:absolute;inset:-20px;background:var(--blur) center/cover;filter:blur(18px) brightness(.85)}
+  .hero-img.no-m img{position:relative;object-fit:contain}
+}
+
+/* ── Admin: slide banner ── */
+.adm-slide.off{opacity:.6}
+.adm-slide-top{display:flex;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+.adm-slide-top .adm-photo-btns{gap:6px;margin:0}
+.adm-slide-imgs{display:grid;grid-template-columns:3fr 1fr;gap:14px;margin-bottom:14px;align-items:start}
+.adm-slide-lbl{display:block;font-size:13.5px;font-weight:600;margin-bottom:6px}
+.adm-slide-drop{position:relative;display:flex;align-items:center;justify-content:center;border:2px dashed #cfcfd4;border-radius:12px;overflow:hidden;cursor:pointer;background:#fafafa;color:var(--ink2);font-weight:600}
+.adm-slide-img.wide .adm-slide-drop{aspect-ratio:3/1}
+.adm-slide-img.sq .adm-slide-drop{aspect-ratio:1}
+.adm-slide-drop img{width:100%;height:100%;object-fit:cover}
+.adm-slide-drop em{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.7);color:#fff;font-style:normal;font-size:12.5px;padding:3px 10px;border-radius:999px}
+.adm-slide-drop:hover{border-color:var(--orange)}
+.adm-slide-en{border-top:1px solid var(--line);padding-top:10px}
+.adm-slide-en summary{cursor:pointer;font-weight:600;font-size:14.5px;margin-bottom:10px}
+@media (max-width:640px){.adm-slide-imgs{grid-template-columns:1fr}.adm-slide-img.sq{max-width:220px}}
