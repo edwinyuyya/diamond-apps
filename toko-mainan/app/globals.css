@@ -702,3 +702,9 @@ body:has(.sticky-buy.show) .wa-float{bottom:100px}
 .adm-slide-en{border-top:1px solid var(--line);padding-top:10px}
 .adm-slide-en summary{cursor:pointer;font-weight:600;font-size:14.5px;margin-bottom:10px}
 @media (max-width:640px){.adm-slide-imgs{grid-template-columns:1fr}.adm-slide-img.sq{max-width:220px}}
+/* Bar admin di HP: logo di atas, menu di bawahnya (bisa digeser) */
+@media (max-width:640px){
+  .adm-bar-row{height:auto;flex-wrap:wrap;gap:4px 0;padding-top:8px;padding-bottom:6px}
+  .adm-bar nav{width:100%;overflow-x:auto;gap:18px;white-space:nowrap;font-size:14.5px;padding:4px 0 2px;scrollbar-width:none}
+  .adm-bar nav a,.adm-bar nav button{flex:none}
+}
