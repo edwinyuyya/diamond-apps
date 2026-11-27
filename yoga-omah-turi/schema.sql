@@ -36,6 +36,7 @@ create table registrations (
   expires_at timestamptz not null,
   paid_at timestamptz,
   transferred_at timestamptz, -- penanda 'sudah transfer' dari admin (tidak memengaruhi kuota)
+  received_amount int check (received_amount is null or received_amount >= 0), -- nominal donasi sukarela yang diterima (diisi admin)
   created_at timestamptz default now(),
   check (session_id is not null or recording_id is not null)
 );

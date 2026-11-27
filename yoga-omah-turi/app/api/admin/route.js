@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { db, countUsed } from '@/lib/db';
 import { isAdmin } from '@/lib/admin';
+import { hasChat, hasToken, notifyTransfer, sendTelegram, setWebhook } from '@/lib/telegram';
 
 export const dynamic = 'force-dynamic';
 const deny = () => NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -22,12 +23,24 @@ export async function GET() {
     sessions: (sessions || []).map((s) => ({ ...s, used: used[s.id] || 0, transferred: transferred[s.id] || 0 })),
     registrations: regs || [],
     recordings: recordings || [],
+    telegram: { token: hasToken(), chat: hasChat() },
   });
 }
 
 export async function POST(req) {
   if (!isAdmin()) return deny();
   const b = await req.json().catch(() => ({}));
+  if (b.action === 'telegramSetup') {
+    if (!hasToken()) return NextResponse.json({ error: 'TELEGRAM_BOT_TOKEN belum diisi di Vercel.' }, { status: 400 });
+    const host = req.headers.get('x-forwarded-host') || req.headers.get('host');
+    const r = await setWebhook(`https://${host}/api/telegram`);
+    return r.ok ? NextResponse.json({ ok: true, chat: hasChat() }) : NextResponse.json({ error: 'Gagal menyambungkan: ' + (r.description || 'tidak diketahui') }, { status: 502 });
+  }
+  if (b.action === 'telegramTest') {
+    if (!hasToken() || !hasChat()) return NextResponse.json({ error: 'TELEGRAM_BOT_TOKEN dan TELEGRAM_CHAT_ID belum lengkap.' }, { status: 400 });
+    const sent = await sendTelegram('✅ <b>Tes berhasil</b>\nWebsite Harmony of Life tersambung ke Telegram ini. Ketik /bantuan untuk daftar perintah.');
+    return sent ? NextResponse.json({ ok: true }) : NextResponse.json({ error: 'Pesan tes gagal terkirim. Cek token dan chat ID.' }, { status: 502 });
+  }
   const sb = db();
   let error;
   if (b.action === 'saveSession') {
@@ -44,11 +57,18 @@ export async function POST(req) {
   } else if (b.action === 'deleteSession') {
     ({ error } = await sb.from('sessions').delete().eq('id', b.id));
   } else if (b.action === 'setTransfer') {
-    ({ error } = await sb.from('registrations').update({ transferred_at: b.value ? new Date().toISOString() : null }).eq('id', b.id));
+    const { data: before } = await sb.from('registrations').select('transferred_at').eq('id', b.id).single();
+    const amount = b.value && Number.isFinite(Number(b.amount)) && Number(b.amount) > 0 ? Math.round(Number(b.amount)) : null;
+    const { data: row, error: e2 } = await sb.from('registrations')
+      .update({ transferred_at: b.value ? new Date().toISOString() : null, received_amount: b.value ? amount : null }).eq('id', b.id).select('*').single();
+    error = e2;
+    if (!e2 && b.value && !before?.transferred_at) await notifyTransfer(sb, row);
   } else if (b.action === 'setStatus' && ['paid', 'cancelled', 'pending'].includes(b.status)) {
     const patch = { status: b.status, paid_at: b.status === 'paid' ? new Date().toISOString() : null };
     if (b.status === 'pending') patch.expires_at = new Date(Date.now() + Number(process.env.HOLD_MINUTES || 180) * 60000).toISOString();
-    ({ error } = await sb.from('registrations').update(patch).eq('id', b.id));
+    const { data: row, error: e3 } = await sb.from('registrations').update(patch).eq('id', b.id).select('*').single();
+    error = e3;
+    if (!e3 && b.status === 'paid' && row.total > 0) await notifyTransfer(sb, row);
   } else return NextResponse.json({ error: 'Aksi tidak dikenal' }, { status: 400 });
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
   return NextResponse.json({ ok: true });
