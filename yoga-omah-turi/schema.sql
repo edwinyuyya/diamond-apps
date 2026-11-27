@@ -35,6 +35,7 @@ create table registrations (
   status text not null default 'pending' check (status in ('pending','paid','cancelled')),
   expires_at timestamptz not null,
   paid_at timestamptz,
+  transferred_at timestamptz, -- penanda 'sudah transfer' dari admin (tidak memengaruhi kuota)
   created_at timestamptz default now(),
   check (session_id is not null or recording_id is not null)
 );
@@ -48,13 +49,19 @@ alter table recordings enable row level security;
 -- Pendaftaran atomik: kunci baris sesi supaya kuota tidak bisa kelebihan saat ramai
 create or replace function create_registration(
   p_session uuid, p_name text, p_wa text, p_donation int, p_hold_minutes int
-) returns registrations language plpgsql security definer as $$
+) returns registrations language plpgsql security definer set search_path = public as $$
 declare s sessions; used int; code int; tries int := 0; r registrations;
 begin
   select * into s from sessions where id = p_session for update;
   if not found or not s.is_open or s.date < (now() at time zone 'Asia/Jakarta')::date then
     raise exception 'SESSION_CLOSED';
   end if;
+  -- Cegah pendaftaran ganda (nomor WA + nama sama di sesi yang sama): kembalikan yang sudah ada
+  select * into r from registrations
+    where session_id = p_session and whatsapp = p_wa and lower(btrim(full_name)) = lower(btrim(p_name))
+      and (status = 'paid' or (status = 'pending' and expires_at > now()))
+    order by created_at limit 1;
+  if found then return r; end if;
   select count(*) into used from registrations
     where session_id = p_session and (status = 'paid' or (status = 'pending' and expires_at > now()));
   if used >= s.quota then raise exception 'FULL'; end if;
@@ -75,11 +82,16 @@ revoke execute on function create_registration from public, anon, authenticated;
 -- Pembelian rekaman: tanpa kuota, tetap memakai kode unik
 create or replace function create_recording_order(
   p_recording uuid, p_name text, p_wa text, p_hold_minutes int
-) returns registrations language plpgsql security definer as $$
+) returns registrations language plpgsql security definer set search_path = public as $$
 declare rec recordings; code int; tries int := 0; r registrations;
 begin
-  select * into rec from recordings where id = p_recording and is_open;
+  select * into rec from recordings where id = p_recording and is_open for update;
   if not found then raise exception 'SESSION_CLOSED'; end if;
+  select * into r from registrations
+    where recording_id = p_recording and whatsapp = p_wa and lower(btrim(full_name)) = lower(btrim(p_name))
+      and (status = 'paid' or (status = 'pending' and expires_at > now()))
+    order by created_at limit 1;
+  if found then return r; end if;
   loop
     code := 100 + floor(random() * 900)::int;
     exit when not exists (select 1 from registrations
@@ -97,7 +109,7 @@ revoke execute on function create_recording_order from public, anon, authenticat
 -- Pendaftaran donasi sukarela (Kamis): tanpa nominal/kode unik, langsung terdaftar & memotong kuota
 create or replace function create_free_registration(
   p_session uuid, p_name text, p_wa text
-) returns registrations language plpgsql security definer as $$
+) returns registrations language plpgsql security definer set search_path = public as $$
 declare s sessions; used int; r registrations;
 begin
   select * into s from sessions where id = p_session for update;
@@ -105,6 +117,12 @@ begin
      or s.date < (now() at time zone 'Asia/Jakarta')::date then
     raise exception 'SESSION_CLOSED';
   end if;
+  -- Cegah pendaftaran ganda (nomor WA + nama sama di sesi yang sama): kembalikan yang sudah ada
+  select * into r from registrations
+    where session_id = p_session and whatsapp = p_wa and lower(btrim(full_name)) = lower(btrim(p_name))
+      and (status = 'paid' or (status = 'pending' and expires_at > now()))
+    order by created_at limit 1;
+  if found then return r; end if;
   select count(*) into used from registrations
     where session_id = p_session and (status = 'paid' or (status = 'pending' and expires_at > now()));
   if used >= s.quota then raise exception 'FULL'; end if;

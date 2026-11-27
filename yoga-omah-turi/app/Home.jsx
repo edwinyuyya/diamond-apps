@@ -1,5 +1,5 @@
 'use client';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import Carousel from './Carousel';
 import { KIND_LABEL, KIND_ORDER } from '@/lib/kinds';
 
@@ -69,14 +69,18 @@ export default function Home({ slides = [], media = {} }) {
     .then((d) => (d.error ? setLoadErr(d.error) : setData(d))).catch(() => setLoadErr('Gagal memuat jadwal.'));
   useEffect(() => { load(); }, []);
 
+  const sending = useRef(false);
   async function submit(e) {
     e.preventDefault();
+    if (sending.current) return; // cegah klik/enter ganda
+    sending.current = true;
     setErr(''); setBusy(true);
     try {
       const res = await fetch('/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(tab === 'record' ? { type: 'recording', recordingId: sel.id, fullName, whatsapp } : { type: 'session', sessionId: sel.id, fullName, whatsapp, donation: sel.price || Number(donation) }) });
       const j = await res.json();
       if (!res.ok) { setErr(j.error || 'Terjadi kesalahan.'); load(); } else setResult(j);
     } catch { setErr('Koneksi bermasalah, coba lagi.'); }
+    sending.current = false;
     setBusy(false);
   }
 
