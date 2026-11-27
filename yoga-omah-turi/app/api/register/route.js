@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import { BANK, WA } from '@/lib/config';
 import { KIND_LABEL } from '@/lib/kinds';
+import { notifyRegistration } from '@/lib/telegram';
 
 function normalizeWA(v) {
   let d = String(v || '').replace(/[^\d]/g, '');
@@ -12,6 +13,8 @@ function normalizeWA(v) {
 const fmt = (n) => 'Rp ' + n.toLocaleString('id-ID');
 const bad = (error, status = 400) => NextResponse.json({ error }, { status });
 const tglID = (d) => new Date(d + 'T00:00:00Z').toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+// Pendaftaran yang baru dibuat (bukan hasil pencegahan duplikat) -> kirim notifikasi Telegram
+const isNew = (reg) => Date.now() - new Date(reg.created_at).getTime() < 20000;
 const wa = (text) => `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
 
 function rpcError(error) {
@@ -42,9 +45,10 @@ export async function POST(req) {
     const { data, error } = await sb.rpc('create_recording_order', { p_recording: body.recordingId, p_name: name, p_wa: phone, p_hold_minutes: hold });
     if (error) return rpcError(error);
     reg = data; label = `Rekaman: ${rec.title}`;
+    if (isNew(reg)) await notifyRegistration(sb, reg, { label });
   } else {
     if (!body.sessionId) return bad('Pilih tanggal dulu.');
-    const { data: sess } = await sb.from('sessions').select('price,date,kind').eq('id', body.sessionId).single();
+    const { data: sess } = await sb.from('sessions').select('price,date,kind,quota').eq('id', body.sessionId).single();
     if (!sess) return bad('Tanggal tidak ditemukan.', 404);
     date = sess.date;
     label = (KIND_LABEL[sess.kind] || KIND_LABEL.venue) + ' · ' + tglID(sess.date);
@@ -53,6 +57,7 @@ export async function POST(req) {
       // Donasi sukarela: tanpa nominal & kode unik, langsung terdaftar
       const { data, error } = await sb.rpc('create_free_registration', { p_session: body.sessionId, p_name: name, p_wa: phone });
       if (error) return rpcError(error);
+      if (isNew(data)) await notifyRegistration(sb, data, { label, quota: sess.quota, sessionId: body.sessionId });
       const text = `Halo Admin Harmony of Life, saya sudah mendaftar.\n\nNama: ${data.full_name}\nPesanan: ${label}\nKode: ${data.id.slice(0, 8).toUpperCase()}\n\n(Bukti transfer donasi sukarela saya lampirkan di chat ini.)`;
       return NextResponse.json({ free: true, id: data.id, label, date, bank: BANK, waUrl: wa(text) });
     }
@@ -61,6 +66,7 @@ export async function POST(req) {
     const { data, error } = await sb.rpc('create_registration', { p_session: body.sessionId, p_name: name, p_wa: phone, p_donation: sess.price, p_hold_minutes: hold });
     if (error) return rpcError(error);
     reg = data;
+    if (isNew(reg)) await notifyRegistration(sb, reg, { label, quota: sess.quota, sessionId: body.sessionId });
   }
 
   const text =

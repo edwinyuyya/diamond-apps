@@ -27,6 +27,20 @@ export default function Admin() {
     const j = await r.json();
     if (!r.ok) setErr(j.error || 'Gagal'); else load();
   }
+  const [msg, setMsg] = useState('');
+  function tandaiTransfer(r) {
+    const v = window.prompt('Berapa nominal donasi yang masuk (Rp)? Isi angka saja, mis. 50000. Kosongkan bila belum tahu.', r.received_amount ? String(r.received_amount) : '');
+    if (v === null) return;
+    act({ action: 'setTransfer', id: r.id, value: true, amount: v.replace(/\D/g, '') });
+  }
+  async function tg(action, okText) {
+    setErr(''); setMsg('');
+    const r = await fetch('/api/admin', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action }) });
+    const j = await r.json();
+    if (!r.ok) return setErr(j.error || 'Gagal');
+    setMsg(okText + (action === 'telegramSetup' && !j.chat ? ' Sekarang kirim pesan apa saja ke bot kamu di Telegram: bot akan membalas Chat ID yang perlu diisi.' : ''));
+    load();
+  }
   async function login(e) {
     e.preventDefault(); setErr('');
     const r = await fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: pw }) });
@@ -53,6 +67,19 @@ export default function Admin() {
     <div className="wrap admin">
       <header className="hero"><h1>ADMIN · HARMONY OF LIFE</h1><p><a href="/">← ke halaman pendaftaran</a></p></header>
       {err && <div className="err">{err}</div>}
+
+      <h2>Telegram</h2>
+      <div className="card">
+        <p className="muted" style={{ marginTop: 0 }}>
+          Token bot: {data.telegram?.token ? '✓ terisi' : '✗ belum diisi'} · Chat ID: {data.telegram?.chat ? '✓ terisi' : '✗ belum diisi'}
+        </p>
+        <div className="inline" style={{ alignItems: 'center' }}>
+          <button className="btn sm" onClick={() => tg('telegramSetup', 'Bot tersambung ke website.')}>Sambungkan bot</button>
+          <button className="btn sm ghost" onClick={() => tg('telegramTest', 'Pesan tes terkirim, cek Telegram kamu.')}>Kirim pesan tes</button>
+        </div>
+        {msg && <p style={{ color: 'var(--green-d)' }}>{msg}</p>}
+        <p className="muted" style={{ marginBottom: 0 }}>Isi <code>TELEGRAM_BOT_TOKEN</code>, <code>TELEGRAM_CHAT_ID</code>, dan <code>CRON_SECRET</code> di pengaturan Vercel, lalu klik "Sambungkan bot". Setelah itu pendaftar baru, transfer terkonfirmasi, dan ringkasan harian (21.00 WIB) masuk otomatis ke Telegram.</p>
+      </div>
 
       <h2>Tambah / ubah tanggal</h2>
       <form className="card inline" onSubmit={(e) => { e.preventDefault(); act({ action: 'saveSession', ...form }); }}>
@@ -112,7 +139,8 @@ export default function Admin() {
         {(() => {
           const aktif = regs.filter((r) => r.status !== 'cancelled' && !(r.status === 'pending' && new Date(r.expires_at) < new Date()));
           const sudah = aktif.filter((r) => (r.total > 0 ? r.status === 'paid' : !!r.transferred_at)).length;
-          return `Terdaftar: ${aktif.length} · Sudah transfer: ${sudah} · Belum: ${aktif.length - sudah}`;
+          const diterima = aktif.filter((r) => (r.total > 0 ? r.status === 'paid' : !!r.transferred_at)).reduce((s, r) => s + (r.total > 0 ? r.total : r.received_amount || 0), 0);
+          return `Terdaftar: ${aktif.length} · Sudah transfer: ${sudah} · Belum: ${aktif.length - sudah} · Total diterima: ${rp(diterima)}`;
         })()}
       </p>
       <div className="card scroll"><table>
@@ -129,8 +157,9 @@ export default function Admin() {
                 {r.status === 'cancelled' ? <span className="muted">-</span> : r.total > 0
                   ? <span className={'tag ' + (r.status === 'paid' ? 'paid' : 'pending')}>{r.status === 'paid' ? 'sudah transfer' : 'belum'}</span>
                   : <>
-                      <span className={'tag ' + (r.transferred_at ? 'paid' : 'pending')}>{r.transferred_at ? 'sudah transfer' : 'belum'}</span>{' '}
-                      <button className="btn sm ghost" onClick={() => act({ action: 'setTransfer', id: r.id, value: !r.transferred_at })}>{r.transferred_at ? 'Batal tandai' : 'Tandai sudah transfer'}</button>
+                      <span className={'tag ' + (r.transferred_at ? 'paid' : 'pending')}>{r.transferred_at ? (r.received_amount ? 'transfer ' + rp(r.received_amount) : 'sudah transfer') : 'belum'}</span>{' '}
+                      <button className="btn sm ghost" onClick={() => tandaiTransfer(r)}>{r.transferred_at ? 'Ubah nominal' : 'Tandai sudah transfer'}</button>
+                      {r.transferred_at && <>{' '}<button className="btn sm ghost" onClick={() => act({ action: 'setTransfer', id: r.id, value: false })}>Batal tandai</button></>}
                     </>}
               </td>
               <td style={{ whiteSpace: 'nowrap' }}>

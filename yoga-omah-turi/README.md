@@ -15,3 +15,12 @@ Daftar → kursi ditahan (`HOLD_MINUTES`, default 3 jam) → transfer nominal + 
 - `public/photos/` → carousel di bagian atas.
 - `public/photos/venue/`, `online/`, `record/` → galeri dokumentasi di tiap menu (Rumah Turi, Online Live, Rekaman) dan foto kecil di kartunya.
 Format .jpg/.png/.webp; urut menurut nama file. Folder kosong = bagian itu tidak tampil.
+
+## Telegram
+1. Buat bot lewat @BotFather di Telegram, salin token-nya.
+2. Isi `TELEGRAM_BOT_TOKEN` dan `CRON_SECRET` (kata sandi acak) di Vercel -> Redeploy.
+3. Di `/admin` klik **Sambungkan bot**, lalu kirim pesan apa saja ke bot (atau tambahkan bot ke grup). Bot membalas *Chat ID*; isi ke `TELEGRAM_CHAT_ID` -> Redeploy.
+4. Di `/admin` klik **Kirim pesan tes**.
+
+Otomatis: pendaftar baru, transfer terkonfirmasi (tiket lunas / donasi ditandai sudah transfer), dan ringkasan harian pukul 21.00 WIB. Perintah: `/ringkasan`, `/kemarin`, `/jadwal`, `/belum`, `/bantuan`.
+Total pendapatan: tiket memakai total transfer; donasi sukarela memakai nominal yang diisi admin saat menandai "sudah transfer".
