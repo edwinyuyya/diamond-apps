@@ -14,8 +14,12 @@ export async function GET() {
     sb.from('recordings').select('*').order('created_at', { ascending: false }),
   ]);
   const used = countUsed(regs || []);
+  // 'Sudah transfer': tiket = status lunas; donasi sukarela = ditandai admin
+  const sudahTransfer = (r) => r.status !== 'cancelled' && (r.total > 0 ? r.status === 'paid' : !!r.transferred_at);
+  const transferred = {};
+  for (const r of regs || []) if (r.session_id && sudahTransfer(r)) transferred[r.session_id] = (transferred[r.session_id] || 0) + 1;
   return NextResponse.json({
-    sessions: (sessions || []).map((s) => ({ ...s, used: used[s.id] || 0 })),
+    sessions: (sessions || []).map((s) => ({ ...s, used: used[s.id] || 0, transferred: transferred[s.id] || 0 })),
     registrations: regs || [],
     recordings: recordings || [],
   });
@@ -39,6 +43,8 @@ export async function POST(req) {
     ({ error } = await sb.from('recordings').delete().eq('id', b.id));
   } else if (b.action === 'deleteSession') {
     ({ error } = await sb.from('sessions').delete().eq('id', b.id));
+  } else if (b.action === 'setTransfer') {
+    ({ error } = await sb.from('registrations').update({ transferred_at: b.value ? new Date().toISOString() : null }).eq('id', b.id));
   } else if (b.action === 'setStatus' && ['paid', 'cancelled', 'pending'].includes(b.status)) {
     const patch = { status: b.status, paid_at: b.status === 'paid' ? new Date().toISOString() : null };
     if (b.status === 'pending') patch.expires_at = new Date(Date.now() + Number(process.env.HOLD_MINUTES || 180) * 60000).toISOString();

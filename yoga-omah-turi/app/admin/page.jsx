@@ -64,7 +64,7 @@ export default function Admin() {
         <div style={{ flex: 2 }}><label>Catatan (opsional)</label><input value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} placeholder="mis. Pagi 06.00" /></div>
         <button className="btn sm">Simpan</button>
       </form>
-      <p className="muted">Kamis & Jumat dibuat otomatis 8 minggu ke depan (Kamis sukarela, Jumat tiket). Untuk menutup tanggal gunakan tombol Tutup. Memasukkan tanggal yang sudah ada akan mengubah kuota/catatannya.</p>
+      <p className="muted">Jadwal Rumah Turi dibuat otomatis 8 minggu ke depan: Senin dan Jumat (tiket), Kamis (sukarela) plus Meditasi Kamis. Untuk menutup tanggal gunakan tombol Tutup. Memasukkan tanggal yang sudah ada akan mengubah kuota/catatannya.</p>
 
       <h2>Tanggal & kuota</h2>
       <div className="card scroll"><table>
@@ -73,7 +73,7 @@ export default function Admin() {
           <tr key={s.id}>
             <td>{fmtDate(s.date)} <span className="tag">{KIND_SHORT[s.kind] || 'Rumah Turi'}</span>{s.note && <div className="muted">{s.note}</div>}{s.coach && <div className="muted">with {s.coach}</div>}</td>
             <td>{s.price ? `Tiket ${rp(s.price)}` : 'Sukarela'}</td>
-            <td>{s.used} / {s.quota}</td>
+            <td>{s.used} / {s.quota}<div className="muted">sudah transfer: {s.transferred ?? 0}</div></td>
             <td>{s.is_open ? 'Dibuka' : 'Ditutup'}</td>
             <td style={{ whiteSpace: 'nowrap' }}>
               <button className="btn sm ghost" onClick={() => setForm({ date: s.date, kind: s.kind, quota: s.quota, note: s.note || '', coach: s.coach || '', price: s.price || '' })}>Edit</button>{' '}
@@ -108,8 +108,15 @@ export default function Admin() {
         {data.sessions.map((s) => <option key={s.id} value={s.id}>{fmtDate(s.date)} · {KIND_SHORT[s.kind] || 'Rumah Turi'}</option>)}
         {data.recordings.map((r) => <option key={r.id} value={r.id}>Rekaman: {r.title}</option>)}
       </select>
+      <p className="muted" style={{ margin: '0 0 8px' }}>
+        {(() => {
+          const aktif = regs.filter((r) => r.status !== 'cancelled' && !(r.status === 'pending' && new Date(r.expires_at) < new Date()));
+          const sudah = aktif.filter((r) => (r.total > 0 ? r.status === 'paid' : !!r.transferred_at)).length;
+          return `Terdaftar: ${aktif.length} · Sudah transfer: ${sudah} · Belum: ${aktif.length - sudah}`;
+        })()}
+      </p>
       <div className="card scroll"><table>
-        <thead><tr><th>Peserta</th><th>Pesanan</th><th>Total transfer</th><th>Status</th><th></th></tr></thead>
+        <thead><tr><th>Peserta</th><th>Pesanan</th><th>Total transfer</th><th>Status</th><th>Sudah transfer?</th><th></th></tr></thead>
         <tbody>{regs.map((r) => {
           const expired = r.status === 'pending' && new Date(r.expires_at) < new Date();
           return (
@@ -119,12 +126,20 @@ export default function Admin() {
               <td>{r.total === 0 ? <>Donasi sukarela<div className="muted">tanpa nominal</div></> : <>{rp(r.total)}<div className="muted">donasi {rp(r.donation)} + {r.unique_code}</div></>}</td>
               <td><span className={'tag ' + r.status}>{expired ? 'kedaluwarsa' : r.status === 'paid' && r.total === 0 ? 'terdaftar' : r.status}</span></td>
               <td style={{ whiteSpace: 'nowrap' }}>
+                {r.status === 'cancelled' ? <span className="muted">-</span> : r.total > 0
+                  ? <span className={'tag ' + (r.status === 'paid' ? 'paid' : 'pending')}>{r.status === 'paid' ? 'sudah transfer' : 'belum'}</span>
+                  : <>
+                      <span className={'tag ' + (r.transferred_at ? 'paid' : 'pending')}>{r.transferred_at ? 'sudah transfer' : 'belum'}</span>{' '}
+                      <button className="btn sm ghost" onClick={() => act({ action: 'setTransfer', id: r.id, value: !r.transferred_at })}>{r.transferred_at ? 'Batal tandai' : 'Tandai sudah transfer'}</button>
+                    </>}
+              </td>
+              <td style={{ whiteSpace: 'nowrap' }}>
                 {r.status !== 'paid' && <button className="btn sm" onClick={() => act({ action: 'setStatus', id: r.id, status: 'paid' })}>Tandai lunas</button>}{' '}
                 {r.status !== 'cancelled' && <button className="btn sm ghost" onClick={() => confirm('Batalkan pendaftaran ini? Kuota akan kembali.') && act({ action: 'setStatus', id: r.id, status: 'cancelled' })}>Batalkan</button>}
               </td>
             </tr>);
         })}
-          {!regs.length && <tr><td colSpan="5" className="muted">Belum ada pendaftar.</td></tr>}
+          {!regs.length && <tr><td colSpan="6" className="muted">Belum ada pendaftar.</td></tr>}
         </tbody></table></div>
       <p className="muted">Pendaftar berstatus pending menahan kuota sampai waktu tahan habis; "lunas" memotong kuota permanen.</p>
     </div>
