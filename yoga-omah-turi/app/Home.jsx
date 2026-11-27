@@ -173,9 +173,10 @@ export default function Home({ slides = [], media = {} }) {
             <h2>Berlatih bersama, <em>di Rumah Turi</em></h2>
             <p>Kelas tatap muka kami diadakan di Rumah Turi setiap Senin, Kamis, dan Jumat. Kuota terbatas, jadi daftar dulu secara online.</p>
             <ul className="checks">
+              <li>Senin 18.00–selesai with Coach Atik: tiket {ticket ? rp(ticket) : 'berbayar'} per orang</li>
               <li>Kamis 17.00–18.00: Meditasi Twin Hearts oleh Pranic Healing (sukarela)</li>
-              <li>Kamis 18.30–selesai: kelas yoga (sukarela)</li>
-              <li>Senin &amp; Jumat 18.00–selesai: tiket {ticket ? rp(ticket) : 'berbayar'} per orang</li>
+              <li>Kamis 18.30–selesai with Coach Intan: kelas yoga (sukarela)</li>
+              <li>Jumat 18.00–selesai with Coach Dian / Coach Azizah: tiket {ticket ? rp(ticket) : 'berbayar'} per orang</li>
               <li>Daftar dan transfer online, bukti lewat WhatsApp</li>
             </ul>
             <a className="pill dark" href="#jadwal" onClick={(e) => { e.preventDefault(); pick('venue'); }}>Lihat jadwal <span aria-hidden>→</span></a>
@@ -196,7 +197,7 @@ export default function Home({ slides = [], media = {} }) {
               return (
                 <div key={s.id} className="row-s">
                   <div className="rs-name">{KIND_LABEL[s.kind]}</div>
-                  <div className="rs-when">{fmtDate(s.date)}{s.note ? ` · ${s.note}` : ''}</div>
+                  <div className="rs-when">{fmtDate(s.date)}{s.note ? ` · ${s.note}` : ''}{s.coach ? ` · with ${s.coach}` : ''}</div>
                   <div className="rs-price">{s.price ? rp(s.price) : 'Donasi sukarela'}</div>
                   <div className="rs-act"><button type="button" className="pill dark sm" disabled={full} onClick={() => go(s)}>{full ? 'Penuh' : <>Daftar <span aria-hidden>→</span></>}</button></div>
                 </div>
@@ -356,6 +357,7 @@ export default function Home({ slides = [], media = {} }) {
                       <h3>{s.kind === 'meditation' ? 'Meditasi Twin Hearts' : tab === 'online' ? 'Yoga Online (real time)' : 'Yoga di Rumah Turi'}</h3>
                       <p className="tt-meta">{fmtDate(s.date)}</p>
                       {s.note && <p className="tt-meta">{s.note}</p>}
+                      {s.coach && <p className="tt-meta">with {s.coach}</p>}
                       <p className="tt-meta">{tab === 'online' ? 'Online' : 'Rumah Turi'}</p>
                     </div>
                   </div>

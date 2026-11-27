@@ -8,6 +8,8 @@ export const dynamic = 'force-dynamic';
 //   Kamis 17.00-18.00 = Meditasi Twin Hearts (sukarela); Kamis 18.30-selesai = kelas (sukarela);
 //   Senin & Jumat 18.00-selesai = tiket harga tetap.
 const SLOT = { 1: '18.00 - selesai', 4: '18.30 - selesai', 5: '18.00 - selesai' };
+// Coach bawaan per hari (bisa diubah per tanggal di /admin)
+const COACH = { 1: 'Coach Atik', 4: 'Coach Intan', 5: 'Coach Dian / Coach Azizah' };
 function buildSchedule() {
   const rows = [];
   const start = new Date(todayWIB() + 'T00:00:00Z');
@@ -20,6 +22,7 @@ function buildSchedule() {
         kind: 'venue',
         quota: Number(process.env.DEFAULT_QUOTA || 20),
         note: SLOT[dow],
+        coach: COACH[dow],
         price: dow === 4 ? null : Number(process.env.TICKET_PRICE || 50000),
       });
       if (dow === 4) {
@@ -44,7 +47,7 @@ export async function GET() {
   // Belum ada database: tetap tampilkan halaman (jadwal kosong) agar website bisa dilihat
   if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     // Mode pratinjau: tampilkan jadwal Kamis/Jumat (kuota penuh), pendaftaran belum bisa disimpan
-    const sessions = buildSchedule().map((r) => ({ id: 'demo-' + r.date, kind: r.kind, date: r.date, note: r.note, quota: r.quota, price: r.price, remaining: r.quota }));
+    const sessions = buildSchedule().map((r) => ({ id: 'demo-' + r.date, kind: r.kind, date: r.date, note: r.note, coach: r.coach || null, quota: r.quota, price: r.price, remaining: r.quota }));
     return NextResponse.json({ demo: true, sessions, recordings: [], wa: WA, bank: BANK, minDonation: Number(process.env.MIN_DONATION || 1000) });
   }
   const sb = db();
@@ -64,7 +67,7 @@ export async function GET() {
     bank: BANK,
     minDonation: Number(process.env.MIN_DONATION || 1000),
     sessions: sessions.map((s) => ({
-      id: s.id, kind: s.kind, date: s.date, note: s.note, quota: s.quota, price: s.price,
+      id: s.id, kind: s.kind, date: s.date, note: s.note, coach: s.coach, quota: s.quota, price: s.price,
       remaining: Math.max(0, s.quota - (used[s.id] || 0)),
     })),
   });

@@ -10,7 +10,7 @@ export default function Admin() {
   const [data, setData] = useState({ sessions: [], registrations: [], recordings: [] });
   const [pw, setPw] = useState('');
   const [err, setErr] = useState('');
-  const [form, setForm] = useState({ date: '', kind: 'venue', quota: 20, note: '', price: '' });
+  const [form, setForm] = useState({ date: '', kind: 'venue', quota: 20, note: '', coach: '', price: '' });
   const [filter, setFilter] = useState('all');
   const [rec, setRec] = useState({ title: '', description: '', price: '', access_url: '' });
 
@@ -60,6 +60,7 @@ export default function Admin() {
         <div><label>Tanggal</label><input type="date" required value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} /></div>
         <div><label>Kuota</label><input type="number" min="0" required value={form.quota} onChange={(e) => setForm({ ...form, quota: e.target.value })} /></div>
         <div><label>Harga tiket</label><input type="number" min="0" placeholder="kosong = sukarela" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} /></div>
+        <div style={{ flex: 2 }}><label>Coach (opsional)</label><input value={form.coach} onChange={(e) => setForm({ ...form, coach: e.target.value })} placeholder="mis. Coach Atik" /></div>
         <div style={{ flex: 2 }}><label>Catatan (opsional)</label><input value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} placeholder="mis. Pagi 06.00" /></div>
         <button className="btn sm">Simpan</button>
       </form>
@@ -70,13 +71,13 @@ export default function Admin() {
         <thead><tr><th>Tanggal</th><th>Harga</th><th>Terisi</th><th>Status</th><th></th></tr></thead>
         <tbody>{data.sessions.map((s) => (
           <tr key={s.id}>
-            <td>{fmtDate(s.date)} <span className="tag">{KIND_SHORT[s.kind] || 'Rumah Turi'}</span>{s.note && <div className="muted">{s.note}</div>}</td>
+            <td>{fmtDate(s.date)} <span className="tag">{KIND_SHORT[s.kind] || 'Rumah Turi'}</span>{s.note && <div className="muted">{s.note}</div>}{s.coach && <div className="muted">with {s.coach}</div>}</td>
             <td>{s.price ? `Tiket ${rp(s.price)}` : 'Sukarela'}</td>
             <td>{s.used} / {s.quota}</td>
             <td>{s.is_open ? 'Dibuka' : 'Ditutup'}</td>
             <td style={{ whiteSpace: 'nowrap' }}>
-              <button className="btn sm ghost" onClick={() => setForm({ date: s.date, kind: s.kind, quota: s.quota, note: s.note || '', price: s.price || '' })}>Edit</button>{' '}
-              <button className="btn sm ghost" onClick={() => act({ action: 'saveSession', date: s.date, kind: s.kind, quota: s.quota, note: s.note, price: s.price, is_open: !s.is_open })}>{s.is_open ? 'Tutup' : 'Buka'}</button>{' '}
+              <button className="btn sm ghost" onClick={() => setForm({ date: s.date, kind: s.kind, quota: s.quota, note: s.note || '', coach: s.coach || '', price: s.price || '' })}>Edit</button>{' '}
+              <button className="btn sm ghost" onClick={() => act({ action: 'saveSession', date: s.date, kind: s.kind, quota: s.quota, note: s.note, coach: s.coach, price: s.price, is_open: !s.is_open })}>{s.is_open ? 'Tutup' : 'Buka'}</button>{' '}
             </td>
           </tr>))}
           {!data.sessions.length && <tr><td colSpan="5" className="muted">Belum ada tanggal.</td></tr>}

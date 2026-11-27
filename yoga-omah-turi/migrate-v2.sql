@@ -36,3 +36,6 @@ begin
   return r;
 end $$;
 revoke execute on function create_free_registration from public, anon, authenticated;
+
+-- Nama coach per sesi
+alter table sessions add column if not exists coach text;

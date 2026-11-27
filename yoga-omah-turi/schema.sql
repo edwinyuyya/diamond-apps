@@ -5,6 +5,7 @@ create table sessions (
   kind text not null default 'venue' check (kind in ('venue','online')), -- venue = Rumah Turi, online = yoga live
   quota int not null default 20 check (quota >= 0),
   note text,
+  coach text, -- mis. 'Coach Atik' (tampil sebagai 'with Coach Atik')
   price int check (price is null or price > 0), -- null = donasi sukarela, angka = tiket harga tetap per orang
   is_open boolean not null default true,
   created_at timestamptz default now(),
